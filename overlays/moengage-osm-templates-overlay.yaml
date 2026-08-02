@@ -1,0 +1,36 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for MoEngage On-Site Messaging (OSM) Template API
+  version: 1.0.0
+extends: openapi/moengage-osm-templates-openapi.yml
+x-generated: '2026-08-01'
+x-method: generated
+actions:
+- target: $.info
+  update:
+    x-apievangelist-provider: moengage
+    x-apievangelist-harvested-from: https://github.com/moengage/moengage-documentation/tree/main/api
+    x-apievangelist-harvested-on: '2026-08-01'
+    x-apievangelist-artifacts:
+      conventions: conventions/moengage-conventions.yml
+      errors: errors/moengage-problem-types.yml
+      rate-limits: rate-limits/moengage-rate-limits.yml
+      authentication: authentication/moengage-authentication.yml
+      lifecycle: lifecycle/moengage-lifecycle.yml
+      data-model: data-model/moengage-data-model.yml
+      skills: skills/_index.yml
+    x-apievangelist-idempotency:
+      header: Idempotency-Key
+      format: uuid-v4
+      documented: conventions/moengage-conventions.yml
+    x-apievangelist-rate-limit-headers:
+    - x-ratelimit-limit
+    - x-ratelimit-remaining
+    - x-ratelimit-reset
+- target: $.servers
+  update:
+  - x-apievangelist-note: The {dc} template resolves to a data-center number 01-06 or 101; a workspace is reachable
+      only on its own data center host.
+- target: $.info
+  update:
+    x-apievangelist-gap-operationids: 3 of 3 operations declare no operationId

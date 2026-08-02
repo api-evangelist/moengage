@@ -1,0 +1,116 @@
+generated: '2026-08-01'
+method: searched
+source: >-
+  derived from 4xx/5xx responses across openapi/*.yml, enriched from
+  https://www.moengage.com/docs/api/introduction and
+  https://www.moengage.com/docs/api/offerings/offerings-overview
+format: vendor
+format_note: >-
+  MoEngage does not use RFC 9457 problem+json. No harvested OpenAPI operation declares
+  application/problem+json; every error response is application/json in one of two vendor envelopes.
+envelopes:
+- name: standard
+  shape: '{status, error: {message, type, request_id}}'
+  used_by: Most MoEngage APIs
+- name: v5
+  shape: '{response_id, error: {code, message, target, details[], doc_url}}'
+  used_by: [Flows, Offerings, Campaigns V5]
+  details_note: The details array appears only on 400 VALIDATION_FAILED responses.
+status_codes:
+- {status: 200, title: Success}
+- {status: 201, title: Created}
+- {status: 202, title: Accepted, description: Async processing}
+- {status: 400, title: Bad Request, description: Invalid parameters, occurrences_in_spec: 115}
+- {status: 401, title: Unauthorized, description: Invalid credentials, occurrences_in_spec: 106}
+- {status: 403, title: Forbidden, description: Access denied, occurrences_in_spec: 46}
+- {status: 404, title: Not Found, description: Resource does not exist, occurrences_in_spec: 25}
+- {status: 405, title: Method Not Allowed, description: Unsupported HTTP method for the endpoint, occurrences_in_spec: 2}
+- {status: 409, title: Conflict, description: Duplicate resource or idempotency conflict, occurrences_in_spec: 14}
+- {status: 412, title: Precondition Failed, occurrences_in_spec: 1}
+- {status: 413, title: Payload Too Large, description: Payload or attribute limit exceeded, occurrences_in_spec: 22}
+- {status: 415, title: Unsupported Media Type, description: Content-Type header missing or unsupported, occurrences_in_spec: 18}
+- {status: 422, title: Unprocessable Entity, description: Action invalid for the resource state or delivery type, occurrences_in_spec: 1}
+- {status: 428, title: Precondition Required, occurrences_in_spec: 1}
+- {status: 429, title: Rate Limit Exceeded, occurrences_in_spec: 87}
+- {status: 500, title: Internal Server Error, occurrences_in_spec: 94}
+- {status: 502, title: Bad Gateway, occurrences_in_spec: 2}
+- {status: 503, title: Service Unavailable, description: Treat as transient and retry with exponential backoff, occurrences_in_spec: 5}
+- {status: 504, title: Gateway Timeout, occurrences_in_spec: 1}
+error_codes:
+- code: VALIDATION_FAILED
+  status: 400
+  meaning: One or more request fields failed validation. Check error.details for the full list.
+  api: Offerings
+- code: REQUIRED_FIELD_MISSING
+  status: 400
+  meaning: A required field is absent. error.target identifies which field.
+  api: Offerings
+- code: INVALID_SCHEDULING
+  status: 400
+  meaning: expiry_datetime is not after start_datetime, or a datetime is in the past.
+  api: Offerings
+- code: INVALID_OFFER_NAME
+  status: 400
+  meaning: name contains characters other than letters, numbers, and underscores.
+  api: Offerings
+- code: DUPLICATE_OFFER_NAME
+  status: 400
+  meaning: name matches an existing non-archived offering in the workspace.
+  api: Offerings
+- code: INVALID_TAG_ID
+  status: 400
+  meaning: One or more tag IDs in tags do not exist in the workspace.
+  api: Offerings
+- code: IMMUTABLE_FIELD
+  status: 400
+  meaning: An attempt was made to change a status-locked field.
+  api: Offerings
+- code: MISSING_IDEMPOTENCY_KEY
+  status: 400
+  meaning: The Idempotency-Key header is absent.
+  api: Offerings
+  remediation: Send an Idempotency-Key header containing a UUID v4.
+- code: INVALID_IDEMPOTENCY_KEY
+  status: 400
+  meaning: The Idempotency-Key is not a valid UUID v4.
+  api: Offerings
+- code: DUPLICATE_IDEMPOTENCY_KEY
+  status: 409
+  meaning: A request with the same key is in flight.
+  api: Offerings
+  remediation: Wait for the in-flight request to complete before retrying.
+- code: IDEMPOTENCY_CONFLICT
+  status: 409
+  meaning: The key was reused with a different request body.
+  api: Offerings
+  remediation: Generate a new UUID v4 key and resubmit.
+- code: EXPIRED_OFFERING
+  status: 403
+  meaning: The offering is past its expiry_datetime and cannot be modified.
+  api: Offerings
+- code: ARCHIVED_OFFERING
+  status: 403
+  meaning: The offering is archived and cannot be modified.
+  api: Offerings
+- code: OFFER_NOT_FOUND
+  status: 404
+  meaning: No offering with the given ID exists in this workspace.
+  api: Offerings
+notable_state_errors:
+- source_operation: openapi/moengage-campaign-draft-openapi.yml#patch_draft_campaign_v5
+  status: 409
+  description: >-
+    The campaign is not in a state that allows updates. Occurs when the campaign is ACTIVE, PAUSED, or
+    STOPPED. Only DRAFT campaigns can be updated via this endpoint.
+- source_operation: openapi/moengage-campaign-draft-openapi.yml#change_campaign_status_v5
+  status: 422
+  description: >-
+    The action is not valid for the campaign's current state or delivery type - for example STOP on a
+    Periodic campaign, PAUSE or RESUME on a One-time campaign, RESUME on a campaign that is not PAUSED,
+    or PAUSE on a campaign that is not ACTIVE, SCHEDULED, or SENDING.
+- source_operation: openapi/moengage-catalog-openapi.yml#createCatalog
+  status: 413
+  description: Payload Too Large - attribute limit exceeded.
+- source_operation: openapi/moengage-cohort-audience-openapi.yml#POST /v1/integrations/cohortsync
+  status: 415
+  description: Unsupported media type - the Content-Type header is missing or unsupported.

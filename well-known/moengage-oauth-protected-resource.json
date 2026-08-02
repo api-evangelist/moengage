@@ -1,0 +1,1 @@
+{"resource":"https://mcp.moengage.com","authorization_servers":["https://moeauth.moengage.com"],"scopes_supported":["openid","email","profile","offline_access","campaigns:read"]}

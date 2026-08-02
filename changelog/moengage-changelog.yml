@@ -1,0 +1,71 @@
+generated: '2026-08-01'
+method: searched
+source: https://www.moengage.com/docs/release-notes/product/2026
+scheme: dated-monthly
+scope: >-
+  Platform-wide product release notes, published monthly. Separate per-platform SDK release notes and
+  partner-integration release notes are maintained alongside them. There is no per-API-version REST
+  changelog.
+channels:
+- name: Product release notes
+  url: https://www.moengage.com/docs/release-notes/product/2026
+  cadence: monthly
+  history_from: 2023
+- name: SDK release notes
+  url: https://www.moengage.com/docs/release-notes/sdks/ios
+  platforms: [android, ios, web, react-native, expo-react-native, flutter, unity, cordova, capacitor, segment, mparticle]
+- name: Partner release notes
+  url: https://www.moengage.com/docs/release-notes/partners
+- name: Subscribe
+  url: https://www.moengage.com/docs/release-notes/subscribe-to-release-notes
+current_period: '2026-06'
+entries:
+- date: '2026-06'
+  url: https://www.moengage.com/docs/release-notes/product/2026/june-2026
+  breaking: false
+  highlights:
+  - >-
+    MoEngage Go, a companion mobile app for monitoring campaign performance, approving campaigns pending
+    review, and pausing or stopping live sends, shipped on the iOS App Store and Google Play.
+  - Offer Decisioning gained a Decision Policy simulator for testing a policy before and after go-live.
+  - Custom Alerts extended from Behavior analytics to Funnels, Retention, and Session & Source.
+  - Analytics tables across Behavior, Funnels, Retention, Session & Source, and User Analysis migrated to AG Grid.
+  - User Affinity segments now work with Teams and support object data types in event attribute filters.
+  - Flows Assist gained iterative multi-turn editing with versioning (DC-03, MVP customers).
+  - The Merlin AI Campaign Insight Agent extended to Event-Triggered Email and Push campaigns.
+- date: '2026-05'
+  url: https://www.moengage.com/docs/release-notes/product/2026/may-2026
+  breaking: false
+  highlights:
+  - Decisioning Agent Analytics dashboard (Early Access) for measuring incremental value versus a control group.
+  - Custom Formula ranking strategy added to Offer Decisioning with real-time score recalculation.
+  - >-
+    Portfolio support in partner integrations - integration events route to specific projects in
+    multi-app workspaces via a Project Name mapping or the moe_project_name event attribute. Backward
+    compatible across all data centers.
+  - Revamped user profile in DC-03 with UI-driven user deletion and email/SMS subscription changes.
+- date: '2026-04'
+  url: https://www.moengage.com/docs/release-notes/product/2026/april-2026
+  breaking: false
+  highlights:
+  - Merlin AI Campaign Insight Agent for one-time and periodic Push and Email campaigns.
+  - Just-in-Time (JIT) user provisioning for SSO-enabled workspaces.
+  - Background Update Push Template for silent key-value payload delivery on Android and iOS.
+- date: '2026-03'
+  url: https://www.moengage.com/docs/release-notes/product/2026/march-2026
+  breaking: true
+  breaking_note: >-
+    Effective April 1, 2026 the Classic dashboard navigation was retired and the Switch to Classic
+    toggle removed; all accounts were migrated to the new navigation framework. A dashboard UI change,
+    not an API contract change.
+  highlights:
+  - Portfolio orchestration expanded to In-app Messaging and On-site Messaging.
+  - Old ("Classic") dashboard navigation deprecated and retired.
+- date: '2026-02'
+  url: https://www.moengage.com/docs/release-notes/product/2026/february-2026
+- date: '2026-01'
+  url: https://www.moengage.com/docs/release-notes/product/2026/january-2026
+archive:
+- {year: 2025, url: 'https://www.moengage.com/docs/release-notes/product/2025', months: 12}
+- {year: 2024, url: 'https://www.moengage.com/docs/release-notes/product/2024'}
+- {year: 2023, url: 'https://www.moengage.com/docs/release-notes/product/2023'}

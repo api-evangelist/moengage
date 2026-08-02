@@ -1,0 +1,72 @@
+generated: '2026-08-01'
+method: derived
+source: openapi/moengage-analytics-openapi.yml, openapi/moengage-business-events-openapi.yml,
+  openapi/moengage-campaign-draft-openapi.yml, openapi/moengage-campaigns-openapi.yml, openapi/moengage-cards-openapi.yml,
+  openapi/moengage-catalog-openapi.yml, openapi/moengage-cohort-audience-openapi.yml, openapi/moengage-content-blocks-openapi.yml,
+  openapi/moengage-coupons-openapi.yml, openapi/moengage-custom-segments-openapi.yml, openapi/moengage-data-openapi.yml,
+  openapi/moengage-email-subscription-openapi.yml ...
+summary:
+  types:
+  - apiKey
+  - http
+  api_key_in:
+  - header
+schemes:
+- name: basicAuth
+  type: http
+  scheme: basic
+  description: |-
+    Authentication is done via Basic Auth. This requires a base64-encoded string of your credentials in the format `username:password`.
+
+    - **Username**: Use your MoEngage workspace ID (also known as the App ID). You can find it in the MoEngage dashboard at **Settings** > **Account** > **APIs** > **Workspace ID (earlier app id)**.
+    - **Password**: Use your Data API Key, which you can find in the MoEngag
+  sources:
+  - openapi/moengage-analytics-openapi.yml
+  - openapi/moengage-business-events-openapi.yml
+  - openapi/moengage-campaign-draft-openapi.yml
+  - openapi/moengage-campaigns-openapi.yml
+  - openapi/moengage-cards-openapi.yml
+  - openapi/moengage-catalog-openapi.yml
+  - openapi/moengage-cohort-audience-openapi.yml
+  - openapi/moengage-content-blocks-openapi.yml
+  - openapi/moengage-coupons-openapi.yml
+  - openapi/moengage-custom-segments-openapi.yml
+  - openapi/moengage-data-openapi.yml
+  - openapi/moengage-email-subscription-openapi.yml
+  - openapi/moengage-email-templates-1-openapi.yml
+  - openapi/moengage-email-templates-2-openapi.yml
+  - openapi/moengage-flows-openapi.yml
+  - openapi/moengage-gdpr-ccpa-openapi.yml
+  - openapi/moengage-in-app-templates-openapi.yml
+  - openapi/moengage-inform-openapi.yml
+  - openapi/moengage-live-activities-openapi.yml
+  - openapi/moengage-message-archival-openapi.yml
+  - openapi/moengage-offerings-openapi.yml
+  - openapi/moengage-osm-templates-openapi.yml
+  - openapi/moengage-personalize-experience-openapi.yml
+  - openapi/moengage-push-openapi.yml
+  - openapi/moengage-push-templates-openapi.yml
+  - openapi/moengage-push-v2-1-openapi.yml
+  - openapi/moengage-recommendations-openapi.yml
+  - openapi/moengage-sms-templates-openapi.yml
+  - openapi/moengage-stats-report-openapi.yml
+  - openapi/moengage-subscription-categories-openapi.yml
+- name: AppKeyHeader
+  type: apiKey
+  in: header
+  parameter: MOE-APPKEY
+  description: This is the Workspace ID of your MoEngage account that must be passed with the
+    request. You can find it in the MoEngage dashboard at **Settings** > **Account** > **APIs**
+    > **Workspace ID (earlier app id)**.
+  sources:
+  - openapi/moengage-catalog-openapi.yml
+  - openapi/moengage-inform-openapi.yml
+  - openapi/moengage-push-openapi.yml
+  - openapi/moengage-push-v2-1-openapi.yml
+- name: apiKeySignature
+  type: apiKey
+  in: header
+  parameter: Signature
+  description: Custom SHA256 Signature. Refer [here](/api/campaign-reports/download-campaign-report#generating-the-signature).
+  sources:
+  - openapi/moengage-stats-report-openapi.yml

@@ -1,0 +1,354 @@
+generated: '2026-08-01'
+method: derived
+source: >-
+  mcp/moengage-mcp.yml (tool list transcribed from
+  https://www.moengage.com/docs/user-guide/ai-and-intelligence/merlin-ai/moengage-mcp-server) bound
+  against the operationIds in openapi/*.yml
+note: >-
+  The live MoEngage MCP tools/list is OAuth-gated (HTTP 401 anonymously), so tool inputSchemas could not
+  be introspected. Bindings below are by name and documented semantics against verified OpenAPI
+  operationIds; confidence is set honestly per row. Where a tool is bound, that operation's parameters
+  and requestBody in the referenced spec are the tool's real input contract.
+surfaces:
+  openapi:
+    files: 30
+    operations: 119
+    location: openapi/
+    gated: false
+  mcp:
+    url: https://mcp.moengage.com
+    tools_list: gated
+    http_status: 401
+    auth: oauth2 via https://moeauth.moengage.com
+  mcp_docs:
+    url: https://www.moengage.com/docs/mcp
+    tools_list: open
+    http_status: 200
+    tools: 3
+  graphql: null
+crosswalk:
+- tool: create_campaign_draft
+  category: campaign-build
+  rest: [create_draft_campaign_v5]
+  binding: rest
+  confidence: high
+  spec: openapi/moengage-campaign-draft-openapi.yml
+- tool: patch_campaign_components
+  category: campaign-build
+  rest: [patch_draft_campaign_v5]
+  binding: rest
+  confidence: high
+  spec: openapi/moengage-campaign-draft-openapi.yml
+- tool: validate_campaign_draft
+  category: campaign-build
+  rest: [validate_draft_campaign_v5]
+  binding: rest
+  confidence: high
+  spec: openapi/moengage-campaign-draft-openapi.yml
+- tool: create_personalization_preview
+  category: campaign-build
+  rest: [preview_personalized_content_v5, personalized_preview]
+  binding: rest
+  confidence: high
+  spec: openapi/moengage-campaign-draft-openapi.yml
+  note: V5 and legacy V1 both expose a personalization preview operation.
+- tool: test_campaign_inline
+  category: campaign-build
+  rest: [test_campaign_v5, test_campaign]
+  binding: rest
+  confidence: medium
+  spec: openapi/moengage-campaign-draft-openapi.yml
+  note: >-
+    The docs split test-send into inline-payload and by-draft-id variants; the spec exposes a single
+    test operation per API version, so both tools fan into it.
+- tool: test_campaign_by_draft_id
+  category: campaign-build
+  rest: [test_campaign_v5]
+  binding: rest
+  confidence: medium
+  spec: openapi/moengage-campaign-draft-openapi.yml
+- tool: update_campaign_status
+  category: campaign-build
+  rest: [change_campaign_status_v5, change_campaign_status]
+  binding: rest
+  confidence: high
+  spec: openapi/moengage-campaign-draft-openapi.yml
+- tool: search_campaigns
+  category: search-read
+  rest: [search_campaigns_v5, search_campaigns]
+  binding: rest
+  confidence: high
+  spec: openapi/moengage-campaign-draft-openapi.yml
+- tool: get_campaign
+  category: search-read
+  rest: [get_single_campaign_v5]
+  binding: rest
+  confidence: high
+  spec: openapi/moengage-campaign-draft-openapi.yml
+- tool: get_campaign_meta
+  category: search-read
+  rest: [get_campaign_meta_v5, get_campaign_meta]
+  binding: rest
+  confidence: high
+  spec: openapi/moengage-campaign-draft-openapi.yml
+- tool: create_content_block
+  category: content-blocks
+  rest: ['POST /content-blocks']
+  binding: rest
+  confidence: high
+  spec: openapi/moengage-content-blocks-openapi.yml
+  note: The content-blocks spec declares no operationId; bound by method + path.
+- tool: edit_content_block
+  category: content-blocks
+  rest: ['PUT /content-blocks']
+  binding: rest
+  confidence: high
+  spec: openapi/moengage-content-blocks-openapi.yml
+- tool: search_content_blocks
+  category: content-blocks
+  rest: ['POST /content-blocks/search']
+  binding: rest
+  confidence: high
+  spec: openapi/moengage-content-blocks-openapi.yml
+- tool: get_content_blocks_by_ids
+  category: content-blocks
+  rest: ['POST /content-blocks/get-by-ids']
+  binding: rest
+  confidence: high
+  spec: openapi/moengage-content-blocks-openapi.yml
+- tool: create_custom_segment
+  category: segments
+  rest: [createFilterSegment]
+  binding: rest
+  confidence: high
+  spec: openapi/moengage-custom-segments-openapi.yml
+- tool: list_segments
+  category: segments
+  rest: [listCustomSegments]
+  binding: rest
+  confidence: high
+  spec: openapi/moengage-custom-segments-openapi.yml
+- tool: get_segment
+  category: segments
+  rest: [getCustomSegment]
+  binding: rest
+  confidence: high
+  spec: openapi/moengage-custom-segments-openapi.yml
+- tool: search_flows
+  category: flows
+  rest: [searchFlows]
+  binding: rest
+  confidence: high
+  spec: openapi/moengage-flows-openapi.yml
+- tool: get_flow
+  category: flows
+  rest: [getFlow]
+  binding: rest
+  confidence: high
+  spec: openapi/moengage-flows-openapi.yml
+- tool: get_flow_version
+  category: flows
+  rest: [getFlowVersion]
+  binding: rest
+  confidence: high
+  spec: openapi/moengage-flows-openapi.yml
+- tool: update_flow_status
+  category: flows
+  rest: [updateFlowStatus]
+  binding: rest
+  confidence: high
+  spec: openapi/moengage-flows-openapi.yml
+- tool: list_dashboards
+  category: dashboards
+  rest: [listDashboards]
+  binding: rest
+  confidence: high
+  spec: openapi/moengage-analytics-openapi.yml
+- tool: get_dashboard
+  category: dashboards
+  rest: [getDashboardCharts]
+  binding: rest
+  confidence: medium
+  spec: openapi/moengage-analytics-openapi.yml
+  note: The spec's dashboard read operation returns the dashboard with its charts.
+- tool: get_chart_data
+  category: dashboards
+  rest: [getChartData]
+  binding: rest
+  confidence: high
+  spec: openapi/moengage-analytics-openapi.yml
+- tool: get_campaign_stats
+  category: campaign-analytics
+  rest: [getCampaignStats]
+  binding: rest
+  confidence: high
+  spec: openapi/moengage-stats-report-openapi.yml
+- tool: get_detailed_campaign_stats
+  category: campaign-analytics
+  rest: [getCampaignStats]
+  binding: rest
+  confidence: low
+  spec: openapi/moengage-stats-report-openapi.yml
+  note: >-
+    The public Stats API exposes one stats operation; the docs describe conversion-goal, device, locale
+    and A/B breakdowns as a distinct tool. Likely a parameterized variant or an internal endpoint.
+- tool: get_delivery_stats
+  category: campaign-analytics
+  rest: [getCampaignStats]
+  binding: rest
+  confidence: low
+  spec: openapi/moengage-stats-report-openapi.yml
+  note: Delivery-funnel breakdown is not a separately documented public REST operation.
+mcp_only:
+- tool: discover_schema
+  reason: >-
+    Server-side schema introspection helper. Returns the current request shape for a campaign type or
+    component. No public REST equivalent.
+- tool: get_content_guide
+  reason: >-
+    Server-side authoring guidance (Jinja, email HTML, deliverability). Documentation content, not a
+    REST resource.
+- tool: start_segment_count
+  reason: >-
+    Async segment user-count with channel reachability. The public Segments API does not expose a count
+    operation.
+- tool: poll_segment_count
+  reason: Polling half of the async segment count. No public REST equivalent.
+- tool: get_value_suggestions
+  reason: >-
+    Attribute/event value suggestion service used while composing segment filters. No public REST
+    operation.
+- tool: get_flow_analytics
+  reason: Flow-level analytics. The public Flows API covers search/read/status only.
+- tool: get_flow_channel_analytics
+  reason: Channel-scoped flow analytics. Not in the public Flows API.
+- tool: get_click_performance
+  reason: Per-URL click breakdown. Not exposed as a public REST operation.
+- tool: get_device_analytics
+  reason: Device-dimension performance analytics. Not exposed as a public REST operation.
+- tool: discover_analyze_schema
+  reason: Beta. Schema introspection for behavior/funnel/retention analysis. No public REST equivalent.
+- tool: run_behavior_analysis
+  reason: Beta. Product-behavior analytics. No public REST operation.
+- tool: run_funnel_analysis
+  reason: Beta. Funnel analytics. No public REST operation.
+- tool: run_retention_analysis
+  reason: Beta. Retention analytics. No public REST operation.
+- tool: find_events
+  reason: Workspace event catalog discovery. No public REST operation.
+- tool: find_event_attributes
+  reason: Event attribute catalog discovery. No public REST operation.
+- tool: find_user_attributes
+  reason: User attribute catalog discovery. No public REST operation.
+- tool: submit_feedback
+  reason: Tool-quality feedback channel back to MoEngage. Not a product API.
+rest_only:
+- capability: Data ingestion
+  operations:
+  - 'POST /customer/{app_id}'
+  - 'POST /customers/export'
+  - 'POST /customer/merge'
+  - 'POST /customer/delete'
+  - 'POST /event/{Workspace_ID}'
+  - 'POST /device/{app_id}'
+  - 'POST /devices/manage'
+  - 'POST /transition/{Workspace_ID}'
+  - 'GET /installInfo'
+  - 'POST /integrations/authentication'
+  spec: openapi/moengage-data-openapi.yml
+- capability: File imports
+  operations:
+  - 'POST /fileimports/trigger/{schedule_id}'
+  - 'POST /fileimports/import/status'
+  - 'POST /fileimports/import/run/history'
+  spec: openapi/moengage-data-openapi.yml
+- capability: Privacy requests
+  operations: [submitGdprRequest]
+  spec: openapi/moengage-gdpr-ccpa-openapi.yml
+- capability: Business events
+  operations: [createBusinessEvent, triggerBusinessEvent, searchBusinessEvents]
+  spec: openapi/moengage-business-events-openapi.yml
+- capability: File segments and cohort sync
+  operations:
+  - createFileSegment
+  - addUsersToFileSegment
+  - removeUsersFromFileSegment
+  - replaceUsersInFileSegment
+  - archiveCustomSegment
+  - unarchiveCustomSegment
+  - updateFilterSegment
+  - 'POST /v1/integrations/cohortsync'
+  spec: openapi/moengage-custom-segments-openapi.yml
+- capability: Channel templates
+  operations:
+  - createEmailTemplate
+  - updateEmailTemplate
+  - searchEmailTemplate
+  - getAllTemplates
+  - getTemplateById
+  - updateTemplateById
+  - bulkCreateUpdateTemplates
+  - createPushTemplate
+  - updatePushTemplate
+  - searchPushTemplates
+  - 'POST /custom-templates/sms'
+  - 'PUT /custom-templates/sms'
+  - 'POST /custom-templates/sms/search'
+  - 'POST /custom-templates/inapp'
+  - 'PUT /custom-templates/inapp'
+  - 'POST /custom-templates/inapp/search'
+  - 'POST /custom-templates/osm'
+  - 'PUT /custom-templates/osm'
+  - 'POST /custom-templates/osm/search'
+- capability: Catalog, recommendations, coupons
+  operations:
+  - createCatalog
+  - addCatalogAttributes
+  - ingestCatalogItems
+  - updateCatalogItems
+  - deleteCatalogItems
+  - getItemDetails
+  - fetchRecommendationMetadata
+  - fetchRecommendationResults
+  - createCouponList
+  - fetchAllCouponLists
+  - fetchCouponList
+  - updateCouponList
+  - activateCouponList
+  - archiveCouponList
+  - uploadCouponFile
+  - fetchAllCouponFiles
+  - fetchCouponFile
+  - deleteCouponFile
+  - generateUsageReport
+- capability: Subscriptions and opt-in
+  operations:
+  - bulkResubscribeUsers
+  - updateEmailOptinPreferences
+  - getSubscriptionPreferences
+  - updateSubscriptionPreferences
+  - bulkUpdateSubscriptionPreferences
+- capability: Transactional push and alerts
+  operations: [send_push_v2_1, 'POST /transaction/sendpush', 'POST /alerts/send']
+- capability: Engagement surfaces
+  operations:
+  - fetchCards
+  - deleteCards
+  - 'POST /live-activity/broadcast/start'
+  - 'POST /live-activity/broadcast/update'
+  - 'POST /live-activity/broadcast/end'
+  - fetchExperience
+  - getMetadata
+  - reportExperienceEvents
+- capability: Offer decisioning
+  operations: [listPublicOfferings, createPublicOffering, updatePublicOffering, listPublicOfferTemplates]
+  spec: openapi/moengage-offerings-openapi.yml
+- capability: Reporting and archival
+  operations: [downloadCampaignReport, viewArchivedMessage, get_child_campaigns, update_global_control_group]
+coverage:
+  tools_named: 44
+  tools_bound_to_rest: 27
+  mcp_only: 17
+  rest_operations_total: 119
+  rest_operations_with_a_tool: 29
+  rest_only_operations: 90

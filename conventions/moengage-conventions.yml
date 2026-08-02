@@ -1,0 +1,167 @@
+generated: '2026-08-01'
+method: searched
+source: https://www.moengage.com/docs/api/introduction
+sources:
+- https://www.moengage.com/docs/api/introduction
+- https://www.moengage.com/docs/api/campaigns/campaign-draft-overview
+- https://www.moengage.com/docs/api/offerings/offerings-overview
+- openapi/
+authentication:
+  style: http-basic
+  header: 'Authorization: Basic {base64(workspace_id:api_key)}'
+  username: MoEngage Workspace ID (formerly App ID)
+  password: The feature-scoped API key from Settings > Account > APIs
+  additional_header:
+    name: MOE-APPKEY
+    value: Workspace ID
+    required_for: File Import APIs and the Test Connection API only
+    note: >-
+      Not required for core Data APIs such as Track User, Get User, Track Event, Merge User, Delete
+      User, and Track Device.
+  keys_are_feature_scoped: true
+  key_map:
+  - api: Data
+    key_tile: Data
+  - api: Push
+    key_tile: Push
+  - api: Inform
+    key_tile: Inform
+  - api: Campaigns and Catalog
+    key_tile: Campaign report/Business events/Custom templates/Catalog API/Inform Report
+  - api: Personalize
+    key_tile: Personalize
+  oauth2:
+    surface: MCP server only
+    authorization_server: https://moeauth.moengage.com
+    docs: https://www.moengage.com/docs/user-guide/ai-and-intelligence/merlin-ai/moengage-mcp-server
+  cross_link: authentication/moengage-authentication.yml
+idempotency:
+  supported: true
+  header: Idempotency-Key
+  format: UUID v4
+  scope:
+  - api: Campaigns V5
+    applies_to: All POST and PATCH requests
+    note: The validate endpoint is the documented exception and does not require the header.
+    docs: https://www.moengage.com/docs/api/campaigns/campaign-draft-overview
+  - api: Offer Decisioning (Offerings)
+    applies_to: Create and Update endpoints
+    retention: 24 hours
+    replay_behavior: >-
+      Reusing the same key within 24 hours returns the original response without re-running the
+      operation, so retries on network failures are safe.
+    docs: https://www.moengage.com/docs/api/offerings/offerings-overview
+  legacy_mechanism:
+    field: request_id
+    scope: Campaign creation (legacy V1 Campaigns API)
+    window_push: 1 hour
+    window_email: 1 day
+    note: >-
+      The same request_id cannot be reused after a successful creation within the window. If a creation
+      attempt fails you may retry immediately with the same request_id.
+  conflicts:
+  - code: MISSING_IDEMPOTENCY_KEY
+    status: 400
+    meaning: The Idempotency-Key header is absent.
+  - code: INVALID_IDEMPOTENCY_KEY
+    status: 400
+    meaning: The Idempotency-Key is not a valid UUID v4.
+  - code: DUPLICATE_IDEMPOTENCY_KEY
+    status: 409
+    meaning: A request with the same key is already in flight. Wait for it to complete before retrying.
+  - code: IDEMPOTENCY_CONFLICT
+    status: 409
+    meaning: The key was reused within 24 hours with a different request body. Use a new UUID v4 key.
+  guidance: >-
+    Use the same key only when retrying an identical request after a network failure or timeout. Use a
+    new key for every logically distinct operation, and for any retry whose payload has changed.
+pagination:
+  style: mixed
+  note: >-
+    Pagination is per-API rather than uniform. List and search operations commonly accept page/limit or
+    offset-style parameters declared in the individual OpenAPI documents. There is no single documented
+    cursor convention across the platform.
+  derived_from: openapi/
+request_tracing:
+  fields:
+  - name: request_id
+    envelope: 'error.request_id (standard envelope)'
+    note: Present on the standard error envelope.
+  - name: response_id
+    envelope: 'response_id (v5 envelope)'
+    note: >-
+      Trace identifier for the response. Always present on v5 APIs, including on errors. Provide it to
+      MoEngage support when reporting an issue.
+versioning:
+  scheme: uri-path
+  observed_segments: ['/v1', '/v1.0', '/v2', '/v3', '/core-services/v1']
+  current_generation: v5 (Campaigns, Flows, Offerings)
+  note: >-
+    Version lives in the URL path and differs per API family. Newer v5 APIs coexist with legacy v1
+    equivalents rather than replacing them in place; MoEngage publishes a V1-vs-V5 behavioral
+    differences page for Search Campaigns.
+  migration_docs: https://www.moengage.com/docs/api/campaigns/search-campaigns-v5-migration
+  cross_link: lifecycle/moengage-lifecycle.yml
+regionalization:
+  model: data-center-scoped hosts
+  host_template: https://api-{dc}.moengage.com
+  data_centers:
+  - {dc: DC-01, region: US, host: https://api-01.moengage.com, dashboard: https://dashboard-01.moengage.com}
+  - {dc: DC-02, region: EU, host: https://api-02.moengage.com, dashboard: https://dashboard-02.moengage.com}
+  - {dc: DC-03, region: India, host: https://api-03.moengage.com, dashboard: https://dashboard-03.moengage.com}
+  - {dc: DC-04, region: US, host: https://api-04.moengage.com, dashboard: https://dashboard-04.moengage.com}
+  - {dc: DC-05, region: Singapore, host: https://api-05.moengage.com, dashboard: https://dashboard-05.moengage.com}
+  - {dc: DC-06, region: Indonesia, host: https://api-06.moengage.com, dashboard: https://dashboard-06.moengage.com}
+  - {dc: DC-101, region: unspecified, host: https://api-101.moengage.com, dashboard: https://dashboard-101.moengage.com}
+  note: >-
+    Data captured in a workspace cannot be migrated to a different data center. Always call the host
+    matching the registered data center.
+  other_hosts:
+  - {purpose: push, host_template: 'https://pushapi-{dc}.moengage.com'}
+  - {purpose: client SDK personalize, host_template: 'https://sdk-{dc}.moengage.com'}
+  - {purpose: Inform sandbox, host_template: 'https://sandbox-api-{dc}.moengage.com'}
+error_envelope:
+  standard:
+    shape: '{status, error: {message, type, request_id}}'
+    example:
+      status: fail
+      error:
+        message: The request parameters are invalid
+        type: Bad Request
+        request_id: abc123xyz
+  v5:
+    shape: '{response_id, error: {code, message, target, details[], doc_url}}'
+    fields:
+      error.code: Machine-readable code in ALL_CAPS_SNAKE_CASE.
+      error.message: Human-readable explanation.
+      error.target: The field or resource that caused the error, in dot notation.
+      error.details: Per-field violations, present only on 400 VALIDATION_FAILED responses.
+      error.doc_url: Link to documentation for this error code.
+      response_id: Trace identifier, always present.
+    used_by: [Flows, Offerings, Campaigns V5]
+  rfc9457: false
+  rfc9457_note: >-
+    No operation in any harvested OpenAPI declares application/problem+json. Errors are JSON in
+    MoEngage's own two envelopes.
+  cross_link: errors/moengage-problem-types.yml
+rate_limit_signaling:
+  headers:
+  - x-ratelimit-limit
+  - x-ratelimit-remaining
+  - x-ratelimit-reset
+  retry_after: >-
+    The Offerings API returns 429 with a Retry-After header indicating how many seconds to wait.
+  status_code: 429
+  cross_link: rate-limits/moengage-rate-limits.yml
+payload_limits:
+- api: Catalog API
+  max: 5 MB
+- api: Recommendations API
+  max: 1 MB
+- api: Bulk Import API
+  max: 100 KB
+- api: Custom Segments (File)
+  max: 150 MB per file
+content_type: application/json
+metadata: null
+field_expansion: null

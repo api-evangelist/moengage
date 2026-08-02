@@ -1,0 +1,65 @@
+generated: '2026-08-01'
+method: probed
+source: live GET of /.well-known/* on every apis.yml host and OpenAPI servers[] host
+probed: '2026-08-01'
+hosts:
+- host: https://www.moengage.com
+  documents:
+  - {path: /.well-known/security.txt, status: 404}
+  - {path: /.well-known/openid-configuration, status: 404}
+  - {path: /.well-known/oauth-authorization-server, status: 404}
+  - {path: /.well-known/oauth-protected-resource, status: 404}
+  - {path: /.well-known/api-catalog, status: 404}
+  - {path: /.well-known/ai-plugin.json, status: 404}
+  - {path: /.well-known/agent-card.json, status: 404}
+  - {path: /.well-known/agent.json, status: 404}
+  - {path: /llms.txt, status: 200, note: 'Yoast-generated marketing sitemap, not the developer llms.txt'}
+  - {path: /docs/llms.txt, status: 200, file: '../llms/moengage-llms.txt'}
+- host: https://api-01.moengage.com
+  note: >-
+    Every /.well-known/* path answers 308 and redirects to an HTML page rather than serving a document.
+    Treated as a miss, not a hit.
+  documents:
+  - {path: /.well-known/security.txt, status: 308, result: html-redirect}
+  - {path: /.well-known/openid-configuration, status: 308, result: html-redirect}
+  - {path: /.well-known/oauth-authorization-server, status: 308, result: html-redirect}
+  - {path: /.well-known/agent-card.json, status: 308, result: html-redirect}
+  - {path: /.well-known/agent.json, status: 308, result: html-redirect}
+  - {path: /openapi.json, status: 404}
+  - {path: /swagger.json, status: 404}
+  - {path: /api-docs, status: 404}
+  - {path: /v1/openapi.json, status: 404}
+- host: https://mcp.moengage.com
+  documents:
+  - path: /.well-known/oauth-protected-resource
+    status: 200
+    file: moengage-oauth-protected-resource.json
+    spec: RFC 9728
+  - {path: /.well-known/oauth-authorization-server, status: 401}
+  - {path: /.well-known/openid-configuration, status: 401}
+  - {path: /.well-known/security.txt, status: 401}
+  - {path: /.well-known/api-catalog, status: 401}
+  - {path: /.well-known/ai-plugin.json, status: 401}
+- host: https://moeauth.moengage.com
+  documents:
+  - path: /.well-known/openid-configuration
+    status: 200
+    file: moengage-openid-configuration.json
+    spec: OpenID Connect Discovery 1.0
+  - path: /.well-known/oauth-authorization-server
+    status: 200
+    file: moengage-oauth-authorization-server.json
+    spec: RFC 8414
+  - {path: /.well-known/jwks.json, status: 200, note: 'Live signing keys; not archived (rotates).'}
+  - {path: /.well-known/security.txt, status: 404}
+  - {path: /.well-known/oauth-protected-resource, status: 404}
+  - {path: /.well-known/api-catalog, status: 404}
+summary:
+  security_txt: false
+  api_catalog: false
+  ai_plugin: false
+  agent_card: false
+  openid_configuration: true
+  oauth_authorization_server: true
+  oauth_protected_resource: true
+  llms_txt: true

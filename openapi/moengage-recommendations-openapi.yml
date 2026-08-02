@@ -1,0 +1,378 @@
+openapi: 3.0.3
+info:
+  title: MoEngage Recommendation API
+  description: |
+    This API lets you fetch/retrieve the metadata associated with a recommendation using the recommendation ID. The metadata can include the recommendation name, model type, status, creation and update time, and so on.
+    
+    Authentication is via Basic Auth.
+  version: '1.0'
+servers:
+  - url: 'https://api-{dc}.moengage.com/v1'
+    variables:
+      dc:
+        default: '01'
+        description: "The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101."
+tags:
+  - name: Recommendations
+    description: Operations related to fetching recommendation configurations and results.
+paths:
+  /recommendations/{recommendations_id}:
+    get:
+      tags:
+        - Recommendations
+      summary: Fetch Recommendation Details
+      operationId: fetchRecommendationMetadata
+      description: |
+        This API retrieves the metadata associated with a specific recommendation setup using its unique ID. The metadata can include the recommendation name, model type, status, creation and update time, and so on.
+      x-mint:
+        content: |
+          #### Rate Limit
+          You can fetch 1,000 recommendations per minute.
+      parameters:
+        - $ref: '#/components/parameters/AppKeyHeader'
+        - $ref: '#/components/parameters/RecommendationIdPath'
+      responses:
+        '200':
+          description: Indicates that the request is successful and a recommendation is fetched.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RecommendationMetadata'
+        '400':
+          description: Bad request. Possible issues include a recommendation, the user does not exist, or the wrong format provided.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                recommendation_not_found:
+                  summary: Recommendation Not Found
+                  value:
+                    error-code: "recommendation does not exist"
+                    message: "Recommendation does not exist or archived. Please check recommendation_id."
+                invalid_format:
+                  summary: Invalid Format
+                  value:
+                    error-code: "invalid-request-format"
+                    message: "Invalid format provided for recommendation_id."
+        '401':
+          description: Unauthenticated. Your request is unauthorized. Verify your credentials and try again.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                error-code: "request-unauthenticated"
+                message: "Your request is unauthorized. Please verify your credentials and try again."
+        '413':
+          description: Request entity too large. The request body can be large in terms of size (bytes) or length of items.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                error-code: "payload-size-exceeded"
+                message: "Your payload size exceeds the 1MB limit. Please reduce the payload size and try again."
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        '500':
+          description: This response is returned when the system runs into an unexpected error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                error-code: "unexpected-error"
+                message: "Something went wrong with your request. Please contact the MoEngage team for further assistance."
+  /recommendations/{recommendations_id}/items:
+    post:
+      tags:
+        - Recommendations
+      summary: Fetch Recommendation Results
+      operationId: fetchRecommendationResults
+      description: |
+        This API fetches/retrieves the metadata results of any recommendations for a user based on their user ID and item ID.
+      x-mint:
+        content: |
+          #### Rate Limit
+          You can fetch 10,000 recommendations per minute.
+      parameters:
+        - $ref: '#/components/parameters/AppKeyHeader'
+        - $ref: '#/components/parameters/RecommendationIdPath'
+        - name: RECOMMENDATION-TYPE
+          in: header
+          required: true
+          description: It represents the type of recommendations from which the results are fetched.
+          schema:
+            type: string
+            enum:
+              - user_action
+              - item_attribute
+              - catalog_alert
+              - similar_item
+              - frequently_viewed_together
+              - frequently_bought_together
+              - trending_item
+              - user_personalization
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FetchResultsRequest'
+            example:
+              user_id: "user123@example.com"
+              item_id: "product_sku_abc"
+              include_fields: ["title", "image_link", "price"]
+      responses:
+        '200':
+          description: Indicates that the request is successful and a recommendation is fetched.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/RecommendationResultItem'
+        '400':
+          description: Bad request. Possible issues include a recommendation, the user does not exist, or the wrong format provided.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                error-code: "recommendation does not exist"
+                message: "Recommendation does not exist or archived. Please check recommendation_id."
+        '401':
+          description: Unauthenticated. Your request is unauthorized. Verify your credentials and try again.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                error-code: "request-unauthenticated"
+                message: "Your request is unauthorized. Please verify your credentials and try again."
+        '413':
+          description: Request entity too large. The request body can be large in terms of size (bytes) or length of items.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                error-code: "payload-size-exceeded"
+                message: "Your payload size exceeds the 1MB limit. Please reduce the payload size and try again."
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        '500':
+          description: This response is returned when the system runs into an unexpected error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                error-code: "unexpected-error"
+                message: "Something went wrong with your request. Please contact the MoEngage team for further assistance."
+
+components:
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+      description: |
+        Authentication is done via Basic Auth. This requires a base64-encoded string of your credentials in the format 'username:password'.
+
+        - **Username**: Use your MoEngage workspace ID (also known as the App ID). You can find it in the MoEngage dashboard at **Settings** > **Account** > **APIs** > **Workspace ID (earlier app id)**.
+        - **Password**: Use your API Key, which you can find within the **Campaign report/Business events/Custom templates/Catalog API/Inform Report** tile.
+
+        For more information on authentication and getting your credentials, refer [here](https://www.moengage.com/docs/api/introduction#getting-your-credentials).
+  parameters:
+    AppKeyHeader:
+      name: MOE-APPKEY
+      in: header
+      required: true
+      description: |
+        This is the Workspace ID of your MoEngage account that must be passed with the request. You can find it in the MoEngage dashboard at **Settings** > **Account** > **APIs** > **Workspace ID (earlier app id)**.
+      schema:
+        type: string
+    RecommendationIdPath:
+      name: recommendations_id
+      in: path
+      required: true
+      description: |
+        This parameter indicates the unique identifier associated with the recommendation created in the recommendation module.
+        
+        You can obtain the `recommendation_id` from the recommendation you created on the recommendation page.
+      schema:
+        type: string
+      example: "a1b2c3d4e5f6a7b8c9d0e1f2"
+  schemas:
+    Filter:
+      type: object
+      properties:
+        executed: { type: boolean }
+        filter_type: { type: string, example: "product_filter" }
+        operator_fe: { type: string, example: "exists" }
+        name: { type: string, example: "product_id" }
+        data_type: { type: string, example: "string" }
+        operator: { type: string, example: "exists" }
+        value: { type: string, nullable: true }
+        negate: { type: boolean }
+        case_sensitive: { type: boolean }
+        hasError: { type: boolean }
+    IncludeExcludeFilters:
+      type: object
+      properties:
+        filters:
+          type: array
+          items:
+            $ref: '#/components/schemas/Filter'
+        filter_operator:
+          type: string
+          enum: [and, or]
+    SortCriteria:
+      type: object
+      properties:
+        data_type: { type: string, example: "double" }
+        param_type: { type: string, example: "product_attribute" }
+        param: { type: string, example: "price" }
+        direction: { type: string, enum: ["1", "-1"], description: "1 for ascending, -1 for descending" }
+    TrendSettings:
+      type: object
+      description: "Defines the trend type and duration (Specific fields depend on implementation)."
+      properties: {}
+      example: { trend_type: "most_viewed", duration_days: 7 }
+    CustomSettings:
+      type: object
+      properties:
+        item_filters:
+          type: object
+          properties:
+            user_actions:
+              type: object
+      description: "Defines custom filters applied to recommendations."
+    RecommendationMetadata:
+      type: object
+      properties:
+        id: { type: string, description: "It is the unique recommendation ID." }
+        db_name: { type: string, description: "This is your workspace name." }
+        recommendation_type:
+          type: string
+          description: |
+            It represents the type of recommendations from which the results will be fetched.
+            The supported values are: `user_action`, `item_attribute`, `similar_item`, `frequently_viewed_together`, `frequently_bought_together`, `trending_item`, `user_personalization`.
+        name: { type: string, description: "This field represents the name of the recommendation for which you want to fetch the details." }
+        description: { type: string, nullable: true, description: "This field describes the recommendation given at the time of its creation." }
+        catalog: { type: string, description: "This is the unique identifier of the catalog assigned to the requested recommendation." }
+        status: { type: string, description: "The recommendation's status indicates whether it is active or archived." }
+        created_time: { type: string, format: date-time, description: "This field shows the timestamp when a recommendation was created." }
+        updated_time: { type: string, format: date-time, description: "This field shows the timestamp when a recommendation setting was last modified." }
+        all_user_actions:
+          type: boolean
+          description: |
+            This key represents whether all user actions are being considered to find the most recently interacted item. If this is true, the most recently interacted ID from any of the user action set-ups will be considered to find the related items as per the recommendation type.
+            
+            **Note**: This key is available with the `similar_item`, `frequently_viewed_together`, and `frequently_bought_together` recommendation types.
+          nullable: true
+        include_filters:
+          $ref: '#/components/schemas/IncludeExcludeFilters'
+          nullable: true
+        exclude_filters:
+          $ref: '#/components/schemas/IncludeExcludeFilters'
+          nullable: true
+        custom_settings:
+          $ref: '#/components/schemas/CustomSettings'
+          nullable: true
+          description: "This key defines the customization applied to the recommendation results as per the recommendation setup. Currently, you can apply the user action and item attribute filters over recommendations."
+        sort:
+          $ref: '#/components/schemas/SortCriteria'
+          nullable: true
+          description: |
+            This key defines the sorting logic based on which recommendation results will be ordered. This object's value provides the attributes' details and sorting order.
+            
+            **Note**: This key is available with the `user_action` and `item_attribute` recommendation types.
+        trends:
+          $ref: '#/components/schemas/TrendSettings'
+          nullable: true
+          description: |
+            This key defines the trend type for `trending_item` recommendations and the duration of trend computation.
+            
+            **Note**: This key is available with the `trending_item` recommendation type.
+    FetchResultsRequest:
+      type: object
+      required:
+        - user_id
+      properties:
+        user_id:
+          type: string
+          description: |
+            A user ID is a unique identifier that represents a user. You can obtain the user_id from the user info page. For more information, refer to [User Identity Management](/user-guide/data/user-data/unified-identity-identity-resolution).
+        item_id:
+          type: string
+          description: |
+            An `item_id` is a unique identifier assigned to each item in the catalog.
+
+            If the `RECOMMENDATION-TYPE` is any of the `similar_item`, `frequently_viewed_together`, or `frequently_bought_together`, you must provide the `item_id`.
+            
+            This `item_id` acts as the anchor to serve recommended items based on the `RECOMMENDATION-TYPE`.
+            
+            We expect the user's most recently interacted `item_id` to serve contextually recommended items.
+          nullable: true
+        include_fields:
+          type: array
+          items:
+            type: string
+          description: |
+            You can define the attributes of items you require from the catalog in the recommendation response. For example, `title`, `price`, `link`, `image_link`, and so on.
+
+            If the attributes above are not defined, all item attributes in the catalog will be included in the response. The response size may increase depending on the number of attributes in the catalog. Therefore, it is recommended that only the necessary attributes be specified.
+          nullable: true
+          example: ["title", "price", "image_link"]
+    RecommendationResultItem:
+      type: object
+      description: The items JSON object contains the key-value pairs of all the requested attributes.
+      properties:
+        item_id: { type: string, description: "This field shows the ID of the item." }
+        title: { type: string, description: "This field shows the title of the item." }
+        link: { type: string, format: uri, description: "This field shows a link to the item." }
+        image_link: { type: string, format: uri, description: "This field shows a link to the image." }
+        catalog_id: { type: string }
+        feed_id: { type: string }
+        description: { type: string }
+        price_currency: { type: string }
+        creation_date: { type: string, format: date-time }
+        last_updated: { type: string, format: date-time }
+        price: { type: number, format: double }
+        date: { type: string, format: date }
+      additionalProperties: true
+      example:
+        item_id: "prod_xyz"
+        title: "Stylish Red Scarf"
+        link: "https://example.com/products/prod_xyz"
+        image_link: "https://example.com/images/prod_xyz.jpg"
+        price: 19.99
+    ErrorResponse:
+      type: object
+      properties:
+        error-code:
+          type: string
+          description: Each error code is unique and serves as a shorthand representation for the type of error.
+        message:
+          type: string
+          description: With the error code, a detailed message is also provided in the response describing the specifics of the request failure and the nature of the error.
+  responses:
+    TooManyRequests:
+      description: Too Many Requests. There won't be any response body for this request.
+      headers:
+        x-ratelimit-limit:
+          schema: { type: integer }
+          description: The maximum number of requests that the consumer is permitted to make in a given time window.
+        x-ratelimit-remaining:
+          schema: { type: integer }
+          description: The number of requests remaining in the current rate limit window.
+        x-ratelimit-reset:
+          schema: { type: integer }
+          description: The time at which the current rate limit window resets in UTC epoch seconds.
+security:
+  - basicAuth: []

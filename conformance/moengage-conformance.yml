@@ -1,0 +1,111 @@
+generated: '2026-08-01'
+method: searched
+source: >-
+  openapi/*.yml securitySchemes and responses; https://www.moengage.com/docs/api/introduction;
+  well-known/moengage-oauth-authorization-server.json; https://trust.moengage.com/
+standards:
+- id: openapi-3
+  conforms: true
+  evidence: >-
+    30 OpenAPI documents published in the official docs repository - 27 at OpenAPI 3.0.3, 2 at 3.1.0,
+    1 at 3.0.0 - covering 119 operations.
+  source: https://github.com/moengage/moengage-documentation/tree/main/api
+- id: http-basic-auth
+  conforms: true
+  evidence: >-
+    Every REST API authenticates with RFC 7617 HTTP Basic using base64(workspace_id:api_key). Declared
+    as securityScheme type http / scheme basic across the specs.
+- id: oauth2
+  conforms: true
+  scope: MCP server only
+  evidence: >-
+    https://moeauth.moengage.com/.well-known/oauth-authorization-server advertises authorization_code,
+    client_credentials, refresh_token and token-exchange grants with S256 PKCE.
+  source: well-known/moengage-oauth-authorization-server.json
+- id: oidc
+  conforms: true
+  scope: MCP server only
+  evidence: >-
+    https://moeauth.moengage.com/.well-known/openid-configuration is served with issuer,
+    authorization_endpoint, token_endpoint, userinfo_endpoint, jwks_uri and RS256 id_token signing.
+  source: well-known/moengage-openid-configuration.json
+- id: rfc8414-oauth-authorization-server-metadata
+  conforms: true
+  evidence: 200 at https://moeauth.moengage.com/.well-known/oauth-authorization-server
+- id: rfc9728-oauth-protected-resource-metadata
+  conforms: true
+  evidence: >-
+    200 at https://mcp.moengage.com/.well-known/oauth-protected-resource declaring resource,
+    authorization_servers and scopes_supported.
+  source: well-known/moengage-oauth-protected-resource.json
+- id: rfc7636-pkce
+  conforms: true
+  evidence: code_challenge_methods_supported ["S256"] in the authorization server metadata.
+- id: rfc7591-dynamic-client-registration
+  conforms: true
+  evidence: registration_endpoint https://moeauth.moengage.com/oauth2/register advertised in metadata.
+- id: model-context-protocol
+  conforms: true
+  evidence: >-
+    Hosted remote MCP server at https://mcp.moengage.com (OAuth-gated) plus an anonymous documentation
+    MCP at https://www.moengage.com/docs/mcp that answers JSON-RPC tools/list with 3 tools.
+- id: idempotency-key
+  conforms: true
+  evidence: >-
+    Idempotency-Key (UUID v4) header required on Campaigns V5 POST/PATCH and on Offerings create/update,
+    with a documented 24-hour replay window and DUPLICATE_IDEMPOTENCY_KEY / IDEMPOTENCY_CONFLICT codes.
+  source: conventions/moengage-conventions.yml
+- id: rfc6585-429-rate-limiting
+  conforms: true
+  evidence: >-
+    Documented per-API rate limits with x-ratelimit-limit / x-ratelimit-remaining / x-ratelimit-reset
+    response headers and Retry-After on 429 from the Offerings API.
+- id: rfc9457-problem-details
+  conforms: false
+  evidence: >-
+    No operation across the 30 harvested specs declares application/problem+json. MoEngage uses two
+    proprietary JSON error envelopes instead.
+- id: rfc8594-sunset-header
+  conforms: false
+  evidence: No Sunset or Deprecation response headers declared in any harvested OpenAPI document.
+- id: asyncapi
+  conforms: false
+  evidence: >-
+    No AsyncAPI document and no customer-facing outbound webhook/event contract were found. MoEngage's
+    event surface is inbound ingestion plus partner-platform integrations (Segment, mParticle, Adobe
+    CDP) and warehouse imports, not a published subscribe-side API.
+- id: graphql
+  conforms: false
+  evidence: No GraphQL endpoint documented or discovered.
+- id: grpc
+  conforms: false
+  evidence: No .proto definitions published in the GitHub organization or docs.
+- id: a2a-agent-card
+  conforms: false
+  evidence: >-
+    /.well-known/agent-card.json and /.well-known/agent.json probed on www.moengage.com,
+    api-01/api-02.moengage.com, mcp.moengage.com and developers.moengage.com - all returned 404, 308 to
+    HTML, or 401. No agent card is published.
+- id: gdpr
+  conforms: true
+  evidence: >-
+    Dedicated GDPR/CCPA API (submitGdprRequest) for data subject requests, a published GDPR page, and
+    EU data residency in DC-02.
+  source: https://www.moengage.com/gdpr/
+- id: ccpa
+  conforms: true
+  evidence: Same GDPR/CCPA API surface and a dedicated CCPA documentation page.
+  source: https://www.moengage.com/docs/user-guide/data/privacy/ccpa
+certifications:
+  trust_center: https://trust.moengage.com/
+  published:
+  - {name: SOC 2 Type 2, source: 'https://www.moengage.com/blog/moengage-achieves-soc-2-type-2-and-csa-star-attestations/'}
+  - {name: 'CSA STAR Level 2', source: 'https://www.moengage.com/blog/moengage-achieves-soc-2-type-2-and-csa-star-attestations/'}
+  - {name: 'ISO/IEC 27001:2022', source: 'https://www.moengage.com/blog/moengage-first-to-achieve-iso-27001-2022/'}
+  - {name: 'ISO/IEC 27701:2019 (PIMS)', source: 'https://www.moengage.com/blog/pims-iso-27701-2019-bcms-iso-22301-2019-certifications-data-privacy-and-business-continuity/'}
+  - {name: 'ISO 22301:2019 (BCMS)', source: 'https://www.moengage.com/blog/pims-iso-27701-2019-bcms-iso-22301-2019-certifications-data-privacy-and-business-continuity/'}
+  - {name: HIPAA, source: 'https://www.moengage.com/blog/moengage-hipaa-requirements-protect-healthcare-customer-data/'}
+  note: >-
+    trust.moengage.com ("Trust Vault") returns HTTP 200 but renders its certification list client-side,
+    so the certificates above are cited from MoEngage's own announcement posts on moengage.com rather
+    than scraped from the trust center DOM.

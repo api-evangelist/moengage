@@ -1,0 +1,43 @@
+generated: '2026-08-01'
+method: searched
+probe: true
+url: https://trust.moengage.com/
+name: MoEngage Trust Vault
+http_status: 200
+certifications:
+- SOC 2 Type 2
+- CSA STAR Level 2
+- ISO/IEC 27001:2022
+- ISO/IEC 27701:2019
+- ISO 22301:2019
+- HIPAA
+- GDPR
+- CCPA
+evidence:
+- source: https://trust.moengage.com/
+  kind: trust center
+  http_status: 200
+  note: >-
+    Page title "Trust Vault". Content is rendered client-side (Next.js), so the certification list is
+    not present in the served HTML and could not be scraped. The certifications above are cited from
+    MoEngage's own first-party announcements below.
+- source: https://www.moengage.com/blog/moengage-achieves-soc-2-type-2-and-csa-star-attestations/
+  kind: announcement
+  certifications: [SOC 2 Type 2, CSA STAR Level 2]
+- source: https://www.moengage.com/blog/moengage-first-to-achieve-iso-27001-2022/
+  kind: announcement
+  certifications: ['ISO/IEC 27001:2022']
+- source: https://www.moengage.com/blog/pims-iso-27701-2019-bcms-iso-22301-2019-certifications-data-privacy-and-business-continuity/
+  kind: announcement
+  certifications: ['ISO/IEC 27701:2019', 'ISO 22301:2019']
+- source: https://www.moengage.com/blog/moengage-hipaa-requirements-protect-healthcare-customer-data/
+  kind: announcement
+  certifications: [HIPAA]
+- source: https://www.moengage.com/gdpr/
+  kind: compliance page
+  certifications: [GDPR]
+related:
+- https://www.moengage.com/capabilities/scale-and-security/
+- https://www.moengage.com/responsible-disclosure/
+recertification: >-
+  MoEngage states that recertifying SOC, CSA STAR and ISO 27001 is an annual process.

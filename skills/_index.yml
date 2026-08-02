@@ -1,0 +1,77 @@
+generated: '2026-08-01'
+method: generated
+source: >-
+  openapi/*.yml (all operationIds verified against the specs),
+  conventions/moengage-conventions.yml, errors/moengage-problem-types.yml,
+  rate-limits/moengage-rate-limits.yml, sandbox/moengage-sandbox.yml
+note: >-
+  MoEngage publishes no AGENTS.md or provider-authored skill files. These are API Evangelist packaged
+  operating instructions grounded in real operationIds and MoEngage's own documented conventions.
+skills:
+- file: moengage-ingest-users-and-events.md
+  name: Ingest users and events into MoEngage
+  api: openapi/moengage-data-openapi.yml
+  operations:
+  - POST /customer/{app_id}
+  - POST /event/{Workspace_ID}
+  - POST /device/{app_id}
+  - POST /transition/{Workspace_ID}
+  - POST /integrations/authentication
+  - POST /customers/export
+- file: moengage-build-and-send-a-campaign.md
+  name: Build, validate, test and publish a MoEngage campaign
+  api: openapi/moengage-campaign-draft-openapi.yml
+  operations:
+  - create_draft_campaign_v5
+  - patch_draft_campaign_v5
+  - validate_draft_campaign_v5
+  - preview_personalized_content_v5
+  - test_campaign_v5
+  - change_campaign_status_v5
+  - get_single_campaign_v5
+  - search_campaigns_v5
+  - get_campaign_meta_v5
+- file: moengage-manage-segments-and-flows.md
+  name: Manage MoEngage segments and flows
+  api: openapi/moengage-custom-segments-openapi.yml
+  operations:
+  - createFilterSegment
+  - listCustomSegments
+  - getCustomSegment
+  - updateFilterSegment
+  - createFileSegment
+  - addUsersToFileSegment
+  - removeUsersFromFileSegment
+  - replaceUsersInFileSegment
+  - archiveCustomSegment
+  - unarchiveCustomSegment
+  - searchFlows
+  - getFlow
+  - getFlowVersion
+  - updateFlowStatus
+- file: moengage-send-transactional-messages.md
+  name: Send MoEngage transactional push and alerts
+  api: openapi/moengage-push-v2-1-openapi.yml
+  operations:
+  - send_push_v2_1
+  - POST /transaction/sendpush
+  - POST /alerts/send
+- file: moengage-manage-catalog-and-offers.md
+  name: Manage MoEngage catalogs, recommendations, coupons and offers
+  api: openapi/moengage-catalog-openapi.yml
+  operations:
+  - createCatalog
+  - addCatalogAttributes
+  - ingestCatalogItems
+  - updateCatalogItems
+  - deleteCatalogItems
+  - getItemDetails
+  - fetchRecommendationMetadata
+  - fetchRecommendationResults
+  - createCouponList
+  - uploadCouponFile
+  - activateCouponList
+  - generateUsageReport
+  - createPublicOffering
+  - updatePublicOffering
+  - listPublicOfferings

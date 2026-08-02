@@ -1,0 +1,234 @@
+generated: '2026-08-01'
+method: searched
+source: >-
+  npm registry, Maven Central (com.moengage), CocoaPods trunk, pub.dev,
+  https://github.com/moengage, https://www.moengage.com/docs/developer-guide/introduction
+notes: >-
+  MoEngage ships first-party client SDKs for every mobile and web platform it supports. There is no
+  first-party server-side REST API client library in any registry — the REST APIs are consumed directly
+  over HTTP with Basic Auth. Third-party wrappers exist on npm and PyPI and are flagged official: false.
+packages:
+- language: javascript
+  registry: npm
+  name: '@moengage/web-sdk'
+  url: https://www.npmjs.com/package/@moengage/web-sdk
+  install: npm install @moengage/web-sdk
+  version: 2.74.1
+  repository: https://github.com/moengage/webSDK
+  official: true
+- language: javascript
+  registry: npm
+  name: react-native-moengage
+  url: https://www.npmjs.com/package/react-native-moengage
+  install: npm install react-native-moengage
+  version: 12.9.0
+  repository: https://github.com/moengage/React-Native
+  official: true
+- language: javascript
+  registry: npm
+  name: react-native-expo-moengage
+  url: https://www.npmjs.com/package/react-native-expo-moengage
+  install: npm install react-native-expo-moengage
+  version: 1.2.0
+  repository: https://github.com/moengage/React-Native
+  official: true
+- language: javascript
+  registry: npm
+  name: react-native-moengage-cards
+  url: https://www.npmjs.com/package/react-native-moengage-cards
+  install: npm install react-native-moengage-cards
+  version: 6.6.0
+  repository: https://github.com/moengage/React-Native
+  official: true
+- language: javascript
+  registry: npm
+  name: react-native-moengage-inbox
+  url: https://www.npmjs.com/package/react-native-moengage-inbox
+  install: npm install react-native-moengage-inbox
+  version: 6.5.0
+  repository: https://github.com/moengage/React-Native
+  official: true
+- language: javascript
+  registry: npm
+  name: react-native-moengage-geofence
+  url: https://www.npmjs.com/package/react-native-moengage-geofence
+  install: npm install react-native-moengage-geofence
+  version: 7.5.0
+  repository: https://github.com/moengage/React-Native
+  official: true
+- language: javascript
+  registry: npm
+  name: react-native-moengage-personalize
+  url: https://www.npmjs.com/package/react-native-moengage-personalize
+  install: npm install react-native-moengage-personalize
+  version: 1.1.0
+  repository: https://github.com/moengage/React-Native
+  official: true
+- language: javascript
+  registry: npm
+  name: capacitor-moengage-core
+  url: https://www.npmjs.com/package/capacitor-moengage-core
+  install: npm install capacitor-moengage-core
+  version: 7.1.0
+  repository: https://github.com/moengage/Capacitor-SDK
+  official: true
+- language: javascript
+  registry: npm
+  name: capacitor-moengage-geofence
+  url: https://www.npmjs.com/package/capacitor-moengage-geofence
+  install: npm install capacitor-moengage-geofence
+  version: 6.0.1
+  repository: https://github.com/moengage/Capacitor-SDK
+  official: true
+- language: javascript
+  registry: npm
+  name: cordova-moengage-core
+  url: https://www.npmjs.com/package/cordova-moengage-core
+  install: cordova plugin add cordova-moengage-core
+  version: 10.1.0
+  official: true
+- language: javascript
+  registry: npm
+  name: cordova-moengage-geofence
+  url: https://www.npmjs.com/package/cordova-moengage-geofence
+  install: cordova plugin add cordova-moengage-geofence
+  version: 3.1.1
+  official: true
+- language: dart
+  registry: pub.dev
+  name: moengage_flutter
+  url: https://pub.dev/packages/moengage_flutter
+  install: flutter pub add moengage_flutter
+  version: 10.8.0
+  repository: https://github.com/moengage/Flutter-SDK
+  official: true
+- language: java
+  registry: maven-central
+  name: com.moengage:moe-android-sdk
+  url: https://central.sonatype.com/artifact/com.moengage/moe-android-sdk
+  install: implementation 'com.moengage:moe-android-sdk:13.05.02'
+  version: 13.05.02
+  repository: https://github.com/moengage/Android-Sample
+  official: true
+- language: java
+  registry: maven-central
+  name: com.moengage:core
+  url: https://central.sonatype.com/artifact/com.moengage/core
+  install: implementation 'com.moengage:core:7.5.2'
+  version: 7.5.2
+  official: true
+- language: java
+  registry: maven-central
+  name: com.moengage:pushbase
+  url: https://central.sonatype.com/artifact/com.moengage/pushbase
+  install: implementation 'com.moengage:pushbase:8.3.2'
+  version: 8.3.2
+  official: true
+- language: java
+  registry: maven-central
+  name: com.moengage:inapp
+  url: https://central.sonatype.com/artifact/com.moengage/inapp
+  install: implementation 'com.moengage:inapp:8.7.1'
+  version: 8.7.1
+  official: true
+- language: java
+  registry: maven-central
+  name: com.moengage:rich-notification
+  url: https://central.sonatype.com/artifact/com.moengage/rich-notification
+  install: implementation 'com.moengage:rich-notification:5.1.2'
+  version: 5.1.2
+  official: true
+- language: java
+  registry: maven-central
+  name: com.moengage:cards-core
+  url: https://central.sonatype.com/artifact/com.moengage/cards-core
+  install: implementation 'com.moengage:cards-core:2.3.2'
+  version: 2.3.2
+  official: true
+- language: java
+  registry: maven-central
+  name: com.moengage:inbox-core
+  url: https://central.sonatype.com/artifact/com.moengage/inbox-core
+  install: implementation 'com.moengage:inbox-core:3.2.1'
+  version: 3.2.1
+  official: true
+- language: java
+  registry: maven-central
+  name: com.moengage:hms-pushkit
+  url: https://central.sonatype.com/artifact/com.moengage/hms-pushkit
+  install: implementation 'com.moengage:hms-pushkit:5.1.1'
+  version: 5.1.1
+  official: true
+- language: java
+  registry: maven-central
+  name: com.moengage:integration-verifier
+  url: https://central.sonatype.com/artifact/com.moengage/integration-verifier
+  install: implementation 'com.moengage:integration-verifier:5.3.1'
+  version: 5.3.1
+  official: true
+- language: swift
+  registry: cocoapods
+  name: MoEngage-iOS-SDK
+  url: https://cocoapods.org/pods/MoEngage-iOS-SDK
+  install: pod 'MoEngage-iOS-SDK'
+  repository: https://github.com/moengage/MoEngage-iOS-SDK
+  official: true
+- language: swift
+  registry: cocoapods
+  name: MoEngageSDK
+  url: https://cocoapods.org/pods/MoEngageSDK
+  install: pod 'MoEngageSDK'
+  repository: https://github.com/moengage/apple-sdk
+  official: true
+- language: swift
+  registry: cocoapods
+  name: MoEngageInApps
+  url: https://cocoapods.org/pods/MoEngageInApps
+  install: pod 'MoEngageInApps'
+  official: true
+- language: swift
+  registry: cocoapods
+  name: MoEngageCards
+  url: https://cocoapods.org/pods/MoEngageCards
+  install: pod 'MoEngageCards'
+  official: true
+- language: swift
+  registry: cocoapods
+  name: MoEngageInbox
+  url: https://cocoapods.org/pods/MoEngageInbox
+  install: pod 'MoEngageInbox'
+  official: true
+- language: swift
+  registry: cocoapods
+  name: MoEngageGeofence
+  url: https://cocoapods.org/pods/MoEngageGeofence
+  install: pod 'MoEngageGeofence'
+  official: true
+- language: swift
+  registry: cocoapods
+  name: MoEngageRichNotification
+  url: https://cocoapods.org/pods/MoEngageRichNotification
+  install: pod 'MoEngageRichNotification'
+  official: true
+- language: csharp
+  registry: github
+  name: MoEngage-Unity-SDK
+  url: https://github.com/moengage/MoEngage-Unity-SDK
+  install: Import the Unity package from the GitHub release
+  official: true
+third_party:
+- language: python
+  registry: pypi
+  name: moengage
+  url: https://pypi.org/project/moengage/
+  version: 0.3.4
+  author: Deepanshu Gupta
+  official: false
+  note: Community wrapper for calling MoEngage APIs from Python. Not published by MoEngage.
+- language: javascript
+  registry: npm
+  name: moengage
+  url: https://www.npmjs.com/package/moengage
+  version: 0.1.3
+  official: false
+  note: Community package, no MoEngage repository linked.

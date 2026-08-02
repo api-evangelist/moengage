@@ -1,0 +1,69 @@
+generated: '2026-08-01'
+method: probed
+source: >-
+  https://moeauth.moengage.com/.well-known/oauth-authorization-server and
+  https://mcp.moengage.com/.well-known/oauth-protected-resource
+docs: https://www.moengage.com/docs/user-guide/ai-and-intelligence/merlin-ai/moengage-mcp-server
+scope_note: >-
+  OAuth exists on the MCP/agent surface only. The 30 REST OpenAPI documents declare HTTP Basic and an
+  apiKey header (MOE-APPKEY) and carry no oauth2 securityScheme, so there are no REST scopes to derive.
+  Everything below was read from MoEngage's live RFC 8414 / RFC 9728 discovery documents.
+schemes:
+- name: MoEngage OAuth (MCP)
+  issuer: https://moeauth.moengage.com
+  authorization_endpoint: https://moeauth.moengage.com/oauth2/authorize
+  token_endpoint: https://moeauth.moengage.com/oauth2/token
+  userinfo_endpoint: https://moeauth.moengage.com/oauth2/userinfo
+  jwks_uri: https://moeauth.moengage.com/.well-known/jwks.json
+  registration_endpoint: https://moeauth.moengage.com/oauth2/register
+  grant_types:
+  - authorization_code
+  - client_credentials
+  - refresh_token
+  - urn:ietf:params:oauth:grant-type:token-exchange
+  response_types: [code]
+  pkce: [S256]
+  token_endpoint_auth_methods: [none, client_secret_post, client_secret_basic]
+  id_token_signing_alg: [RS256]
+  protected_resource: https://mcp.moengage.com
+  source: well-known/moengage-oauth-authorization-server.json
+scopes:
+- scope: openid
+  description: OpenID Connect authentication; issues an ID token identifying the MoEngage user.
+  flows: [authorizationCode]
+- scope: profile
+  description: Standard OIDC profile claims for the authenticated MoEngage user.
+  flows: [authorizationCode]
+- scope: email
+  description: The authenticated user's MoEngage email address.
+  flows: [authorizationCode]
+- scope: offline_access
+  description: Issues a refresh token so the connector can act without re-prompting on every session.
+  flows: [authorizationCode]
+- scope: campaigns:read
+  description: Read access to campaigns in the authorized workspace.
+  flows: [authorizationCode]
+claims_supported:
+- sub
+- iss
+- aud
+- exp
+- iat
+- email
+- name
+- dc
+- tenant_id
+- db_name
+- roles
+- scope
+- client_id
+authorization_model_note: >-
+  MoEngage documents that the OAuth consent screen may list only a read scope (for example campaigns:read)
+  even though the connector exposes write tools. Actual authorization is enforced by the user's MoEngage
+  role-based permissions and by which tools the client has enabled, not by the granted scope string. The
+  scopes_supported list is therefore narrower than the tool surface it fronts.
+tenancy_claims:
+  dc: The MoEngage data center the session belongs to.
+  tenant_id: The workspace identifier.
+  db_name: The backing datastore for the workspace.
+  roles: The user's MoEngage roles, which gate tool execution.

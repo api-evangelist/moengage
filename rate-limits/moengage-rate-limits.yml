@@ -1,0 +1,44 @@
+generated: '2026-08-01'
+method: searched
+source: https://www.moengage.com/docs/api/introduction
+docs: https://www.moengage.com/docs/api/introduction
+signaling:
+  headers:
+  - x-ratelimit-limit
+  - x-ratelimit-remaining
+  - x-ratelimit-reset
+  retry_after_header: true
+  retry_after_note: The Offerings API returns 429 with Retry-After in seconds.
+  status_code: 429
+rate_limits:
+- api: Campaigns API
+  limits:
+  - {limit_count: 5, period: minute}
+  - {limit_count: 25, period: hour}
+  - {limit_count: 100, period: day}
+- api: Catalog API
+  limits:
+  - {limit_count: 100, period: minute}
+  - {limit_count: 1000, period: hour}
+- api: Campaign Stats API
+  scope: workspace
+  limits:
+  - {limit_count: 100, period: minute}
+- api: Custom Segments (Filter)
+  limits:
+  - {limit_count: 50, period: minute}
+  - {limit_count: 200, period: hour}
+  - {limit_count: 1000, period: day}
+- api: Custom Segments (File)
+  unit: operations
+  limits:
+  - {limit_count: 10, period: hour}
+  - {limit_count: 100, period: day}
+payload_limits:
+- {api: Catalog API, max_bytes: 5242880, max: 5 MB}
+- {api: Recommendations API, max_bytes: 1048576, max: 1 MB}
+- {api: Bulk Import API, max_bytes: 102400, max: 100 KB}
+- {api: Custom Segments (File), max: 150 MB per file}
+other:
+  analytics_date_range_max_days: 30
+  analytics_date_range_scope: MCP analytics tools

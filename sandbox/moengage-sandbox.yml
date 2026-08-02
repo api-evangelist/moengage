@@ -1,0 +1,51 @@
+generated: '2026-08-01'
+method: searched
+source: https://www.moengage.com/docs/api/inform/inform-overview
+scope: partial
+scope_note: >-
+  MoEngage does not publish a platform-wide sandbox or test-mode key scheme. The one documented
+  test-vs-live separation is on the Inform transactional alerts API, which runs a dedicated sandbox host
+  and issues a separate Test Alert ID per alert. Campaign testing is done through test-send operations
+  against the production host rather than a sandbox environment. No published magic/test identifiers,
+  test cards, or time-simulation tooling were found.
+environments:
+- name: live
+  host_template: https://api-0{dc}.moengage.com
+  identifier: Alert ID (for published alerts)
+  logs: Alert Info section of the dashboard
+- name: sandbox
+  host_template: https://sandbox-api-0{dc}.moengage.com
+  identifier: Test Alert ID (distinct from the live Alert ID for the same alert)
+  identifier_location: Step 3 of Alert Creation in the dashboard
+  logs: Step 3 of Alert Creation
+  api: MoEngage Inform
+  spec: openapi/moengage-inform-openapi.yml
+  spec_evidence: >-
+    The Inform OpenAPI declares both hosts in servers[] - https://api-{dc}.moengage.com/v1.0 and
+    https://sandbox-api-{dc}.moengage.com/v1.0.
+common_errors:
+- error: Live Alert Request received on Sandbox API endpoint
+  cause: A live Alert ID was sent to the sandbox endpoint. Each alert has separate live and test IDs.
+  remediation: Use the Test Alert ID (page 3 of the alert editor) when calling the sandbox host.
+test_send_operations:
+- operation: test_campaign_v5
+  spec: openapi/moengage-campaign-draft-openapi.yml
+  note: Send a test message for a campaign draft against the production host.
+- operation: test_campaign
+  spec: openapi/moengage-campaigns-openapi.yml
+- operation: preview_personalized_content_v5
+  spec: openapi/moengage-campaign-draft-openapi.yml
+  note: Render personalization for sample users without sending.
+- operation: validate_draft_campaign_v5
+  spec: openapi/moengage-campaign-draft-openapi.yml
+  note: Dry-run the full publish validation against a draft without changing it.
+integration_verification:
+- name: Test Connection API
+  operation: 'POST /integrations/authentication'
+  spec: openapi/moengage-data-openapi.yml
+  note: Validates workspace credentials. Requires the MOE-APPKEY header.
+- name: Android Integration Verifier
+  package: com.moengage:integration-verifier
+  registry: maven-central
+log_retention:
+  inform_alert_logs_days: 30

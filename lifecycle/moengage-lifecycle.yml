@@ -1,0 +1,63 @@
+generated: '2026-08-01'
+method: searched
+source: https://www.moengage.com/docs/api/introduction
+versioning:
+  scheme: uri-path
+  observed_segments: ['/v1', '/v1.0', '/v2', '/v3', '/core-services/v1']
+  current_generation: v5
+  current_generation_apis: [Campaigns, Flows, Offer Decisioning]
+  docs: https://www.moengage.com/docs/api/introduction
+  note: >-
+    Version is carried in the URL path and varies by API family. New v5 APIs are introduced alongside
+    the legacy v1 equivalents rather than replacing them in place, and MoEngage publishes a behavioral
+    differences page when migrating between generations.
+  migration_guides:
+  - name: 'V1 vs. V5 Search Campaigns: Behavioral Differences'
+    url: https://www.moengage.com/docs/api/campaigns/search-campaigns-v5-migration
+deprecation:
+  policy_url: null
+  sunset_header: false
+  deprecation_header: false
+  legacy_marking: >-
+    MoEngage labels superseded API families "Legacy" in the documentation navigation (for example
+    "Campaigns (Legacy) Overview") rather than publishing a formal dated deprecation and sunset policy.
+    No RFC 8594 Sunset or Deprecation response headers are declared in any harvested OpenAPI document.
+  legacy_docs: https://www.moengage.com/docs/api/campaigns/campaigns-overview
+  gap: >-
+    No published deprecation policy with notice periods or end-of-life dates was found on the developer
+    site as of this probe.
+status_page:
+  url: https://status.moengage.com/
+  provider: statuspage-compatible
+  api: https://status.moengage.com/api/v2/status.json
+  feeds:
+  - https://status.moengage.com/history.rss
+  - https://status.moengage.com/history.atom
+  subscriptions: [email, sms]
+  probed:
+    fetched: '2026-08-01'
+    http_status: 200
+    indicator: none
+    description: All Systems Operational
+release_notes:
+  product: https://www.moengage.com/docs/release-notes/product/2026
+  sdks: https://www.moengage.com/docs/release-notes/sdks/ios
+  partners: https://www.moengage.com/docs/release-notes/partners
+  subscribe: https://www.moengage.com/docs/release-notes/subscribe-to-release-notes
+  cadence: monthly
+  earliest_captured: 2023
+  cross_link: changelog/moengage-changelog.yml
+sla:
+  url: null
+  uptime_target: null
+  note: No public SLA or uptime target was found on the marketing or developer site.
+data_retention:
+  docs: https://www.moengage.com/docs/user-guide/data/key-concepts/data-archival-retention-policy
+data_residency:
+  note: >-
+    Data captured in a workspace cannot be migrated to a different data center. Region is chosen at
+    signup (US, EU, India, Singapore, Indonesia).
+  docs: https://www.moengage.com/docs/api/introduction
+deprecated_operations: []
+deprecated_operations_note: >-
+  No operation in any of the 30 harvested OpenAPI documents carries `deprecated: true`.

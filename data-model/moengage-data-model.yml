@@ -1,0 +1,193 @@
+generated: '2026-08-01'
+method: derived
+source: >-
+  openapi/*.yml - 356 component schemas across 30 documents, path parameters, and id-reference fields;
+  entity naming cross-checked against https://www.moengage.com/docs/api/introduction
+note: >-
+  MoEngage does not publish a single object reference or an ID-prefix scheme. Entities below are derived
+  from path parameters and id-reference fields observed in the specs. Relationships are asserted only
+  where a spec operation or path segment makes the link explicit.
+identity_model:
+  tenant: Workspace (formerly App ID)
+  tenant_parameter_names: [Workspace_ID, app_id, appId, APP_ID]
+  tenant_header: MOE-APPKEY
+  region_scope: Workspace is bound to a single data center and cannot be migrated.
+  portfolio: >-
+    Multi-app "Portfolio" workspaces route integration events to a named project via the
+    moe_project_name event attribute.
+entities:
+- name: Workspace
+  aliases: [App]
+  id_field: app_id
+  domain: identity
+  note: The tenant root. Every other entity is scoped to a workspace.
+- name: User
+  id_fields: [customer_id, uid, unique_id, user_id]
+  domain: data
+  operations: ['POST /customer/{app_id}', 'POST /customers/export', 'POST /customer/merge', 'POST /customer/delete']
+  spec: openapi/moengage-data-openapi.yml
+- name: Device
+  id_field: device_id
+  domain: data
+  operations: ['POST /device/{app_id}', 'POST /devices/manage', 'GET /installInfo']
+  spec: openapi/moengage-data-openapi.yml
+- name: Event
+  id_field: event_id
+  domain: data
+  operations: ['POST /event/{Workspace_ID}']
+  spec: openapi/moengage-data-openapi.yml
+- name: BusinessEvent
+  domain: data
+  operations: [createBusinessEvent, triggerBusinessEvent, searchBusinessEvents]
+  spec: openapi/moengage-business-events-openapi.yml
+- name: Import
+  id_field: import_id
+  domain: data
+  operations: ['POST /transition/{Workspace_ID}', 'POST /fileimports/trigger/{schedule_id}', 'POST /fileimports/import/status', 'POST /fileimports/import/run/history']
+  spec: openapi/moengage-data-openapi.yml
+- name: GdprRequest
+  domain: privacy
+  operations: [submitGdprRequest]
+  spec: openapi/moengage-gdpr-ccpa-openapi.yml
+- name: Campaign
+  id_fields: [campaign_id, draft_id, parent_campaign_id]
+  domain: campaigns
+  states: [DRAFT, SCHEDULED, ACTIVE, SENDING, SENT, PAUSED, STOPPED, EXPIRED, NOT_SENT, UNDER_REVIEW, REJECTED]
+  operations: [create_draft_campaign_v5, get_single_campaign_v5, patch_draft_campaign_v5, validate_draft_campaign_v5, change_campaign_status_v5, search_campaigns_v5, get_campaign_meta_v5, test_campaign_v5]
+  spec: openapi/moengage-campaign-draft-openapi.yml
+- name: CampaignExecution
+  domain: campaigns
+  operations: [get_child_campaigns]
+  spec: openapi/moengage-campaigns-openapi.yml
+- name: CampaignVariation
+  id_fields: [moe_variation_id, moe_locale_id]
+  domain: campaigns
+  note: A/B variations and locale variants inside a campaign payload.
+- name: CampaignStats
+  domain: reporting
+  operations: [getCampaignStats, downloadCampaignReport]
+  spec: openapi/moengage-stats-report-openapi.yml
+- name: ArchivedMessage
+  domain: reporting
+  operations: [viewArchivedMessage]
+  spec: openapi/moengage-message-archival-openapi.yml
+- name: Segment
+  id_fields: [cs_id, id]
+  kinds: [file-segment, filter-segment]
+  domain: segments
+  operations: [createFileSegment, addUsersToFileSegment, removeUsersFromFileSegment, replaceUsersInFileSegment, listCustomSegments, createFilterSegment, getCustomSegment, updateFilterSegment, archiveCustomSegment, unarchiveCustomSegment]
+  spec: openapi/moengage-custom-segments-openapi.yml
+- name: Cohort
+  id_field: audience_id
+  domain: segments
+  operations: ['POST /v1/integrations/cohortsync']
+  spec: openapi/moengage-cohort-audience-openapi.yml
+- name: Flow
+  id_field: flow_id
+  domain: flows
+  operations: [searchFlows, getFlow, getFlowVersion, updateFlowStatus]
+  spec: openapi/moengage-flows-openapi.yml
+- name: Template
+  id_fields: [template_id, custom_template_id, external_template_id]
+  channels: [email, push, sms, in-app, osm]
+  domain: content
+  operations: [createEmailTemplate, updateEmailTemplate, searchEmailTemplate, getAllTemplates, getTemplateById, updateTemplateById, bulkCreateUpdateTemplates, createPushTemplate, updatePushTemplate, searchPushTemplates]
+- name: ContentBlock
+  domain: content
+  operations: ['POST /content-blocks', 'PUT /content-blocks', 'POST /content-blocks/search', 'POST /content-blocks/get-by-ids']
+  spec: openapi/moengage-content-blocks-openapi.yml
+- name: Catalog
+  id_field: catalog_id
+  domain: catalog
+  operations: [createCatalog, addCatalogAttributes]
+  spec: openapi/moengage-catalog-openapi.yml
+- name: CatalogItem
+  id_field: item_id
+  domain: catalog
+  operations: [ingestCatalogItems, updateCatalogItems, deleteCatalogItems, getItemDetails]
+  spec: openapi/moengage-catalog-openapi.yml
+- name: Recommendation
+  id_field: recommendations_id
+  domain: catalog
+  operations: [fetchRecommendationMetadata, fetchRecommendationResults]
+  spec: openapi/moengage-recommendations-openapi.yml
+- name: CouponList
+  id_field: coupon_list_id
+  domain: coupons
+  operations: [createCouponList, fetchAllCouponLists, fetchCouponList, updateCouponList, activateCouponList, archiveCouponList, generateUsageReport]
+  spec: openapi/moengage-coupons-openapi.yml
+- name: CouponFile
+  id_field: coupon_file_id
+  domain: coupons
+  operations: [uploadCouponFile, fetchAllCouponFiles, fetchCouponFile, deleteCouponFile]
+  spec: openapi/moengage-coupons-openapi.yml
+- name: Offering
+  id_field: offer_id
+  domain: decisioning
+  operations: [listPublicOfferings, createPublicOffering, updatePublicOffering]
+  spec: openapi/moengage-offerings-openapi.yml
+- name: OfferTemplate
+  domain: decisioning
+  operations: [listPublicOfferTemplates]
+  spec: openapi/moengage-offerings-openapi.yml
+- name: Card
+  domain: engagement
+  operations: [fetchCards, deleteCards]
+  spec: openapi/moengage-cards-openapi.yml
+- name: LiveActivity
+  id_field: broadcast_live_activity_id
+  domain: engagement
+  operations: ['POST /live-activity/broadcast/start', 'POST /live-activity/broadcast/update', 'POST /live-activity/broadcast/end']
+  spec: openapi/moengage-live-activities-openapi.yml
+- name: Experience
+  id_field: experience_key
+  domain: personalize
+  operations: [fetchExperience, getMetadata, reportExperienceEvents]
+  spec: openapi/moengage-personalize-experience-openapi.yml
+- name: SubscriptionCategory
+  domain: subscriptions
+  operations: [getSubscriptionPreferences, updateSubscriptionPreferences, bulkUpdateSubscriptionPreferences]
+  spec: openapi/moengage-subscription-categories-openapi.yml
+- name: Dashboard
+  domain: analytics
+  operations: [listDashboards, getDashboardCharts]
+  spec: openapi/moengage-analytics-openapi.yml
+- name: Chart
+  id_field: chart_ids
+  domain: analytics
+  operations: [getChartData]
+  spec: openapi/moengage-analytics-openapi.yml
+- name: Alert
+  domain: transactional
+  variants: [live Alert ID, Test Alert ID]
+  operations: ['POST /alerts/send']
+  spec: openapi/moengage-inform-openapi.yml
+relationships:
+- {from: Workspace, to: User, type: has_many, via: app_id}
+- {from: Workspace, to: Campaign, type: has_many, via: app_id}
+- {from: Workspace, to: Segment, type: has_many, via: app_id}
+- {from: User, to: Device, type: has_many, via: uid}
+- {from: User, to: Event, type: has_many, via: uid}
+- {from: User, to: Card, type: has_many, via: unique_id}
+- {from: User, to: SubscriptionCategory, type: has_many, via: uid, note: Per-user category preferences}
+- {from: Campaign, to: CampaignExecution, type: has_many, via: parent_campaign_id}
+- {from: Campaign, to: CampaignVariation, type: has_many, via: moe_variation_id}
+- {from: Campaign, to: Template, type: belongs_to, via: template_id}
+- {from: Campaign, to: ContentBlock, type: has_many, via: content block reference in payload}
+- {from: Campaign, to: Segment, type: belongs_to, via: audience configuration}
+- {from: Campaign, to: CampaignStats, type: has_one, via: campaign_id}
+- {from: Campaign, to: CouponList, type: belongs_to, via: coupon_list_id, note: Coupon allocation in campaign content}
+- {from: Flow, to: Campaign, type: has_many, via: flow stages}
+- {from: Flow, to: FlowVersion, type: has_many, via: flow_id}
+- {from: Segment, to: User, type: has_many, via: uid, note: File segments are populated by user identifier upload}
+- {from: Cohort, to: Segment, type: has_one, via: audience_id, note: Partner cohort sync materializes as a segment}
+- {from: Catalog, to: CatalogItem, type: has_many, via: catalog_id}
+- {from: Recommendation, to: CatalogItem, type: has_many, via: item_id}
+- {from: CouponList, to: CouponFile, type: has_many, via: coupon_list_id}
+- {from: Offering, to: OfferTemplate, type: belongs_to, via: template reference}
+- {from: Dashboard, to: Chart, type: has_many, via: chart_ids}
+- {from: BusinessEvent, to: Campaign, type: has_many, via: trigger configuration}
+tracing_fields:
+- {field: request_id, occurrences: 105, envelope: standard}
+- {field: response_id, occurrences: 34, envelope: v5}
+render: null

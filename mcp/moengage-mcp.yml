@@ -1,0 +1,222 @@
+generated: '2026-08-01'
+method: searched
+status: published
+source: https://www.moengage.com/docs/user-guide/ai-and-intelligence/merlin-ai/moengage-mcp-server
+servers:
+- name: moengage
+  label: MoEngage AI Connector
+  transport: http
+  url: https://mcp.moengage.com
+  auth: oauth2
+  auth_note: >-
+    OAuth-based authentication tied to the user's MoEngage account. The server inherits the environment,
+    workspace, and role of the active MoEngage session; all tool calls respect existing MoEngage
+    role-based permissions. Dynamic client registration is supported at the authorization server.
+  availability: DC01, DC02, DC03, DC04
+  tools_list_probe:
+    url: https://mcp.moengage.com
+    method: 'POST tools/list (jsonrpc 2.0)'
+    http_status: 401
+    result: gated
+    note: >-
+      The live tool manifest requires an authenticated OAuth session, so tool inputSchemas could not be
+      introspected anonymously. The tool names and descriptions below are transcribed from MoEngage's
+      published documentation, not invented.
+- name: moengage-docs
+  label: MoEngage Documentation MCP
+  transport: http
+  url: https://www.moengage.com/docs/mcp
+  auth: none
+  tools_list_probe:
+    url: https://www.moengage.com/docs/mcp
+    method: 'POST tools/list (jsonrpc 2.0)'
+    http_status: 200
+    result: open
+    note: Anonymous tools/list returns three tools with full inputSchemas.
+oauth:
+  protected_resource: https://mcp.moengage.com/.well-known/oauth-protected-resource
+  authorization_servers:
+  - https://moeauth.moengage.com
+  scopes_supported:
+  - openid
+  - email
+  - profile
+  - offline_access
+  - campaigns:read
+  file: ../well-known/moengage-oauth-protected-resource.json
+clients_documented:
+- Claude (Desktop and claude.ai, personal and organization connector)
+- ChatGPT (Business / Enterprise custom MCP connector)
+- GitHub Copilot in VS Code 1.101+ (remote MCP with OAuth)
+agent_design_notes:
+- >-
+  discover_schema returns the exact current request shape (required fields, allowed values, worked
+  example) for whatever is being built, so the assistant does not have to guess payloads.
+- >-
+  get_content_guide serves on-demand validated authoring guidance for Jinja personalization and email
+  HTML.
+- >-
+  The MCP builds and validates drafts only. Publishing a campaign, and starting or stopping a flow,
+  remain human actions in the MoEngage dashboard unless a tool explicitly covers them.
+- All analytics tools enforce a maximum date range of 30 days.
+tools:
+- name: discover_schema
+  category: campaign-build
+  description: >-
+    Returns the exact request shape for a campaign type, component, template, or modifier — required and
+    forbidden fields, a proven minimum example, and the rules for that type. Call before building any payload.
+- name: create_campaign_draft
+  category: campaign-build
+  description: Create a campaign draft in one call.
+- name: patch_campaign_components
+  category: campaign-build
+  description: Update one or more components of an existing draft.
+- name: validate_campaign_draft
+  category: campaign-build
+  description: >-
+    Dry-run the full publish validation against a draft without changing it; returns field-level errors.
+- name: create_personalization_preview
+  category: campaign-build
+  description: Render personalization for sample users to spot-check content before creating.
+- name: test_campaign_inline
+  category: campaign-build
+  description: Send a test message from an inline payload to verify content.
+- name: test_campaign_by_draft_id
+  category: campaign-build
+  description: Send a test message for an existing draft to verify it.
+- name: update_campaign_status
+  category: campaign-build
+  description: STOP, PAUSE, or RESUME an already-running campaign (not drafts).
+- name: get_content_guide
+  category: content-authoring
+  description: >-
+    Validated authoring guidance for content. Request a topic (jinja, email_html, email_deliverability)
+    and an optional section.
+- name: create_content_block
+  category: content-blocks
+  description: Create a reusable content block, such as a shared email footer.
+- name: edit_content_block
+  category: content-blocks
+  description: Update an existing reusable content block.
+- name: search_content_blocks
+  category: content-blocks
+  description: Find content blocks by label.
+- name: get_content_blocks_by_ids
+  category: content-blocks
+  description: Fetch content blocks by ID.
+- name: create_custom_segment
+  category: segments
+  description: Create a custom segment from event and attribute filters.
+- name: list_segments
+  category: segments
+  description: Browse existing custom segments in the workspace.
+- name: get_segment
+  category: segments
+  description: Read a single segment's definition.
+- name: start_segment_count
+  category: segments
+  description: Kick off an async user count for a segment, including channel-level reachability.
+- name: poll_segment_count
+  category: segments
+  description: Poll for the result of an async segment count.
+- name: get_value_suggestions
+  category: segments
+  description: Get suggested values for an event or user attribute while building a segment.
+- name: search_flows
+  category: flows
+  description: Find flows by name, status, or other criteria.
+- name: get_flow
+  category: flows
+  description: Read a flow's configuration.
+- name: get_flow_version
+  category: flows
+  description: Read a specific version of a flow.
+- name: get_flow_analytics
+  category: flows
+  description: The flow-level health view — how the flow is performing overall.
+- name: get_flow_channel_analytics
+  category: flows
+  description: Channel-scoped analytics for a flow.
+- name: update_flow_status
+  category: flows
+  description: Pause or stop a flow.
+- name: list_dashboards
+  category: dashboards
+  description: List the analytics dashboards available in the workspace.
+- name: get_dashboard
+  category: dashboards
+  description: Return the full metadata for a single dashboard by ID.
+- name: get_chart_data
+  category: dashboards
+  description: Fetch the analytical data for a specific chart within a dashboard.
+- name: search_campaigns
+  category: search-read
+  description: >-
+    Search campaigns across all channels by name, status, ID, channel, delivery type, or date range.
+    Status filters ACTIVE, DRAFT, EXPIRED, NOT_SENT, PAUSED, SCHEDULED, SENDING, SENT, STOPPED,
+    UNDER_REVIEW, REJECTED.
+- name: get_campaign
+  category: search-read
+  description: Fetch a single campaign's full configuration and content.
+- name: get_campaign_meta
+  category: search-read
+  description: Fetch a single campaign's metadata.
+- name: get_campaign_stats
+  category: campaign-analytics
+  description: >-
+    Aggregate performance — delivery rate, opens, clicks, CTR, and channel-specific metrics. Up to 50
+    campaigns per call.
+- name: get_detailed_campaign_stats
+  category: campaign-analytics
+  description: Breakdowns by conversion goal, device/platform, locale, and A/B variation.
+- name: get_delivery_stats
+  category: campaign-analytics
+  description: >-
+    The delivery funnel — reachable users, frequency-cap removals, send/delivery failures, and
+    per-platform device stats.
+- name: get_click_performance
+  category: campaign-analytics
+  description: Per-URL click breakdown, with total and unique counts.
+- name: get_device_analytics
+  category: campaign-analytics
+  description: Performance by device dimensions — OEM, app version, or dormancy, with multi-dimensional splits.
+- name: discover_analyze_schema
+  category: behavior-analytics
+  status: beta
+  description: Returns the request shape for a behavior, funnel, or retention analysis.
+- name: run_behavior_analysis
+  category: behavior-analytics
+  status: beta
+  description: Analyze how users perform a chosen event over time.
+- name: run_funnel_analysis
+  category: behavior-analytics
+  status: beta
+  description: Measure conversion across an ordered sequence of events.
+- name: run_retention_analysis
+  category: behavior-analytics
+  status: beta
+  description: Measure how users return over time after a starting event.
+- name: find_events
+  category: catalog-discovery
+  description: Discover trackable events in the workspace.
+- name: find_event_attributes
+  category: catalog-discovery
+  description: Discover the attributes available on a given event.
+- name: find_user_attributes
+  category: catalog-discovery
+  description: Discover user attributes available for targeting and analysis.
+- name: submit_feedback
+  category: feedback
+  description: Report tool-quality issues back to MoEngage.
+docs_mcp_tools:
+- name: search_mo_engage
+  description: Search across the MoEngage knowledge base for documentation, code examples, and API references.
+  read_only: true
+- name: query_docs_filesystem_mo_engage
+  description: >-
+    Run a read-only shell-like query (rg, grep, find, tree, ls, cat, head, tail, jq, ...) against a
+    virtualized in-memory filesystem containing only the MoEngage documentation pages and OpenAPI specs.
+  read_only: true
+- name: submit_feedback
+  description: Report a problem with the documentation site.
+  read_only: false
