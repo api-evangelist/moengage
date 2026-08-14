@@ -19,7 +19,7 @@ x-type: company
 x-source: harvest:secondary-market
 specificationVersion: '0.21'
 created: '2026-08-01'
-modified: '2026-08-01'
+modified: '2026-08-14'
 tags:
 - customer-engagement
 - marketing-automation
@@ -414,8 +414,12 @@ common:
   url: mcp/moengage-tool-crosswalk.yml
 - type: Sandbox
   url: sandbox/moengage-sandbox.yml
+- type: Plans
+  url: plans/moengage-plans-pricing.yml
+- type: Webhooks
+  url: asyncapi/moengage-webhooks.yml
 x-enrichment:
-  date: '2026-08-01'
+  date: '2026-08-14'
   status: enriched
-  artifacts_added: 87
+  artifacts_added: 3
   pass: local-v1
