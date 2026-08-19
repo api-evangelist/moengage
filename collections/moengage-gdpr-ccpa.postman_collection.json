@@ -1,0 +1,645 @@
+{
+  "item": [
+    {
+      "id": "28420e03-327c-4a36-ad0a-44416afbbeb7",
+      "name": "GDPR",
+      "description": {
+        "content": "Manage user data requests for GDPR and CCPA compliance.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "cd480db2-35f7-458f-9f51-c16aadf0e50c",
+          "name": "Submit a GDPR / CCPA Data Request",
+          "request": {
+            "name": "Submit a GDPR / CCPA Data Request",
+            "description": {
+              "content": "GDPR or CCPA API ensures all the rights of users are created or updated for GDPR or CCPA compliance. You can erase the personal data of specific users as defined under GDPR using the Erase API.\n\nFor more details on compliance with MoEngage, refer to [GDPR-Implementation](/user-guide/data/privacy/gdpr) and [CCPA-Implementation](/user-guide/data/privacy/ccpa).\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "opengdpr_requests",
+                ":appId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "appId",
+                  "description": "(Required) This is your MoEngage account's Workspace ID that must be included in the request. You can find your Workspace ID in the following navigation on the dashboard: Revamped UI: **Settings** > **Account** > **APIs** > **Workspace ID**\n"
+                },
+                {
+                  "description": "The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+                  "type": "any",
+                  "value": "{{dc}}",
+                  "key": "dc"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"request_type\": \"<string>\",\n  \"submitted_time\": \"<dateTime>\",\n  \"identities\": [\n    {\n      \"identity_type\": \"<string>\",\n      \"identity_value\": \"<string>\"\n    },\n    {\n      \"identity_type\": \"<string>\",\n      \"identity_value\": \"<string>\"\n    }\n  ],\n  \"api_version\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "9d219aa1-7bf0-471d-9ba5-5c4b6ef6dc95",
+              "name": "Success. This response is returned when the request is processed successfully.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "opengdpr_requests",
+                    ":appId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "appId",
+                      "description": "(Required) This is your MoEngage account's Workspace ID that must be included in the request. You can find your Workspace ID in the following navigation on the dashboard: Revamped UI: **Settings** > **Account** > **APIs** > **Workspace ID**\n"
+                    },
+                    {
+                      "description": "The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"request_type\": \"erasure\",\n  \"submitted_time\": \"2018-10-05T15:00:00Z\",\n  \"identities\": [\n    {\n      \"identity_type\": \"email\",\n      \"identity_value\": \"johndoe@example.com\"\n    }\n  ],\n  \"api_version\": \"1.0\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"success\",\n  \"message\": \"Your request has been accepted and will be processed soon.\",\n  \"request_id\": \"a7551968-d5d6-44b2-9831-815ac9017798\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "7e796bfc-4be3-471c-8cb6-6eb95872c559",
+              "name": "Bad Request. This response is returned when the required parameters are missing from the request, attributes are not found, or incorrect values are passed.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "opengdpr_requests",
+                    ":appId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "appId",
+                      "description": "(Required) This is your MoEngage account's Workspace ID that must be included in the request. You can find your Workspace ID in the following navigation on the dashboard: Revamped UI: **Settings** > **Account** > **APIs** > **Workspace ID**\n"
+                    },
+                    {
+                      "description": "The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"request_type\": \"erasure\",\n  \"submitted_time\": \"2018-10-05T15:00:00Z\",\n  \"identities\": [\n    {\n      \"identity_type\": \"email\",\n      \"identity_value\": \"johndoe@example.com\"\n    }\n  ],\n  \"api_version\": \"1.0\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"fail\",\n  \"error\": {\n    \"attribute\": \"request_type\",\n    \"message\": \"request_type is not found in the payload\",\n    \"type\": \"MissingAttributeError\",\n    \"request_id\": \"zuMJjxAS\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "5bba2d25-d956-4ed7-8ab6-684120def5e6",
+              "name": "Unauthorized. This response is returned when the request does not have valid authentication credentials.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "opengdpr_requests",
+                    ":appId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "appId",
+                      "description": "(Required) This is your MoEngage account's Workspace ID that must be included in the request. You can find your Workspace ID in the following navigation on the dashboard: Revamped UI: **Settings** > **Account** > **APIs** > **Workspace ID**\n"
+                    },
+                    {
+                      "description": "The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"request_type\": \"erasure\",\n  \"submitted_time\": \"2018-10-05T15:00:00Z\",\n  \"identities\": [\n    {\n      \"identity_type\": \"email\",\n      \"identity_value\": \"johndoe@example.com\"\n    }\n  ],\n  \"api_version\": \"1.0\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"fail\",\n  \"error\": {\n    \"message\": \"No identity information found.\",\n    \"type\": \"Authentication required\",\n    \"request_id\": \"IzbhlLyG\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "160dc380-3feb-465b-8d70-a89e5d6fb55a",
+              "name": "Account Blocked. This response is returned when your MoEngage account is suspended or blocked.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "opengdpr_requests",
+                    ":appId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "appId",
+                      "description": "(Required) This is your MoEngage account's Workspace ID that must be included in the request. You can find your Workspace ID in the following navigation on the dashboard: Revamped UI: **Settings** > **Account** > **APIs** > **Workspace ID**\n"
+                    },
+                    {
+                      "description": "The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"request_type\": \"erasure\",\n  \"submitted_time\": \"2018-10-05T15:00:00Z\",\n  \"identities\": [\n    {\n      \"identity_type\": \"email\",\n      \"identity_value\": \"johndoe@example.com\"\n    }\n  ],\n  \"api_version\": \"1.0\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"fail\",\n  \"error\": {\n    \"message\": \"Your account is suspended. Please contact MoEngage team.\",\n    \"type\": \"BlockedClient\",\n    \"request_id\": \"ofHUEaEQ\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e68bff56-80df-44a4-baab-35d795951064",
+              "name": "Payload Size Exceeded. This response is returned when the payload size exceeds 128 KB.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "opengdpr_requests",
+                    ":appId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "appId",
+                      "description": "(Required) This is your MoEngage account's Workspace ID that must be included in the request. You can find your Workspace ID in the following navigation on the dashboard: Revamped UI: **Settings** > **Account** > **APIs** > **Workspace ID**\n"
+                    },
+                    {
+                      "description": "The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"request_type\": \"erasure\",\n  \"submitted_time\": \"2018-10-05T15:00:00Z\",\n  \"identities\": [\n    {\n      \"identity_type\": \"email\",\n      \"identity_value\": \"johndoe@example.com\"\n    }\n  ],\n  \"api_version\": \"1.0\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Request Entity Too Large",
+              "code": 413,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"fail\",\n  \"error\": {\n    \"message\": \"Payload can not exceed 128KB.\",\n    \"type\": \"Payload too large\",\n    \"request_id\": \"VFzDwhwt\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "6c64fded-c92a-4356-82e7-6cafee96fa6c",
+              "name": "Unsupported Media Type. This response is returned when the content type is not supported.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "opengdpr_requests",
+                    ":appId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "appId",
+                      "description": "(Required) This is your MoEngage account's Workspace ID that must be included in the request. You can find your Workspace ID in the following navigation on the dashboard: Revamped UI: **Settings** > **Account** > **APIs** > **Workspace ID**\n"
+                    },
+                    {
+                      "description": "The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"request_type\": \"erasure\",\n  \"submitted_time\": \"2018-10-05T15:00:00Z\",\n  \"identities\": [\n    {\n      \"identity_type\": \"email\",\n      \"identity_value\": \"johndoe@example.com\"\n    }\n  ],\n  \"api_version\": \"1.0\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unsupported Media Type",
+              "code": 415,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"fail\",\n  \"error\": {\n    \"message\": \"Content type is not supported\",\n    \"type\": \"Unsupported media type\",\n    \"request_id\": \"SgBQfKJh\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "6d24588c-2ed3-4794-8271-53072e5242be",
+              "name": "Rate Limit Breach. This response is returned when the number of requests has exceeded the rate limit.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "opengdpr_requests",
+                    ":appId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "appId",
+                      "description": "(Required) This is your MoEngage account's Workspace ID that must be included in the request. You can find your Workspace ID in the following navigation on the dashboard: Revamped UI: **Settings** > **Account** > **APIs** > **Workspace ID**\n"
+                    },
+                    {
+                      "description": "The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"request_type\": \"erasure\",\n  \"submitted_time\": \"2018-10-05T15:00:00Z\",\n  \"identities\": [\n    {\n      \"identity_type\": \"email\",\n      \"identity_value\": \"johndoe@example.com\"\n    }\n  ],\n  \"api_version\": \"1.0\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"fail\",\n  \"error\": {\n    \"message\": \"Rate limits for customers exceeded. Please Try After Some Time\",\n    \"type\": \"Rate Limits Exceeded\",\n    \"request_id\": \"onqucLYL\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "5239ea4a-b66f-4aef-9002-261f0c71ec3f",
+              "name": "Internal Server Error. This response is returned when the system runs into an unexpected error.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "opengdpr_requests",
+                    ":appId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "appId",
+                      "description": "(Required) This is your MoEngage account's Workspace ID that must be included in the request. You can find your Workspace ID in the following navigation on the dashboard: Revamped UI: **Settings** > **Account** > **APIs** > **Workspace ID**\n"
+                    },
+                    {
+                      "description": "The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"request_type\": \"erasure\",\n  \"submitted_time\": \"2018-10-05T15:00:00Z\",\n  \"identities\": [\n    {\n      \"identity_type\": \"email\",\n      \"identity_value\": \"johndoe@example.com\"\n    }\n  ],\n  \"api_version\": \"1.0\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"fail\",\n  \"error\": {\n    \"message\": \"An unexpected error was encountered while processing this request. Please contact MoEngage Team\",\n    \"type\": \"Server Error\",\n    \"request_id\": \"KovrwJiF\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "description": {
+        "content": "The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "01",
+      "key": "dc"
+    },
+    {
+      "type": "string",
+      "value": "https://api-{{dc}}.moengage.com/v1",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "basic",
+    "basic": [
+      {
+        "key": "username",
+        "value": "{{basicAuthUsername}}"
+      },
+      {
+        "key": "password",
+        "value": "{{basicAuthPassword}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "ff231f34-1915-4d92-8ad6-77558b968b6f",
+    "name": "MoEngage GDPR / CCPA API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "API to create or update user rights for **GDPR** (General Data Protection Regulation) or **CCPA** (California Consumer Privacy Act) compliance, including the right to erase personal data.\n",
+      "type": "text/plain"
+    }
+  }
+}

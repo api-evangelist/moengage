@@ -1,0 +1,70 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "MoEngage In-app Template API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "basic",
+      "username": "{{username}}",
+      "password": "{{password}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "In-app Templates",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create In-app Template",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-{dc}.moengage.com/v1.0/custom-templates/inapp",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "This API creates an In-app template in MoEngage. You can use this API to upload templates created outside the MoEngage ecosystem to MoEngage and use them for campaign creation."
+        },
+        {
+          "info": {
+            "name": "Update In-app Template",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api-{dc}.moengage.com/v1.0/custom-templates/inapp",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "This API updates an In-app template as per your requirements."
+        },
+        {
+          "info": {
+            "name": "Search In-app Templates",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-{dc}.moengage.com/v1.0/custom-templates/inapp/search",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "This API searches the In-app templates created in your MoEngage account."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

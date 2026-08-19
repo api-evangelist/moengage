@@ -1,0 +1,1013 @@
+{
+  "item": [
+    {
+      "id": "29c1a11f-fa03-494c-a789-aac425db7eed",
+      "name": "Experiences",
+      "description": {
+        "content": "API endpoints for fetching experiences and metadata.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "299843c5-f5a0-46d2-b40e-0de8fc264c4c",
+          "name": "Fetch Experience",
+          "request": {
+            "name": "Fetch Experience",
+            "description": {
+              "content": "This API receives data on active personalization experiences. You can fetch data for one or more server-side experiences by using the **experience_key** field. MoEngage will evaluate targeting rules and in-session attributes automatically and return the correct variation for the user. Typically, you would make this call as part of your larger page and content rendering pipeline.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "experiences",
+                "fetch"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "description": "The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+                  "type": "any",
+                  "value": "{{dc}}",
+                  "key": "dc"
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) This is the Workspace ID of your MoEngage account that must be passed with the request. You can find it in the MoEngage dashboard at **Settings** > **Account** > **APIs** > **Workspace ID (earlier app id)**.\n",
+                "key": "MOE-APPKEY",
+                "value": "<string>"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"identifiers\": {\n    \"customer_id\": \"<string>\",\n    \"user_identifiers\": \"<string>\"\n  },\n  \"experience_key\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"DAY_OF_THE_WEEK\": \"<string>\",\n  \"TIME_OF_THE_DAY\": \"<string>\",\n  \"USER_IP_ADDRESS\": \"<string>\",\n  \"USER_AGENT\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "8f7f7299-4b64-4154-a71a-0de1a9c17a03",
+              "name": "**Success**\nThis response is returned when the request is submitted to MoEngage.\n\n**Note**: A `200` response with an empty `experiences` object (`{}`) means the identified user did not match any audience for the requested experience(s). This is not an error — render your default or fallback UI in this case.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "experiences",
+                    "fetch"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) This is the Workspace ID of your MoEngage account that must be passed with the request. You can find it in the MoEngage dashboard at **Settings** > **Account** > **APIs** > **Workspace ID (earlier app id)**.\n",
+                    "key": "MOE-APPKEY",
+                    "value": "Workspace ID"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"identifiers\": {\n    \"customer_id\": \"user_8821\",\n    \"user_identifiers\": {\n      \"u_em\": \"jane@example.com\",\n      \"u_mb\": \"+919876543210\"\n    }\n  },\n  \"experience_key\": [\n    \"homepage-banner\"\n  ],\n  \"DAY_OF_THE_WEEK\": \"Monday\",\n  \"TIME_OF_THE_DAY\": \"14\",\n  \"USER_IP_ADDRESS\": \"203.0.113.42\",\n  \"USER_AGENT\": \"Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"experiences\": {\n    \"homepage-banner\": {\n      \"payload\": {\n        \"Title\": {\n          \"value\": \"Free shipping on orders over ₹999\",\n          \"data_type\": \"string\"\n        },\n        \"ImageURL\": {\n          \"value\": \"https://cdn.example.com/banners/free-shipping.jpg\",\n          \"data_type\": \"string\"\n        },\n        \"CtaLabel\": {\n          \"value\": \"Shop Now\",\n          \"data_type\": \"string\"\n        }\n      },\n      \"experience_context\": {\n        \"cid\": \"65eae5738ea5032b0ef60138_F_T_WP_AB_2_P_0_AU_42D\",\n        \"experience\": \"Homepage Banner — Free Shipping\",\n        \"moe_locale_id\": \"0\",\n        \"moe_variation_id\": \"2\",\n        \"audience_name\": \"High Intent Users\",\n        \"audience_id\": \"42D\",\n        \"type\": \"Web Personalization\",\n        \"experience_type\": \"API based Experience\"\n      }\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e220c0d8-9625-4532-99ae-cd0476db1d81",
+              "name": "**Bad Request**\nReturned when the payload is empty, malformed JSON, contains an invalid field value (for example, an unsupported `DAY_OF_THE_WEEK`), or the `MOE-APPKEY` header is missing or not recognized.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "experiences",
+                    "fetch"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) This is the Workspace ID of your MoEngage account that must be passed with the request. You can find it in the MoEngage dashboard at **Settings** > **Account** > **APIs** > **Workspace ID (earlier app id)**.\n",
+                    "key": "MOE-APPKEY",
+                    "value": "Workspace ID"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"identifiers\": {\n    \"customer_id\": \"user_8821\",\n    \"user_identifiers\": {\n      \"u_em\": \"jane@example.com\",\n      \"u_mb\": \"+919876543210\"\n    }\n  },\n  \"experience_key\": [\n    \"homepage-banner\"\n  ],\n  \"DAY_OF_THE_WEEK\": \"Monday\",\n  \"TIME_OF_THE_DAY\": \"14\",\n  \"USER_IP_ADDRESS\": \"203.0.113.42\",\n  \"USER_AGENT\": \"Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"title\": \"Invalid Field Value\",\n  \"description\": \"DAY_OF_THE_WEEK - Enum doesnt allow value: funday, allowed values: [Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday]\",\n  \"code\": \"GvHogFKc\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b40c18c9-cc08-4564-b1e7-ca77655c1957",
+              "name": "**Authorization Failed**\nThis response is returned when the authorization fails due to incorrect values for the Workspace ID or Personalize API Key.\n\n**Common causes**:\n- Using the general API Key instead of the Personalize-specific Secret Key found in Settings > API Keys > Personalize.\n- The Personalize API Key was regenerated — all calls using the old key immediately return `401`.\n- The `Authorization` header Base64 value was not encoded correctly.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "experiences",
+                    "fetch"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) This is the Workspace ID of your MoEngage account that must be passed with the request. You can find it in the MoEngage dashboard at **Settings** > **Account** > **APIs** > **Workspace ID (earlier app id)**.\n",
+                    "key": "MOE-APPKEY",
+                    "value": "Workspace ID"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"identifiers\": {\n    \"customer_id\": \"user_8821\",\n    \"user_identifiers\": {\n      \"u_em\": \"jane@example.com\",\n      \"u_mb\": \"+919876543210\"\n    }\n  },\n  \"experience_key\": [\n    \"homepage-banner\"\n  ],\n  \"DAY_OF_THE_WEEK\": \"Monday\",\n  \"TIME_OF_THE_DAY\": \"14\",\n  \"USER_IP_ADDRESS\": \"203.0.113.42\",\n  \"USER_AGENT\": \"Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"title\": \"Authentication required\",\n  \"description\": \"Invalid API_KEY used in Authentication Header\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "407633fa-9033-4a5f-9c27-48cd2834c30a",
+              "name": "**Internal Server Error**\nThis response is returned when the system runs into an unexpected error. Retry with exponential backoff. If the error persists for more than 5 minutes, contact MoEngage support.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "experiences",
+                    "fetch"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) This is the Workspace ID of your MoEngage account that must be passed with the request. You can find it in the MoEngage dashboard at **Settings** > **Account** > **APIs** > **Workspace ID (earlier app id)**.\n",
+                    "key": "MOE-APPKEY",
+                    "value": "Workspace ID"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"identifiers\": {\n    \"customer_id\": \"user_8821\",\n    \"user_identifiers\": {\n      \"u_em\": \"jane@example.com\",\n      \"u_mb\": \"+919876543210\"\n    }\n  },\n  \"experience_key\": [\n    \"homepage-banner\"\n  ],\n  \"DAY_OF_THE_WEEK\": \"Monday\",\n  \"TIME_OF_THE_DAY\": \"14\",\n  \"USER_IP_ADDRESS\": \"203.0.113.42\",\n  \"USER_AGENT\": \"Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"title\": \"string\",\n  \"description\": \"string\",\n  \"code\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "24c62310-b8b9-4d84-9f6b-341cc2dc6d62",
+          "name": "Fetch Experience Metadata",
+          "request": {
+            "name": "Fetch Experience Metadata",
+            "description": {
+              "content": "This API fetches a list of currently Active, Scheduled, and Paused experiences within a workspace.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "experiences",
+                "metadata"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "status",
+                  "value": "<string>",
+                  "description": "Filter experiences by status. Pass one or more comma-separated values. If omitted, all statuses are returned.\n\n**Accepted values**: `Active`, `Paused`, `Scheduled` (case-sensitive). Unknown values (for example, `active` in lowercase) silently return an empty list rather than an error — verify spelling and casing.\n\n| Status | Description |\n|---|---|\n| `Active` | Experience is live and being served to matching users. |\n| `Paused` | Experience is not being served. Fetching its key via [Fetch Experience](/api/experiences/fetch-experience) returns an empty payload — not an error. |\n| `Scheduled` | Experience is configured but has not started yet. Fetching its key returns an empty payload. |\n"
+                }
+              ],
+              "variable": [
+                {
+                  "description": "The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+                  "type": "any",
+                  "value": "{{dc}}",
+                  "key": "dc"
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) This is the Workspace ID of your MoEngage account that must be passed with the request. You can find it in the MoEngage dashboard at **Settings** > **Account** > **APIs** > **Workspace ID (earlier app id)**.",
+                "key": "MOE-APPKEY",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "239f7a99-a6ee-45b8-970a-c0c10ad4daa4",
+              "name": "Successful retrieval",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "experiences",
+                    "metadata"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "status",
+                      "value": "Active,Paused"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "description": "The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) This is the Workspace ID of your MoEngage account that must be passed with the request. You can find it in the MoEngage dashboard at **Settings** > **Account** > **APIs** > **Workspace ID (earlier app id)**.",
+                    "key": "MOE-APPKEY",
+                    "value": "Workspace ID"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"metadata\": {\n    \"count\": 3,\n    \"experiences\": [\n      {\n        \"experience_name\": \"Homepage Banner — Free Shipping\",\n        \"experience_key\": \"homepage-banner\",\n        \"status\": \"Active\"\n      },\n      {\n        \"experience_name\": \"Cart Upsell Widget\",\n        \"experience_key\": \"cart-upsell\",\n        \"status\": \"Paused\"\n      },\n      {\n        \"experience_name\": \"Christmas Sale Strip\",\n        \"experience_key\": \"christmas-sale-strip\",\n        \"status\": \"Scheduled\"\n      }\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b6743253-f05c-4c56-aa4e-03c75fed7594",
+              "name": "**Bad Request**\nThis response is returned when the `MOE-APPKEY` header is missing or not recognized.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "experiences",
+                    "metadata"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "status",
+                      "value": "Active,Paused"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "description": "The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) This is the Workspace ID of your MoEngage account that must be passed with the request. You can find it in the MoEngage dashboard at **Settings** > **Account** > **APIs** > **Workspace ID (earlier app id)**.",
+                    "key": "MOE-APPKEY",
+                    "value": "Workspace ID"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"title\": \"Request Error\",\n  \"description\": \"MoEngage Client not found. Please check values for headers - MOE-APPKEY or MOE-DBNAME\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "874fe41f-3e98-47be-919b-60d7eb344ddd",
+              "name": "**Authorization Failed**\nThis response is returned when the authorization fails due to incorrect values for the Workspace ID or Personalize API Key. Refer to the authentication guidance in the `basicAuth` security scheme above.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "experiences",
+                    "metadata"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "status",
+                      "value": "Active,Paused"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "description": "The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) This is the Workspace ID of your MoEngage account that must be passed with the request. You can find it in the MoEngage dashboard at **Settings** > **Account** > **APIs** > **Workspace ID (earlier app id)**.",
+                    "key": "MOE-APPKEY",
+                    "value": "Workspace ID"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"title\": \"Authentication required\",\n  \"description\": \"Invalid API_KEY used in Authentication Header\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "4c8e77f6-551d-4040-a4a2-cdafb32ff50b",
+              "name": "**Internal Server Error**\nThis response is returned when the system runs into an unexpected error. Retry after a short delay. If the error persists, contact MoEngage support.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "experiences",
+                    "metadata"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "status",
+                      "value": "Active,Paused"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "description": "The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) This is the Workspace ID of your MoEngage account that must be passed with the request. You can find it in the MoEngage dashboard at **Settings** > **Account** > **APIs** > **Workspace ID (earlier app id)**.",
+                    "key": "MOE-APPKEY",
+                    "value": "Workspace ID"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"title\": \"string\",\n  \"description\": \"string\",\n  \"code\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "9a7f7628-5bfa-4173-877a-95f00adcc731",
+      "name": "Events",
+      "description": {
+        "content": "API endpoints for reporting impressions and clicks.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "4e236063-b1d1-434c-b8e1-7e43c2d20e28",
+          "name": "Track Experience Events",
+          "request": {
+            "name": "Track Experience Events",
+            "description": {
+              "content": "This API tracks impressions (shown) and user interactions (clicked) for accurate experience reporting. To report an impression or click for your experience via API, use the following endpoint.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "experiences",
+                "events"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "description": "The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+                  "type": "any",
+                  "value": "{{dc}}",
+                  "key": "dc"
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) This is the Workspace ID of your MoEngage account that must be passed with the request. You can find it in the MoEngage dashboard at **Settings** > **Account** > **APIs** > **Workspace ID (earlier app id)**.",
+                "key": "MOE-APPKEY",
+                "value": "<string>"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"elements\": [\n    {\n      \"customer_id\": \"<string>\",\n      \"user_attributes\": \"<object>\",\n      \"user_timezone_offset\": \"<integer>\",\n      \"actions\": [\n        {\n          \"action\": \"<string>\",\n          \"moe_event_uuid\": \"<uuid>\",\n          \"event_time\": \"<integer>\",\n          \"platform\": \"<string>\",\n          \"attributes\": {\n            \"cid\": \"<string>\",\n            \"experience\": \"<string>\",\n            \"moe_locale_id\": \"<string>\",\n            \"moe_variation_id\": \"<string>\",\n            \"audience_name\": \"<string>\",\n            \"audience_id\": \"<string>\",\n            \"type\": \"<string>\"\n          },\n          \"b_id\": \"<string>\"\n        },\n        {\n          \"action\": \"<string>\",\n          \"moe_event_uuid\": \"<uuid>\",\n          \"event_time\": \"<integer>\",\n          \"platform\": \"<string>\",\n          \"attributes\": {\n            \"cid\": \"<string>\",\n            \"experience\": \"<string>\",\n            \"moe_locale_id\": \"<string>\",\n            \"moe_variation_id\": \"<string>\",\n            \"audience_name\": \"<string>\",\n            \"audience_id\": \"<string>\",\n            \"type\": \"<string>\"\n          },\n          \"b_id\": \"<string>\"\n        }\n      ]\n    },\n    {\n      \"customer_id\": \"<string>\",\n      \"user_attributes\": \"<object>\",\n      \"user_timezone_offset\": \"<integer>\",\n      \"actions\": [\n        {\n          \"action\": \"<string>\",\n          \"moe_event_uuid\": \"<uuid>\",\n          \"event_time\": \"<integer>\",\n          \"platform\": \"<string>\",\n          \"attributes\": {\n            \"cid\": \"<string>\",\n            \"experience\": \"<string>\",\n            \"moe_locale_id\": \"<string>\",\n            \"moe_variation_id\": \"<string>\",\n            \"audience_name\": \"<string>\",\n            \"audience_id\": \"<string>\",\n            \"type\": \"<string>\"\n          },\n          \"b_id\": \"<string>\"\n        },\n        {\n          \"action\": \"<string>\",\n          \"moe_event_uuid\": \"<uuid>\",\n          \"event_time\": \"<integer>\",\n          \"platform\": \"<string>\",\n          \"attributes\": {\n            \"cid\": \"<string>\",\n            \"experience\": \"<string>\",\n            \"moe_locale_id\": \"<string>\",\n            \"moe_variation_id\": \"<string>\",\n            \"audience_name\": \"<string>\",\n            \"audience_id\": \"<string>\",\n            \"type\": \"<string>\"\n          },\n          \"b_id\": \"<string>\"\n        }\n      ]\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "0c8243c8-aea3-49db-8ce9-db19c5685332",
+              "name": "**Success**\nThe event was accepted by the MoEngage ingestion pipeline.\n\n**Note on idempotency**: Events are deduplicated using `moe_event_uuid`. On retry, reuse the same UUID from the original attempt — MoEngage will not double-count it. For a new event, always generate a fresh UUID.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "experiences",
+                    "events"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) This is the Workspace ID of your MoEngage account that must be passed with the request. You can find it in the MoEngage dashboard at **Settings** > **Account** > **APIs** > **Workspace ID (earlier app id)**.",
+                    "key": "MOE-APPKEY",
+                    "value": "Workspace ID"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"elements\": [\n    {\n      \"customer_id\": \"<unique user identifier like email or phone number. Eg: john@example.com>\",\n      \"user_timezone_offset\": 19800,\n      \"actions\": [\n        {\n          \"action\": \"MOE_PERSONALIZATION_MESSAGE_SHOWN\",\n          \"moe_event_uuid\": \"aa886712-4537-47c1-b126-2686efda2e26\",\n          \"event_time\": 1725258666,\n          \"platform\": \"web\",\n          \"attributes\": {\n            \"cid\": \"66d55ae445921e4d35ae4368_F_T_WP_AB_2_P_0_AU_5A\",\n            \"experience\": \"Test Server side experience\",\n            \"moe_locale_id\": \"0\",\n            \"moe_variation_id\": \"2\",\n            \"audience_name\": \"All Users\",\n            \"audience_id\": \"5A\",\n            \"type\": \"Web Personalization\"\n          }\n        }\n      ]\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"success\",\n  \"message\": \"Your request has been accepted and will be processed soon.\",\n  \"req_id\": \"SKuSLFnX\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "6820c4c5-40ee-4af8-89e8-39da222be635",
+              "name": "**Bad Request**\nReturned when the payload is malformed JSON, fails validation (for example, an unsupported `action` or `platform`, a missing required `attributes` field, or `user_timezone_offset` outside `-54000`–`54000`), or the `MOE-APPKEY` header is missing or not recognized.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "experiences",
+                    "events"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) This is the Workspace ID of your MoEngage account that must be passed with the request. You can find it in the MoEngage dashboard at **Settings** > **Account** > **APIs** > **Workspace ID (earlier app id)**.",
+                    "key": "MOE-APPKEY",
+                    "value": "Workspace ID"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"elements\": [\n    {\n      \"customer_id\": \"<unique user identifier like email or phone number. Eg: john@example.com>\",\n      \"user_timezone_offset\": 19800,\n      \"actions\": [\n        {\n          \"action\": \"MOE_PERSONALIZATION_MESSAGE_SHOWN\",\n          \"moe_event_uuid\": \"aa886712-4537-47c1-b126-2686efda2e26\",\n          \"event_time\": 1725258666,\n          \"platform\": \"web\",\n          \"attributes\": {\n            \"cid\": \"66d55ae445921e4d35ae4368_F_T_WP_AB_2_P_0_AU_5A\",\n            \"experience\": \"Test Server side experience\",\n            \"moe_locale_id\": \"0\",\n            \"moe_variation_id\": \"2\",\n            \"audience_name\": \"All Users\",\n            \"audience_id\": \"5A\",\n            \"type\": \"Web Personalization\"\n          }\n        }\n      ]\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"title\": \"Invalid Field Value\",\n  \"description\": \"elements - Validators Failed : Validator: Element, Errored Field: actions\",\n  \"code\": \"NwRqMltB\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ff5f0119-21f4-4bf4-93e1-02e0bf6d66e8",
+              "name": "**Authorization Failed**\nThis response is returned when the authorization fails due to incorrect values for the Workspace ID or Personalize API Key.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "experiences",
+                    "events"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) This is the Workspace ID of your MoEngage account that must be passed with the request. You can find it in the MoEngage dashboard at **Settings** > **Account** > **APIs** > **Workspace ID (earlier app id)**.",
+                    "key": "MOE-APPKEY",
+                    "value": "Workspace ID"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"elements\": [\n    {\n      \"customer_id\": \"<unique user identifier like email or phone number. Eg: john@example.com>\",\n      \"user_timezone_offset\": 19800,\n      \"actions\": [\n        {\n          \"action\": \"MOE_PERSONALIZATION_MESSAGE_SHOWN\",\n          \"moe_event_uuid\": \"aa886712-4537-47c1-b126-2686efda2e26\",\n          \"event_time\": 1725258666,\n          \"platform\": \"web\",\n          \"attributes\": {\n            \"cid\": \"66d55ae445921e4d35ae4368_F_T_WP_AB_2_P_0_AU_5A\",\n            \"experience\": \"Test Server side experience\",\n            \"moe_locale_id\": \"0\",\n            \"moe_variation_id\": \"2\",\n            \"audience_name\": \"All Users\",\n            \"audience_id\": \"5A\",\n            \"type\": \"Web Personalization\"\n          }\n        }\n      ]\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"title\": \"Authentication required\",\n  \"description\": \"Invalid API_KEY used in Authentication Header\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "22514b8b-db63-46d1-aca6-6a0642b8350e",
+              "name": "**Internal Server Error**\nThis response is returned when the system runs into an unexpected error. Retry using the same `moe_event_uuid` from the original attempt — the event will be safely deduplicated. If the error persists for more than 5 minutes, contact MoEngage support.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "experiences",
+                    "events"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) This is the Workspace ID of your MoEngage account that must be passed with the request. You can find it in the MoEngage dashboard at **Settings** > **Account** > **APIs** > **Workspace ID (earlier app id)**.",
+                    "key": "MOE-APPKEY",
+                    "value": "Workspace ID"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"elements\": [\n    {\n      \"customer_id\": \"<unique user identifier like email or phone number. Eg: john@example.com>\",\n      \"user_timezone_offset\": 19800,\n      \"actions\": [\n        {\n          \"action\": \"MOE_PERSONALIZATION_MESSAGE_SHOWN\",\n          \"moe_event_uuid\": \"aa886712-4537-47c1-b126-2686efda2e26\",\n          \"event_time\": 1725258666,\n          \"platform\": \"web\",\n          \"attributes\": {\n            \"cid\": \"66d55ae445921e4d35ae4368_F_T_WP_AB_2_P_0_AU_5A\",\n            \"experience\": \"Test Server side experience\",\n            \"moe_locale_id\": \"0\",\n            \"moe_variation_id\": \"2\",\n            \"audience_name\": \"All Users\",\n            \"audience_id\": \"5A\",\n            \"type\": \"Web Personalization\"\n          }\n        }\n      ]\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"title\": \"string\",\n  \"description\": \"string\",\n  \"code\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "description": {
+        "content": "The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "01",
+      "key": "dc"
+    },
+    {
+      "type": "string",
+      "value": "https://sdk-{{dc}}.moengage.com/v1",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "basic",
+    "basic": [
+      {
+        "key": "username",
+        "value": "{{basicAuthUsername}}"
+      },
+      {
+        "key": "password",
+        "value": "{{basicAuthPassword}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "b510c2ea-3939-488e-80ed-4f54435d82ca",
+    "name": "Personalize APIs",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Personalize APIs constitute a set of endpoints that can be accessed from your platform's code. These APIs offer personalization capabilities and must be invoked from your codebase for MoEngage to provide relevant data. After receiving the data, you can use it within your platform's code to personalize the content for your users.\n",
+      "type": "text/plain"
+    }
+  }
+}

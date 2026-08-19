@@ -1,0 +1,109 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "MoEngage Content Block API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "basic",
+      "username": "{{username}}",
+      "password": "{{password}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Content Blocks",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create Content Block",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-{dc}.moengage.com/v1/external/campaigns/content-blocks",
+            "headers": [
+              {
+                "name": "MOE-APPKEY",
+                "value": "YOUR_WORKSPACE_ID_XXXX"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "This API creates a content block in MoEngage.\n\nUse the `source` field in the request body to specify the communication type for the content block:\n- `\"source\": \"ENGAGE\"`: Creates a content block for use in Engage campaigns.\n- `\"source\": \"INFORM\"`: Creates a content block for use in Inform alerts.\n"
+        },
+        {
+          "info": {
+            "name": "Update Content Block",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api-{dc}.moengage.com/v1/external/campaigns/content-blocks",
+            "headers": [
+              {
+                "name": "MOE-APPKEY",
+                "value": "YOUR_WORKSPACE_ID_XXXX"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "This API updates the content blocks in MoEngage.\n"
+        },
+        {
+          "info": {
+            "name": "Get Specific Content Blocks",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-{dc}.moengage.com/v1/external/campaigns/content-blocks/get-by-ids",
+            "headers": [
+              {
+                "name": "MOE-APPKEY",
+                "value": "YOUR_WORKSPACE_ID_XXXX"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "This API retrieves specific content blocks from the available content blocks in your MoEngage account.\n"
+        },
+        {
+          "info": {
+            "name": "Search Content Blocks",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-{dc}.moengage.com/v1/external/campaigns/content-blocks/search",
+            "headers": [
+              {
+                "name": "MOE-APPKEY",
+                "value": "YOUR_WORKSPACE_ID_XXXX"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "This API searches for the available content blocks in your MoEngage account.\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

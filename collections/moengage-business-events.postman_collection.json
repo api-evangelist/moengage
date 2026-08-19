@@ -1,0 +1,1101 @@
+{
+  "item": [
+    {
+      "id": "16ee17f6-cb9c-4afc-91d3-ca9a25312985",
+      "name": "Business Events",
+      "description": {
+        "content": "Manage and trigger business events.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "83eee203-6b78-4db9-8d31-8eda267be713",
+          "name": "Create Business Event",
+          "request": {
+            "name": "Create Business Event",
+            "description": {
+              "content": "This API creates business events in MoEngage. You can use these events to trigger campaigns whenever they occur. In MoEngage, you can set up event-triggered campaigns to notify users about new episodes, flight delays, or price reductions on items they have viewed, wished for, or added to their carts.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "business_event"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "description": "The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+                  "type": "any",
+                  "value": "{{dc}}",
+                  "key": "dc"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"event_name\": \"<string>\",\n  \"event_attributes\": [\n    {\n      \"attribute_name\": \"<string>\",\n      \"attribute_data_type\": \"<string>\"\n    },\n    {\n      \"attribute_name\": \"<string>\",\n      \"attribute_data_type\": \"<string>\"\n    }\n  ],\n  \"created_by\": \"<email>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "a31da07f-a0d3-4872-8664-f96c9d11782c",
+              "name": "This response is returned when the request is processed successfully.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "business_event"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"event_name\": \"NameOfOTTSeries\",\n  \"event_attributes\": [\n    {\n      \"attribute_name\": \"season\",\n      \"attribute_data_type\": \"string\"\n    },\n    {\n      \"attribute_name\": \"episodes\",\n      \"attribute_data_type\": \"int\"\n    },\n    {\n      \"attribute_name\": \"cast\",\n      \"attribute_data_type\": \"array\"\n    },\n    {\n      \"attribute_name\": \"released_on\",\n      \"attribute_data_type\": \"date\"\n    },\n    {\n      \"attribute_name\": \"budget\",\n      \"attribute_data_type\": \"float\"\n    }\n  ],\n  \"created_by\": \"john.doe@example.com\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"The business event has been created\",\n  \"event_id\": \"64a40cff5547a6b2c5b14404\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "2581c353-cff4-4661-9005-c941fae020da",
+              "name": "This response is returned when the required parameters are missing from the request or when the provided parameters are invalid.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "business_event"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"event_name\": \"NameOfOTTSeries\",\n  \"event_attributes\": [\n    {\n      \"attribute_name\": \"season\",\n      \"attribute_data_type\": \"string\"\n    },\n    {\n      \"attribute_name\": \"episodes\",\n      \"attribute_data_type\": \"int\"\n    },\n    {\n      \"attribute_name\": \"cast\",\n      \"attribute_data_type\": \"array\"\n    },\n    {\n      \"attribute_name\": \"released_on\",\n      \"attribute_data_type\": \"date\"\n    },\n    {\n      \"attribute_name\": \"budget\",\n      \"attribute_data_type\": \"float\"\n    }\n  ],\n  \"created_by\": \"john.doe@example.com\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"400 Bad Request\",\n    \"message\": \"Additional fields are not allowed document schema for class BusinessEventCreateRequest:event_attribute\",\n    \"details\": [\n      {\n        \"code\": \"InvalidValue\",\n        \"target\": \"event_attribute\",\n        \"message\": \"Additional fields are not allowed document schema for class BusinessEventCreateRequest:event_attribute\"\n      }\n    ],\n    \"request_id\": \"64a54b4b633fda13b668125d\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "fa46470d-e6f3-4802-8c4e-c6935798084e",
+              "name": "This response is returned when the authorization parameters are missing or incorrect in the HTTP Auth Header.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "business_event"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"event_name\": \"NameOfOTTSeries\",\n  \"event_attributes\": [\n    {\n      \"attribute_name\": \"season\",\n      \"attribute_data_type\": \"string\"\n    },\n    {\n      \"attribute_name\": \"episodes\",\n      \"attribute_data_type\": \"int\"\n    },\n    {\n      \"attribute_name\": \"cast\",\n      \"attribute_data_type\": \"array\"\n    },\n    {\n      \"attribute_name\": \"released_on\",\n      \"attribute_data_type\": \"date\"\n    },\n    {\n      \"attribute_name\": \"budget\",\n      \"attribute_data_type\": \"float\"\n    }\n  ],\n  \"created_by\": \"john.doe@example.com\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"401 Authentication error\",\n    \"message\": \"Authentication required\",\n    \"details\": [\n      {\n        \"code\": \"InvalidValue\",\n        \"target\": \"Authorization\",\n        \"message\": {\n          \"code\": \"MissingValue\",\n          \"target\": \"Authorization\",\n          \"message\": \"APP_ID and APP_SECRET_KEY is missing in Authorization Header.\"\n        }\n      }\n    ],\n    \"request_id\": \"64a54b9d633fda13b6681261\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "deda1d5d-e752-4196-9a8f-a9d4221b0921",
+              "name": "This response is returned when the number of requests has exceeded the rate limit.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "business_event"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"event_name\": \"NameOfOTTSeries\",\n  \"event_attributes\": [\n    {\n      \"attribute_name\": \"season\",\n      \"attribute_data_type\": \"string\"\n    },\n    {\n      \"attribute_name\": \"episodes\",\n      \"attribute_data_type\": \"int\"\n    },\n    {\n      \"attribute_name\": \"cast\",\n      \"attribute_data_type\": \"array\"\n    },\n    {\n      \"attribute_name\": \"released_on\",\n      \"attribute_data_type\": \"date\"\n    },\n    {\n      \"attribute_name\": \"budget\",\n      \"attribute_data_type\": \"float\"\n    }\n  ],\n  \"created_by\": \"john.doe@example.com\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"error\",\n  \"data\": {\n    \"code\": 429,\n    \"title\": \"rate limiter exception\",\n    \"description\": \"Exceeded rate limit for this app\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f64260b7-1212-496a-980c-d6b4fb7f768e",
+              "name": "This response is returned when the system runs into an unexpected error.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "business_event"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"event_name\": \"NameOfOTTSeries\",\n  \"event_attributes\": [\n    {\n      \"attribute_name\": \"season\",\n      \"attribute_data_type\": \"string\"\n    },\n    {\n      \"attribute_name\": \"episodes\",\n      \"attribute_data_type\": \"int\"\n    },\n    {\n      \"attribute_name\": \"cast\",\n      \"attribute_data_type\": \"array\"\n    },\n    {\n      \"attribute_name\": \"released_on\",\n      \"attribute_data_type\": \"date\"\n    },\n    {\n      \"attribute_name\": \"budget\",\n      \"attribute_data_type\": \"float\"\n    }\n  ],\n  \"created_by\": \"john.doe@example.com\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"title\": \"Internal Server Error\",\n  \"message\": \"An unexpected error was encountered while processing this request. Please contact MoEngage Team\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "65777440-70cd-49c2-ac0e-eba0bede9f60",
+          "name": "Trigger Business Event",
+          "request": {
+            "name": "Trigger Business Event",
+            "description": {
+              "content": "This API triggers a business event in MoEngage. You can set up campaigns to be executed when these events are triggered.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "business_event",
+                "trigger"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "description": "The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+                  "type": "any",
+                  "value": "{{dc}}",
+                  "key": "dc"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"event_name\": \"<string>\",\n  \"event_attributes\": {\n    \"key_0\": 7376\n  },\n  \"triggered_by\": \"<email>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "9483d5a8-2043-419f-9c3a-83e9a073ca3d",
+              "name": "This response is returned when the request is processed successfully.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "business_event",
+                    "trigger"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"event_name\": \"Series_Name\",\n  \"event_attributes\": {\n    \"season\": \"Season 1\",\n    \"episodes\": 12,\n    \"cast\": [\n      \"John Doe\",\n      \"Jane Doe\"\n    ],\n    \"date\": \"11/11/2023\"\n  },\n  \"triggered_by\": \"john.doe@example.com\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"The business event has been triggered\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a92f35a3-e30f-4c1d-85ec-4753d48758cb",
+              "name": "This response is returned when the required parameters are missing from the request or when the provided parameters are invalid.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "business_event",
+                    "trigger"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"event_name\": \"Series_Name\",\n  \"event_attributes\": {\n    \"season\": \"Season 1\",\n    \"episodes\": 12,\n    \"cast\": [\n      \"John Doe\",\n      \"Jane Doe\"\n    ],\n    \"date\": \"11/11/2023\"\n  },\n  \"triggered_by\": \"john.doe@example.com\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"400 Bad Request\",\n    \"message\": \"Business event does not exists\",\n    \"details\": [\n      {\n        \"code\": \"InvalidValue\",\n        \"target\": \"event_name\",\n        \"message\": \"Business event does not exist\"\n      }\n    ],\n    \"request_id\": \"64a54cf9633fda13b668132f\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "cf0727c3-b079-421d-8887-b3671f1e33dd",
+              "name": "This response is returned when the authorization parameters are missing or incorrect in the HTTP Auth Header.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "business_event",
+                    "trigger"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"event_name\": \"Series_Name\",\n  \"event_attributes\": {\n    \"season\": \"Season 1\",\n    \"episodes\": 12,\n    \"cast\": [\n      \"John Doe\",\n      \"Jane Doe\"\n    ],\n    \"date\": \"11/11/2023\"\n  },\n  \"triggered_by\": \"john.doe@example.com\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"401 Authentication error\",\n    \"message\": \"Authentication required\",\n    \"details\": [\n      {\n        \"code\": \"InvalidValue\",\n        \"target\": \"Authorization\",\n        \"message\": {\n          \"code\": \"MissingValue\",\n          \"target\": \"Authorization\",\n          \"message\": \"APP_ID and APP_SECRET_KEY is missing in Authorization Header.\"\n        }\n      }\n    ],\n    \"request_id\": \"64a54e0e633fda13b6681430\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "52c9df90-0f2f-4ee2-9d65-a4f6ab7bee0d",
+              "name": "This response is returned when the number of requests has exceeded the rate limit.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "business_event",
+                    "trigger"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"event_name\": \"Series_Name\",\n  \"event_attributes\": {\n    \"season\": \"Season 1\",\n    \"episodes\": 12,\n    \"cast\": [\n      \"John Doe\",\n      \"Jane Doe\"\n    ],\n    \"date\": \"11/11/2023\"\n  },\n  \"triggered_by\": \"john.doe@example.com\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"error\",\n  \"data\": {\n    \"code\": 429,\n    \"title\": \"rate limiter exception\",\n    \"description\": \"Exceeded rate limit for this app\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "bf381f1d-e80c-4ff6-80da-56f415c43bde",
+              "name": "This response is returned when the system runs into an unexpected error.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "business_event",
+                    "trigger"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"event_name\": \"Series_Name\",\n  \"event_attributes\": {\n    \"season\": \"Season 1\",\n    \"episodes\": 12,\n    \"cast\": [\n      \"John Doe\",\n      \"Jane Doe\"\n    ],\n    \"date\": \"11/11/2023\"\n  },\n  \"triggered_by\": \"john.doe@example.com\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"title\": \"Internal Server Error\",\n  \"message\": \"An unexpected error was encountered while processing this request. Please contact MoEngage Team\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "a7a0c12d-67b0-4631-a7da-0e90db9d22e6",
+          "name": "Search Business Events",
+          "request": {
+            "name": "Search Business Events",
+            "description": {
+              "content": "This API searches for business events by specifying their event IDs.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "business_event",
+                "search"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "description": "The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+                  "type": "any",
+                  "value": "{{dc}}",
+                  "key": "dc"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"event_ids\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"event_names\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "b625af39-9fb6-43d6-9820-2391c5f357d4",
+              "name": "This response is returned when the request is processed successfully.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "business_event",
+                    "search"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"event_ids\": [\n    \"6447b078712cd8c650074840\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": [\n    {\n      \"db_name\": \"Sample_App\",\n      \"event_id\": \"647597767459c85d7d6d6dfd\",\n      \"event_name\": \"NewMovies\",\n      \"event_attributes\": [\n        {\n          \"attribute_name\": \"MovieName\",\n          \"attribute_data_type\": \"array\"\n        },\n        {\n          \"attribute_name\": \"rating\",\n          \"attribute_data_type\": \"string\"\n        }\n      ],\n      \"created_at\": \"2023-05-29T18:36:52.390000\",\n      \"total_trigger\": 0,\n      \"users_in_segment\": 0,\n      \"usage_count\": 0,\n      \"created_by\": \"john.doe@moengage.com\",\n      \"last_received_time\": \"2023-05-30T06:28:06.498000\",\n      \"_id\": \"64a54500633fda13b6681163\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "4540990c-e8b3-4d91-924d-1aeef59785ad",
+              "name": "This response is returned when the required parameters are missing from the request or when the provided parameters are invalid.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "business_event",
+                    "search"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"event_ids\": [\n    \"6447b078712cd8c650074840\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"400 Bad Request\",\n    \"message\": \"Additional fields are not allowed document schema for class BusinessEventSearchRequest:event_name\",\n    \"details\": [\n      {\n        \"code\": \"InvalidValue\",\n        \"target\": \"event_name\",\n        \"message\": \"Additional fields are not allowed document schema for class BusinessEventSearchRequest:event_name\"\n      }\n    ],\n    \"request_id\": \"64a54e62633fda13b6681431\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e6eb237e-ffc4-4053-b291-1a1cce425c11",
+              "name": "This response is returned when the authorization parameters are missing or incorrect in the HTTP Auth Header.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "business_event",
+                    "search"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"event_ids\": [\n    \"6447b078712cd8c650074840\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"401 Authentication error\",\n    \"message\": \"Authentication required\",\n    \"details\": [\n      {\n        \"code\": \"InvalidValue\",\n        \"target\": \"Authorization\",\n        \"message\": {\n          \"code\": \"MissingValue\",\n          \"target\": \"Authorization\",\n          \"message\": \"APP_ID and APP_SECRET_KEY is missing in Authorization Header.\"\n        }\n      }\n    ],\n    \"request_id\": \"64a54e0e633fda13b6681430\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e9344de7-8155-4d85-9b07-b6158c6f0731",
+              "name": "This response is returned when the number of requests has exceeded the rate limit.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "business_event",
+                    "search"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"event_ids\": [\n    \"6447b078712cd8c650074840\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"error\",\n  \"data\": {\n    \"code\": 429,\n    \"title\": \"rate limiter exception\",\n    \"description\": \"Exceeded rate limit for this app\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "87ada3f2-bbc5-4516-903e-e8ad0611927d",
+              "name": "This response is returned when the system runs into an unexpected error.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "business_event",
+                    "search"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"event_ids\": [\n    \"6447b078712cd8c650074840\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"title\": \"Internal Server Error\",\n  \"message\": \"An unexpected error was encountered while processing this request. Please contact MoEngage Team\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "description": {
+        "content": "The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "01",
+      "key": "dc"
+    },
+    {
+      "type": "string",
+      "value": "https://api-{{dc}}.moengage.com/v1.0",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "basic",
+    "basic": [
+      {
+        "key": "username",
+        "value": "{{basicAuthUsername}}"
+      },
+      {
+        "key": "password",
+        "value": "{{basicAuthPassword}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "5580393d-f4ee-4d73-a243-c6043bd12a87",
+    "name": "MoEngage Business Events API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "API for creating, triggering, and searching business events in MoEngage.\n\nYou can use these events to trigger campaigns whenever they occur. For example, you can create business events for various situations, such as when new episodes of an OTT series become available, when there is a flight delay, or when there is a price drop on an item in a cart.\n\n**Postman Collections**\nWe have made it easy for you to test the APIs. [View in Postman](https://www.postman.com/moengage-dev/workspace/api-docs/collection/3182294-38587f83-f039-46f3-b86e-10af2c918053).\n",
+      "type": "text/plain"
+    }
+  }
+}

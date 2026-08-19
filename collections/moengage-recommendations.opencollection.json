@@ -1,0 +1,83 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "MoEngage Recommendation API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "basic",
+      "username": "{{username}}",
+      "password": "{{password}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Recommendations",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Fetch Recommendation Details",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-{dc}.moengage.com/v1/recommendations/:recommendations_id",
+            "headers": [
+              {
+                "name": "MOE-APPKEY",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "recommendations_id",
+                "value": "a1b2c3d4e5f6a7b8c9d0e1f2",
+                "type": "path",
+                "description": "This parameter indicates the unique identifier associated with the recommendation created in the recommendation module.\n\nYou can obtain the `recommendation_id` from the recommendation you created on the recommendation page.\n"
+              }
+            ]
+          },
+          "docs": "This API retrieves the metadata associated with a specific recommendation setup using its unique ID. The metadata can include the recommendation name, model type, status, creation and update time, and so on.\n"
+        },
+        {
+          "info": {
+            "name": "Fetch Recommendation Results",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-{dc}.moengage.com/v1/recommendations/:recommendations_id/items",
+            "headers": [
+              {
+                "name": "MOE-APPKEY",
+                "value": ""
+              },
+              {
+                "name": "RECOMMENDATION-TYPE",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "recommendations_id",
+                "value": "a1b2c3d4e5f6a7b8c9d0e1f2",
+                "type": "path",
+                "description": "This parameter indicates the unique identifier associated with the recommendation created in the recommendation module.\n\nYou can obtain the `recommendation_id` from the recommendation you created on the recommendation page.\n"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "This API fetches/retrieves the metadata results of any recommendations for a user based on their user ID and item ID.\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,47 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "MoEngage Push API",
+    "version": "2.1"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Transactional",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Send Push Notification (V2.1)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://pushapi-{dc}.moengage.com/v2.1/transaction/sendpush",
+            "headers": [
+              {
+                "name": "X-MOE-APPKEY",
+                "value": ""
+              },
+              {
+                "name": "X-MOE-PushAPI-Signature",
+                "value": ""
+              },
+              {
+                "name": "X-MOE-Query-Type",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "This API creates and sends a push notification campaign. You can use this API to create campaigns (targeting all users or a group of users) to send notifications, target a single user using a unique user attribute, and personalize payload for each user.\n\nThis endpoint accepts three request headers: `X-MOE-APPKEY` (your Workspace ID), `X-MOE-PushAPI-Signature` (the authorization signature), and `X-MOE-Query-Type` (the target audience, corresponding to the `targetAudience` field in the request bod"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

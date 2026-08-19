@@ -1,0 +1,88 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "MoEngage Broadcast Live Activities API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "basic",
+      "username": "{{username}}",
+      "password": "{{password}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Live Activities",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Start Broadcast Live Activity",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-{dc}.moengage.com/v1.0/live-activity/broadcast/start",
+            "headers": [
+              {
+                "name": "X-MOE-APPKEY",
+                "value": "YOUR_WORKSPACE_ID_XXXX"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "This API initiates a shared, real-time activity for a large audience, such as a live sporting match or real-time election result tracking.\n"
+        },
+        {
+          "info": {
+            "name": "Update Broadcast Live Activity",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-{dc}.moengage.com/v1.0/live-activity/broadcast/update",
+            "headers": [
+              {
+                "name": "X-MOE-APPKEY",
+                "value": "YOUR_WORKSPACE_ID_XXXX"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "This API pushes a single, unified update to all subscribed Live Activities, such as an updated game score or a new development in a breaking news story.\n"
+        },
+        {
+          "info": {
+            "name": "End Broadcast Live Activity",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-{dc}.moengage.com/v1.0/live-activity/broadcast/end",
+            "headers": [
+              {
+                "name": "X-MOE-APPKEY",
+                "value": "YOUR_WORKSPACE_ID_XXXX"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "This API terminates a broadcast Live Activity across all subscribed devices simultaneously, with options for a final state update or immediate dismissal.\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

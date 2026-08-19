@@ -1,0 +1,146 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Email Templates API V1",
+    "version": "v2"
+  },
+  "request": {
+    "auth": {
+      "type": "basic",
+      "username": "{{username}}",
+      "password": "{{password}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Email Templates",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get All Templates",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-{dc}.moengage.com/v2/email-templates",
+            "headers": [
+              {
+                "name": "MOE-APPKEY",
+                "value": "WORKSPACE ID"
+              }
+            ],
+            "params": [
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "This parameter represents the page number. If this value is not specified, it will be considered as one by default. Each page will have a batch size of 20( 20 templates will be returned in a page).\n"
+              }
+            ]
+          },
+          "docs": "This API fetches the list of all the email templates available in your MoEngage account.\n"
+        },
+        {
+          "info": {
+            "name": "Create Email Template (V1)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-{dc}.moengage.com/v2/email-templates",
+            "headers": [
+              {
+                "name": "MOE-APPKEY",
+                "value": "APP ID"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "This API creates an email template in MoEngage. You can use this API to upload templates created outside the MoEngage ecosystem to MoEngage and use them for campaign creation on the MoEngage dashboard.\n"
+        },
+        {
+          "info": {
+            "name": "Get Specific Template",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-{dc}.moengage.com/v2/email-templates/:id",
+            "headers": [
+              {
+                "name": "MOE-APPKEY",
+                "value": "Workspace ID"
+              }
+            ],
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "This is the Template id of the template being searched. The template id is a unique identifier that is generated at the time of template creation.\n"
+              }
+            ]
+          },
+          "docs": "This API fetches an email template using its template ID.\n"
+        },
+        {
+          "info": {
+            "name": "Update Specific Template",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api-{dc}.moengage.com/v2/email-templates/:id",
+            "headers": [
+              {
+                "name": "MOE-APPKEY",
+                "value": "Workspace ID"
+              }
+            ],
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "This is the Template id of the template being updated. It is mandatory to add this field when updating a template.\n"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates an existing email template by specifying its template ID in the path."
+        },
+        {
+          "info": {
+            "name": "Bulk Create/Update Templates",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api-{dc}.moengage.com/v2/bulk/email-templates",
+            "headers": [
+              {
+                "name": "MOE-APPKEY",
+                "value": "APP ID"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "This API creates or updates email templates in bulk. You can create or update up to 50 templates in a single request.\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

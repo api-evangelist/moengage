@@ -1,0 +1,48 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "MoEngage GDPR / CCPA API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "basic",
+      "username": "{{username}}",
+      "password": "{{password}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "GDPR",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Submit a GDPR / CCPA Data Request",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-{dc}.moengage.com/v1/opengdpr_requests/:appId",
+            "params": [
+              {
+                "name": "appId",
+                "value": "YOUR_WORKSPACE_ID_XXXX",
+                "type": "path",
+                "description": "This is your MoEngage account's Workspace ID that must be included in the request. You can find your Workspace ID in the following navigation on the dashboard: Revamped UI: **Settings** > **Account** > **APIs** > **Workspace ID**\n"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "GDPR or CCPA API ensures all the rights of users are created or updated for GDPR or CCPA compliance. You can erase the personal data of specific users as defined under GDPR using the Erase API.\n\nFor more details on compliance with MoEngage, refer to [GDPR-Implementation](/user-guide/data/privacy/gdpr) and [CCPA-Implementation](/user-guide/data/privacy/ccpa).\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

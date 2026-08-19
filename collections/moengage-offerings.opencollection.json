@@ -1,0 +1,206 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Offer Decisioning Public API - v5",
+    "version": "5.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Public Offerings",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Offerings",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-{dc}.moengage.com/v5/offers",
+            "headers": [
+              {
+                "name": "X-MOE-Request-Id",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "query",
+                "description": "Look up a single offering by its exact prefixed ID (e.g. offer_6a4f69ee490f66322f968b87). Use this when you already know the offering ID and want to confirm it exists before updating it.\n"
+              },
+              {
+                "name": "name_contains",
+                "value": "",
+                "type": "query",
+                "description": "Find offerings whose name contains specific text (case-insensitive). For example, pass \"summer\" to find all summer-related offerings.\n"
+              },
+              {
+                "name": "status_in",
+                "value": "",
+                "type": "query",
+                "description": "Filter by lifecycle status. Valid values: active, scheduled, expired, archived, draft. Example: status_in=active,scheduled\n"
+              },
+              {
+                "name": "tags",
+                "value": "",
+                "type": "query",
+                "description": "Filter to offerings that have ALL of the specified tags. Repeat the parameter for multiple tags: tags=summer-sale&tags=vip-users.\n"
+              },
+              {
+                "name": "created_date_gte",
+                "value": "",
+                "type": "query",
+                "description": "List offerings created on or after this date. Format: YYYY-MM-DD.\n"
+              },
+              {
+                "name": "created_date_lte",
+                "value": "",
+                "type": "query",
+                "description": "List offerings created on or before this date. Format: YYYY-MM-DD.\n"
+              },
+              {
+                "name": "created_by",
+                "value": "",
+                "type": "query",
+                "description": "Filter offerings created by specific team members. Pass one or more email addresses. Example: created_by=john.doe@example.com,marketing-team@example.com\n"
+              },
+              {
+                "name": "fields",
+                "value": "",
+                "type": "query",
+                "description": "Request only the fields you need. Example: fields=id,name,status returns only those three fields per item.\n"
+              },
+              {
+                "name": "cursor",
+                "value": "",
+                "type": "query",
+                "description": "Pagination cursor returned as `next_cursor` in the previous response. Omit on the first request. When `next_cursor` is `null` in the response, you have reached the last page.\n"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Items per page. Default 20, max 100."
+              }
+            ],
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Fetch all offerings in the workspace. Returns a summary of each offering — ID, name,\nstatus, tags, and creation metadata.\n"
+        },
+        {
+          "info": {
+            "name": "Create Offering",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-{dc}.moengage.com/v5/offers",
+            "headers": [
+              {
+                "name": "Idempotency-Key",
+                "value": ""
+              },
+              {
+                "name": "X-MOE-Request-Id",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Create a new Offering in the workspace.\n"
+        },
+        {
+          "info": {
+            "name": "Update Offering",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api-{dc}.moengage.com/v5/offers/:offer_id",
+            "headers": [
+              {
+                "name": "Idempotency-Key",
+                "value": ""
+              },
+              {
+                "name": "X-MOE-Request-Id",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "offer_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique ID of the offering to be updated. You can fetch the offering ID using the [List Offerings API](/api/public-offerings/list-offerings) by filtering with name."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Modify an existing offering. Only the fields you include in the request body are\nchanged.\n"
+        },
+        {
+          "info": {
+            "name": "List Offer Templates",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-{dc}.moengage.com/v5/offers/templates",
+            "headers": [
+              {
+                "name": "X-MOE-Request-Id",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "cursor",
+                "value": "",
+                "type": "query",
+                "description": "An opaque pagination token used to retrieve the next page of results.\n\n* **Initial Request:** Omit this parameter entirely on the first call to fetch the beginning of the list.\n* **Subsequent Pages:** Pass the exact string received from the `next_cursor` field of the immediate previous response.\n* **Handling:** Pass this token completely verbatim. Do not decode, alter, or modify the string in any way.\n"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Number of templates per page. Default 20, maximum 100."
+              }
+            ],
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Fetch the personalization templates available in the workspace.\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

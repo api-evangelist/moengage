@@ -8,19 +8,17 @@ servers:
   transport: http
   url: https://mcp.moengage.com
   auth: oauth2
-  auth_note: >-
-    OAuth-based authentication tied to the user's MoEngage account. The server inherits the environment,
-    workspace, and role of the active MoEngage session; all tool calls respect existing MoEngage
-    role-based permissions. Dynamic client registration is supported at the authorization server.
+  auth_note: OAuth-based authentication tied to the user's MoEngage account. The server inherits the environment,
+    workspace, and role of the active MoEngage session; all tool calls respect existing MoEngage role-based
+    permissions. Dynamic client registration is supported at the authorization server.
   availability: DC01, DC02, DC03, DC04
   tools_list_probe:
     url: https://mcp.moengage.com
-    method: 'POST tools/list (jsonrpc 2.0)'
+    method: POST tools/list (jsonrpc 2.0)
     http_status: 401
     result: gated
-    note: >-
-      The live tool manifest requires an authenticated OAuth session, so tool inputSchemas could not be
-      introspected anonymously. The tool names and descriptions below are transcribed from MoEngage's
+    note: The live tool manifest requires an authenticated OAuth session, so tool inputSchemas could not
+      be introspected anonymously. The tool names and descriptions below are transcribed from MoEngage's
       published documentation, not invented.
 - name: moengage-docs
   label: MoEngage Documentation MCP
@@ -29,7 +27,7 @@ servers:
   auth: none
   tools_list_probe:
     url: https://www.moengage.com/docs/mcp
-    method: 'POST tools/list (jsonrpc 2.0)'
+    method: POST tools/list (jsonrpc 2.0)
     http_status: 200
     result: open
     note: Anonymous tools/list returns three tools with full inputSchemas.
@@ -49,22 +47,19 @@ clients_documented:
 - ChatGPT (Business / Enterprise custom MCP connector)
 - GitHub Copilot in VS Code 1.101+ (remote MCP with OAuth)
 agent_design_notes:
-- >-
-  discover_schema returns the exact current request shape (required fields, allowed values, worked
-  example) for whatever is being built, so the assistant does not have to guess payloads.
-- >-
-  get_content_guide serves on-demand validated authoring guidance for Jinja personalization and email
+- discover_schema returns the exact current request shape (required fields, allowed values, worked example)
+  for whatever is being built, so the assistant does not have to guess payloads.
+- get_content_guide serves on-demand validated authoring guidance for Jinja personalization and email
   HTML.
-- >-
-  The MCP builds and validates drafts only. Publishing a campaign, and starting or stopping a flow,
-  remain human actions in the MoEngage dashboard unless a tool explicitly covers them.
+- The MCP builds and validates drafts only. Publishing a campaign, and starting or stopping a flow, remain
+  human actions in the MoEngage dashboard unless a tool explicitly covers them.
 - All analytics tools enforce a maximum date range of 30 days.
 tools:
 - name: discover_schema
   category: campaign-build
-  description: >-
-    Returns the exact request shape for a campaign type, component, template, or modifier — required and
-    forbidden fields, a proven minimum example, and the rules for that type. Call before building any payload.
+  description: Returns the exact request shape for a campaign type, component, template, or modifier —
+    required and forbidden fields, a proven minimum example, and the rules for that type. Call before
+    building any payload.
 - name: create_campaign_draft
   category: campaign-build
   description: Create a campaign draft in one call.
@@ -73,8 +68,8 @@ tools:
   description: Update one or more components of an existing draft.
 - name: validate_campaign_draft
   category: campaign-build
-  description: >-
-    Dry-run the full publish validation against a draft without changing it; returns field-level errors.
+  description: Dry-run the full publish validation against a draft without changing it; returns field-level
+    errors.
 - name: create_personalization_preview
   category: campaign-build
   description: Render personalization for sample users to spot-check content before creating.
@@ -89,8 +84,7 @@ tools:
   description: STOP, PAUSE, or RESUME an already-running campaign (not drafts).
 - name: get_content_guide
   category: content-authoring
-  description: >-
-    Validated authoring guidance for content. Request a topic (jinja, email_html, email_deliverability)
+  description: Validated authoring guidance for content. Request a topic (jinja, email_html, email_deliverability)
     and an optional section.
 - name: create_content_block
   category: content-blocks
@@ -151,9 +145,8 @@ tools:
   description: Fetch the analytical data for a specific chart within a dashboard.
 - name: search_campaigns
   category: search-read
-  description: >-
-    Search campaigns across all channels by name, status, ID, channel, delivery type, or date range.
-    Status filters ACTIVE, DRAFT, EXPIRED, NOT_SENT, PAUSED, SCHEDULED, SENDING, SENT, STOPPED,
+  description: Search campaigns across all channels by name, status, ID, channel, delivery type, or date
+    range. Status filters ACTIVE, DRAFT, EXPIRED, NOT_SENT, PAUSED, SCHEDULED, SENDING, SENT, STOPPED,
     UNDER_REVIEW, REJECTED.
 - name: get_campaign
   category: search-read
@@ -163,23 +156,22 @@ tools:
   description: Fetch a single campaign's metadata.
 - name: get_campaign_stats
   category: campaign-analytics
-  description: >-
-    Aggregate performance — delivery rate, opens, clicks, CTR, and channel-specific metrics. Up to 50
-    campaigns per call.
+  description: Aggregate performance — delivery rate, opens, clicks, CTR, and channel-specific metrics.
+    Up to 50 campaigns per call.
 - name: get_detailed_campaign_stats
   category: campaign-analytics
   description: Breakdowns by conversion goal, device/platform, locale, and A/B variation.
 - name: get_delivery_stats
   category: campaign-analytics
-  description: >-
-    The delivery funnel — reachable users, frequency-cap removals, send/delivery failures, and
-    per-platform device stats.
+  description: The delivery funnel — reachable users, frequency-cap removals, send/delivery failures,
+    and per-platform device stats.
 - name: get_click_performance
   category: campaign-analytics
   description: Per-URL click breakdown, with total and unique counts.
 - name: get_device_analytics
   category: campaign-analytics
-  description: Performance by device dimensions — OEM, app version, or dormancy, with multi-dimensional splits.
+  description: Performance by device dimensions — OEM, app version, or dormancy, with multi-dimensional
+    splits.
 - name: discover_analyze_schema
   category: behavior-analytics
   status: beta
@@ -213,10 +205,39 @@ docs_mcp_tools:
   description: Search across the MoEngage knowledge base for documentation, code examples, and API references.
   read_only: true
 - name: query_docs_filesystem_mo_engage
-  description: >-
-    Run a read-only shell-like query (rg, grep, find, tree, ls, cat, head, tail, jq, ...) against a
-    virtualized in-memory filesystem containing only the MoEngage documentation pages and OpenAPI specs.
+  description: Run a read-only shell-like query (rg, grep, find, tree, ls, cat, head, tail, jq, ...) against
+    a virtualized in-memory filesystem containing only the MoEngage documentation pages and OpenAPI specs.
   read_only: true
 - name: submit_feedback
   description: Report a problem with the documentation site.
   read_only: false
+deployment:
+  mode: remote
+  endpoint: https://mcp.moengage.com
+  auth: oauth
+  verified: probed
+  checked: '2026-08-14'
+  source: >-
+    Live POST tools/list against https://mcp.moengage.com, /mcp and /sse on 2026-08-14. All three
+    return HTTP 401 with
+    www-authenticate: Bearer resource_metadata="https://mcp.moengage.com/.well-known/oauth-protected-resource",
+    which is an RFC 9728 OAuth challenge from a real MCP server, not a 404. There is no npx/stdio
+    package — MoEngage ships a hosted endpoint only, so an agent can reach it with an OAuth token and
+    no local install.
+  install: null
+  package: null
+  additional_endpoints:
+  - endpoint: https://www.moengage.com/docs/mcp
+    label: MoEngage Documentation MCP
+    mode: remote
+    auth: none
+    verified: probed
+    checked: '2026-08-14'
+    tools_list:
+      http_status: 200
+      transport: streamable-http (SSE framed)
+      tool_count: 3
+      file: moengage-docs-tools-list.json
+      note: >-
+        Anonymous tools/list returns the three documentation tools with full inputSchemas. Saved
+        verbatim alongside this manifest.

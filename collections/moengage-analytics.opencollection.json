@@ -1,0 +1,86 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "MoEngage Analytics Dashboard and Chart API",
+    "version": "5.0"
+  },
+  "request": {
+    "auth": {
+      "type": "basic",
+      "username": "{{username}}",
+      "password": "{{password}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Dashboards",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Dashboards",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-{dc}.moengage.com/v5/analytics/dashboards"
+          },
+          "docs": "Returns the custom dashboards available to the authenticated workspace. Archived dashboards are excluded.\n"
+        },
+        {
+          "info": {
+            "name": "Get Dashboard Charts",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-{dc}.moengage.com/v5/analytics/dashboards/:dashboard_id/charts",
+            "params": [
+              {
+                "name": "dashboard_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the dashboard. You can retrieve dashboard IDs from the [List Dashboards](/api/dashboards/list-dashboards) response."
+              }
+            ]
+          },
+          "docs": "Returns the details of a single dashboard, including its name, creator, and owner. It also returns the list of charts on the dashboard, in layout order. Each chart entry contains the chart's ID and name.\n"
+        },
+        {
+          "info": {
+            "name": "Get Chart Data",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-{dc}.moengage.com/v5/analytics/dashboards/:dashboard_id/charts/:chart_id",
+            "params": [
+              {
+                "name": "dashboard_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the dashboard. You can retrieve dashboard IDs from the [List Dashboards](/api/dashboards/list-dashboards) response."
+              },
+              {
+                "name": "chart_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the chart on the dashboard. You can retrieve chart IDs from the [Get Dashboard Charts](/api/dashboards/get-dashboard-charts) response."
+              },
+              {
+                "name": "cache",
+                "value": "",
+                "type": "query",
+                "description": "Controls whether the chart data is served from the server-side cache. Set to `false` to bypass the cache and recompute the chart. Defaults to `true`."
+              }
+            ]
+          },
+          "docs": "Returns the data behind a single chart, as an array of rows. Each call runs the chart's analytics query and returns the result.\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

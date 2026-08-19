@@ -1,0 +1,463 @@
+{
+  "item": [
+    {
+      "id": "be1703b2-b9e0-4285-b3bf-c89bddf0d817",
+      "name": "Transactional Alerts",
+      "description": {
+        "content": "Send transactional alerts using pre-configured templates.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "8197d2cc-b0d7-4118-aadf-3a917c3642f4",
+          "name": "Send Transactional Alert",
+          "request": {
+            "name": "Send Transactional Alert",
+            "description": {
+              "content": "This API is used to trigger a transactional message/alert to the user via one or more configured channels.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "alerts",
+                "send"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "description": "The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+                  "type": "any",
+                  "value": "{{dc}}",
+                  "key": "dc"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "{{basicAuthUsername}}"
+                },
+                {
+                  "key": "password",
+                  "value": "{{basicAuthPassword}}"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"transaction_id\": \"<string>\",\n  \"payloads\": {\n    \"SMS\": {\n      \"recipient\": \"<string>\",\n      \"personalized_attributes\": {\n        \"key_0\": false\n      },\n      \"sender_attributes\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"personalized_attachments\": {\n        \"key_0\": \"<byte>\",\n        \"key_1\": \"<byte>\",\n        \"key_2\": \"<byte>\"\n      },\n      \"live_activity_attributes\": {\n        \"la_type\": \"<string>\",\n        \"attribute_info\": {\n          \"key_0\": true\n        },\n        \"content_state\": {\n          \"key_0\": true,\n          \"key_1\": true,\n          \"key_2\": false,\n          \"key_3\": 9109.37235612607\n        }\n      }\n    },\n    \"EMAIL\": {\n      \"recipient\": \"<string>\",\n      \"personalized_attributes\": {\n        \"key_0\": \"string\",\n        \"key_1\": true\n      },\n      \"sender_attributes\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"personalized_attachments\": {\n        \"key_0\": \"<byte>\"\n      },\n      \"live_activity_attributes\": {\n        \"la_type\": \"<string>\",\n        \"attribute_info\": {\n          \"key_0\": 9284,\n          \"key_1\": 8945.346796616195,\n          \"key_2\": \"string\"\n        },\n        \"content_state\": {\n          \"key_0\": 9573.203414589352\n        }\n      }\n    },\n    \"PUSH\": {\n      \"recipient\": \"<string>\",\n      \"personalized_attributes\": {\n        \"key_0\": 9115.852971233946\n      },\n      \"sender_attributes\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"personalized_attachments\": {\n        \"key_0\": \"<byte>\",\n        \"key_1\": \"<byte>\"\n      },\n      \"live_activity_attributes\": {\n        \"la_type\": \"<string>\",\n        \"attribute_info\": {\n          \"key_0\": 9427,\n          \"key_1\": \"string\",\n          \"key_2\": 6667.215046497288,\n          \"key_3\": 7557.063653704757\n        },\n        \"content_state\": {\n          \"key_0\": 2566\n        }\n      }\n    }\n  },\n  \"alert_id\": \"<string>\",\n  \"alert_reference_name\": \"<string>\",\n  \"user_id\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "7b408837-311e-4e51-af2e-fcd54397bad8",
+              "name": "Request has been received and processed. The response body contains the status for the overall request and for each individual channel.\n\n**Note**: Reach out to your Customer Success Manager to enable sending the channel level details as part of your API response.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "alerts",
+                    "send"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"alert_id\": \"636b77e6e2cf83277195fb60\",\n  \"alert_reference_name\": \"Demo_ID\",\n  \"user_id\": \"USER_12345\",\n  \"transaction_id\": \"TXN_ABCDEF123\",\n  \"payloads\": {\n    \"SMS\": {\n      \"recipient\": \"1234567890\"\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Successfully Received\",\n  \"request_id\": \"string\",\n  \"SMS\": {\n    \"message\": \"string\",\n    \"err_code\": \"string\",\n    \"status_code\": 9354\n  },\n  \"EMAIL\": {\n    \"message\": \"string\",\n    \"err_code\": \"string\",\n    \"status_code\": 2170\n  },\n  \"PUSH\": {\n    \"message\": \"string\",\n    \"err_code\": \"string\",\n    \"status_code\": 8772\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "378012b9-5499-4462-b1bc-3fb6c7223d8f",
+              "name": "Bad Request. Invalid payload format, incorrect JSON, or invalid Alert ID.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "alerts",
+                    "send"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"alert_id\": \"636b77e6e2cf83277195fb60\",\n  \"alert_reference_name\": \"Demo_ID\",\n  \"user_id\": \"USER_12345\",\n  \"transaction_id\": \"TXN_ABCDEF123\",\n  \"payloads\": {\n    \"SMS\": {\n      \"recipient\": \"1234567890\"\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Invalid Alert ID\",\n  \"err_code\": \"BAD_REQUEST\",\n  \"status_code\": 120002\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "43724d63-4cbc-4d00-8c56-2f79c1a78b8c",
+              "name": "Unauthorized. Invalid authentication credentials.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "alerts",
+                    "send"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"alert_id\": \"636b77e6e2cf83277195fb60\",\n  \"alert_reference_name\": \"Demo_ID\",\n  \"user_id\": \"USER_12345\",\n  \"transaction_id\": \"TXN_ABCDEF123\",\n  \"payloads\": {\n    \"SMS\": {\n      \"recipient\": \"1234567890\"\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Invalid App Key or Basic Auth\",\n  \"err_code\": \"UNAUTHORIZED\",\n  \"status_code\": 120001\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a2a9c020-1963-4a54-b1da-af6e13f7d8c3",
+              "name": "Duplicate Request. A request with the same `transaction_id` was received within 5 minutes of a previously successful or in-progress request.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "alerts",
+                    "send"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"alert_id\": \"636b77e6e2cf83277195fb60\",\n  \"alert_reference_name\": \"Demo_ID\",\n  \"user_id\": \"USER_12345\",\n  \"transaction_id\": \"TXN_ABCDEF123\",\n  \"payloads\": {\n    \"SMS\": {\n      \"recipient\": \"1234567890\"\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Conflict",
+              "code": 409,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Duplicate Transaction ID\",\n  \"err_code\": \"DUPLICATE_REQUEST_RECEIVED\",\n  \"status_code\": 120105\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f99aca1a-1a04-484c-855a-3eb711b44471",
+              "name": "Rate Limit Reached. The number of requests per minute has exceeded the rate limit.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "alerts",
+                    "send"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"alert_id\": \"636b77e6e2cf83277195fb60\",\n  \"alert_reference_name\": \"Demo_ID\",\n  \"user_id\": \"USER_12345\",\n  \"transaction_id\": \"TXN_ABCDEF123\",\n  \"payloads\": {\n    \"SMS\": {\n      \"recipient\": \"1234567890\"\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Too many requests\",\n  \"err_code\": \"Rate Limit\",\n  \"status_code\": 140110\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "074f2990-18c2-48e5-bb42-9ca3d926bfdc",
+              "name": "Internal Server Error. The system ran into an unexpected error. You can retry the request up to 3 times with exponential backoff.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "alerts",
+                    "send"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"alert_id\": \"636b77e6e2cf83277195fb60\",\n  \"alert_reference_name\": \"Demo_ID\",\n  \"user_id\": \"USER_12345\",\n  \"transaction_id\": \"TXN_ABCDEF123\",\n  \"payloads\": {\n    \"SMS\": {\n      \"recipient\": \"1234567890\"\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Unexpected error occurred\",\n  \"err_code\": \"Internal Server Error\",\n  \"status_code\": 140109\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "description": {
+        "content": "The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "01",
+      "key": "dc"
+    },
+    {
+      "type": "string",
+      "value": "https://api-{{dc}}.moengage.com/v1.0",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "c55dd394-7445-4bc2-8eca-87bb820834dd",
+    "name": "MoEngage Inform API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "API for MoEngage Inform, a unified messaging infrastructure for building and managing transactional alerts across multiple channels like SMS, Email, and Push.",
+      "type": "text/plain"
+    }
+  }
+}

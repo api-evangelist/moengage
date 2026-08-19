@@ -1,0 +1,177 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Flows",
+    "version": "5.0"
+  },
+  "request": {
+    "auth": {
+      "type": "basic",
+      "username": "{{username}}",
+      "password": "{{password}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Flows",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Search Flows",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-{dc}.moengage.com/v5/flows/search",
+            "headers": [
+              {
+                "name": "X-MOE-Tenant-ID",
+                "value": ""
+              },
+              {
+                "name": "X-MOE-Request-Id",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "This API returns a paginated list of flows matching your filters. Send filters in the\nrequest body — all are optional and combine with AND. Multi-valued filters (`status`,\n`delivery_type`, `tags`) match ANY of the supplied values, and archived flows are excluded\nunless `include_archived` is `true`.\n\nEach response includes a `next_cursor`. To get the next page, send that value as the\n`cursor` in your next request. Sorting is not supported in this version; results are\nreturned most recent first. Y"
+        },
+        {
+          "info": {
+            "name": "Get a Single Flow",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-{dc}.moengage.com/v5/flows/:flow_id",
+            "headers": [
+              {
+                "name": "X-MOE-Tenant-ID",
+                "value": ""
+              },
+              {
+                "name": "X-MOE-Request-Id",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "flow_id",
+                "value": "",
+                "type": "path",
+                "description": "The 24-character ID of the flow. This must be the flow's own ID, not a version ID; passing a version ID returns `400`.\n"
+              },
+              {
+                "name": "version_no",
+                "value": "",
+                "type": "query",
+                "description": "View a specific version of the flow by its version number (the trailing integer of the version name, for example `Version 3` becomes `3`). When omitted, the last published version is returned, or the draft if none is published. A non-integer value returns `400`; a number that does not exist for this flow returns `404`.\n"
+              }
+            ],
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "This API returns everything about one flow — its settings, targeting, conversion\ngoal, and full stage-by-stage structure — typically after you find its `flow_id` with Search\nFlows. Use the optional `version_no` query parameter to view a specific version; by default,\nyou get the last published version, or the draft if the flow was never published. Your API\nkey must have the `campaigns:view` permission (see the\n[Authentication](/api/flows/flows-overview#authentication) section).\n"
+        },
+        {
+          "info": {
+            "name": "Get a Specific Version of a Flow",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-{dc}.moengage.com/v5/flows/:flow_id/versions/:version_id",
+            "headers": [
+              {
+                "name": "X-MOE-Tenant-ID",
+                "value": ""
+              },
+              {
+                "name": "X-MOE-Request-Id",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "flow_id",
+                "value": "",
+                "type": "path",
+                "description": "The 24-character ID of the flow. This must be the flow's own ID, not a version ID; passing a version ID returns `400`.\n"
+              },
+              {
+                "name": "version_id",
+                "value": "",
+                "type": "path",
+                "description": "The 24-character ID of a specific version of the flow. Must belong to `flow_id`.\n"
+              }
+            ],
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "This API returns a flow exactly as it was in a past version — for example,\nto audit what was live before a recent change. If you already have the version number\nrather than its ID, use `version_no` on Get a Single Flow instead. The `version_id` must\nbelong to `flow_id`, otherwise the API returns `404`. Your API key must have the\n`campaigns:view` permission (see the\n[Authentication](/api/flows/flows-overview#authentication) section).\n"
+        },
+        {
+          "info": {
+            "name": "Update Flow Status",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api-{dc}.moengage.com/v5/flows/:flow_id/status",
+            "headers": [
+              {
+                "name": "Idempotency-Key",
+                "value": ""
+              },
+              {
+                "name": "X-MOE-Tenant-ID",
+                "value": ""
+              },
+              {
+                "name": "X-MOE-Request-Id",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "flow_id",
+                "value": "",
+                "type": "path",
+                "description": "The 24-character ID of the flow. This must be the flow's own ID, not a version ID; passing a version ID returns `400`.\n"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "This API changes a flow's lifecycle state. It validates the requested transition against the flow's\ncurrent state before applying it; an invalid transition returns `409`. Your API key must have the\n`campaigns:create_manage` permission (see the [Authentication](/api/flows/flows-overview#authentication) section).\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

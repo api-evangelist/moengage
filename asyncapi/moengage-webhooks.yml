@@ -1,0 +1,121 @@
+generated: '2026-08-14'
+method: searched
+source: https://www.moengage.com/docs/api/data/moengage-streams
+sources:
+- https://www.moengage.com/docs/api/data/moengage-streams
+- https://www.moengage.com/docs/partner-guide/data-and-analytics/workflow-automation/webhook
+spec_type: none
+spec_note: >-
+  MoEngage publishes no AsyncAPI document. Neither the documentation repository
+  (github.com/moengage/moengage-documentation, which carries 30 OpenAPI files under /api) nor any host
+  in apis.yml serves an /asyncapi.yaml or /asyncapi.json. What MoEngage does publish is two documented
+  OUTBOUND HTTP callback surfaces — Streams (near real-time event export) and Alerts webhooks — both
+  captured below as a webhook catalog. This artifact carries a Webhooks pointer, not an AsyncAPI one.
+direction: outbound
+direction_note: >-
+  Both surfaces are MoEngage-initiated. MoEngage POSTs to a customer-owned HTTPS endpoint; there is no
+  inbound webhook receiver on the MoEngage side and no subscription API — enablement is a support/CSM
+  request, not a self-serve API call.
+surfaces:
+- name: MoEngage Streams
+  docs: https://www.moengage.com/docs/api/data/moengage-streams
+  purpose: >-
+    Near real-time export of campaign interaction events and user action events to a customer endpoint,
+    a data lake, or an integrated partner (Mixpanel, Amplitude, Segment, mParticle, RudderStack).
+  packaging: Streams add-on
+  transport:
+    protocol: https
+    method: POST
+    content_type: application/json
+    destination: customer-supplied API endpoint
+  authentication:
+    options:
+    - none
+    - {type: basic, fields: [username, password]}
+    - {type: oauth2, grant: client_credentials}
+    - {type: custom-header, values: [API key, Bearer token], note: Configured via a support ticket.}
+  batching:
+    default_batch_size: 100
+    unit: events per request
+  retries:
+    trigger: any non-2XX response
+    scope: the entire batch is retried
+    attempts: 3
+    backoff_seconds: [30, 60, 120]
+  latency: near real-time
+  payload:
+    envelope_fields: [app_name, source, moe_request_id, events]
+    event_fields: [event_name, event_code, event_uuid, event_time, uid, event_attributes, user_attributes, device_attributes]
+    event_time_format: epoch seconds
+    default_event_attributes: [campaign_id, campaign_name, campaign_type, campaign_channel]
+  constraints:
+  - Data that occurred before Streams was configured cannot be exported.
+  - >-
+    User attributes are updated asynchronously, so the latest attribute values are not guaranteed in an
+    export.
+  enablement: >-
+    Raise a request with the MoEngage CSM or support team supplying the destination endpoint, the event
+    list, the user/device attributes to include, the auth method, and the workspace. There is no
+    self-serve subscription API.
+  events:
+  - group: email
+    names: [MOE_EMAIL_SENT, MOE_EMAIL_DELIVERED, MOE_EMAIL_OPEN, MOE_EMAIL_CLICK, MOE_EMAIL_HARD_BOUNCE,
+      MOE_EMAIL_SOFT_BOUNCE, MOE_EMAIL_DROP, MOE_EMAIL_UNSUBSCRIBE, MOE_EMAIL_SPAM]
+  - group: sms
+    names: [SMS_SENT, SMS_DELIVERED]
+  - group: push
+    names: [NOTIFICATION_RECEIVED_MOE, NOTIFICATION_CLICKED_MOE, NOTIFICATION_CLEARED_MOE, NOTIFICATION_CLICKED_IOS_MOE,
+      NOTIFICATION_RECEIVED_WEB_MOE, NOTIFICATION_CLICKED_WEB_MOE]
+  - group: in-app-and-cards
+    names: [MOE_IN_APP_SHOWN, MOE_IN_APP_CLICKED, MOE_IN_APP_DISMISSED, MOE_CARD_SENT, MOE_CARD_VIEWED,
+      MOE_CARD_CLICKED]
+  - group: flows
+    names: [USER_ENTERED_FLOW, USER_EXITED_FLOW]
+  events_note: >-
+    Additional documented groups for on-site messaging, connector campaigns and control groups exist on
+    the Streams page; only the event names transcribed verbatim from the documentation are listed above.
+- name: MoEngage Alerts webhook
+  docs: https://www.moengage.com/docs/partner-guide/data-and-analytics/workflow-automation/webhook
+  purpose: >-
+    Operational alerting. When a configured MoEngage alert fires, MoEngage POSTs the alert payload to a
+    customer webhook URL.
+  transport:
+    protocol: https
+    method: POST
+    content_type: application/json
+    destination: customer-supplied webhook URL
+  authentication:
+    type: signature
+    header: Signature
+    algorithm: SHA-256
+    computation: SHA-256 hexdigest of the API key concatenated with the raw request body
+    key: Campaign Report API Key
+  payload:
+    core_fields: [alert_id, alert_name, alert_type, db_name, alert_triggered_at, alert_evaluation_criteria]
+    alert_evaluation_criteria_fields: [name, operator, threshold, unit, range_start, range_end]
+    optional_fields: [entity_data]
+    entity_data_fields: [campaign_name, campaign_id, flow_name, channel, current_value, moving_avg_value]
+  events:
+  - group: alerts
+    names: [CAMPAIGN_STATS, FLOW_STATS, CAMPAIGN_EXPIRY, APNS_TOKEN_EXPIRY, FACEBOOK_TOKEN_EXPIRY]
+  retries:
+    documented: false
+    note: >-
+      The documentation does not state retry counts, timeout, or expected response codes for the alerts
+      webhook. Recorded as an honest gap.
+related:
+- name: Connector campaigns
+  docs: https://help.moengage.com/hc/en-us/articles/214247906-Create-a-Connector-Campaign
+  note: >-
+    A campaign channel rather than an event surface — a marketer authors an HTTP request (JSON,
+    form-encoded, or raw, with Basic/OAuth 2.0/header auth) that MoEngage sends to a third-party URL per
+    targeted user. Listed for completeness; it is user-authored outbound traffic, not a published event
+    catalog.
+cross_links:
+  authentication: authentication/moengage-authentication.yml
+  conventions: conventions/moengage-conventions.yml
+  rate_limits: rate-limits/moengage-rate-limits.yml
+gaps:
+- No AsyncAPI, CloudEvents, or JSON Schema document is published for either payload.
+- No self-serve subscription/management API for Streams destinations — enablement is a support ticket.
+- No documented signature scheme on the Streams callback (only on the Alerts webhook).

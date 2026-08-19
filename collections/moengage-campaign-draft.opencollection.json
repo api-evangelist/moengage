@@ -1,0 +1,338 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "MoEngage Campaigns API",
+    "version": "2025-11-20"
+  },
+  "request": {
+    "auth": {
+      "type": "basic",
+      "username": "{{username}}",
+      "password": "{{password}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Create Campaigns",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create Campaign Draft (V5)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-{dc}.moengage.com/v5/campaigns",
+            "headers": [
+              {
+                "name": "MOE-APPKEY",
+                "value": "{{workspace_id}}"
+              },
+              {
+                "name": "X-MOE-Request-Id",
+                "value": ""
+              },
+              {
+                "name": "Idempotency-Key",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a Push or Email campaign draft. Content, audience, and delivery settings can be included at the time of creation, or added later via `PATCH /v5/campaigns/{campaign_id}`.\n"
+        },
+        {
+          "info": {
+            "name": "Validate Campaign (V5)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-{dc}.moengage.com/v5/campaigns/:campaign_id/validate",
+            "headers": [
+              {
+                "name": "MOE-APPKEY",
+                "value": "{{workspace_id}}"
+              },
+              {
+                "name": "X-MOE-Request-Id",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "campaign_id",
+                "value": "",
+                "type": "path",
+                "description": "Raw 24-char ObjectId of the campaign to validate. Use the `id` value returned in the Create Campaign response.\n"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Runs full publish-time validation (`DRAFT_PUBLISH`) on a saved draft without mutating it. Returns `valid: true` if the campaign would pass, or a list of blocking errors if it would not.\n\nAll campaign data is read from the saved draft identified by `campaign_id` in the path. There is no channel-specific payload.\n"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Get Campaign Details",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Campaign (V5)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-{dc}.moengage.com/v5/campaigns/:campaign_id",
+            "headers": [
+              {
+                "name": "MOE-APPKEY",
+                "value": "{{workspace_id}}"
+              },
+              {
+                "name": "X-MOE-Request-Id",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "campaign_id",
+                "value": "",
+                "type": "path",
+                "description": "Raw 24-char ObjectId of the campaign to retrieve."
+              }
+            ]
+          },
+          "docs": "Returns the full configuration and current status of a single campaign by its ID.\n"
+        },
+        {
+          "info": {
+            "name": "Search Campaigns (V5)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-{dc}.moengage.com/v5/campaigns/search",
+            "headers": [
+              {
+                "name": "MOE-APPKEY",
+                "value": "{{workspace_id}}"
+              },
+              {
+                "name": "X-MOE-Request-Id",
+                "value": ""
+              },
+              {
+                "name": "Idempotency-Key",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Returns the full V5 campaign payload for all campaigns that match the specified filters.\nSupports pagination and filtering by channel, status, tags, name, IDs, dates, delivery\ntype, and creator.\n"
+        },
+        {
+          "info": {
+            "name": "Get Campaign Meta (V5)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-{dc}.moengage.com/v5/campaigns/meta",
+            "headers": [
+              {
+                "name": "MOE-APPKEY",
+                "value": "{{workspace_id}}"
+              },
+              {
+                "name": "X-MOE-Request-Id",
+                "value": ""
+              },
+              {
+                "name": "Idempotency-Key",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Returns lightweight metadata for one or more campaigns without loading their full configuration.\n"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Update Campaigns",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Update Campaign (V5)",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api-{dc}.moengage.com/v5/campaigns/:campaign_id",
+            "headers": [
+              {
+                "name": "MOE-APPKEY",
+                "value": "{{workspace_id}}"
+              },
+              {
+                "name": "X-MOE-Request-Id",
+                "value": ""
+              },
+              {
+                "name": "Idempotency-Key",
+                "value": ""
+              },
+              {
+                "name": "X-MOE-Scopes",
+                "value": "campaigns:create_manage"
+              }
+            ],
+            "params": [
+              {
+                "name": "campaign_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique ID of the campaign to update.\n\nYou can fetch the campaign ID using the [Get Campaign Details API](/api/get-campaign-details/search-campaigns-v5) by filtering with campaign name, channel, or other criteria.\n"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates individual components of a campaign draft.\n"
+        },
+        {
+          "info": {
+            "name": "Update Campaign Status (V5)",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api-{dc}.moengage.com/v5/campaigns/:campaign_id/status",
+            "headers": [
+              {
+                "name": "MOE-APPKEY",
+                "value": "{{workspace_id}}"
+              },
+              {
+                "name": "X-MOE-Request-Id",
+                "value": ""
+              },
+              {
+                "name": "Idempotency-Key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "campaign_id",
+                "value": "",
+                "type": "path",
+                "description": "Raw 24-char ObjectId of the published campaign to transition."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Applies a state transition to a published campaign. Supported for **Email** and **Push** campaigns.\n"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Test Campaigns",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Test Campaign (V5)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-{dc}.moengage.com/v5/campaigns/test",
+            "headers": [
+              {
+                "name": "MOE-APPKEY",
+                "value": "{{workspace_id}}"
+              },
+              {
+                "name": "X-MOE-Request-Id",
+                "value": ""
+              },
+              {
+                "name": "Idempotency-Key",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Sends a test Push or Email message to specific users or device identifiers before publishing the campaign.\n"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Personalized Preview",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Personalized Preview (V5)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-{dc}.moengage.com/v5/personalization/preview",
+            "headers": [
+              {
+                "name": "MOE-APPKEY",
+                "value": "{{workspace_id}}"
+              },
+              {
+                "name": "X-MOE-Request-Id",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Returns a fully resolved preview of personalised campaign content for a specific user - all user attributes, event attributes, content blocks, content APIs, product sets, and custom templates are rendered exactly as they would appear to that user at send time.\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

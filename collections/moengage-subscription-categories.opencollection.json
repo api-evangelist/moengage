@@ -1,0 +1,118 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "MoEngage Subscription Categories API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "basic",
+      "username": "{{username}}",
+      "password": "{{password}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Subscription Preferences",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Subscription Preferences",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-{dc}.moengage.com/v1/category-subscription/user-preferences",
+            "headers": [
+              {
+                "name": "MOE-APPKEY",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "user_id",
+                "value": "",
+                "type": "query",
+                "description": "This is the MoEngage ID that uniquely identifies the customer for whom the subscription preferences are being updated. \n\n**Note:** MoEngage ID is encrypted using 16 bits DES and is encoded in the URL of the landing page. It must be sent as-is (encrypted).\n"
+              },
+              {
+                "name": "cid",
+                "value": "",
+                "type": "query",
+                "description": "This is the campaign id of the email campaign. This field contains the information about the email campaign received by the customer.\n\n**Note:** The campaign ID is encrypted using 16-bit DES and is encoded within the landing page URL. You must fetch the encrypted `<campaign Id>` from the URL and send it directly to MoEngage; it is not necessary to perform any decryption.\n"
+              }
+            ]
+          },
+          "docs": "This API fetches the subscription category preferences information for a specific user based on the encrypted User ID and Campaign ID found in the landing page URL.\n"
+        },
+        {
+          "info": {
+            "name": "Bulk Update Subscription Preferences",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-{dc}.moengage.com/v1/category-subscription/user-preferences",
+            "headers": [
+              {
+                "name": "MOE-APPKEY",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "This API updates subscription category preferences in bulk. You can use this API to update the user preferences to MoEngage in large volumes.\n"
+        },
+        {
+          "info": {
+            "name": "Update Subscription Preferences",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api-{dc}.moengage.com/v1/category-subscription/user-preferences",
+            "headers": [
+              {
+                "name": "MOE-APPKEY",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "user_id",
+                "value": "",
+                "type": "query",
+                "description": "This is the MoEngage ID that uniquely identifies the customer. Encrypted using 16 bits DES and encoded in the URL of the landing page.\n"
+              },
+              {
+                "name": "cid",
+                "value": "",
+                "type": "query",
+                "description": "The campaign ID of the email campaign. Encrypted using 16 bits DES and encoded in the URL of the landing page.\n"
+              },
+              {
+                "name": "moe_event_id",
+                "value": "",
+                "type": "query",
+                "description": "This is used to update the unsubscribe event when the user chooses the 'unsubscribe all' option."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "This API updates the subscription category preferences for a specific user who navigates from an email. This endpoint requires the encrypted IDs obtained from the email link.\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

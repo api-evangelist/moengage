@@ -1,0 +1,2705 @@
+{
+  "item": [
+    {
+      "id": "74a24ab1-db21-44c0-8199-8ee5fcb5ce27",
+      "name": "Public Offerings",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "4cbae617-1d58-49f3-aaab-7e6199d8dcb0",
+          "name": "List Offerings",
+          "request": {
+            "name": "List Offerings",
+            "description": {
+              "content": "Fetch all offerings in the workspace. Returns a summary of each offering — ID, name,\nstatus, tags, and creation metadata.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v5",
+                "offers"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "id",
+                  "value": "<string>",
+                  "description": "Look up a single offering by its exact prefixed ID (e.g. offer_6a4f69ee490f66322f968b87). Use this when you already know the offering ID and want to confirm it exists before updating it.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "name_contains",
+                  "value": "<string>",
+                  "description": "Find offerings whose name contains specific text (case-insensitive). For example, pass \"summer\" to find all summer-related offerings.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "status_in",
+                  "value": "<string>",
+                  "description": "Filter by lifecycle status. Valid values: active, scheduled, expired, archived, draft. Example: status_in=active,scheduled\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "tags",
+                  "value": "<string>",
+                  "description": "Filter to offerings that have ALL of the specified tags. Repeat the parameter for multiple tags: tags=summer-sale&tags=vip-users.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "tags",
+                  "value": "<string>",
+                  "description": "Filter to offerings that have ALL of the specified tags. Repeat the parameter for multiple tags: tags=summer-sale&tags=vip-users.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "created_date_gte",
+                  "value": "<date>",
+                  "description": "List offerings created on or after this date. Format: YYYY-MM-DD.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "created_date_lte",
+                  "value": "<date>",
+                  "description": "List offerings created on or before this date. Format: YYYY-MM-DD.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "created_by",
+                  "value": "<string>",
+                  "description": "Filter offerings created by specific team members. Pass one or more email addresses. Example: created_by=john.doe@example.com,marketing-team@example.com\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "created_by",
+                  "value": "<string>",
+                  "description": "Filter offerings created by specific team members. Pass one or more email addresses. Example: created_by=john.doe@example.com,marketing-team@example.com\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "fields",
+                  "value": "<string>",
+                  "description": "Request only the fields you need. Example: fields=id,name,status returns only those three fields per item.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "cursor",
+                  "value": "<string>",
+                  "description": "Pagination cursor returned as `next_cursor` in the previous response. Omit on the first request. When `next_cursor` is `null` in the response, you have reached the last page.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "20",
+                  "description": "Items per page. Default 20, max 100."
+                }
+              ],
+              "variable": [
+                {
+                  "description": "MoEngage data center identifier. Replace with your assigned DC number. Full example: https://api-01.moengage.com\n",
+                  "type": "any",
+                  "value": "{{dc}}",
+                  "key": "dc"
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "Client-supplied trace ID (UUID v4). Echoed back in the `X-MOE-Request-Id` response header.\n",
+                "key": "X-MOE-Request-Id",
+                "value": "<uuid>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "{{basicAuthUsername}}"
+                },
+                {
+                  "key": "password",
+                  "value": "{{basicAuthPassword}}"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "cb0eb606-1bb8-4d91-90fa-cca2c0be1caf",
+              "name": "Paginated list of offerings.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v5",
+                    "offers"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "name_contains",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "status_in",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "tags",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "tags",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "created_date_gte",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "created_date_lte",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "created_by",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "created_by",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "fields",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "cursor",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "20"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "description": "MoEngage data center identifier. Replace with your assigned DC number. Full example: https://api-01.moengage.com\n",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Client-supplied trace ID (UUID v4). Echoed back in the `X-MOE-Request-Id` response header.\n",
+                    "key": "X-MOE-Request-Id",
+                    "value": "<uuid>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "Trace ID echoed from the gateway.",
+                  "key": "X-MOE-Request-Id",
+                  "value": "string"
+                },
+                {
+                  "disabled": false,
+                  "description": "Maximum requests allowed in the current window.",
+                  "key": "X-RateLimit-Limit",
+                  "value": "150"
+                },
+                {
+                  "disabled": false,
+                  "description": "Requests remaining in the current window before rate limiting applies.",
+                  "key": "X-RateLimit-Remaining",
+                  "value": "6591"
+                },
+                {
+                  "disabled": false,
+                  "description": "UTC epoch second when the current rate-limit window resets.",
+                  "key": "X-RateLimit-Reset",
+                  "value": "6591"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"response_id\": \"resp_d31d6d61-6f3b-40dc-a459-548f385a60cb\",\n  \"type\": \"offer\",\n  \"data\": [\n    {\n      \"id\": \"offer_6a4f69ee490f66322f968b87\",\n      \"name\": \"Summer_Sale_Promo_2026\",\n      \"status\": \"active\",\n      \"tags\": [\n        \"tag_<object-id>\"\n      ],\n      \"created_at\": \"2026-06-23T12:29:41.225270281Z\",\n      \"created_by\": \"marketing-team@example.com\"\n    },\n    {\n      \"id\": \"offer_6a4f69ee490f66322f968b87\",\n      \"name\": \"Homepage_Banner_AB_Test\",\n      \"status\": \"scheduled\",\n      \"created_at\": \"2026-06-23T12:29:41.225270281Z\",\n      \"created_by\": \"growth-team@example.com\"\n    }\n  ],\n  \"pagination\": {\n    \"next_cursor\": \"b2ZmZXJzOjZhM2E3YzM0NTE4NjdkNGRjZmIxNzQ5Mw==\",\n    \"limit\": 20,\n    \"has_more\": true,\n    \"total_count\": 42\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "1952df1f-29ca-434c-9077-bb8eb0f2603b",
+              "name": "Invalid query parameter. Possible error codes in `error.details[].code`:\n- `OUT_OF_RANGE` — `limit` > 100, or `name_contains` > 100 chars.\n- `INVALID_CURSOR` — `cursor` is present but malformed (not valid base64, or corrupted segment/id).\n- `INVALID_ENUM_VALUE` — unrecognised value in `status_in`.\n- `INVALID_FIELDS_PARAM` — unrecognised field name in `fields`.\n- `INVALID_TYPE` — `created_date_gte` or `created_date_lte` not in YYYY-MM-DD format.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v5",
+                    "offers"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "name_contains",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "status_in",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "tags",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "tags",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "created_date_gte",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "created_date_lte",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "created_by",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "created_by",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "fields",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "cursor",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "20"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "description": "MoEngage data center identifier. Replace with your assigned DC number. Full example: https://api-01.moengage.com\n",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Client-supplied trace ID (UUID v4). Echoed back in the `X-MOE-Request-Id` response header.\n",
+                    "key": "X-MOE-Request-Id",
+                    "value": "<uuid>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"VALIDATION_FAILED\",\n    \"message\": \"One or more query parameters are invalid.\",\n    \"doc_url\": \"https://www.moengage.com/docs/api/offerings/offerings-overview\",\n    \"details\": [\n      {\n        \"code\": \"INVALID_ENUM_VALUE\",\n        \"target\": \"status_in\",\n        \"message\": \"'invalid_status' is not a valid status. Allowed values: active, scheduled, expired, archived, draft.\",\n        \"doc_url\": \"https://www.moengage.com/docs/api/offerings/offerings-overview\"\n      }\n    ]\n  },\n  \"response_id\": \"resp_<trace-id>\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f3f0978e-5a4e-4a2b-9a7e-0ee3790bc959",
+              "name": "Authentication or authorisation failure from the API gateway layer.\nThis response is generated by the gateway before the request reaches the service.\nThe body is JSON-formatted but API gateway sends it with `Content-Type: text/plain`.\nTwo gateway error codes are possible:\n- `ER001` — credentials missing or invalid (401).\n- `ER007` — credentials valid but insufficient scope for this route (403).\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v5",
+                    "offers"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "name_contains",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "status_in",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "tags",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "tags",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "created_date_gte",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "created_date_lte",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "created_by",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "created_by",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "fields",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "cursor",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "20"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "description": "MoEngage data center identifier. Replace with your assigned DC number. Full example: https://api-01.moengage.com\n",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Client-supplied trace ID (UUID v4). Echoed back in the `X-MOE-Request-Id` response header.\n",
+                    "key": "X-MOE-Request-Id",
+                    "value": "<uuid>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "text/plain"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "{\"code\":\"ER001\",\"target\":\"Authentication Invalid\",\"message\":\"Auth validation failed.\"}",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "3d76d1fa-8650-4972-b70b-5a56f37f7f91",
+              "name": "Authentication or authorisation failure from the API gateway layer.\nThis response is generated by the gateway before the request reaches the service.\nThe body is JSON-formatted but API gateway sends it with `Content-Type: text/plain`.\nTwo gateway error codes are possible:\n- `ER001` — credentials missing or invalid (401).\n- `ER007` — credentials valid but insufficient scope for this route (403).\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v5",
+                    "offers"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "name_contains",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "status_in",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "tags",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "tags",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "created_date_gte",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "created_date_lte",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "created_by",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "created_by",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "fields",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "cursor",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "20"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "description": "MoEngage data center identifier. Replace with your assigned DC number. Full example: https://api-01.moengage.com\n",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Client-supplied trace ID (UUID v4). Echoed back in the `X-MOE-Request-Id` response header.\n",
+                    "key": "X-MOE-Request-Id",
+                    "value": "<uuid>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "text/plain"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "{\"code\":\"ER001\",\"target\":\"Authentication Invalid\",\"message\":\"Auth validation failed.\"}",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "ef9a04ac-3af7-4ec8-823d-036ff9fa1844",
+              "name": "The rate limit for this endpoint has been exceeded. Retry after the window\nindicated in the `Retry-After` response header (in seconds).\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v5",
+                    "offers"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "name_contains",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "status_in",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "tags",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "tags",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "created_date_gte",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "created_date_lte",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "created_by",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "created_by",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "fields",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "cursor",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "20"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "description": "MoEngage data center identifier. Replace with your assigned DC number. Full example: https://api-01.moengage.com\n",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Client-supplied trace ID (UUID v4). Echoed back in the `X-MOE-Request-Id` response header.\n",
+                    "key": "X-MOE-Request-Id",
+                    "value": "<uuid>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "Seconds to wait before retrying.",
+                  "key": "Retry-After",
+                  "value": "6591"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"response_id\": \"string\",\n  \"error\": {\n    \"code\": \"VALIDATION_FAILED\",\n    \"message\": \"string\",\n    \"doc_url\": \"https://www.moengage.com/docs/api/offerings/offerings-overview\",\n    \"target\": \"string\",\n    \"details\": [\n      {\n        \"code\": \"string\",\n        \"target\": \"string\",\n        \"message\": \"string\"\n      },\n      {\n        \"code\": \"string\",\n        \"target\": \"string\",\n        \"message\": \"string\"\n      }\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ae3da131-4179-41e4-95c7-74bf0a14f7b3",
+              "name": "Gateway temporarily unable to route the request. Returned when the\nupstream service is unreachable or the HTTP request cannot be proxied (e.g. malformed\nheaders with control characters). Treat as a transient error and retry with exponential back-off.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v5",
+                    "offers"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "name_contains",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "status_in",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "tags",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "tags",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "created_date_gte",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "created_date_lte",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "created_by",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "created_by",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "fields",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "cursor",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "20"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "description": "MoEngage data center identifier. Replace with your assigned DC number. Full example: https://api-01.moengage.com\n",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Client-supplied trace ID (UUID v4). Echoed back in the `X-MOE-Request-Id` response header.\n",
+                    "key": "X-MOE-Request-Id",
+                    "value": "<uuid>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "text/html"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Service Unavailable",
+              "code": 503,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/html"
+                }
+              ],
+              "body": "<html><body><h1>503 Service Temporarily Unavailable</h1></body></html>",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "a2b76e10-0893-4a75-a296-153a8fa4f67d",
+          "name": "Create Offering",
+          "request": {
+            "name": "Create Offering",
+            "description": {
+              "content": "Create a new Offering in the workspace.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v5",
+                "offers"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "description": "MoEngage data center identifier. Replace with your assigned DC number. Full example: https://api-01.moengage.com\n",
+                  "type": "any",
+                  "value": "{{dc}}",
+                  "key": "dc"
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) UUID v4 idempotency token. Submitting the same key within 24 hours returns the original `201 response` without re-creating the Offering. A different body hash on the same key returns `409 IDEMPOTENCY_CONFLICT`. A concurrent in-progress request with the same key returns `409 DUPLICATE_IDEMPOTENCY_KEY`.\n",
+                "key": "Idempotency-Key",
+                "value": "<uuid>"
+              },
+              {
+                "disabled": false,
+                "description": "Client-supplied trace ID (UUID v4). Echoed back in the X-MOE-Request-Id response header. Use this to correlate client requests with server-side logs.\n",
+                "key": "X-MOE-Request-Id",
+                "value": "<uuid>"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "{{basicAuthUsername}}"
+                },
+                {
+                  "key": "password",
+                  "value": "{{basicAuthPassword}}"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"<string>\",\n  \"priority\": \"<integer>\",\n  \"delivery\": \"<string>\",\n  \"created_by\": \"<email>\",\n  \"scheduling\": {\n    \"start_datetime\": \"<dateTime>\",\n    \"expiry_datetime\": \"<dateTime>\",\n    \"timezone\": \"<string>\"\n  },\n  \"segment_info\": {\n    \"filters\": {\n      \"included_filters\": {\n        \"filters\": [\n          \"<object>\",\n          \"<object>\"\n        ],\n        \"filter_operator\": \"<string>\"\n      },\n      \"excluded_filters\": {\n        \"filters\": [\n          \"<object>\",\n          \"<object>\"\n        ],\n        \"filter_operator\": \"<string>\"\n      }\n    }\n  },\n  \"offer_content\": {\n    \"content_1\": {\n      \"type\": \"<string>\",\n      \"value\": \"<string>\",\n      \"meta\": {\n        \"key_0\": 3049\n      }\n    },\n    \"locales\": {\n      \"key_0\": {\n        \"variations\": {\n          \"key_0\": {\n            \"content_1\": {\n              \"type\": \"<string>\",\n              \"value\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"meta\": {\n                \"key_0\": \"string\",\n                \"key_1\": 2753,\n                \"key_2\": 7264.119983594553\n              }\n            }\n          },\n          \"key_1\": {\n            \"content_1\": {\n              \"type\": \"<string>\",\n              \"value\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"meta\": {\n                \"key_0\": \"string\",\n                \"key_1\": false\n              }\n            }\n          }\n        }\n      },\n      \"key_1\": {\n        \"variations\": {\n          \"key_0\": {\n            \"content_1\": {\n              \"type\": \"<string>\",\n              \"value\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"meta\": {\n                \"key_0\": 7249.098002403298,\n                \"key_1\": 1868.2524542955603,\n                \"key_2\": \"string\",\n                \"key_3\": false\n              }\n            }\n          }\n        }\n      },\n      \"key_2\": {\n        \"variations\": {\n          \"key_0\": {\n            \"content_1\": {\n              \"type\": \"<string>\",\n              \"value\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"meta\": {\n                \"key_0\": 2952,\n                \"key_1\": \"string\"\n              }\n            }\n          },\n          \"key_1\": {\n            \"content_1\": {\n              \"type\": \"<string>\",\n              \"value\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"meta\": {\n                \"key_0\": \"string\",\n                \"key_1\": true\n              }\n            }\n          },\n          \"key_2\": {\n            \"content_1\": {\n              \"type\": \"<string>\",\n              \"value\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"meta\": {\n                \"key_0\": 4771\n              }\n            }\n          }\n        }\n      }\n    }\n  },\n  \"variation_meta\": {\n    \"type\": \"<string>\",\n    \"variantsPerLocale\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"smv_distribution\": {\n      \"split\": {\n        \"key_0\": \"<integer>\",\n        \"key_1\": \"<integer>\",\n        \"key_2\": \"<integer>\"\n      }\n    },\n    \"control_group\": {\n      \"is_enabled\": \"<boolean>\",\n      \"percentage\": \"<integer>\"\n    }\n  },\n  \"description\": \"<string>\",\n  \"tags\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"capping_rules\": {\n    \"overall\": {\n      \"enabled\": \"<boolean>\",\n      \"limit_value\": \"<integer>\",\n      \"limit_schedule\": \"<string>\"\n    },\n    \"user_level\": {\n      \"enabled\": \"<boolean>\",\n      \"limit_value\": \"<integer>\",\n      \"limit_schedule\": \"<string>\"\n    }\n  },\n  \"is_global_control_enabled\": false,\n  \"imp_track_hours\": \"<integer>\",\n  \"offering_attribute_configuration\": [\n    {\n      \"offering_attribute_id\": \"<string>\",\n      \"selected_values\": [\n        {\n          \"value\": \"<string>\",\n          \"id\": \"<string>\",\n          \"score\": \"<integer>\"\n        }\n      ],\n      \"offering_attribute_name\": \"<string>\",\n      \"type\": \"<string>\"\n    },\n    {\n      \"offering_attribute_id\": \"<string>\",\n      \"selected_values\": [\n        {\n          \"value\": \"<string>\",\n          \"id\": \"<string>\",\n          \"score\": \"<integer>\"\n        }\n      ],\n      \"offering_attribute_name\": \"<string>\",\n      \"type\": \"<string>\"\n    }\n  ],\n  \"conversion\": {\n    \"primary\": {\n      \"goal_name\": \"<string>\",\n      \"action\": \"<string>\",\n      \"filter_type\": \"<string>\",\n      \"attributes\": {\n        \"filters\": {\n          \"included_filters\": {\n            \"filters\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ],\n            \"filter_operator\": \"<string>\"\n          },\n          \"excluded_filters\": {\n            \"filters\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ],\n            \"filter_operator\": \"<string>\"\n          }\n        }\n      },\n      \"is_revenue_tracking\": false,\n      \"revenue_amount\": \"<string>\",\n      \"revenue_currency\": \"<string>\"\n    },\n    \"secondary\": [\n      {\n        \"goal_name\": \"<string>\",\n        \"action\": \"<string>\",\n        \"filter_type\": \"<string>\",\n        \"attributes\": {\n          \"filters\": {\n            \"included_filters\": {\n              \"filters\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"filter_operator\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            \"excluded_filters\": {\n              \"filters\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"filter_operator\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          }\n        },\n        \"is_revenue_tracking\": false,\n        \"revenue_amount\": \"<string>\",\n        \"revenue_currency\": \"<string>\"\n      },\n      {\n        \"goal_name\": \"<string>\",\n        \"action\": \"<string>\",\n        \"filter_type\": \"<string>\",\n        \"attributes\": {\n          \"filters\": {\n            \"included_filters\": {\n              \"filters\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"filter_operator\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            \"excluded_filters\": {\n              \"filters\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"filter_operator\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          }\n        },\n        \"is_revenue_tracking\": false,\n        \"revenue_amount\": \"<string>\",\n        \"revenue_currency\": \"<string>\"\n      }\n    ]\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "cec5b583-77fd-4dc5-99f0-8dd07fcb08af",
+              "name": "Offering created successfully.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v5",
+                    "offers"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "MoEngage data center identifier. Replace with your assigned DC number. Full example: https://api-01.moengage.com\n",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) UUID v4 idempotency token. Submitting the same key within 24 hours returns the original `201 response` without re-creating the Offering. A different body hash on the same key returns `409 IDEMPOTENCY_CONFLICT`. A concurrent in-progress request with the same key returns `409 DUPLICATE_IDEMPOTENCY_KEY`.\n",
+                    "key": "Idempotency-Key",
+                    "value": "<uuid>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Client-supplied trace ID (UUID v4). Echoed back in the X-MOE-Request-Id response header. Use this to correlate client requests with server-side logs.\n",
+                    "key": "X-MOE-Request-Id",
+                    "value": "<uuid>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"Summer_Sale\",\n  \"description\": \"Summer sale discount offers\",\n  \"priority\": 50,\n  \"delivery\": \"scheduled\",\n  \"created_by\": \"john.doe@example.com\",\n  \"scheduling\": {\n    \"start_datetime\": \"2026-07-16T00:00:00Z\",\n    \"expiry_datetime\": \"2026-07-16T23:59:00Z\",\n    \"timezone\": \"Asia/Kolkata\"\n  },\n  \"segment_info\": {\n    \"filters\": {\n      \"included_filters\": {\n        \"filter_operator\": \"and\",\n        \"filters\": [\n          {\n            \"filter_type\": \"custom_segments\",\n            \"name\": \"level_0_for_automation\",\n            \"id\": \"6a572827fad010a3318a1bc1\"\n          }\n        ]\n      }\n    }\n  },\n  \"offer_content\": {\n    \"content_1\": {\n      \"type\": \"json\",\n      \"value\": \"{\\\"discount\\\":\\\"10%\\\"}\"\n    }\n  },\n  \"variation_meta\": {\n    \"type\": \"SMV\",\n    \"variantsPerLocale\": [\n      \"Variant_A\"\n    ],\n    \"control_group\": {\n      \"is_enabled\": false,\n      \"percentage\": 0\n    },\n    \"smv_distribution\": {\n      \"split\": {\n        \"Variant_A\": 100\n      }\n    }\n  },\n  \"capping_rules\": {},\n  \"is_global_control_enabled\": false,\n  \"imp_track_hours\": 36\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "Echoed trace ID (from request header or server-generated).",
+                  "key": "X-MOE-Request-Id",
+                  "value": "string"
+                },
+                {
+                  "disabled": false,
+                  "description": "Maximum requests allowed in the current window.",
+                  "key": "X-RateLimit-Limit",
+                  "value": "100"
+                },
+                {
+                  "disabled": false,
+                  "description": "Requests remaining in the current window before rate limiting applies.",
+                  "key": "X-RateLimit-Remaining",
+                  "value": "6591"
+                },
+                {
+                  "disabled": false,
+                  "description": "UTC epoch second when the current rate-limit window resets.",
+                  "key": "X-RateLimit-Reset",
+                  "value": "6591"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"response_id\": \"resp_c5f83262-3127-4e23-bc1b-9efd4c929e12\",\n  \"type\": \"offer\",\n  \"data\": {\n    \"status\": \"scheduled\",\n    \"created_at\": \"2026-07-09T09:29:18.526812352Z\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "17c699bd-21d8-412e-a958-5fd626b4a29e",
+              "name": "Validation errors. All errors are collected before returning, so a single 400\nresponse may contain multiple `details` entries. Possible error codes:\n- `REQUIRED_FIELD_MISSING` — a required field is absent (e.g. missing `variation_meta`, `name`, `scheduling.start_datetime`). The `target` field identifies the missing field.\n- `INVALID_TYPE` — a field has the wrong type or format (e.g. `content_1.value` is not a JSON object when `type` is `template`; or `scheduling.start_datetime` is not a valid ISO 8601 datetime with UTC \"Z\" suffix).\n- `OUT_OF_RANGE` — numeric field outside its allowed range (e.g. `priority` outside 1–100, `control_group.percentage` outside 1–99).\n- `INVALID_ENUM_VALUE` — enum field has an unrecognised value.\n- `INVALID_OFFER_NAME` — `name` contains characters other than alphanumeric characters and underscores. Spaces and hyphens are not allowed.\n- `INVALID_SCHEDULING` — `expiry_datetime` is not after `start_datetime`; `start_datetime` is in the past; or `expiry_datetime` is less than 10 minutes in the future.\n- `INVALID_TIMEZONE` — `scheduling.timezone` is present but not a valid IANA timezone name (e.g. `Asia/Kolkata`, `America/New_York`, `UTC`).\n- `SPLIT_KEY_MISMATCH` — keys in `smv_distribution.split` do not match `variantsPerLocale`.\n- `INVALID_SPLIT` — values in `smv_distribution.split` do not sum to exactly 100. Adjust the percentages so the total equals 100.\n- `VARIANT_COUNT_MISMATCH` — count of variants in `offer_content` does not match `variantsPerLocale`.\n- `INVALID_TEMPLATE_ID` — `meta.templateId` refers to a template ID not registered in the workspace.\n- `MISSING_TEMPLATE_FIELD` — a required field (per the template's config) is missing or blank in the `value` map.\n  The `target` field will be `offer_content.locales.<locale>.variations.<variant>.content_1.value.<fieldKey>`.\n- `DUPLICATE_OFFER_NAME` — `name` matches an existing non-archived offering in this workspace. Offering names must be unique. Choose a different name.\n- `INVALID_TAG_ID` — one or more tag IDs in `tags` do not exist in this workspace. Create the tags first via the dashboard before referencing them here.\n- `REVENUE_FIELDS_INCOMPLETE` — `conversion.primary.revenue_amount` or `conversion.primary.revenue_currency` is missing when `is_revenue_tracking` is true.\n- `INVALID_CURRENCY_CODE` — `conversion.primary.revenue_currency` is not a valid ISO 4217 code (e.g. use \"USD\", \"EUR\", \"INR\").\n- `MISSING_IDEMPOTENCY_KEY` — `Idempotency-Key` header is absent. Add the header with a UUID v4 value.\n- `INVALID_IDEMPOTENCY_KEY` — `Idempotency-Key` is present but not a valid UUID v4. Use a standard UUID v4 format (e.g. <uuid-v4>).\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v5",
+                    "offers"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "MoEngage data center identifier. Replace with your assigned DC number. Full example: https://api-01.moengage.com\n",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) UUID v4 idempotency token. Submitting the same key within 24 hours returns the original `201 response` without re-creating the Offering. A different body hash on the same key returns `409 IDEMPOTENCY_CONFLICT`. A concurrent in-progress request with the same key returns `409 DUPLICATE_IDEMPOTENCY_KEY`.\n",
+                    "key": "Idempotency-Key",
+                    "value": "<uuid>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Client-supplied trace ID (UUID v4). Echoed back in the X-MOE-Request-Id response header. Use this to correlate client requests with server-side logs.\n",
+                    "key": "X-MOE-Request-Id",
+                    "value": "<uuid>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"Summer_Sale\",\n  \"description\": \"Summer sale discount offers\",\n  \"priority\": 50,\n  \"delivery\": \"scheduled\",\n  \"created_by\": \"john.doe@example.com\",\n  \"scheduling\": {\n    \"start_datetime\": \"2026-07-16T00:00:00Z\",\n    \"expiry_datetime\": \"2026-07-16T23:59:00Z\",\n    \"timezone\": \"Asia/Kolkata\"\n  },\n  \"segment_info\": {\n    \"filters\": {\n      \"included_filters\": {\n        \"filter_operator\": \"and\",\n        \"filters\": [\n          {\n            \"filter_type\": \"custom_segments\",\n            \"name\": \"level_0_for_automation\",\n            \"id\": \"6a572827fad010a3318a1bc1\"\n          }\n        ]\n      }\n    }\n  },\n  \"offer_content\": {\n    \"content_1\": {\n      \"type\": \"json\",\n      \"value\": \"{\\\"discount\\\":\\\"10%\\\"}\"\n    }\n  },\n  \"variation_meta\": {\n    \"type\": \"SMV\",\n    \"variantsPerLocale\": [\n      \"Variant_A\"\n    ],\n    \"control_group\": {\n      \"is_enabled\": false,\n      \"percentage\": 0\n    },\n    \"smv_distribution\": {\n      \"split\": {\n        \"Variant_A\": 100\n      }\n    }\n  },\n  \"capping_rules\": {},\n  \"is_global_control_enabled\": false,\n  \"imp_track_hours\": 36\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"VALIDATION_FAILED\",\n    \"message\": \"Request validation failed.\",\n    \"doc_url\": \"https://www.moengage.com/docs/api/offerings/offerings-overview\",\n    \"details\": [\n      {\n        \"code\": \"REQUIRED_FIELD_MISSING\",\n        \"target\": \"variation_meta\",\n        \"message\": \"variation_meta is required.\",\n        \"doc_url\": \"https://www.moengage.com/docs/api/offerings/offerings-overview\"\n      },\n      {\n        \"code\": \"INVALID_SCHEDULING\",\n        \"target\": \"scheduling\",\n        \"message\": \"expiry_datetime must be after start_datetime.\",\n        \"doc_url\": \"https://www.moengage.com/docs/api/offerings/offerings-overview\"\n      },\n      {\n        \"code\": \"INVALID_TEMPLATE_ID\",\n        \"target\": \"offer_content.locales.0.variations.Variant_A.content_1.meta.templateId\",\n        \"message\": \"Template 'app_large' is not registered in this workspace.\",\n        \"doc_url\": \"https://www.moengage.com/docs/api/offerings/offerings-overview\"\n      },\n      {\n        \"code\": \"MISSING_TEMPLATE_FIELD\",\n        \"target\": \"offer_content.locales.0.variations.Variant_A.content_1.value.cta_url\",\n        \"message\": \"Field 'cta_url' is required by the template but is missing or blank.\",\n        \"doc_url\": \"https://www.moengage.com/docs/api/offerings/offerings-overview\"\n      }\n    ]\n  },\n  \"response_id\": \"resp_<trace-id>\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "95e76d08-8bf3-4898-9387-b48e26add035",
+              "name": "Authentication failure. Two sources produce 401 on this endpoint:\n- **Gateway (APISIX)** — credentials missing or invalid. Returns `Content-Type: text/plain`\n  with body `{\"code\":\"ER001\",\"target\":\"Authentication Invalid\",\"message\":\"...\"}`.\n- **Service** — credentials passed the gateway but the injected `X-MOE-Tenant-ID` header\n  is missing (request bypassed gateway). Returns `Content-Type: application/json`.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v5",
+                    "offers"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "MoEngage data center identifier. Replace with your assigned DC number. Full example: https://api-01.moengage.com\n",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) UUID v4 idempotency token. Submitting the same key within 24 hours returns the original `201 response` without re-creating the Offering. A different body hash on the same key returns `409 IDEMPOTENCY_CONFLICT`. A concurrent in-progress request with the same key returns `409 DUPLICATE_IDEMPOTENCY_KEY`.\n",
+                    "key": "Idempotency-Key",
+                    "value": "<uuid>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Client-supplied trace ID (UUID v4). Echoed back in the X-MOE-Request-Id response header. Use this to correlate client requests with server-side logs.\n",
+                    "key": "X-MOE-Request-Id",
+                    "value": "<uuid>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "text/plain"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"Summer_Sale\",\n  \"description\": \"Summer sale discount offers\",\n  \"priority\": 50,\n  \"delivery\": \"scheduled\",\n  \"created_by\": \"john.doe@example.com\",\n  \"scheduling\": {\n    \"start_datetime\": \"2026-07-16T00:00:00Z\",\n    \"expiry_datetime\": \"2026-07-16T23:59:00Z\",\n    \"timezone\": \"Asia/Kolkata\"\n  },\n  \"segment_info\": {\n    \"filters\": {\n      \"included_filters\": {\n        \"filter_operator\": \"and\",\n        \"filters\": [\n          {\n            \"filter_type\": \"custom_segments\",\n            \"name\": \"level_0_for_automation\",\n            \"id\": \"6a572827fad010a3318a1bc1\"\n          }\n        ]\n      }\n    }\n  },\n  \"offer_content\": {\n    \"content_1\": {\n      \"type\": \"json\",\n      \"value\": \"{\\\"discount\\\":\\\"10%\\\"}\"\n    }\n  },\n  \"variation_meta\": {\n    \"type\": \"SMV\",\n    \"variantsPerLocale\": [\n      \"Variant_A\"\n    ],\n    \"control_group\": {\n      \"is_enabled\": false,\n      \"percentage\": 0\n    },\n    \"smv_distribution\": {\n      \"split\": {\n        \"Variant_A\": 100\n      }\n    }\n  },\n  \"capping_rules\": {},\n  \"is_global_control_enabled\": false,\n  \"imp_track_hours\": 36\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"response_id\": \"string\",\n  \"error\": {\n    \"code\": \"VALIDATION_FAILED\",\n    \"message\": \"string\",\n    \"doc_url\": \"https://www.moengage.com/docs/api/offerings/offerings-overview\",\n    \"target\": \"string\",\n    \"details\": [\n      {\n        \"code\": \"string\",\n        \"target\": \"string\",\n        \"message\": \"string\"\n      },\n      {\n        \"code\": \"string\",\n        \"target\": \"string\",\n        \"message\": \"string\"\n      }\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "592fd138-f7d1-4007-a297-18bbdafb1329",
+              "name": "Authentication or authorisation failure from the API gateway layer.\nThis response is generated by the gateway before the request reaches the service.\nThe body is JSON-formatted but API gateway sends it with `Content-Type: text/plain`.\nTwo gateway error codes are possible:\n- `ER001` — credentials missing or invalid (401).\n- `ER007` — credentials valid but insufficient scope for this route (403).\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v5",
+                    "offers"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "MoEngage data center identifier. Replace with your assigned DC number. Full example: https://api-01.moengage.com\n",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) UUID v4 idempotency token. Submitting the same key within 24 hours returns the original `201 response` without re-creating the Offering. A different body hash on the same key returns `409 IDEMPOTENCY_CONFLICT`. A concurrent in-progress request with the same key returns `409 DUPLICATE_IDEMPOTENCY_KEY`.\n",
+                    "key": "Idempotency-Key",
+                    "value": "<uuid>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Client-supplied trace ID (UUID v4). Echoed back in the X-MOE-Request-Id response header. Use this to correlate client requests with server-side logs.\n",
+                    "key": "X-MOE-Request-Id",
+                    "value": "<uuid>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "text/plain"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"Summer_Sale\",\n  \"description\": \"Summer sale discount offers\",\n  \"priority\": 50,\n  \"delivery\": \"scheduled\",\n  \"created_by\": \"john.doe@example.com\",\n  \"scheduling\": {\n    \"start_datetime\": \"2026-07-16T00:00:00Z\",\n    \"expiry_datetime\": \"2026-07-16T23:59:00Z\",\n    \"timezone\": \"Asia/Kolkata\"\n  },\n  \"segment_info\": {\n    \"filters\": {\n      \"included_filters\": {\n        \"filter_operator\": \"and\",\n        \"filters\": [\n          {\n            \"filter_type\": \"custom_segments\",\n            \"name\": \"level_0_for_automation\",\n            \"id\": \"6a572827fad010a3318a1bc1\"\n          }\n        ]\n      }\n    }\n  },\n  \"offer_content\": {\n    \"content_1\": {\n      \"type\": \"json\",\n      \"value\": \"{\\\"discount\\\":\\\"10%\\\"}\"\n    }\n  },\n  \"variation_meta\": {\n    \"type\": \"SMV\",\n    \"variantsPerLocale\": [\n      \"Variant_A\"\n    ],\n    \"control_group\": {\n      \"is_enabled\": false,\n      \"percentage\": 0\n    },\n    \"smv_distribution\": {\n      \"split\": {\n        \"Variant_A\": 100\n      }\n    }\n  },\n  \"capping_rules\": {},\n  \"is_global_control_enabled\": false,\n  \"imp_track_hours\": 36\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "{\"code\":\"ER001\",\"target\":\"Authentication Invalid\",\"message\":\"Auth validation failed.\"}",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "20a519e2-8341-4b79-b4f5-adc6f7cdf347",
+              "name": "Idempotency conflict. Two distinct error codes are possible:\n\n**DUPLICATE_IDEMPOTENCY_KEY** — a request with the same Idempotency-Key is already\nin-flight (concurrent duplicate). Wait for the first request to complete before retrying.\n\n**IDEMPOTENCY_CONFLICT** — the Idempotency-Key was already used within the 24-hour\nwindow but the request body hash differs from the original request. Use a new\nIdempotency-Key to submit a different payload.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v5",
+                    "offers"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "MoEngage data center identifier. Replace with your assigned DC number. Full example: https://api-01.moengage.com\n",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) UUID v4 idempotency token. Submitting the same key within 24 hours returns the original `201 response` without re-creating the Offering. A different body hash on the same key returns `409 IDEMPOTENCY_CONFLICT`. A concurrent in-progress request with the same key returns `409 DUPLICATE_IDEMPOTENCY_KEY`.\n",
+                    "key": "Idempotency-Key",
+                    "value": "<uuid>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Client-supplied trace ID (UUID v4). Echoed back in the X-MOE-Request-Id response header. Use this to correlate client requests with server-side logs.\n",
+                    "key": "X-MOE-Request-Id",
+                    "value": "<uuid>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"Summer_Sale\",\n  \"description\": \"Summer sale discount offers\",\n  \"priority\": 50,\n  \"delivery\": \"scheduled\",\n  \"created_by\": \"john.doe@example.com\",\n  \"scheduling\": {\n    \"start_datetime\": \"2026-07-16T00:00:00Z\",\n    \"expiry_datetime\": \"2026-07-16T23:59:00Z\",\n    \"timezone\": \"Asia/Kolkata\"\n  },\n  \"segment_info\": {\n    \"filters\": {\n      \"included_filters\": {\n        \"filter_operator\": \"and\",\n        \"filters\": [\n          {\n            \"filter_type\": \"custom_segments\",\n            \"name\": \"level_0_for_automation\",\n            \"id\": \"6a572827fad010a3318a1bc1\"\n          }\n        ]\n      }\n    }\n  },\n  \"offer_content\": {\n    \"content_1\": {\n      \"type\": \"json\",\n      \"value\": \"{\\\"discount\\\":\\\"10%\\\"}\"\n    }\n  },\n  \"variation_meta\": {\n    \"type\": \"SMV\",\n    \"variantsPerLocale\": [\n      \"Variant_A\"\n    ],\n    \"control_group\": {\n      \"is_enabled\": false,\n      \"percentage\": 0\n    },\n    \"smv_distribution\": {\n      \"split\": {\n        \"Variant_A\": 100\n      }\n    }\n  },\n  \"capping_rules\": {},\n  \"is_global_control_enabled\": false,\n  \"imp_track_hours\": 36\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Conflict",
+              "code": 409,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"response_id\": \"string\",\n  \"error\": {\n    \"code\": \"VALIDATION_FAILED\",\n    \"message\": \"string\",\n    \"doc_url\": \"https://www.moengage.com/docs/api/offerings/offerings-overview\",\n    \"target\": \"string\",\n    \"details\": [\n      {\n        \"code\": \"string\",\n        \"target\": \"string\",\n        \"message\": \"string\"\n      },\n      {\n        \"code\": \"string\",\n        \"target\": \"string\",\n        \"message\": \"string\"\n      }\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "98186491-00ad-44d4-bcdc-4e1b86155093",
+              "name": "The rate limit for this endpoint has been exceeded. Retry after the window\nindicated in the `Retry-After` response header (in seconds).\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v5",
+                    "offers"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "MoEngage data center identifier. Replace with your assigned DC number. Full example: https://api-01.moengage.com\n",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) UUID v4 idempotency token. Submitting the same key within 24 hours returns the original `201 response` without re-creating the Offering. A different body hash on the same key returns `409 IDEMPOTENCY_CONFLICT`. A concurrent in-progress request with the same key returns `409 DUPLICATE_IDEMPOTENCY_KEY`.\n",
+                    "key": "Idempotency-Key",
+                    "value": "<uuid>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Client-supplied trace ID (UUID v4). Echoed back in the X-MOE-Request-Id response header. Use this to correlate client requests with server-side logs.\n",
+                    "key": "X-MOE-Request-Id",
+                    "value": "<uuid>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"Summer_Sale\",\n  \"description\": \"Summer sale discount offers\",\n  \"priority\": 50,\n  \"delivery\": \"scheduled\",\n  \"created_by\": \"john.doe@example.com\",\n  \"scheduling\": {\n    \"start_datetime\": \"2026-07-16T00:00:00Z\",\n    \"expiry_datetime\": \"2026-07-16T23:59:00Z\",\n    \"timezone\": \"Asia/Kolkata\"\n  },\n  \"segment_info\": {\n    \"filters\": {\n      \"included_filters\": {\n        \"filter_operator\": \"and\",\n        \"filters\": [\n          {\n            \"filter_type\": \"custom_segments\",\n            \"name\": \"level_0_for_automation\",\n            \"id\": \"6a572827fad010a3318a1bc1\"\n          }\n        ]\n      }\n    }\n  },\n  \"offer_content\": {\n    \"content_1\": {\n      \"type\": \"json\",\n      \"value\": \"{\\\"discount\\\":\\\"10%\\\"}\"\n    }\n  },\n  \"variation_meta\": {\n    \"type\": \"SMV\",\n    \"variantsPerLocale\": [\n      \"Variant_A\"\n    ],\n    \"control_group\": {\n      \"is_enabled\": false,\n      \"percentage\": 0\n    },\n    \"smv_distribution\": {\n      \"split\": {\n        \"Variant_A\": 100\n      }\n    }\n  },\n  \"capping_rules\": {},\n  \"is_global_control_enabled\": false,\n  \"imp_track_hours\": 36\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "disabled": false,
+                  "key": "Retry-After",
+                  "value": "6591",
+                  "description": ""
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"response_id\": \"string\",\n  \"error\": {\n    \"code\": \"VALIDATION_FAILED\",\n    \"message\": \"string\",\n    \"doc_url\": \"https://www.moengage.com/docs/api/offerings/offerings-overview\",\n    \"target\": \"string\",\n    \"details\": [\n      {\n        \"code\": \"string\",\n        \"target\": \"string\",\n        \"message\": \"string\"\n      },\n      {\n        \"code\": \"string\",\n        \"target\": \"string\",\n        \"message\": \"string\"\n      }\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "559f08f0-e608-4084-b168-416117615512",
+              "name": "Gateway temporarily unable to route the request. Returned when the\nupstream service is unreachable or the HTTP request cannot be proxied (e.g. malformed\nheaders with control characters). Treat as a transient error and retry with exponential back-off.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v5",
+                    "offers"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "MoEngage data center identifier. Replace with your assigned DC number. Full example: https://api-01.moengage.com\n",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) UUID v4 idempotency token. Submitting the same key within 24 hours returns the original `201 response` without re-creating the Offering. A different body hash on the same key returns `409 IDEMPOTENCY_CONFLICT`. A concurrent in-progress request with the same key returns `409 DUPLICATE_IDEMPOTENCY_KEY`.\n",
+                    "key": "Idempotency-Key",
+                    "value": "<uuid>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Client-supplied trace ID (UUID v4). Echoed back in the X-MOE-Request-Id response header. Use this to correlate client requests with server-side logs.\n",
+                    "key": "X-MOE-Request-Id",
+                    "value": "<uuid>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "text/html"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"Summer_Sale\",\n  \"description\": \"Summer sale discount offers\",\n  \"priority\": 50,\n  \"delivery\": \"scheduled\",\n  \"created_by\": \"john.doe@example.com\",\n  \"scheduling\": {\n    \"start_datetime\": \"2026-07-16T00:00:00Z\",\n    \"expiry_datetime\": \"2026-07-16T23:59:00Z\",\n    \"timezone\": \"Asia/Kolkata\"\n  },\n  \"segment_info\": {\n    \"filters\": {\n      \"included_filters\": {\n        \"filter_operator\": \"and\",\n        \"filters\": [\n          {\n            \"filter_type\": \"custom_segments\",\n            \"name\": \"level_0_for_automation\",\n            \"id\": \"6a572827fad010a3318a1bc1\"\n          }\n        ]\n      }\n    }\n  },\n  \"offer_content\": {\n    \"content_1\": {\n      \"type\": \"json\",\n      \"value\": \"{\\\"discount\\\":\\\"10%\\\"}\"\n    }\n  },\n  \"variation_meta\": {\n    \"type\": \"SMV\",\n    \"variantsPerLocale\": [\n      \"Variant_A\"\n    ],\n    \"control_group\": {\n      \"is_enabled\": false,\n      \"percentage\": 0\n    },\n    \"smv_distribution\": {\n      \"split\": {\n        \"Variant_A\": 100\n      }\n    }\n  },\n  \"capping_rules\": {},\n  \"is_global_control_enabled\": false,\n  \"imp_track_hours\": 36\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Service Unavailable",
+              "code": 503,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/html"
+                }
+              ],
+              "body": "<html><body><h1>503 Service Temporarily Unavailable</h1></body></html>",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "6a3a22db-826c-4fd1-9dc6-8cf86b4956b0",
+          "name": "Update Offering",
+          "request": {
+            "name": "Update Offering",
+            "description": {
+              "content": "Modify an existing offering. Only the fields you include in the request body are\nchanged.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v5",
+                "offers",
+                ":offer_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "offer_id",
+                  "description": "(Required) The unique ID of the offering to be updated. You can fetch the offering ID using the [List Offerings API](/api/public-offerings/list-offerings) by filtering with name."
+                },
+                {
+                  "description": "MoEngage data center identifier. Replace with your assigned DC number. Full example: https://api-01.moengage.com\n",
+                  "type": "any",
+                  "value": "{{dc}}",
+                  "key": "dc"
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) UUID v4 idempotency token. Submitting the same key within 24 hours returns the original `200 response` without re-creating the Offering. A different body hash on the same key returns `409 IDEMPOTENCY_CONFLICT`. A concurrent in-progress request with the same key returns `409 DUPLICATE_IDEMPOTENCY_KEY`.\n",
+                "key": "Idempotency-Key",
+                "value": "<uuid>"
+              },
+              {
+                "disabled": false,
+                "description": "Client-supplied trace ID (UUID v4). Echoed back in the `X-MOE-Request-Id` response header. Use this to correlate client requests with server-side logs.\n",
+                "key": "X-MOE-Request-Id",
+                "value": "<uuid>"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PATCH",
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "{{basicAuthUsername}}"
+                },
+                {
+                  "key": "password",
+                  "value": "{{basicAuthPassword}}"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"updated_by\": \"<email>\",\n  \"name\": \"<string>\",\n  \"description\": \"<string>\",\n  \"priority\": \"<integer>\",\n  \"tags\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"scheduling\": {\n    \"start_datetime\": \"<dateTime>\",\n    \"expiry_datetime\": \"<dateTime>\",\n    \"timezone\": \"<string>\"\n  },\n  \"segment_info\": {\n    \"filters\": {\n      \"included_filters\": {\n        \"filters\": [\n          \"<object>\",\n          \"<object>\"\n        ],\n        \"filter_operator\": \"<string>\"\n      },\n      \"excluded_filters\": {\n        \"filters\": [\n          \"<object>\",\n          \"<object>\"\n        ],\n        \"filter_operator\": \"<string>\"\n      }\n    }\n  },\n  \"offer_content\": {\n    \"content_1\": {\n      \"type\": \"<string>\",\n      \"value\": \"<string>\",\n      \"meta\": {\n        \"key_0\": \"string\",\n        \"key_1\": 5372.4303741520625,\n        \"key_2\": 7575\n      }\n    },\n    \"locales\": {\n      \"key_0\": {\n        \"variations\": {\n          \"key_0\": {\n            \"content_1\": {\n              \"type\": \"<string>\",\n              \"value\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"meta\": {\n                \"key_0\": 3041\n              }\n            }\n          },\n          \"key_1\": {\n            \"content_1\": {\n              \"type\": \"<string>\",\n              \"value\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"meta\": {\n                \"key_0\": false,\n                \"key_1\": 3881.074176297391,\n                \"key_2\": \"string\",\n                \"key_3\": \"string\"\n              }\n            }\n          }\n        }\n      }\n    }\n  },\n  \"variation_meta\": {\n    \"type\": \"<string>\",\n    \"variantsPerLocale\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"smv_distribution\": {\n      \"split\": {\n        \"key_0\": \"<integer>\"\n      }\n    },\n    \"control_group\": {\n      \"is_enabled\": \"<boolean>\",\n      \"percentage\": \"<integer>\"\n    }\n  },\n  \"capping_rules\": {\n    \"overall\": {\n      \"enabled\": \"<boolean>\",\n      \"limit_value\": \"<integer>\",\n      \"limit_schedule\": \"<string>\"\n    },\n    \"user_level\": {\n      \"enabled\": \"<boolean>\",\n      \"limit_value\": \"<integer>\",\n      \"limit_schedule\": \"<string>\"\n    }\n  },\n  \"is_global_control_enabled\": \"<boolean>\",\n  \"imp_track_hours\": \"<integer>\",\n  \"offering_attribute_configuration\": [\n    {\n      \"offering_attribute_id\": \"<string>\",\n      \"selected_values\": [\n        {\n          \"value\": \"<string>\",\n          \"id\": \"<string>\",\n          \"score\": \"<integer>\"\n        }\n      ],\n      \"offering_attribute_name\": \"<string>\",\n      \"type\": \"<string>\"\n    },\n    {\n      \"offering_attribute_id\": \"<string>\",\n      \"selected_values\": [\n        {\n          \"value\": \"<string>\",\n          \"id\": \"<string>\",\n          \"score\": \"<integer>\"\n        }\n      ],\n      \"offering_attribute_name\": \"<string>\",\n      \"type\": \"<string>\"\n    }\n  ],\n  \"conversion\": {\n    \"primary\": {\n      \"goal_name\": \"<string>\",\n      \"action\": \"<string>\",\n      \"filter_type\": \"<string>\",\n      \"attributes\": {\n        \"filters\": {\n          \"included_filters\": {\n            \"filters\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ],\n            \"filter_operator\": \"<string>\"\n          },\n          \"excluded_filters\": {\n            \"filters\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ],\n            \"filter_operator\": \"<string>\"\n          }\n        }\n      },\n      \"is_revenue_tracking\": false,\n      \"revenue_amount\": \"<string>\",\n      \"revenue_currency\": \"<string>\"\n    },\n    \"secondary\": [\n      {\n        \"goal_name\": \"<string>\",\n        \"action\": \"<string>\",\n        \"filter_type\": \"<string>\",\n        \"attributes\": {\n          \"filters\": {\n            \"included_filters\": {\n              \"filters\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"filter_operator\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            \"excluded_filters\": {\n              \"filters\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"filter_operator\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          }\n        },\n        \"is_revenue_tracking\": false,\n        \"revenue_amount\": \"<string>\",\n        \"revenue_currency\": \"<string>\"\n      },\n      {\n        \"goal_name\": \"<string>\",\n        \"action\": \"<string>\",\n        \"filter_type\": \"<string>\",\n        \"attributes\": {\n          \"filters\": {\n            \"included_filters\": {\n              \"filters\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"filter_operator\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            \"excluded_filters\": {\n              \"filters\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"filter_operator\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          }\n        },\n        \"is_revenue_tracking\": false,\n        \"revenue_amount\": \"<string>\",\n        \"revenue_currency\": \"<string>\"\n      }\n    ]\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "61da42cb-f7ea-4182-919a-6675304a9f5b",
+              "name": "Offering updated successfully.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v5",
+                    "offers",
+                    ":offer_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "offer_id",
+                      "description": "(Required) The unique ID of the offering to be updated. You can fetch the offering ID using the [List Offerings API](/api/public-offerings/list-offerings) by filtering with name."
+                    },
+                    {
+                      "description": "MoEngage data center identifier. Replace with your assigned DC number. Full example: https://api-01.moengage.com\n",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) UUID v4 idempotency token. Submitting the same key within 24 hours returns the original `200 response` without re-creating the Offering. A different body hash on the same key returns `409 IDEMPOTENCY_CONFLICT`. A concurrent in-progress request with the same key returns `409 DUPLICATE_IDEMPOTENCY_KEY`.\n",
+                    "key": "Idempotency-Key",
+                    "value": "<uuid>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Client-supplied trace ID (UUID v4). Echoed back in the `X-MOE-Request-Id` response header. Use this to correlate client requests with server-side logs.\n",
+                    "key": "X-MOE-Request-Id",
+                    "value": "<uuid>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"updated_by\": \"marketing-team@example.com\",\n  \"scheduling\": {\n    \"expiry_datetime\": \"2026-12-31T23:59:59Z\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "Echoed trace ID.",
+                  "key": "X-MOE-Request-Id",
+                  "value": "string"
+                },
+                {
+                  "disabled": false,
+                  "description": "Maximum requests allowed in the current window.",
+                  "key": "X-RateLimit-Limit",
+                  "value": "100"
+                },
+                {
+                  "disabled": false,
+                  "description": "Requests remaining in the current window before rate limiting applies.",
+                  "key": "X-RateLimit-Remaining",
+                  "value": "6591"
+                },
+                {
+                  "disabled": false,
+                  "description": "UTC epoch second when the current rate-limit window resets.",
+                  "key": "X-RateLimit-Reset",
+                  "value": "6591"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"response_id\": \"resp_c5f83262-3127-4e23-bb1b-9efd4c929e12\",\n  \"type\": \"offer\",\n  \"data\": {\n    \"status\": \"active\",\n    \"updated_at\": \"2026-07-09T09:29:18.526812352Z\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "59c2b600-246a-4b35-88c7-c9138c382dba",
+              "name": "Validation errors. All errors collected before returning. Possible error codes:\n- `REQUIRED_FIELD_MISSING` — a required field is absent (`updated_by`). The `target` field identifies the missing field.\n- `INVALID_TYPE` — wrong type or format (e.g. `scheduling.start_datetime` is not a valid ISO 8601 datetime with UTC \"Z\" suffix).\n- `OUT_OF_RANGE` — numeric field outside its allowed range (e.g. `priority` outside 1–100, `control_group.percentage` outside 1–99).\n- `INVALID_ENUM_VALUE` — enum field has an unrecognised value (e.g. unrecognised `variation_meta.type`).\n- `INVALID_OFFER_NAME` — `name` contains characters other than alphanumeric characters and underscores.\n- `INVALID_SCHEDULING` — `expiry_datetime` is not after `start_datetime`; `start_datetime` is in the past; or `expiry_datetime` is less than 10 minutes in the future.\n- `INVALID_TIMEZONE` — `scheduling.timezone` is present but not a valid IANA timezone name.\n- `IMMUTABLE_FIELD` — attempt to change a status-locked field:\n  • `scheduling.start_datetime` when offering is ACTIVE or EXPIRED.\n  • `conversion` when offering is not in `scheduled` status.\n  • `variation_meta.type` when offering is ACTIVE.\n  • Adding or removing keys in `variation_meta.variantsPerLocale` when offering is ACTIVE — only split percentages (SMV) or `control_group.percentage` (DMV) can change on an ACTIVE offering.\n- `SPLIT_KEY_MISMATCH` — keys in `smv_distribution.split` do not match `variantsPerLocale`.\n- `INVALID_SPLIT` — values in `smv_distribution.split` do not sum to exactly 100.\n- `INVALID_TEMPLATE_ID` — `meta.templateId` refers to a template ID not registered in the workspace.\n- `MISSING_TEMPLATE_FIELD` — a required field (per the template's config) is missing or blank in the `value` map.\n  The `target` field will be `offer_content.locales.<locale>.variations.<variant>.content_1.value.<fieldKey>`.\n- `DUPLICATE_OFFER_NAME` — `name` matches an existing non-archived offering in this workspace.\n- `INVALID_TAG_ID` — one or more tag IDs in `tags` do not exist in this workspace.\n- `REVENUE_FIELDS_INCOMPLETE` — `conversion.primary.revenue_amount` or `conversion.primary.revenue_currency` is missing when `is_revenue_tracking` is true.\n- `INVALID_CURRENCY_CODE` — `conversion.primary.revenue_currency` is not a valid ISO 4217 code.\n- `MISSING_IDEMPOTENCY_KEY` — `Idempotency-Key` header is absent.\n- `INVALID_IDEMPOTENCY_KEY` — `Idempotency-Key` is present but not a valid UUID v4.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v5",
+                    "offers",
+                    ":offer_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "offer_id",
+                      "description": "(Required) The unique ID of the offering to be updated. You can fetch the offering ID using the [List Offerings API](/api/public-offerings/list-offerings) by filtering with name."
+                    },
+                    {
+                      "description": "MoEngage data center identifier. Replace with your assigned DC number. Full example: https://api-01.moengage.com\n",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) UUID v4 idempotency token. Submitting the same key within 24 hours returns the original `200 response` without re-creating the Offering. A different body hash on the same key returns `409 IDEMPOTENCY_CONFLICT`. A concurrent in-progress request with the same key returns `409 DUPLICATE_IDEMPOTENCY_KEY`.\n",
+                    "key": "Idempotency-Key",
+                    "value": "<uuid>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Client-supplied trace ID (UUID v4). Echoed back in the `X-MOE-Request-Id` response header. Use this to correlate client requests with server-side logs.\n",
+                    "key": "X-MOE-Request-Id",
+                    "value": "<uuid>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"updated_by\": \"marketing-team@example.com\",\n  \"scheduling\": {\n    \"expiry_datetime\": \"2026-12-31T23:59:59Z\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"VALIDATION_FAILED\",\n    \"message\": \"Request validation failed.\",\n    \"doc_url\": \"https://www.moengage.com/docs/api/offerings/offerings-overview\",\n    \"details\": [\n      {\n        \"code\": \"IMMUTABLE_FIELD\",\n        \"target\": \"variation_meta.type\",\n        \"message\": \"variation_meta.type cannot be changed on an active offering.\",\n        \"doc_url\": \"https://www.moengage.com/docs/api/offerings/offerings-overview\"\n      },\n      {\n        \"code\": \"INVALID_TEMPLATE_ID\",\n        \"target\": \"offer_content.locales.0.variations.Variant_A.content_1.meta.templateId\",\n        \"message\": \"Template 'app_large' is not registered in this workspace.\",\n        \"doc_url\": \"https://www.moengage.com/docs/api/offerings/offerings-overview\"\n      },\n      {\n        \"code\": \"MISSING_TEMPLATE_FIELD\",\n        \"target\": \"offer_content.locales.0.variations.Variant_A.content_1.value.cta_url\",\n        \"message\": \"Field 'cta_url' is required by the template but is missing or blank.\",\n        \"doc_url\": \"https://www.moengage.com/docs/api/offerings/offerings-overview\"\n      }\n    ]\n  },\n  \"response_id\": \"resp_<trace-id>\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "2657d534-21c4-41ae-bb84-0e41d6db61cc",
+              "name": "Authentication failure. Two sources produce 401 on this endpoint:\n- **Gateway (APISIX)** — credentials missing or invalid. Returns `Content-Type: text/plain`\n  with body `{\"code\":\"ER001\",\"target\":\"Authentication Invalid\",\"message\":\"...\"}`.\n- **Service** — credentials passed the gateway but the injected `X-MOE-Tenant-ID` header\n  is missing (request bypassed gateway). Returns `Content-Type: application/json`.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v5",
+                    "offers",
+                    ":offer_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "offer_id",
+                      "description": "(Required) The unique ID of the offering to be updated. You can fetch the offering ID using the [List Offerings API](/api/public-offerings/list-offerings) by filtering with name."
+                    },
+                    {
+                      "description": "MoEngage data center identifier. Replace with your assigned DC number. Full example: https://api-01.moengage.com\n",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) UUID v4 idempotency token. Submitting the same key within 24 hours returns the original `200 response` without re-creating the Offering. A different body hash on the same key returns `409 IDEMPOTENCY_CONFLICT`. A concurrent in-progress request with the same key returns `409 DUPLICATE_IDEMPOTENCY_KEY`.\n",
+                    "key": "Idempotency-Key",
+                    "value": "<uuid>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Client-supplied trace ID (UUID v4). Echoed back in the `X-MOE-Request-Id` response header. Use this to correlate client requests with server-side logs.\n",
+                    "key": "X-MOE-Request-Id",
+                    "value": "<uuid>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "text/plain"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"updated_by\": \"marketing-team@example.com\",\n  \"scheduling\": {\n    \"expiry_datetime\": \"2026-12-31T23:59:59Z\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"response_id\": \"string\",\n  \"error\": {\n    \"code\": \"VALIDATION_FAILED\",\n    \"message\": \"string\",\n    \"doc_url\": \"https://www.moengage.com/docs/api/offerings/offerings-overview\",\n    \"target\": \"string\",\n    \"details\": [\n      {\n        \"code\": \"string\",\n        \"target\": \"string\",\n        \"message\": \"string\"\n      },\n      {\n        \"code\": \"string\",\n        \"target\": \"string\",\n        \"message\": \"string\"\n      }\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "dc3fe0c3-0b4b-423a-83ac-e338bdc60d85",
+              "name": "Forbidden. Two distinct sources produce 403 on this endpoint:\n- **Gateway (APISIX)** — insufficient scope for this route. Returns `Content-Type: text/plain`\n  with body `{\"code\":\"ER007\",\"target\":\"Authentication Invalid\",\"message\":\"...\"}`.\n- **Service** — offering is in a terminal lifecycle state. Returns `Content-Type: application/json`.\n  Error codes: `EXPIRED_OFFERING` (past expiry_datetime) or `ARCHIVED_OFFERING` (manually archived).\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v5",
+                    "offers",
+                    ":offer_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "offer_id",
+                      "description": "(Required) The unique ID of the offering to be updated. You can fetch the offering ID using the [List Offerings API](/api/public-offerings/list-offerings) by filtering with name."
+                    },
+                    {
+                      "description": "MoEngage data center identifier. Replace with your assigned DC number. Full example: https://api-01.moengage.com\n",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) UUID v4 idempotency token. Submitting the same key within 24 hours returns the original `200 response` without re-creating the Offering. A different body hash on the same key returns `409 IDEMPOTENCY_CONFLICT`. A concurrent in-progress request with the same key returns `409 DUPLICATE_IDEMPOTENCY_KEY`.\n",
+                    "key": "Idempotency-Key",
+                    "value": "<uuid>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Client-supplied trace ID (UUID v4). Echoed back in the `X-MOE-Request-Id` response header. Use this to correlate client requests with server-side logs.\n",
+                    "key": "X-MOE-Request-Id",
+                    "value": "<uuid>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "text/plain"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"updated_by\": \"marketing-team@example.com\",\n  \"scheduling\": {\n    \"expiry_datetime\": \"2026-12-31T23:59:59Z\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"response_id\": \"string\",\n  \"error\": {\n    \"code\": \"VALIDATION_FAILED\",\n    \"message\": \"string\",\n    \"doc_url\": \"https://www.moengage.com/docs/api/offerings/offerings-overview\",\n    \"target\": \"string\",\n    \"details\": [\n      {\n        \"code\": \"string\",\n        \"target\": \"string\",\n        \"message\": \"string\"\n      },\n      {\n        \"code\": \"string\",\n        \"target\": \"string\",\n        \"message\": \"string\"\n      }\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "2074bf52-ca01-429c-b96f-0153cfc4f87c",
+              "name": "Offering not found (OFFER_NOT_FOUND).",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v5",
+                    "offers",
+                    ":offer_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "offer_id",
+                      "description": "(Required) The unique ID of the offering to be updated. You can fetch the offering ID using the [List Offerings API](/api/public-offerings/list-offerings) by filtering with name."
+                    },
+                    {
+                      "description": "MoEngage data center identifier. Replace with your assigned DC number. Full example: https://api-01.moengage.com\n",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) UUID v4 idempotency token. Submitting the same key within 24 hours returns the original `200 response` without re-creating the Offering. A different body hash on the same key returns `409 IDEMPOTENCY_CONFLICT`. A concurrent in-progress request with the same key returns `409 DUPLICATE_IDEMPOTENCY_KEY`.\n",
+                    "key": "Idempotency-Key",
+                    "value": "<uuid>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Client-supplied trace ID (UUID v4). Echoed back in the `X-MOE-Request-Id` response header. Use this to correlate client requests with server-side logs.\n",
+                    "key": "X-MOE-Request-Id",
+                    "value": "<uuid>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"updated_by\": \"marketing-team@example.com\",\n  \"scheduling\": {\n    \"expiry_datetime\": \"2026-12-31T23:59:59Z\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"response_id\": \"string\",\n  \"error\": {\n    \"code\": \"VALIDATION_FAILED\",\n    \"message\": \"string\",\n    \"doc_url\": \"https://www.moengage.com/docs/api/offerings/offerings-overview\",\n    \"target\": \"string\",\n    \"details\": [\n      {\n        \"code\": \"string\",\n        \"target\": \"string\",\n        \"message\": \"string\"\n      },\n      {\n        \"code\": \"string\",\n        \"target\": \"string\",\n        \"message\": \"string\"\n      }\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b75ab593-8a07-401a-8caf-77a31bd6cbd1",
+              "name": "Idempotency conflict. Two distinct error codes are possible:\n\n**DUPLICATE_IDEMPOTENCY_KEY** — a request with the same Idempotency-Key is already\nin-flight (concurrent duplicate). Wait for the first request to complete before retrying.\n\n**IDEMPOTENCY_CONFLICT** — the Idempotency-Key was already used within the 24-hour\nwindow but the request body hash differs from the original request. Use a new\nIdempotency-Key to submit a different payload.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v5",
+                    "offers",
+                    ":offer_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "offer_id",
+                      "description": "(Required) The unique ID of the offering to be updated. You can fetch the offering ID using the [List Offerings API](/api/public-offerings/list-offerings) by filtering with name."
+                    },
+                    {
+                      "description": "MoEngage data center identifier. Replace with your assigned DC number. Full example: https://api-01.moengage.com\n",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) UUID v4 idempotency token. Submitting the same key within 24 hours returns the original `200 response` without re-creating the Offering. A different body hash on the same key returns `409 IDEMPOTENCY_CONFLICT`. A concurrent in-progress request with the same key returns `409 DUPLICATE_IDEMPOTENCY_KEY`.\n",
+                    "key": "Idempotency-Key",
+                    "value": "<uuid>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Client-supplied trace ID (UUID v4). Echoed back in the `X-MOE-Request-Id` response header. Use this to correlate client requests with server-side logs.\n",
+                    "key": "X-MOE-Request-Id",
+                    "value": "<uuid>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"updated_by\": \"marketing-team@example.com\",\n  \"scheduling\": {\n    \"expiry_datetime\": \"2026-12-31T23:59:59Z\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Conflict",
+              "code": 409,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"DUPLICATE_IDEMPOTENCY_KEY\",\n    \"message\": \"A request with this Idempotency-Key is already being processed.\",\n    \"doc_url\": \"https://www.moengage.com/docs/api/offerings/offerings-overview\",\n    \"target\": \"Idempotency-Key\"\n  },\n  \"response_id\": \"resp_<trace-id>\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "361bee8e-1263-4af3-861b-90ff5a634301",
+              "name": "The rate limit for this endpoint has been exceeded. Retry after the window\nindicated in the `Retry-After` response header (in seconds).\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v5",
+                    "offers",
+                    ":offer_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "offer_id",
+                      "description": "(Required) The unique ID of the offering to be updated. You can fetch the offering ID using the [List Offerings API](/api/public-offerings/list-offerings) by filtering with name."
+                    },
+                    {
+                      "description": "MoEngage data center identifier. Replace with your assigned DC number. Full example: https://api-01.moengage.com\n",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) UUID v4 idempotency token. Submitting the same key within 24 hours returns the original `200 response` without re-creating the Offering. A different body hash on the same key returns `409 IDEMPOTENCY_CONFLICT`. A concurrent in-progress request with the same key returns `409 DUPLICATE_IDEMPOTENCY_KEY`.\n",
+                    "key": "Idempotency-Key",
+                    "value": "<uuid>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Client-supplied trace ID (UUID v4). Echoed back in the `X-MOE-Request-Id` response header. Use this to correlate client requests with server-side logs.\n",
+                    "key": "X-MOE-Request-Id",
+                    "value": "<uuid>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"updated_by\": \"marketing-team@example.com\",\n  \"scheduling\": {\n    \"expiry_datetime\": \"2026-12-31T23:59:59Z\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "Seconds to wait before retrying.",
+                  "key": "Retry-After",
+                  "value": "6591"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"response_id\": \"string\",\n  \"error\": {\n    \"code\": \"VALIDATION_FAILED\",\n    \"message\": \"string\",\n    \"doc_url\": \"https://www.moengage.com/docs/api/offerings/offerings-overview\",\n    \"target\": \"string\",\n    \"details\": [\n      {\n        \"code\": \"string\",\n        \"target\": \"string\",\n        \"message\": \"string\"\n      },\n      {\n        \"code\": \"string\",\n        \"target\": \"string\",\n        \"message\": \"string\"\n      }\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "2c06ad97-dd2c-479b-8e1b-dda4d09ab61c",
+              "name": "Gateway temporarily unable to route the request. Returned when the\nupstream service is unreachable or the HTTP request cannot be proxied (e.g. malformed\nheaders with control characters). Treat as a transient error and retry with exponential back-off.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v5",
+                    "offers",
+                    ":offer_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "offer_id",
+                      "description": "(Required) The unique ID of the offering to be updated. You can fetch the offering ID using the [List Offerings API](/api/public-offerings/list-offerings) by filtering with name."
+                    },
+                    {
+                      "description": "MoEngage data center identifier. Replace with your assigned DC number. Full example: https://api-01.moengage.com\n",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) UUID v4 idempotency token. Submitting the same key within 24 hours returns the original `200 response` without re-creating the Offering. A different body hash on the same key returns `409 IDEMPOTENCY_CONFLICT`. A concurrent in-progress request with the same key returns `409 DUPLICATE_IDEMPOTENCY_KEY`.\n",
+                    "key": "Idempotency-Key",
+                    "value": "<uuid>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Client-supplied trace ID (UUID v4). Echoed back in the `X-MOE-Request-Id` response header. Use this to correlate client requests with server-side logs.\n",
+                    "key": "X-MOE-Request-Id",
+                    "value": "<uuid>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "text/html"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"updated_by\": \"marketing-team@example.com\",\n  \"scheduling\": {\n    \"expiry_datetime\": \"2026-12-31T23:59:59Z\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Service Unavailable",
+              "code": 503,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/html"
+                }
+              ],
+              "body": "<html><body><h1>503 Service Temporarily Unavailable</h1></body></html>",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "522c77a5-80e7-4fe4-95a8-79e9dd8d3dce",
+          "name": "List Offer Templates",
+          "request": {
+            "name": "List Offer Templates",
+            "description": {
+              "content": "Fetch the personalization templates available in the workspace.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v5",
+                "offers",
+                "templates"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "cursor",
+                  "value": "<string>",
+                  "description": "An opaque pagination token used to retrieve the next page of results.\n\n* **Initial Request:** Omit this parameter entirely on the first call to fetch the beginning of the list.\n* **Subsequent Pages:** Pass the exact string received from the `next_cursor` field of the immediate previous response.\n* **Handling:** Pass this token completely verbatim. Do not decode, alter, or modify the string in any way.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "20",
+                  "description": "Number of templates per page. Default 20, maximum 100."
+                }
+              ],
+              "variable": [
+                {
+                  "description": "MoEngage data center identifier. Replace with your assigned DC number. Full example: https://api-01.moengage.com\n",
+                  "type": "any",
+                  "value": "{{dc}}",
+                  "key": "dc"
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "Client-supplied trace ID (UUID v4). Echoed back in the X-MOE-Request-Id response header and in server logs. If omitted, the server generates a trace ID automatically.\n",
+                "key": "X-MOE-Request-Id",
+                "value": "<uuid>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "{{basicAuthUsername}}"
+                },
+                {
+                  "key": "password",
+                  "value": "{{basicAuthPassword}}"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "9b1f7aba-8816-4c8c-8eef-aa8387b386e0",
+              "name": "Paginated list of offer templates.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v5",
+                    "offers",
+                    "templates"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "cursor",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "20"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "description": "MoEngage data center identifier. Replace with your assigned DC number. Full example: https://api-01.moengage.com\n",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Client-supplied trace ID (UUID v4). Echoed back in the X-MOE-Request-Id response header and in server logs. If omitted, the server generates a trace ID automatically.\n",
+                    "key": "X-MOE-Request-Id",
+                    "value": "<uuid>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "Trace ID echoed from the gateway.",
+                  "key": "X-MOE-Request-Id",
+                  "value": "string"
+                },
+                {
+                  "disabled": false,
+                  "description": "Maximum requests allowed in the current window.",
+                  "key": "X-RateLimit-Limit",
+                  "value": "150"
+                },
+                {
+                  "disabled": false,
+                  "description": "Requests remaining in the current window before rate limiting applies.",
+                  "key": "X-RateLimit-Remaining",
+                  "value": "6591"
+                },
+                {
+                  "disabled": false,
+                  "description": "UTC epoch second when the current rate-limit window resets.",
+                  "key": "X-RateLimit-Reset",
+                  "value": "6591"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"response_id\": \"resp_<trace-id>\",\n  \"type\": \"template\",\n  \"data\": [\n    {\n      \"id\": \"app_small\",\n      \"value\": \"app_small\",\n      \"label\": \"App small\",\n      \"template_type\": []\n    }\n  ],\n  \"pagination\": {\n    \"next_cursor\": null,\n    \"limit\": 20,\n    \"has_more\": false,\n    \"total_count\": 1\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ba02acef-b2a2-4001-83bd-33d3b4261959",
+              "name": "Invalid query parameter. Possible error codes in `error.details[].code`:\n- `OUT_OF_RANGE` — `limit` > 100.\n- `INVALID_CURSOR` — `cursor` is present but malformed (not valid base64, or corrupted segment/id).\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v5",
+                    "offers",
+                    "templates"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "cursor",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "20"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "description": "MoEngage data center identifier. Replace with your assigned DC number. Full example: https://api-01.moengage.com\n",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Client-supplied trace ID (UUID v4). Echoed back in the X-MOE-Request-Id response header and in server logs. If omitted, the server generates a trace ID automatically.\n",
+                    "key": "X-MOE-Request-Id",
+                    "value": "<uuid>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"VALIDATION_FAILED\",\n    \"message\": \"One or more fields failed validation.\",\n    \"doc_url\": \"https://www.moengage.com/docs/api/offerings/offerings-overview\",\n    \"details\": [\n      {\n        \"code\": \"OUT_OF_RANGE\",\n        \"target\": \"limit\",\n        \"message\": \"limit must be between 1 and 100.\"\n      }\n    ]\n  },\n  \"response_id\": \"resp_<trace-id>\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b0cf784a-8a03-4d25-9afb-a2e9a3a26fd4",
+              "name": "Authentication or authorisation failure from the API gateway layer.\nThis response is generated by the gateway before the request reaches the service.\nThe body is JSON-formatted but API gateway sends it with `Content-Type: text/plain`.\nTwo gateway error codes are possible:\n- `ER001` — credentials missing or invalid (401).\n- `ER007` — credentials valid but insufficient scope for this route (403).\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v5",
+                    "offers",
+                    "templates"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "cursor",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "20"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "description": "MoEngage data center identifier. Replace with your assigned DC number. Full example: https://api-01.moengage.com\n",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Client-supplied trace ID (UUID v4). Echoed back in the X-MOE-Request-Id response header and in server logs. If omitted, the server generates a trace ID automatically.\n",
+                    "key": "X-MOE-Request-Id",
+                    "value": "<uuid>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "text/plain"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "{\"code\":\"ER001\",\"target\":\"Authentication Invalid\",\"message\":\"Auth validation failed.\"}",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "01eb6ff2-cb07-4eee-870e-e53c2e5179b4",
+              "name": "Authentication or authorisation failure from the API gateway layer.\nThis response is generated by the gateway before the request reaches the service.\nThe body is JSON-formatted but API gateway sends it with `Content-Type: text/plain`.\nTwo gateway error codes are possible:\n- `ER001` — credentials missing or invalid (401).\n- `ER007` — credentials valid but insufficient scope for this route (403).\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v5",
+                    "offers",
+                    "templates"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "cursor",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "20"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "description": "MoEngage data center identifier. Replace with your assigned DC number. Full example: https://api-01.moengage.com\n",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Client-supplied trace ID (UUID v4). Echoed back in the X-MOE-Request-Id response header and in server logs. If omitted, the server generates a trace ID automatically.\n",
+                    "key": "X-MOE-Request-Id",
+                    "value": "<uuid>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "text/plain"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "{\"code\":\"ER001\",\"target\":\"Authentication Invalid\",\"message\":\"Auth validation failed.\"}",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "72f231de-514e-4126-ba58-2b93ef18e825",
+              "name": "The rate limit for this endpoint has been exceeded. Retry after the window\nindicated in the `Retry-After` response header (in seconds).\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v5",
+                    "offers",
+                    "templates"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "cursor",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "20"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "description": "MoEngage data center identifier. Replace with your assigned DC number. Full example: https://api-01.moengage.com\n",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Client-supplied trace ID (UUID v4). Echoed back in the X-MOE-Request-Id response header and in server logs. If omitted, the server generates a trace ID automatically.\n",
+                    "key": "X-MOE-Request-Id",
+                    "value": "<uuid>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "Seconds to wait before retrying.",
+                  "key": "Retry-After",
+                  "value": "6591"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"response_id\": \"string\",\n  \"error\": {\n    \"code\": \"VALIDATION_FAILED\",\n    \"message\": \"string\",\n    \"doc_url\": \"https://www.moengage.com/docs/api/offerings/offerings-overview\",\n    \"target\": \"string\",\n    \"details\": [\n      {\n        \"code\": \"string\",\n        \"target\": \"string\",\n        \"message\": \"string\"\n      },\n      {\n        \"code\": \"string\",\n        \"target\": \"string\",\n        \"message\": \"string\"\n      }\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "8e16ab8a-a01e-4433-b984-0f43f9fd0ea4",
+              "name": "Gateway temporarily unable to route the request. Returned when the\nupstream service is unreachable or the HTTP request cannot be proxied (e.g. malformed\nheaders with control characters). Treat as a transient error and retry with exponential back-off.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v5",
+                    "offers",
+                    "templates"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "cursor",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "20"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "description": "MoEngage data center identifier. Replace with your assigned DC number. Full example: https://api-01.moengage.com\n",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Client-supplied trace ID (UUID v4). Echoed back in the X-MOE-Request-Id response header and in server logs. If omitted, the server generates a trace ID automatically.\n",
+                    "key": "X-MOE-Request-Id",
+                    "value": "<uuid>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "text/html"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Service Unavailable",
+              "code": 503,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/html"
+                }
+              ],
+              "body": "<html><body><h1>503 Service Temporarily Unavailable</h1></body></html>",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "description": {
+        "content": "MoEngage data center identifier. Replace with your assigned DC number. Full example: https://api-01.moengage.com\n",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "01",
+      "key": "dc"
+    },
+    {
+      "type": "string",
+      "value": "https://api-{{dc}}.moengage.com",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "b449c233-8594-41a6-84de-422822eba89b",
+    "name": "Offer Decisioning Public API - v5",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Offerings API lets you create, update, and list offerings for Offer Decisioning, and\nlist the personalization templates available for offering content. For lifecycle, rate limits,\nidempotency, and error details, see the [Offerings Overview](/api/offerings/offerings-overview).\n",
+      "type": "text/plain"
+    }
+  }
+}

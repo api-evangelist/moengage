@@ -1,7 +1,15 @@
-generated: '2026-08-01'
+generated: '2026-08-14'
 method: probed
 source: live GET of /.well-known/* on every apis.yml host and OpenAPI servers[] host
 probed: '2026-08-01'
+reprobed:
+  date: '2026-08-14'
+  scope: >-
+    /.well-known/agent-card.json and /.well-known/agent.json re-probed on www.moengage.com (404),
+    api-01.moengage.com (308 to HTML), mcp.moengage.com (401), dashboard.moengage.com (404) and
+    moeauth.moengage.com (404 {"detail":"Not Found"}). No A2A agent card is served on any MoEngage
+    host, so no a2a/ artifact and no AgentCard pointer were written.
+  result: unchanged
 hosts:
 - host: https://www.moengage.com
   documents:

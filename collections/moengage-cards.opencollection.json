@@ -1,0 +1,81 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "MoEngage Cards API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "basic",
+      "username": "{{username}}",
+      "password": "{{password}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Cards",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Fetch Cards for User",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-{dc}.moengage.com/v1/cards/fetch",
+            "headers": [
+              {
+                "name": "MOE-APPKEY",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "This field contains the index of the pages to be returned in the search result. When this value is not passed in the request, one page is returned in the search result. The value should be a number greater than zero.\n"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "This field contains the number of cards returned in the search result. When this value is not passed in the request, all the cards are fetched and returned in the search result. The value should be a number greater than zero.\n"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "This API retrieves all active and updated cards for a specific user from the MoEngage Cards database. You can filter the search results based on the platform and card category and check if any card was updated for the user since the previous sync.\n"
+        },
+        {
+          "info": {
+            "name": "Delete Cards for User",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api-{dc}.moengage.com/v1/cards/delete",
+            "headers": [
+              {
+                "name": "MOE-APPKEY",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "This API deletes cards for a specified user from the MoEngage Cards database.\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

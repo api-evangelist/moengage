@@ -1,0 +1,1987 @@
+{
+  "item": [
+    {
+      "id": "d5110647-09c2-46f9-9d80-05b8430781c6",
+      "name": "Email Templates",
+      "description": {
+        "content": "Manage email templates in MoEngage.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "8ab1bce3-edac-4fa3-96f5-a0d09596d262",
+          "name": "Create Email Template (V1)",
+          "request": {
+            "name": "Create Email Template (V1)",
+            "description": {
+              "content": "This API creates an email template in MoEngage. You can use this API to upload templates created outside the MoEngage ecosystem to MoEngage and use them for campaign creation on the MoEngage dashboard.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "email-templates"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "description": "The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+                  "type": "any",
+                  "value": "{{dc}}",
+                  "key": "dc"
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) This is the Workspace ID of your MoEngage account that must be passed with the request. You can find it in the MoEngage dashboard at **Settings** > **Account** > **APIs** > **Workspace ID (earlier app id)**.\n",
+                "key": "MOE-APPKEY",
+                "value": "<string>"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"<string>\",\n  \"html\": \"<string>\",\n  \"source\": \"<string>\",\n  \"subject\": \"<string>\",\n  \"attachments\": [\n    \"<uri>\",\n    \"<uri>\"\n  ],\n  \"sender_name\": \"<string>\",\n  \"updated_by\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "232d040f-51ee-41e4-816b-0720a2353a11",
+              "name": "This response is returned when the request is processed successfully.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "email-templates"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) This is the Workspace ID of your MoEngage account that must be passed with the request. You can find it in the MoEngage dashboard at **Settings** > **Account** > **APIs** > **Workspace ID (earlier app id)**.\n",
+                    "key": "MOE-APPKEY",
+                    "value": "APP ID"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"End_Of_Season_Sale_Template\",\n  \"html\": \"<!DOCTYPE html><html><body><p>Content</p></body></html>\",\n  \"source\": \"Partner\",\n  \"subject\": \"End of Season Sale!\",\n  \"attachments\": [\n    \"https://app-cdn.moengage.com/assets/LogoThumbnail.jpg\",\n    \"https://app-cdn.moengage.com/assets/LogoThumbnail.jpg\"\n  ],\n  \"sender_name\": \"Your Brand Name\",\n  \"updated_by\": \"john.doe@example.com\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"success\",\n  \"data\": {\n    \"id\": \"63f4962d4d31f4c68d980a01\",\n    \"msg\": \"Custom email template saved\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e3865c7a-0f76-4e3e-9774-3f9723bc0625",
+              "name": "This response is returned when the required parameters are missing from the request or when the provided parameters are invalid, or when a template already exists with the same version, name, or id.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "email-templates"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) This is the Workspace ID of your MoEngage account that must be passed with the request. You can find it in the MoEngage dashboard at **Settings** > **Account** > **APIs** > **Workspace ID (earlier app id)**.\n",
+                    "key": "MOE-APPKEY",
+                    "value": "APP ID"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"End_Of_Season_Sale_Template\",\n  \"html\": \"<!DOCTYPE html><html><body><p>Content</p></body></html>\",\n  \"source\": \"Partner\",\n  \"subject\": \"End of Season Sale!\",\n  \"attachments\": [\n    \"https://app-cdn.moengage.com/assets/LogoThumbnail.jpg\",\n    \"https://app-cdn.moengage.com/assets/LogoThumbnail.jpg\"\n  ],\n  \"sender_name\": \"Your Brand Name\",\n  \"updated_by\": \"john.doe@example.com\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"error\",\n  \"data\": {\n    \"code\": 400,\n    \"title\": \"Invalid request body\",\n    \"description\": \"MOE-APPKEY header is invalid or empty\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "227e93c1-9b70-4425-b209-06d00bf55323",
+              "name": "This response is returned when the authorization parameters are missing in the HTTP Auth Header.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "email-templates"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) This is the Workspace ID of your MoEngage account that must be passed with the request. You can find it in the MoEngage dashboard at **Settings** > **Account** > **APIs** > **Workspace ID (earlier app id)**.\n",
+                    "key": "MOE-APPKEY",
+                    "value": "APP ID"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"End_Of_Season_Sale_Template\",\n  \"html\": \"<!DOCTYPE html><html><body><p>Content</p></body></html>\",\n  \"source\": \"Partner\",\n  \"subject\": \"End of Season Sale!\",\n  \"attachments\": [\n    \"https://app-cdn.moengage.com/assets/LogoThumbnail.jpg\",\n    \"https://app-cdn.moengage.com/assets/LogoThumbnail.jpg\"\n  ],\n  \"sender_name\": \"Your Brand Name\",\n  \"updated_by\": \"john.doe@example.com\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"error\",\n  \"data\": {\n    \"code\": 401,\n    \"title\": \"Authentication required\",\n    \"description\": \"Invalid APP_ID used in Authentication Header\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "3478ae89-8c8a-40bb-bd54-655f63ec3cdc",
+              "name": "This response is returned when the number of requests per minute has exceeded the rate limit.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "email-templates"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) This is the Workspace ID of your MoEngage account that must be passed with the request. You can find it in the MoEngage dashboard at **Settings** > **Account** > **APIs** > **Workspace ID (earlier app id)**.\n",
+                    "key": "MOE-APPKEY",
+                    "value": "APP ID"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"End_Of_Season_Sale_Template\",\n  \"html\": \"<!DOCTYPE html><html><body><p>Content</p></body></html>\",\n  \"source\": \"Partner\",\n  \"subject\": \"End of Season Sale!\",\n  \"attachments\": [\n    \"https://app-cdn.moengage.com/assets/LogoThumbnail.jpg\",\n    \"https://app-cdn.moengage.com/assets/LogoThumbnail.jpg\"\n  ],\n  \"sender_name\": \"Your Brand Name\",\n  \"updated_by\": \"john.doe@example.com\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"error\",\n  \"data\": {\n    \"code\": 429,\n    \"title\": \"rate limiter exception\",\n    \"description\": \"Exceeded rate limit for this app\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d9108fc9-1a43-4d7e-b2b6-fd4cb1649fab",
+              "name": "This response is returned when the system runs into an unexpected error.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "email-templates"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) This is the Workspace ID of your MoEngage account that must be passed with the request. You can find it in the MoEngage dashboard at **Settings** > **Account** > **APIs** > **Workspace ID (earlier app id)**.\n",
+                    "key": "MOE-APPKEY",
+                    "value": "APP ID"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"End_Of_Season_Sale_Template\",\n  \"html\": \"<!DOCTYPE html><html><body><p>Content</p></body></html>\",\n  \"source\": \"Partner\",\n  \"subject\": \"End of Season Sale!\",\n  \"attachments\": [\n    \"https://app-cdn.moengage.com/assets/LogoThumbnail.jpg\",\n    \"https://app-cdn.moengage.com/assets/LogoThumbnail.jpg\"\n  ],\n  \"sender_name\": \"Your Brand Name\",\n  \"updated_by\": \"john.doe@example.com\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"title\": \"Internal Server Error\",\n  \"message\": \"An unexpected error was encountered while processing this request. Please contact MoEngage Team\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "dc6433e5-8d15-495c-afbe-e403d24dff2b",
+          "name": "Get All Templates",
+          "request": {
+            "name": "Get All Templates",
+            "description": {
+              "content": "This API fetches the list of all the email templates available in your MoEngage account.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "email-templates"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "1",
+                  "description": "This parameter represents the page number. If this value is not specified, it will be considered as one by default. Each page will have a batch size of 20( 20 templates will be returned in a page).\n"
+                }
+              ],
+              "variable": [
+                {
+                  "description": "The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+                  "type": "any",
+                  "value": "{{dc}}",
+                  "key": "dc"
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) This is the Workspace ID of your MoEngage account that must be passed with the request. You can find it in the MoEngage dashboard at **Settings** > **Account** > **APIs** > **Workspace ID (earlier app id)**.\n",
+                "key": "MOE-APPKEY",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "9d29137a-9994-4dd6-ab55-41aff3a6794a",
+              "name": "This response is returned when the request is processed successfully.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "email-templates"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "1"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "description": "The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) This is the Workspace ID of your MoEngage account that must be passed with the request. You can find it in the MoEngage dashboard at **Settings** > **Account** > **APIs** > **Workspace ID (earlier app id)**.\n",
+                    "key": "MOE-APPKEY",
+                    "value": "WORKSPACE ID"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"success\",\n  \"data\": {\n    \"templates\": [\n      {\n        \"template_id\": \"645a2bd910e0307e6d7f7717\",\n        \"template_name\": \"Coupon_code_template\",\n        \"is_archived\": false,\n        \"builder_supported\": false,\n        \"editor\": \"Froala Editor\",\n        \"created_date\": \"2023-05-09 11:17:43.112000\",\n        \"updated_at\": \"2023-05-09 11:18:37.692000\",\n        \"updated_by\": \"jane.doe@example.com\"\n      }\n    ],\n    \"no_of_templates\": 13\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "4d4be64b-5ebd-44f1-9698-cf2ef95afdee",
+              "name": "This response is returned when the required parameters are missing from the request or when the provided parameters are invalid, or when a template already exists with the same version, name, or id.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "email-templates"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "1"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "description": "The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) This is the Workspace ID of your MoEngage account that must be passed with the request. You can find it in the MoEngage dashboard at **Settings** > **Account** > **APIs** > **Workspace ID (earlier app id)**.\n",
+                    "key": "MOE-APPKEY",
+                    "value": "WORKSPACE ID"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"error\",\n  \"data\": {\n    \"code\": 400,\n    \"title\": \"Invalid template id\",\n    \"description\": \"Please provide a valid template id\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ee441f4d-db5c-4bb9-a081-5b212e09af61",
+              "name": "This response is returned when the authorization parameters are missing in the HTTP Auth Header.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "email-templates"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "1"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "description": "The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) This is the Workspace ID of your MoEngage account that must be passed with the request. You can find it in the MoEngage dashboard at **Settings** > **Account** > **APIs** > **Workspace ID (earlier app id)**.\n",
+                    "key": "MOE-APPKEY",
+                    "value": "WORKSPACE ID"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"error\",\n  \"data\": {\n    \"code\": 401,\n    \"title\": \"Authentication required\",\n    \"description\": \"Invalid APP_ID used in Authentication Header\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "5c840ca9-6fa5-4418-929a-000a3e920f21",
+              "name": "This response is returned when the number of requests per minute has exceeded the rate limit or the number of templates has exceeded the allowed quota per channel.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "email-templates"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "1"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "description": "The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) This is the Workspace ID of your MoEngage account that must be passed with the request. You can find it in the MoEngage dashboard at **Settings** > **Account** > **APIs** > **Workspace ID (earlier app id)**.\n",
+                    "key": "MOE-APPKEY",
+                    "value": "WORKSPACE ID"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"error\",\n  \"data\": {\n    \"code\": 429,\n    \"title\": \"rate limiter exception\",\n    \"description\": \"Exceeded rate limit for this app\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "04b08568-2bf9-4f0f-9e19-b0cb58c62529",
+              "name": "This response is returned when the system runs into an unexpected error.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "email-templates"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "1"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "description": "The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) This is the Workspace ID of your MoEngage account that must be passed with the request. You can find it in the MoEngage dashboard at **Settings** > **Account** > **APIs** > **Workspace ID (earlier app id)**.\n",
+                    "key": "MOE-APPKEY",
+                    "value": "WORKSPACE ID"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"title\": \"Internal Server Error\",\n  \"message\": \"An unexpected error was encountered while processing this request. Please contact MoEngage Team\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "585fc24f-bb63-45b0-98c0-1d69e711ac06",
+          "name": "Get Specific Template",
+          "request": {
+            "name": "Get Specific Template",
+            "description": {
+              "content": "This API fetches an email template using its template ID.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "email-templates",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "id",
+                  "description": "(Required) This is the Template id of the template being searched. The template id is a unique identifier that is generated at the time of template creation.\n"
+                },
+                {
+                  "description": "The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+                  "type": "any",
+                  "value": "{{dc}}",
+                  "key": "dc"
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) This is the Workspace ID of your MoEngage account that must be passed with the request. You can find it in the MoEngage dashboard at **Settings** > **Account** > **APIs** > **Workspace ID (earlier app id)**.\n",
+                "key": "MOE-APPKEY",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "fb56271f-d28b-4688-b9df-4a84ee39b11b",
+              "name": "This response is returned when the request is processed successfully.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "email-templates",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) This is the Template id of the template being searched. The template id is a unique identifier that is generated at the time of template creation.\n"
+                    },
+                    {
+                      "description": "The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) This is the Workspace ID of your MoEngage account that must be passed with the request. You can find it in the MoEngage dashboard at **Settings** > **Account** > **APIs** > **Workspace ID (earlier app id)**.\n",
+                    "key": "MOE-APPKEY",
+                    "value": "Workspace ID"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"success\",\n  \"template_id\": \"645a0cec10e0307e6d7f7716\",\n  \"template_name\": \"End_of_season_sale_template\",\n  \"subject\": \"\",\n  \"template_content\": \"<!DOCTYPE html><html>...</html>\",\n  \"attachments\": [],\n  \"source\": \"Partner\",\n  \"sender_name\": \"Your Brand Name\",\n  \"editor\": \"Froala Editor\",\n  \"created_date\": \"2023-05-09 09:05:46.350000\",\n  \"updated_at\": \"2023-05-09 10:00:57.149000\",\n  \"updated_by\": \"john.doe@example.com\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d2244288-7476-4fe2-9294-9e6ee347835b",
+              "name": "This response is returned when the required parameters are missing from the request or when the provided parameters are invalid, or when a template already exists with the same version, name, or id.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "email-templates",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) This is the Template id of the template being searched. The template id is a unique identifier that is generated at the time of template creation.\n"
+                    },
+                    {
+                      "description": "The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) This is the Workspace ID of your MoEngage account that must be passed with the request. You can find it in the MoEngage dashboard at **Settings** > **Account** > **APIs** > **Workspace ID (earlier app id)**.\n",
+                    "key": "MOE-APPKEY",
+                    "value": "Workspace ID"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"error\",\n  \"data\": {\n    \"code\": 400,\n    \"title\": \"Invalid template id\",\n    \"description\": \"Please provide a valid template id\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "7f768ddd-9401-428c-b17f-2d0815d4f0e8",
+              "name": "This response is returned when the authorization parameters are missing in the HTTP Auth Header.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "email-templates",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) This is the Template id of the template being searched. The template id is a unique identifier that is generated at the time of template creation.\n"
+                    },
+                    {
+                      "description": "The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) This is the Workspace ID of your MoEngage account that must be passed with the request. You can find it in the MoEngage dashboard at **Settings** > **Account** > **APIs** > **Workspace ID (earlier app id)**.\n",
+                    "key": "MOE-APPKEY",
+                    "value": "Workspace ID"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"error\",\n  \"data\": {\n    \"code\": 401,\n    \"title\": \"Authentication required\",\n    \"description\": \"Invalid APP_ID used in Authentication Header\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "2a51ace6-1d9c-4037-9762-ffc4cecc8c4e",
+              "name": "This response is returned when the number of requests per minute has exceeded the rate limit, or the number of templates has exceeded the allowed quota per channel.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "email-templates",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) This is the Template id of the template being searched. The template id is a unique identifier that is generated at the time of template creation.\n"
+                    },
+                    {
+                      "description": "The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) This is the Workspace ID of your MoEngage account that must be passed with the request. You can find it in the MoEngage dashboard at **Settings** > **Account** > **APIs** > **Workspace ID (earlier app id)**.\n",
+                    "key": "MOE-APPKEY",
+                    "value": "Workspace ID"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"error\",\n  \"data\": {\n    \"code\": 429,\n    \"title\": \"rate limiter exception\",\n    \"description\": \"Exceeded rate limit for this app\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ae62cda3-2d32-4431-aa61-1cc0928eef56",
+              "name": "This response is returned when the system runs into an unexpected error.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "email-templates",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) This is the Template id of the template being searched. The template id is a unique identifier that is generated at the time of template creation.\n"
+                    },
+                    {
+                      "description": "The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) This is the Workspace ID of your MoEngage account that must be passed with the request. You can find it in the MoEngage dashboard at **Settings** > **Account** > **APIs** > **Workspace ID (earlier app id)**.\n",
+                    "key": "MOE-APPKEY",
+                    "value": "Workspace ID"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"title\": \"Internal Server Error\",\n  \"message\": \"An unexpected error was encountered while processing this request. Please contact MoEngage Team\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "c21096ab-69f5-47d5-bf54-0abb5a378199",
+          "name": "Update Specific Template",
+          "request": {
+            "name": "Update Specific Template",
+            "description": {
+              "content": "Updates an existing email template by specifying its template ID in the path.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "email-templates",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "id",
+                  "description": "(Required) This is the Template id of the template being updated. It is mandatory to add this field when updating a template.\n"
+                },
+                {
+                  "description": "The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+                  "type": "any",
+                  "value": "{{dc}}",
+                  "key": "dc"
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) This is the Workspace ID of your MoEngage account that must be passed with the request. You can find it in the MoEngage dashboard at **Settings** > **Account** > **APIs** > **Workspace ID (earlier app id)**.\n",
+                "key": "MOE-APPKEY",
+                "value": "<string>"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"<string>\",\n  \"html\": \"<string>\",\n  \"source\": \"<string>\",\n  \"subject\": \"<string>\",\n  \"attachments\": [\n    \"<uri>\",\n    \"<uri>\"\n  ],\n  \"sender_name\": \"<string>\",\n  \"updated_by\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "06124e0c-1683-4b89-97cf-1a91f3935b27",
+              "name": "This response is returned when the request is processed successfully.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "email-templates",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) This is the Template id of the template being updated. It is mandatory to add this field when updating a template.\n"
+                    },
+                    {
+                      "description": "The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) This is the Workspace ID of your MoEngage account that must be passed with the request. You can find it in the MoEngage dashboard at **Settings** > **Account** > **APIs** > **Workspace ID (earlier app id)**.\n",
+                    "key": "MOE-APPKEY",
+                    "value": "Workspace ID"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"End_Of_Season_Sale_Template\",\n  \"html\": \"<!DOCTYPE html><html><body><p>Content</p></body></html>\",\n  \"source\": \"Partner\",\n  \"subject\": \"End of Season Sale!\",\n  \"attachments\": [\n    \"https://app-cdn.moengage.com/assets/LogoThumbnail.jpg\",\n    \"https://app-cdn.moengage.com/assets/LogoThumbnail.jpg\"\n  ],\n  \"sender_name\": \"Your Brand Name\",\n  \"updated_by\": \"john.doe@example.com\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"success\",\n  \"data\": {\n    \"id\": \"63f4962d4d31f4c68d980a01\",\n    \"msg\": \"Custom email template updated\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "39c38bcc-c6cb-4bea-8926-0f8246601b03",
+              "name": "This response is returned when the required parameters are missing from the request or when the provided parameters are invalid, or when a template already exists with the same version, name, or id.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "email-templates",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) This is the Template id of the template being updated. It is mandatory to add this field when updating a template.\n"
+                    },
+                    {
+                      "description": "The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) This is the Workspace ID of your MoEngage account that must be passed with the request. You can find it in the MoEngage dashboard at **Settings** > **Account** > **APIs** > **Workspace ID (earlier app id)**.\n",
+                    "key": "MOE-APPKEY",
+                    "value": "Workspace ID"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"End_Of_Season_Sale_Template\",\n  \"html\": \"<!DOCTYPE html><html><body><p>Content</p></body></html>\",\n  \"source\": \"Partner\",\n  \"subject\": \"End of Season Sale!\",\n  \"attachments\": [\n    \"https://app-cdn.moengage.com/assets/LogoThumbnail.jpg\",\n    \"https://app-cdn.moengage.com/assets/LogoThumbnail.jpg\"\n  ],\n  \"sender_name\": \"Your Brand Name\",\n  \"updated_by\": \"john.doe@example.com\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"error\",\n  \"data\": {\n    \"code\": 400,\n    \"title\": \"Invalid request body\",\n    \"description\": \"MOE-APPKEY header is invalid or empty\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "34f0602c-8d76-409d-9eb8-4146be54e4e9",
+              "name": "This response is returned when the authorization parameters are missing in the HTTP Auth Header.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "email-templates",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) This is the Template id of the template being updated. It is mandatory to add this field when updating a template.\n"
+                    },
+                    {
+                      "description": "The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) This is the Workspace ID of your MoEngage account that must be passed with the request. You can find it in the MoEngage dashboard at **Settings** > **Account** > **APIs** > **Workspace ID (earlier app id)**.\n",
+                    "key": "MOE-APPKEY",
+                    "value": "Workspace ID"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"End_Of_Season_Sale_Template\",\n  \"html\": \"<!DOCTYPE html><html><body><p>Content</p></body></html>\",\n  \"source\": \"Partner\",\n  \"subject\": \"End of Season Sale!\",\n  \"attachments\": [\n    \"https://app-cdn.moengage.com/assets/LogoThumbnail.jpg\",\n    \"https://app-cdn.moengage.com/assets/LogoThumbnail.jpg\"\n  ],\n  \"sender_name\": \"Your Brand Name\",\n  \"updated_by\": \"john.doe@example.com\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"error\",\n  \"data\": {\n    \"code\": 400,\n    \"title\": \"Invalid request body\",\n    \"description\": \"MOE-APPKEY header is invalid or empty\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "8764605a-38a4-4790-bf61-4577729f0877",
+              "name": "This response is returned when the number of requests per minute has exceeded the rate limit or the number of templates has exceeded the allowed quota per channel.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "email-templates",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) This is the Template id of the template being updated. It is mandatory to add this field when updating a template.\n"
+                    },
+                    {
+                      "description": "The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) This is the Workspace ID of your MoEngage account that must be passed with the request. You can find it in the MoEngage dashboard at **Settings** > **Account** > **APIs** > **Workspace ID (earlier app id)**.\n",
+                    "key": "MOE-APPKEY",
+                    "value": "Workspace ID"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"End_Of_Season_Sale_Template\",\n  \"html\": \"<!DOCTYPE html><html><body><p>Content</p></body></html>\",\n  \"source\": \"Partner\",\n  \"subject\": \"End of Season Sale!\",\n  \"attachments\": [\n    \"https://app-cdn.moengage.com/assets/LogoThumbnail.jpg\",\n    \"https://app-cdn.moengage.com/assets/LogoThumbnail.jpg\"\n  ],\n  \"sender_name\": \"Your Brand Name\",\n  \"updated_by\": \"john.doe@example.com\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"error\",\n  \"data\": {\n    \"code\": 400,\n    \"title\": \"Invalid request body\",\n    \"description\": \"MOE-APPKEY header is invalid or empty\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a66e2d7a-e664-46bb-9be2-6013a726a1a5",
+              "name": "This response is returned when the system runs into an unexpected error.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "email-templates",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) This is the Template id of the template being updated. It is mandatory to add this field when updating a template.\n"
+                    },
+                    {
+                      "description": "The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) This is the Workspace ID of your MoEngage account that must be passed with the request. You can find it in the MoEngage dashboard at **Settings** > **Account** > **APIs** > **Workspace ID (earlier app id)**.\n",
+                    "key": "MOE-APPKEY",
+                    "value": "Workspace ID"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"End_Of_Season_Sale_Template\",\n  \"html\": \"<!DOCTYPE html><html><body><p>Content</p></body></html>\",\n  \"source\": \"Partner\",\n  \"subject\": \"End of Season Sale!\",\n  \"attachments\": [\n    \"https://app-cdn.moengage.com/assets/LogoThumbnail.jpg\",\n    \"https://app-cdn.moengage.com/assets/LogoThumbnail.jpg\"\n  ],\n  \"sender_name\": \"Your Brand Name\",\n  \"updated_by\": \"john.doe@example.com\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"error\",\n  \"data\": {\n    \"code\": 400,\n    \"title\": \"Invalid request body\",\n    \"description\": \"MOE-APPKEY header is invalid or empty\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "0366ea6e-ec16-490b-984e-25e064c2712a",
+          "name": "Bulk Create/Update Templates",
+          "request": {
+            "name": "Bulk Create/Update Templates",
+            "description": {
+              "content": "This API creates or updates email templates in bulk. You can create or update up to 50 templates in a single request.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "bulk",
+                "email-templates"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "description": "The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+                  "type": "any",
+                  "value": "{{dc}}",
+                  "key": "dc"
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) This is the Workspace ID of your MoEngage account that must be passed with the request. You can find it in the MoEngage dashboard at **Settings** > **Account** > **APIs** > **Workspace ID (earlier app id)**.\n",
+                "key": "MOE-APPKEY",
+                "value": "<string>"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "[\n  {\n    \"name\": \"<string>\",\n    \"html\": \"<string>\",\n    \"source\": \"<string>\",\n    \"subject\": \"<string>\",\n    \"attachments\": [\n      \"<uri>\",\n      \"<uri>\"\n    ],\n    \"sender_name\": \"<string>\",\n    \"updated_by\": \"<string>\",\n    \"id\": \"<string>\"\n  },\n  {\n    \"name\": \"<string>\",\n    \"html\": \"<string>\",\n    \"source\": \"<string>\",\n    \"subject\": \"<string>\",\n    \"attachments\": [\n      \"<uri>\",\n      \"<uri>\"\n    ],\n    \"sender_name\": \"<string>\",\n    \"updated_by\": \"<string>\",\n    \"id\": \"<string>\"\n  }\n]",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "18513dab-07a8-4796-9e7d-c6f9bd0a185d",
+              "name": "This response is returned when the request is processed successfully.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "bulk",
+                    "email-templates"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) This is the Workspace ID of your MoEngage account that must be passed with the request. You can find it in the MoEngage dashboard at **Settings** > **Account** > **APIs** > **Workspace ID (earlier app id)**.\n",
+                    "key": "MOE-APPKEY",
+                    "value": "APP ID"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "[\n  {\n    \"name\": \"End_Of_Season_Sale_Template\",\n    \"html\": \"<!DOCTYPE html><html><body><p>Content</p></body></html>\",\n    \"source\": \"Partner\",\n    \"subject\": \"End of Season Sale!\",\n    \"attachments\": [\n      \"https://app-cdn.moengage.com/assets/LogoThumbnail.jpg\",\n      \"https://app-cdn.moengage.com/assets/LogoThumbnail.jpg\"\n    ],\n    \"sender_name\": \"Your Brand Name\",\n    \"updated_by\": \"john.doe@example.com\",\n    \"id\": \"63f30792c66ddcaac2ef9109\"\n  },\n  {\n    \"name\": \"End_Of_Season_Sale_Template\",\n    \"html\": \"<!DOCTYPE html><html><body><p>Content</p></body></html>\",\n    \"source\": \"Partner\",\n    \"subject\": \"End of Season Sale!\",\n    \"attachments\": [\n      \"https://app-cdn.moengage.com/assets/LogoThumbnail.jpg\",\n      \"https://app-cdn.moengage.com/assets/LogoThumbnail.jpg\"\n    ],\n    \"sender_name\": \"Your Brand Name\",\n    \"updated_by\": \"john.doe@example.com\",\n    \"id\": \"63f30792c66ddcaac2ef9109\"\n  }\n]",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"success\",\n  \"data\": {\n    \"new_templates\": [\n      \"645a2c0d10e0307e6d7f7719\"\n    ],\n    \"updated_templates\": [\n      \"645a2bd910e0307e6d7f7717\"\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "7c030306-dbed-4c7d-a094-bc18aa47f9b5",
+              "name": "This response is returned when the required parameters are missing from the request or when the provided parameters are invalid, or when a template already exists with the same version, name, or id.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "bulk",
+                    "email-templates"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) This is the Workspace ID of your MoEngage account that must be passed with the request. You can find it in the MoEngage dashboard at **Settings** > **Account** > **APIs** > **Workspace ID (earlier app id)**.\n",
+                    "key": "MOE-APPKEY",
+                    "value": "APP ID"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "[\n  {\n    \"name\": \"End_Of_Season_Sale_Template\",\n    \"html\": \"<!DOCTYPE html><html><body><p>Content</p></body></html>\",\n    \"source\": \"Partner\",\n    \"subject\": \"End of Season Sale!\",\n    \"attachments\": [\n      \"https://app-cdn.moengage.com/assets/LogoThumbnail.jpg\",\n      \"https://app-cdn.moengage.com/assets/LogoThumbnail.jpg\"\n    ],\n    \"sender_name\": \"Your Brand Name\",\n    \"updated_by\": \"john.doe@example.com\",\n    \"id\": \"63f30792c66ddcaac2ef9109\"\n  },\n  {\n    \"name\": \"End_Of_Season_Sale_Template\",\n    \"html\": \"<!DOCTYPE html><html><body><p>Content</p></body></html>\",\n    \"source\": \"Partner\",\n    \"subject\": \"End of Season Sale!\",\n    \"attachments\": [\n      \"https://app-cdn.moengage.com/assets/LogoThumbnail.jpg\",\n      \"https://app-cdn.moengage.com/assets/LogoThumbnail.jpg\"\n    ],\n    \"sender_name\": \"Your Brand Name\",\n    \"updated_by\": \"john.doe@example.com\",\n    \"id\": \"63f30792c66ddcaac2ef9109\"\n  }\n]",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"success\",\n  \"data\": {\n    \"new_templates\": [\n      \"Email attachment should be valid one with size less than 6mb & total attachments size less than 20mb\"\n    ],\n    \"updated_templates\": [\n      \"Given id is invalid email template id\"\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "35613bec-2372-4f50-9024-e30adae20cc3",
+              "name": "This response is returned when the authorization parameters are missing in the HTTP Auth Header.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "bulk",
+                    "email-templates"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) This is the Workspace ID of your MoEngage account that must be passed with the request. You can find it in the MoEngage dashboard at **Settings** > **Account** > **APIs** > **Workspace ID (earlier app id)**.\n",
+                    "key": "MOE-APPKEY",
+                    "value": "APP ID"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "[\n  {\n    \"name\": \"End_Of_Season_Sale_Template\",\n    \"html\": \"<!DOCTYPE html><html><body><p>Content</p></body></html>\",\n    \"source\": \"Partner\",\n    \"subject\": \"End of Season Sale!\",\n    \"attachments\": [\n      \"https://app-cdn.moengage.com/assets/LogoThumbnail.jpg\",\n      \"https://app-cdn.moengage.com/assets/LogoThumbnail.jpg\"\n    ],\n    \"sender_name\": \"Your Brand Name\",\n    \"updated_by\": \"john.doe@example.com\",\n    \"id\": \"63f30792c66ddcaac2ef9109\"\n  },\n  {\n    \"name\": \"End_Of_Season_Sale_Template\",\n    \"html\": \"<!DOCTYPE html><html><body><p>Content</p></body></html>\",\n    \"source\": \"Partner\",\n    \"subject\": \"End of Season Sale!\",\n    \"attachments\": [\n      \"https://app-cdn.moengage.com/assets/LogoThumbnail.jpg\",\n      \"https://app-cdn.moengage.com/assets/LogoThumbnail.jpg\"\n    ],\n    \"sender_name\": \"Your Brand Name\",\n    \"updated_by\": \"john.doe@example.com\",\n    \"id\": \"63f30792c66ddcaac2ef9109\"\n  }\n]",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"error\",\n  \"data\": {\n    \"code\": 401,\n    \"title\": \"Authentication required\",\n    \"description\": \"Invalid APP_ID used in Authentication Header\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "bc3c35e4-baa0-48eb-9f17-62009adde4ca",
+              "name": "This response is returned when the number of requests per minute has exceeded the rate limit or the number of templates has exceeded the allowed quota per channel.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "bulk",
+                    "email-templates"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) This is the Workspace ID of your MoEngage account that must be passed with the request. You can find it in the MoEngage dashboard at **Settings** > **Account** > **APIs** > **Workspace ID (earlier app id)**.\n",
+                    "key": "MOE-APPKEY",
+                    "value": "APP ID"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "[\n  {\n    \"name\": \"End_Of_Season_Sale_Template\",\n    \"html\": \"<!DOCTYPE html><html><body><p>Content</p></body></html>\",\n    \"source\": \"Partner\",\n    \"subject\": \"End of Season Sale!\",\n    \"attachments\": [\n      \"https://app-cdn.moengage.com/assets/LogoThumbnail.jpg\",\n      \"https://app-cdn.moengage.com/assets/LogoThumbnail.jpg\"\n    ],\n    \"sender_name\": \"Your Brand Name\",\n    \"updated_by\": \"john.doe@example.com\",\n    \"id\": \"63f30792c66ddcaac2ef9109\"\n  },\n  {\n    \"name\": \"End_Of_Season_Sale_Template\",\n    \"html\": \"<!DOCTYPE html><html><body><p>Content</p></body></html>\",\n    \"source\": \"Partner\",\n    \"subject\": \"End of Season Sale!\",\n    \"attachments\": [\n      \"https://app-cdn.moengage.com/assets/LogoThumbnail.jpg\",\n      \"https://app-cdn.moengage.com/assets/LogoThumbnail.jpg\"\n    ],\n    \"sender_name\": \"Your Brand Name\",\n    \"updated_by\": \"john.doe@example.com\",\n    \"id\": \"63f30792c66ddcaac2ef9109\"\n  }\n]",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"error\",\n  \"data\": {\n    \"code\": 429,\n    \"title\": \"rate limiter exception\",\n    \"description\": \"Exceeded rate limit for this app\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "87eb001d-7905-4b47-9b35-8194b89c2318",
+              "name": "This response is returned when the system runs into an unexpected error.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "bulk",
+                    "email-templates"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) This is the Workspace ID of your MoEngage account that must be passed with the request. You can find it in the MoEngage dashboard at **Settings** > **Account** > **APIs** > **Workspace ID (earlier app id)**.\n",
+                    "key": "MOE-APPKEY",
+                    "value": "APP ID"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "[\n  {\n    \"name\": \"End_Of_Season_Sale_Template\",\n    \"html\": \"<!DOCTYPE html><html><body><p>Content</p></body></html>\",\n    \"source\": \"Partner\",\n    \"subject\": \"End of Season Sale!\",\n    \"attachments\": [\n      \"https://app-cdn.moengage.com/assets/LogoThumbnail.jpg\",\n      \"https://app-cdn.moengage.com/assets/LogoThumbnail.jpg\"\n    ],\n    \"sender_name\": \"Your Brand Name\",\n    \"updated_by\": \"john.doe@example.com\",\n    \"id\": \"63f30792c66ddcaac2ef9109\"\n  },\n  {\n    \"name\": \"End_Of_Season_Sale_Template\",\n    \"html\": \"<!DOCTYPE html><html><body><p>Content</p></body></html>\",\n    \"source\": \"Partner\",\n    \"subject\": \"End of Season Sale!\",\n    \"attachments\": [\n      \"https://app-cdn.moengage.com/assets/LogoThumbnail.jpg\",\n      \"https://app-cdn.moengage.com/assets/LogoThumbnail.jpg\"\n    ],\n    \"sender_name\": \"Your Brand Name\",\n    \"updated_by\": \"john.doe@example.com\",\n    \"id\": \"63f30792c66ddcaac2ef9109\"\n  }\n]",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"title\": \"Internal Server Error\",\n  \"message\": \"An unexpected error was encountered while processing this request. Please contact MoEngage Team\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "description": {
+        "content": "The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "01",
+      "key": "dc"
+    },
+    {
+      "type": "string",
+      "value": "https://api-{{dc}}.moengage.com/v2",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "basic",
+    "basic": [
+      {
+        "key": "username",
+        "value": "{{basicAuthUsername}}"
+      },
+      {
+        "key": "password",
+        "value": "{{basicAuthPassword}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "02f7f423-3db4-4b04-958c-317d0c2b6f27",
+    "name": "Email Templates API V1",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Create Email Template API can be used to create an email template in MoEngage. This API helps you upload templates created outside the MoEngage ecosystem to MoEngage and use them for campaign creation on the MoEngage Dashboard.\n\n<Note>\n**Note**\n\nTemplates created using this API cannot be used in the Drag and Drop Editor in the MoEngage Dashboard. They are supported only for the Custom HTML Editor (Froala Editor).\n</Note>\n\n\nContact Support:\n Name: MoEngage Support",
+      "type": "text/plain"
+    }
+  }
+}

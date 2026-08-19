@@ -1,0 +1,89 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "MoEngage Campaign Stats and Reports API",
+    "version": "1.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Stats",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Campaign Stats",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-{dc}.moengage.com/core-services/v1/campaign-stats",
+            "headers": [
+              {
+                "name": "MOE-APPKEY",
+                "value": "YOUR_WORKSPACE_ID_XXXX"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "This API fetches data at the platform level and provides data for all types of campaigns.\n"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Campaign Reports",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Download Campaign Report",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-{dc}.moengage.com/campaign_reports/rest_api/:APP_ID/:FILENAME",
+            "headers": [
+              {
+                "name": "Signature",
+                "value": "80300f554f9dc88cdc7d64c6c06f4de580b27a2afcc396816d1ec3a8d1c09579"
+              }
+            ],
+            "params": [
+              {
+                "name": "APP_ID",
+                "value": "YOUR-APP-ID",
+                "type": "path",
+                "description": "This is the Workspace ID of your MoEngage account that must be passed with the request. You can find it in the MoEngage dashboard at **Settings** > **Account** > **APIs** > **Workspace ID (earlier app id)**.\n"
+              },
+              {
+                "name": "FILENAME",
+                "value": "Report_-_test_20210217.zip",
+                "type": "path",
+                "description": "The name of the report file to download. It is a combination of report name, generation date, and file format.\nExample: `Report_test_20210217.zip`\n"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Signature",
+              "value": "{{Signature}}",
+              "placement": "header"
+            }
+          },
+          "docs": "This API downloads campaign reports for any specific date range. You can fetch reports for one-time and periodic campaigns.\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

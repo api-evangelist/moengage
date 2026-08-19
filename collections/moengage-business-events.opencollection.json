@@ -1,0 +1,70 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "MoEngage Business Events API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "basic",
+      "username": "{{username}}",
+      "password": "{{password}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Business Events",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create Business Event",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-{dc}.moengage.com/v1.0/business_event",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "This API creates business events in MoEngage. You can use these events to trigger campaigns whenever they occur. In MoEngage, you can set up event-triggered campaigns to notify users about new episodes, flight delays, or price reductions on items they have viewed, wished for, or added to their carts.\n"
+        },
+        {
+          "info": {
+            "name": "Trigger Business Event",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-{dc}.moengage.com/v1.0/business_event/trigger",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "This API triggers a business event in MoEngage. You can set up campaigns to be executed when these events are triggered.\n"
+        },
+        {
+          "info": {
+            "name": "Search Business Events",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-{dc}.moengage.com/v1.0/business_event/search",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "This API searches for business events by specifying their event IDs."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

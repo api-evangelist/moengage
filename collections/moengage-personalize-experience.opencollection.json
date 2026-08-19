@@ -1,0 +1,100 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Personalize APIs",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "basic",
+      "username": "{{username}}",
+      "password": "{{password}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Experiences",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Fetch Experience",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://sdk-{dc}.moengage.com/v1/experiences/fetch",
+            "headers": [
+              {
+                "name": "MOE-APPKEY",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "This API receives data on active personalization experiences. You can fetch data for one or more server-side experiences by using the **experience_key** field. MoEngage will evaluate targeting rules and in-session attributes automatically and return the correct variation for the user. Typically, you would make this call as part of your larger page and content rendering pipeline.\n"
+        },
+        {
+          "info": {
+            "name": "Fetch Experience Metadata",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://sdk-{dc}.moengage.com/v1/experiences/metadata",
+            "headers": [
+              {
+                "name": "MOE-APPKEY",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "status",
+                "value": "",
+                "type": "query",
+                "description": "Filter experiences by status. Pass one or more comma-separated values. If omitted, all statuses are returned.\n\n**Accepted values**: `Active`, `Paused`, `Scheduled` (case-sensitive). Unknown values (for example, `active` in lowercase) silently return an empty list rather than an error — verify spelling and casing.\n\n| Status | Description |\n|---|---|\n| `Active` | Experience is live and being served to matching users. |\n| `Paused` | Experience is not being served. Fetching its key via [Fetch Experience](/api/experiences/fetch-experience) returns an empty payload — not an error. |\n| `Scheduled` | Experience is configured but has not started yet. Fetching its key returns an empty payload. |\n"
+              }
+            ]
+          },
+          "docs": "This API fetches a list of currently Active, Scheduled, and Paused experiences within a workspace.\n"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Events",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Track Experience Events",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://sdk-{dc}.moengage.com/v1/experiences/events",
+            "headers": [
+              {
+                "name": "MOE-APPKEY",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "This API tracks impressions (shown) and user interactions (clicked) for accurate experience reporting. To report an impression or click for your experience via API, use the following endpoint.\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

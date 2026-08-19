@@ -1,19 +1,32 @@
-generated: '2026-08-01'
+generated: '2026-08-14'
 method: searched
 source: >-
-  npm registry, Maven Central (com.moengage), CocoaPods trunk, pub.dev,
+  registry.npmjs.org, pub.dev/api/packages, repo1.maven.org maven-metadata.xml (com.moengage),
+  trunk.cocoapods.org/api/v1/pods, api.github.com/repos/moengage, cdn.moengage.com,
   https://github.com/moengage, https://www.moengage.com/docs/developer-guide/introduction
 notes: >-
   MoEngage ships first-party client SDKs for every mobile and web platform it supports. There is no
   first-party server-side REST API client library in any registry — the REST APIs are consumed directly
   over HTTP with Basic Auth. Third-party wrappers exist on npm and PyPI and are flagged official: false.
+currency_note: >-
+  Every entry carries a structured `version:` and `published:` (ISO date) read from the registry
+  metadata endpoint on 2026-08-14. Two decay findings this round. (1) The Maven versions recorded in the
+  2026-08-01 pass were badly stale — search.maven.org's `latestVersion` field returned January 2025
+  values while repo1.maven.org/maven2/com/moengage/*/maven-metadata.xml (authoritative) shows every
+  Android artifact republished in August 2026; the numbers below come from maven-metadata.xml. (2) The
+  CocoaPods umbrella pods MoEngageSDK (9.20.1) and MoEngageCore (9.24.0) have not been republished since
+  April 2025, while the same iOS SDK is at 11.00.0 (2026-07-22) on Swift Package Manager via
+  github.com/moengage/apple-sdk — the CocoaPods distribution trails the SPM distribution by two major
+  versions. The feature pods (InApps, Cards, Inbox, Geofence, RichNotification) were all republished
+  2026-07-22 and are current.
 packages:
 - language: javascript
   registry: npm
   name: '@moengage/web-sdk'
   url: https://www.npmjs.com/package/@moengage/web-sdk
   install: npm install @moengage/web-sdk
-  version: 2.74.1
+  version: 2.79.2
+  published: '2026-08-13'
   repository: https://github.com/moengage/webSDK
   official: true
 - language: javascript
@@ -21,7 +34,8 @@ packages:
   name: react-native-moengage
   url: https://www.npmjs.com/package/react-native-moengage
   install: npm install react-native-moengage
-  version: 12.9.0
+  version: 12.9.1
+  published: '2026-08-12'
   repository: https://github.com/moengage/React-Native
   official: true
 - language: javascript
@@ -30,6 +44,7 @@ packages:
   url: https://www.npmjs.com/package/react-native-expo-moengage
   install: npm install react-native-expo-moengage
   version: 1.2.0
+  published: '2026-06-11'
   repository: https://github.com/moengage/React-Native
   official: true
 - language: javascript
@@ -37,7 +52,8 @@ packages:
   name: react-native-moengage-cards
   url: https://www.npmjs.com/package/react-native-moengage-cards
   install: npm install react-native-moengage-cards
-  version: 6.6.0
+  version: 6.6.1
+  published: '2026-08-12'
   repository: https://github.com/moengage/React-Native
   official: true
 - language: javascript
@@ -45,7 +61,8 @@ packages:
   name: react-native-moengage-inbox
   url: https://www.npmjs.com/package/react-native-moengage-inbox
   install: npm install react-native-moengage-inbox
-  version: 6.5.0
+  version: 6.5.1
+  published: '2026-08-12'
   repository: https://github.com/moengage/React-Native
   official: true
 - language: javascript
@@ -53,7 +70,8 @@ packages:
   name: react-native-moengage-geofence
   url: https://www.npmjs.com/package/react-native-moengage-geofence
   install: npm install react-native-moengage-geofence
-  version: 7.5.0
+  version: 7.5.1
+  published: '2026-08-12'
   repository: https://github.com/moengage/React-Native
   official: true
 - language: javascript
@@ -61,7 +79,8 @@ packages:
   name: react-native-moengage-personalize
   url: https://www.npmjs.com/package/react-native-moengage-personalize
   install: npm install react-native-moengage-personalize
-  version: 1.1.0
+  version: 1.1.1
+  published: '2026-08-12'
   repository: https://github.com/moengage/React-Native
   official: true
 - language: javascript
@@ -70,6 +89,7 @@ packages:
   url: https://www.npmjs.com/package/capacitor-moengage-core
   install: npm install capacitor-moengage-core
   version: 7.1.0
+  published: '2026-05-25'
   repository: https://github.com/moengage/Capacitor-SDK
   official: true
 - language: javascript
@@ -78,6 +98,7 @@ packages:
   url: https://www.npmjs.com/package/capacitor-moengage-geofence
   install: npm install capacitor-moengage-geofence
   version: 6.0.1
+  published: '2026-05-25'
   repository: https://github.com/moengage/Capacitor-SDK
   official: true
 - language: javascript
@@ -86,6 +107,7 @@ packages:
   url: https://www.npmjs.com/package/cordova-moengage-core
   install: cordova plugin add cordova-moengage-core
   version: 10.1.0
+  published: '2026-03-24'
   official: true
 - language: javascript
   registry: npm
@@ -93,135 +115,230 @@ packages:
   url: https://www.npmjs.com/package/cordova-moengage-geofence
   install: cordova plugin add cordova-moengage-geofence
   version: 3.1.1
+  published: '2026-03-24'
   official: true
+- language: javascript
+  registry: cdn
+  name: moe_webSdk.min.latest.js
+  url: https://cdn.moengage.com/webpush/moe_webSdk.min.latest.js
+  install: '<script src="https://cdn.moengage.com/webpush/moe_webSdk.min.latest.js"></script>'
+  version: null
+  published: null
+  official: true
+  probed:
+    fetched: '2026-08-14'
+    http_status: 200
+    bytes: 386739
+  note: >-
+    The documented Web SDK loader is distributed from MoEngage's own CDN at an UNPINNED path — the
+    filename ends in `.latest.js` and carries no version segment, so an integrator cannot tell which
+    build they are serving and cannot pin one. There is no CDN metadata endpoint for this host, so
+    version and published date are recorded as null: checked, nothing to record. The npm
+    '@moengage/web-sdk' entry above is the versioned distribution of the same SDK.
+- language: javascript
+  registry: cdn
+  name: serviceworker_cdn.min.latest.js
+  url: https://cdn.moengage.com/webpush/releases/serviceworker_cdn.min.latest.js
+  install: 'Referenced from the site service worker via importScripts()'
+  version: null
+  published: null
+  official: true
+  probed:
+    fetched: '2026-08-14'
+    http_status: 200
+    bytes: 38843
+  note: >-
+    Web push service worker shim, same unpinned `.latest.js` distribution pattern as the Web SDK loader.
 - language: dart
   registry: pub.dev
   name: moengage_flutter
   url: https://pub.dev/packages/moengage_flutter
   install: flutter pub add moengage_flutter
-  version: 10.8.0
+  version: 10.9.0
+  published: '2026-08-13'
   repository: https://github.com/moengage/Flutter-SDK
   official: true
 - language: java
   registry: maven-central
   name: com.moengage:moe-android-sdk
   url: https://central.sonatype.com/artifact/com.moengage/moe-android-sdk
-  install: implementation 'com.moengage:moe-android-sdk:13.05.02'
-  version: 13.05.02
+  install: implementation 'com.moengage:moe-android-sdk:15.02.00'
+  version: 15.02.00
+  published: '2026-08-12'
+  published_source: https://repo1.maven.org/maven2/com/moengage/moe-android-sdk/maven-metadata.xml
   repository: https://github.com/moengage/Android-Sample
   official: true
 - language: java
   registry: maven-central
   name: com.moengage:core
   url: https://central.sonatype.com/artifact/com.moengage/core
-  install: implementation 'com.moengage:core:7.5.2'
-  version: 7.5.2
+  install: implementation 'com.moengage:core:10.2.0'
+  version: 10.2.0
+  published: '2026-08-12'
   official: true
 - language: java
   registry: maven-central
   name: com.moengage:pushbase
   url: https://central.sonatype.com/artifact/com.moengage/pushbase
-  install: implementation 'com.moengage:pushbase:8.3.2'
-  version: 8.3.2
+  install: implementation 'com.moengage:pushbase:10.1.0'
+  version: 10.1.0
+  published: '2026-08-12'
   official: true
 - language: java
   registry: maven-central
   name: com.moengage:inapp
   url: https://central.sonatype.com/artifact/com.moengage/inapp
-  install: implementation 'com.moengage:inapp:8.7.1'
-  version: 8.7.1
+  install: implementation 'com.moengage:inapp:11.2.0'
+  version: 11.2.0
+  published: '2026-08-12'
   official: true
 - language: java
   registry: maven-central
   name: com.moengage:rich-notification
   url: https://central.sonatype.com/artifact/com.moengage/rich-notification
-  install: implementation 'com.moengage:rich-notification:5.1.2'
-  version: 5.1.2
+  install: implementation 'com.moengage:rich-notification:7.1.0'
+  version: 7.1.0
+  published: '2026-08-12'
   official: true
 - language: java
   registry: maven-central
   name: com.moengage:cards-core
   url: https://central.sonatype.com/artifact/com.moengage/cards-core
-  install: implementation 'com.moengage:cards-core:2.3.2'
-  version: 2.3.2
+  install: implementation 'com.moengage:cards-core:4.0.1'
+  version: 4.0.1
+  published: '2026-08-03'
   official: true
 - language: java
   registry: maven-central
   name: com.moengage:inbox-core
   url: https://central.sonatype.com/artifact/com.moengage/inbox-core
-  install: implementation 'com.moengage:inbox-core:3.2.1'
-  version: 3.2.1
+  install: implementation 'com.moengage:inbox-core:5.0.0'
+  version: 5.0.0
+  published: '2026-07-07'
   official: true
 - language: java
   registry: maven-central
   name: com.moengage:hms-pushkit
   url: https://central.sonatype.com/artifact/com.moengage/hms-pushkit
-  install: implementation 'com.moengage:hms-pushkit:5.1.1'
-  version: 5.1.1
+  install: implementation 'com.moengage:hms-pushkit:7.1.0'
+  version: 7.1.0
+  published: '2026-08-03'
   official: true
 - language: java
   registry: maven-central
   name: com.moengage:integration-verifier
   url: https://central.sonatype.com/artifact/com.moengage/integration-verifier
-  install: implementation 'com.moengage:integration-verifier:5.3.1'
-  version: 5.3.1
+  install: implementation 'com.moengage:integration-verifier:5.4.0'
+  version: 5.4.0
+  published: '2025-03-11'
   official: true
+  note: >-
+    The only com.moengage artifact not republished in 2026. Integration verification tooling, not a
+    runtime dependency.
 - language: swift
-  registry: cocoapods
-  name: MoEngage-iOS-SDK
-  url: https://cocoapods.org/pods/MoEngage-iOS-SDK
-  install: pod 'MoEngage-iOS-SDK'
-  repository: https://github.com/moengage/MoEngage-iOS-SDK
+  registry: swift-package-manager
+  name: moengage/apple-sdk
+  url: https://github.com/moengage/apple-sdk
+  install: '.package(url: "https://github.com/moengage/apple-sdk", from: "11.0.0")'
+  version: 11.00.0
+  published: '2026-07-22'
+  published_source: https://api.github.com/repos/moengage/apple-sdk/releases
   official: true
+  note: >-
+    The current iOS distribution. Tagged sdk-11.00.0 / moengage-11.00.0 on 2026-07-22.
 - language: swift
   registry: cocoapods
   name: MoEngageSDK
   url: https://cocoapods.org/pods/MoEngageSDK
   install: pod 'MoEngageSDK'
+  version: 9.20.1
+  published: '2025-04-29'
+  published_source: https://trunk.cocoapods.org/api/v1/pods/MoEngageSDK
   repository: https://github.com/moengage/apple-sdk
   official: true
+  note: >-
+    Umbrella pod, 15 published versions, last on 2025-04-29. Two major versions behind the SPM
+    distribution of the same SDK (11.00.0, 2026-07-22).
+- language: swift
+  registry: cocoapods
+  name: MoEngageCore
+  url: https://cocoapods.org/pods/MoEngageCore
+  install: pod 'MoEngageCore'
+  version: 9.24.0
+  published: '2025-04-29'
+  official: true
+  note: Same lag as MoEngageSDK — 42 published versions, none since April 2025.
+- language: swift
+  registry: cocoapods
+  name: MoEngage-iOS-SDK
+  url: https://cocoapods.org/pods/MoEngage-iOS-SDK
+  install: pod 'MoEngage-iOS-SDK'
+  version: 9.9.0
+  published: '2023-06-20'
+  repository: https://github.com/moengage/MoEngage-iOS-SDK
+  official: true
+  status: legacy
+  note: >-
+    The original iOS pod, 201 published versions, last on 2023-06-20. Superseded by MoEngageSDK and
+    then by the apple-sdk SPM distribution.
 - language: swift
   registry: cocoapods
   name: MoEngageInApps
   url: https://cocoapods.org/pods/MoEngageInApps
   install: pod 'MoEngageInApps'
+  version: 8.00.0
+  published: '2026-07-22'
   official: true
 - language: swift
   registry: cocoapods
   name: MoEngageCards
   url: https://cocoapods.org/pods/MoEngageCards
   install: pod 'MoEngageCards'
+  version: 6.00.00
+  published: '2026-07-22'
   official: true
 - language: swift
   registry: cocoapods
   name: MoEngageInbox
   url: https://cocoapods.org/pods/MoEngageInbox
   install: pod 'MoEngageInbox'
+  version: 3.02.2
+  published: '2026-07-22'
   official: true
 - language: swift
   registry: cocoapods
   name: MoEngageGeofence
   url: https://cocoapods.org/pods/MoEngageGeofence
   install: pod 'MoEngageGeofence'
+  version: 6.00.8
+  published: '2026-07-22'
   official: true
 - language: swift
   registry: cocoapods
   name: MoEngageRichNotification
   url: https://cocoapods.org/pods/MoEngageRichNotification
   install: pod 'MoEngageRichNotification'
+  version: 8.01.9
+  published: '2026-07-22'
   official: true
 - language: csharp
   registry: github
   name: MoEngage-Unity-SDK
   url: https://github.com/moengage/MoEngage-Unity-SDK
   install: Import the Unity package from the GitHub release
+  version: 6.0.1
+  published: '2026-08-12'
+  published_source: https://api.github.com/repos/moengage/MoEngage-Unity-SDK/releases
   official: true
+  note: >-
+    Distributed as a GitHub release asset (tag moengage-v6.0.1), not through a package registry.
 third_party:
 - language: python
   registry: pypi
   name: moengage
   url: https://pypi.org/project/moengage/
   version: 0.3.4
+  published: '2022-02-14'
   author: Deepanshu Gupta
   official: false
   note: Community wrapper for calling MoEngage APIs from Python. Not published by MoEngage.
@@ -230,5 +347,6 @@ third_party:
   name: moengage
   url: https://www.npmjs.com/package/moengage
   version: 0.1.3
+  published: '2020-09-04'
   official: false
   note: Community package, no MoEngage repository linked.

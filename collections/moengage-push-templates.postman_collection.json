@@ -1,0 +1,1053 @@
+{
+  "item": [
+    {
+      "id": "bdced97f-4aaf-454c-bc5f-71467dd17532",
+      "name": "Templates",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "bc87b2ca-e58a-47c2-908d-09813c5cadb1",
+          "name": "Create Push Template",
+          "request": {
+            "name": "Create Push Template",
+            "description": {
+              "content": "This API creates a new push notification template for one or more platforms (Android, iOS).\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "custom-templates",
+                "push"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "description": "The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+                  "type": "any",
+                  "value": "{{dc}}",
+                  "key": "dc"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"meta_info\": {\n    \"platform\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"template_style\": \"<string>\",\n    \"template_id\": \"<string>\",\n    \"template_name\": \"<string>\",\n    \"template_version\": \"<string>\",\n    \"created_by\": \"<string>\"\n  },\n  \"ANDROID\": {\n    \"basic_details\": {\n      \"title\": \"<string>\",\n      \"message\": \"<string>\",\n      \"default_click_action\": \"<string>\",\n      \"default_click_action_value\": \"<string>\",\n      \"summary\": \"<string>\",\n      \"app_name_color_code\": \"<string>\",\n      \"notification_control_color\": \"<string>\",\n      \"background_color_code\": \"<string>\",\n      \"apply_background_color\": \"<boolean>\",\n      \"image_url\": \"<uri>\",\n      \"input_gif_url\": \"<uri>\",\n      \"key_value_pairs\": [\n        {\n          \"key\": \"<string>\",\n          \"value\": \"<string>\"\n        },\n        {\n          \"key\": \"<string>\",\n          \"value\": \"<string>\"\n        }\n      ]\n    },\n    \"buttons\": [\n      {\n        \"btn_name\": \"<string>\",\n        \"click_action_type\": \"<string>\",\n        \"click_action_value\": \"<string>\",\n        \"click_action_name\": \"<string>\",\n        \"key_value_pairs\": [\n          {\n            \"key\": \"<string>\",\n            \"value\": \"<string>\"\n          },\n          {\n            \"key\": \"<string>\",\n            \"value\": \"<string>\"\n          }\n        ]\n      },\n      {\n        \"btn_name\": \"<string>\",\n        \"click_action_type\": \"<string>\",\n        \"click_action_value\": \"<string>\",\n        \"click_action_name\": \"<string>\",\n        \"key_value_pairs\": [\n          {\n            \"key\": \"<string>\",\n            \"value\": \"<string>\"\n          },\n          {\n            \"key\": \"<string>\",\n            \"value\": \"<string>\"\n          }\n        ]\n      }\n    ],\n    \"advanced\": {\n      \"coupon_code\": \"<string>\",\n      \"icon_type_in_notification\": \"<string>\",\n      \"large_icon_url\": \"<uri>\",\n      \"auto_dismiss_notification\": \"<boolean>\",\n      \"dismissal_time_multiplier\": \"<string>\",\n      \"dismissal_time_value\": \"<integer>\",\n      \"make_notification_sticky\": \"<boolean>\",\n      \"dismiss_button_text\": \"<string>\",\n      \"group_key\": \"<string>\",\n      \"collapse_replace_key\": \"<string>\"\n    },\n    \"template_backup\": {\n      \"title\": \"<string>\",\n      \"message\": \"<string>\",\n      \"default_click_action\": \"<string>\",\n      \"default_click_action_value\": \"<string>\",\n      \"summary\": \"<string>\",\n      \"image_url\": \"<uri>\",\n      \"key_value_pairs\": [\n        {\n          \"key\": \"<string>\",\n          \"value\": \"<string>\"\n        },\n        {\n          \"key\": \"<string>\",\n          \"value\": \"<string>\"\n        }\n      ]\n    }\n  },\n  \"IOS\": {\n    \"basic_details\": {\n      \"title\": \"<string>\",\n      \"message\": \"<string>\",\n      \"default_click_action_value\": \"<string>\",\n      \"subtitle\": \"<string>\",\n      \"background_color_code\": \"<string>\",\n      \"apply_background_color\": \"<boolean>\",\n      \"default_click_action\": \"<string>\",\n      \"key_value_pairs\": [\n        {\n          \"key\": \"<string>\",\n          \"value\": \"<string>\"\n        },\n        {\n          \"key\": \"<string>\",\n          \"value\": \"<string>\"\n        }\n      ],\n      \"rich_media_type\": \"<string>\",\n      \"rich_media_value\": \"<uri>\",\n      \"allow_bg_refresh\": \"<boolean>\"\n    },\n    \"buttons\": [\n      {\n        \"button_category\": \"<string>\"\n      },\n      {\n        \"button_category\": \"<string>\"\n      }\n    ],\n    \"advanced\": {\n      \"coupon_code\": \"<string>\",\n      \"sound_file\": \"<string>\",\n      \"enable_ios_badge\": \"<boolean>\",\n      \"group_key\": \"<string>\",\n      \"collapse_replace_key\": \"<string>\"\n    },\n    \"template_backup\": {\n      \"title\": \"<string>\",\n      \"message\": \"<string>\",\n      \"default_click_action\": \"<string>\",\n      \"default_click_action_value\": \"<string>\",\n      \"subtitle\": \"<string>\",\n      \"key_value_pairs\": [\n        {\n          \"key\": \"<string>\",\n          \"value\": \"<string>\"\n        },\n        {\n          \"key\": \"<string>\",\n          \"value\": \"<string>\"\n        }\n      ],\n      \"rich_media_type\": \"<string>\",\n      \"rich_media_value\": \"<uri>\",\n      \"allow_bg_refresh\": \"<boolean>\"\n    }\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "8daac885-e699-4452-a861-56930b1f4b8f",
+              "name": "This response is returned when the request is processed successfully.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "custom-templates",
+                    "push"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"ANDROID\": {\n    \"basic_details\": {\n      \"app_name_color_code\": \"APP_NAME_COLOR_CODE\",\n      \"notification_control_color\": \"Light/Dark\",\n      \"background_color_code\": \"BG_COLOR_CODE\",\n      \"title\": \"TITLE_OF_ANDROID_TEMPLATE\",\n      \"message\": \"MESSAGE_OF_ANDROID_TEMPLATE\",\n      \"summary\": \"SUMMARY\",\n      \"image_url\": \"IMAGE_URL\",\n      \"default_click_action\": \"DEEPLINKING/RICH_LANDING/NAVIGATE_TO_A_SCREEN\",\n      \"default_click_action_value\": \"CLICK_ACTION_URL_HERE\",\n      \"key_value_pairs\": [\n        {\n          \"key\": \"KEY\",\n          \"value\": \" VALUE\"\n        }\n      ]\n    },\n    \"buttons\": [\n      {\n        \"btn_name\": \"NAME_OF_THE_BUTTON\",\n        \"click_action_type\": \"NAVIGATE_TO_A_SCREEN/DEEPLINKING/RICH_LANDING/CALL/SHARE/COPY/SET_USER_ATTRIBUTE/TRACK_EVENT/CUSTOM_ACTION/SNOOZE/REMIND_LATER\",\n        \"click_action_name\": \"VALID_CLICK_ACTION_NAME_HERE\",\n        \"click_action_value\": \"CLICK_ACTION_URL_HERE\"\n      }\n    ],\n    \"advanced\": {\n      \"coupon_code\": \"COUPON_CODE\",\n      \"icon_type_in_notification\": \"appicon/url\",\n      \"large_icon_url\": \"LARGE_ICON_URL_HERE IF icon_type_in_notification is url\",\n      \"auto_dismiss_notification\": true,\n      \"dismissal_time_multiplier\": \"days/hours/minutes\",\n      \"dismissal_time_value\": 1,\n      \"make_notification_sticky\": true,\n      \"dismiss_button_text\": \"DISMISS_BUTTON_TEXT_HERE\"\n    },\n    \"template_backup\": {\n      \"title\": \"TITLE_OF_ANDROID_BACKUP_TEMPLATE\",\n      \"message\": \"MESSAGE_OF_ANDROID_BACKUP_TEMPLATE\",\n      \"summary\": \"SUMMARY\",\n      \"image_url\": \"IMAGE_URL\",\n      \"default_click_action\": \"DEEPLINKING/RICH_LANDING/NAVIGATE_TO_A_SCREEN\",\n      \"default_click_action_value\": \"CLICK_ACTION_URL_HERE\",\n      \"key_value_pairs\": [\n        {\n          \"key\": \"KEY\",\n          \"value\": \" VALUE\"\n        }\n      ]\n    }\n  },\n  \"IOS\": {\n    \"basic_details\": {\n      \"background_color_code\": \"BG_COLOR_CODE\",\n      \"title\": \"TITLE_OF_IOS_TEMPLATE\",\n      \"subtitle\": \"SUBTITLE_OF_IOS_TEMPLATE\",\n      \"message\": \"MESSAGE_OF_IOS_TEMPLATE\",\n      \"rich_media_value\": \"RICH_MEDIA_URL_HERE\",\n      \"default_click_action\": \"DEEPLINKING/RICH_LANDING/NAVIGATE_TO_A_SCREEN\",\n      \"default_click_action_value\": \"CLICK_ACTION_URL_HERE\",\n      \"allow_bg_refresh\": true\n    },\n    \"buttons\": [\n      {\n        \"button_category\": \"CATEGORY_OF_BUTTON\"\n      }\n    ],\n    \"advanced\": {\n      \"coupon_code\": \"COUPON_CODE\",\n      \"sound_file\": \"SOUND_FILE\",\n      \"enable_ios_badge\": true\n    },\n    \"template_backup\": {\n      \"title\": \"TITLE_OF_IOS_TEMPLATE\",\n      \"subtitle\": \"SUBTITLE_OF_IOS_TEMPLATE\",\n      \"message\": \"MESSAGE_OF_IOS_TEMPLATE\",\n      \"rich_media_value\": \"RICH_MEDIA_URL_HERE\",\n      \"default_click_action\": \"DEEPLINKING/RICH_LANDING/NAVIGATE_TO_A_SCREEN\",\n      \"default_click_action_value\": \"CLICK_ACTION_URL_HERE\",\n      \"allow_bg_refresh\": true\n    }\n  },\n  \"meta_info\": {\n    \"platform\": [\n      \"ANDROID\",\n      \"IOS\"\n    ],\n    \"template_style\": \"BASIC/STYLIZED\",\n    \"template_id\": 1234567890,\n    \"template_name\": \"NAME_OF_THE_TEMPLATE\",\n    \"template_version\": \"VERSION_OF_THE_TEMPLATE\",\n    \"created_by\": \"USER_CREATED\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"external_template_id\": \"d05a44f0-a7cf-471a-bcb6-63054800a367\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f4c4483a-e754-4069-9852-fe6ec34cb33e",
+              "name": "This response is returned when the required parameters are missing from the request or when the provided parameters are invalid, or when a template already exists with the same version, name, or id.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "custom-templates",
+                    "push"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"ANDROID\": {\n    \"basic_details\": {\n      \"app_name_color_code\": \"APP_NAME_COLOR_CODE\",\n      \"notification_control_color\": \"Light/Dark\",\n      \"background_color_code\": \"BG_COLOR_CODE\",\n      \"title\": \"TITLE_OF_ANDROID_TEMPLATE\",\n      \"message\": \"MESSAGE_OF_ANDROID_TEMPLATE\",\n      \"summary\": \"SUMMARY\",\n      \"image_url\": \"IMAGE_URL\",\n      \"default_click_action\": \"DEEPLINKING/RICH_LANDING/NAVIGATE_TO_A_SCREEN\",\n      \"default_click_action_value\": \"CLICK_ACTION_URL_HERE\",\n      \"key_value_pairs\": [\n        {\n          \"key\": \"KEY\",\n          \"value\": \" VALUE\"\n        }\n      ]\n    },\n    \"buttons\": [\n      {\n        \"btn_name\": \"NAME_OF_THE_BUTTON\",\n        \"click_action_type\": \"NAVIGATE_TO_A_SCREEN/DEEPLINKING/RICH_LANDING/CALL/SHARE/COPY/SET_USER_ATTRIBUTE/TRACK_EVENT/CUSTOM_ACTION/SNOOZE/REMIND_LATER\",\n        \"click_action_name\": \"VALID_CLICK_ACTION_NAME_HERE\",\n        \"click_action_value\": \"CLICK_ACTION_URL_HERE\"\n      }\n    ],\n    \"advanced\": {\n      \"coupon_code\": \"COUPON_CODE\",\n      \"icon_type_in_notification\": \"appicon/url\",\n      \"large_icon_url\": \"LARGE_ICON_URL_HERE IF icon_type_in_notification is url\",\n      \"auto_dismiss_notification\": true,\n      \"dismissal_time_multiplier\": \"days/hours/minutes\",\n      \"dismissal_time_value\": 1,\n      \"make_notification_sticky\": true,\n      \"dismiss_button_text\": \"DISMISS_BUTTON_TEXT_HERE\"\n    },\n    \"template_backup\": {\n      \"title\": \"TITLE_OF_ANDROID_BACKUP_TEMPLATE\",\n      \"message\": \"MESSAGE_OF_ANDROID_BACKUP_TEMPLATE\",\n      \"summary\": \"SUMMARY\",\n      \"image_url\": \"IMAGE_URL\",\n      \"default_click_action\": \"DEEPLINKING/RICH_LANDING/NAVIGATE_TO_A_SCREEN\",\n      \"default_click_action_value\": \"CLICK_ACTION_URL_HERE\",\n      \"key_value_pairs\": [\n        {\n          \"key\": \"KEY\",\n          \"value\": \" VALUE\"\n        }\n      ]\n    }\n  },\n  \"IOS\": {\n    \"basic_details\": {\n      \"background_color_code\": \"BG_COLOR_CODE\",\n      \"title\": \"TITLE_OF_IOS_TEMPLATE\",\n      \"subtitle\": \"SUBTITLE_OF_IOS_TEMPLATE\",\n      \"message\": \"MESSAGE_OF_IOS_TEMPLATE\",\n      \"rich_media_value\": \"RICH_MEDIA_URL_HERE\",\n      \"default_click_action\": \"DEEPLINKING/RICH_LANDING/NAVIGATE_TO_A_SCREEN\",\n      \"default_click_action_value\": \"CLICK_ACTION_URL_HERE\",\n      \"allow_bg_refresh\": true\n    },\n    \"buttons\": [\n      {\n        \"button_category\": \"CATEGORY_OF_BUTTON\"\n      }\n    ],\n    \"advanced\": {\n      \"coupon_code\": \"COUPON_CODE\",\n      \"sound_file\": \"SOUND_FILE\",\n      \"enable_ios_badge\": true\n    },\n    \"template_backup\": {\n      \"title\": \"TITLE_OF_IOS_TEMPLATE\",\n      \"subtitle\": \"SUBTITLE_OF_IOS_TEMPLATE\",\n      \"message\": \"MESSAGE_OF_IOS_TEMPLATE\",\n      \"rich_media_value\": \"RICH_MEDIA_URL_HERE\",\n      \"default_click_action\": \"DEEPLINKING/RICH_LANDING/NAVIGATE_TO_A_SCREEN\",\n      \"default_click_action_value\": \"CLICK_ACTION_URL_HERE\",\n      \"allow_bg_refresh\": true\n    }\n  },\n  \"meta_info\": {\n    \"platform\": [\n      \"ANDROID\",\n      \"IOS\"\n    ],\n    \"template_style\": \"BASIC/STYLIZED\",\n    \"template_id\": 1234567890,\n    \"template_name\": \"NAME_OF_THE_TEMPLATE\",\n    \"template_version\": \"VERSION_OF_THE_TEMPLATE\",\n    \"created_by\": \"USER_CREATED\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"400 Bad Request\",\n    \"message\": \"Validation failed because of invalid request data\",\n    \"details\": [\n      {\n        \"code\": \"NotSupported\",\n        \"target\": \"['summary']\",\n        \"message\": \"['summary'] are not expected in this request.\"\n      },\n      {\n        \"code\": \"MissingValue\",\n        \"target\": \"platform\",\n        \"message\": \"Template Body is missing for ANDROID.\"\n      },\n      {\n        \"code\": \"MissingValue\",\n        \"target\": \"platform\",\n        \"message\": \"IOS is missing in meta_info but template body is passed for IOS.\"\n      }\n    ],\n    \"request_id\": \"LMwPhRMB\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "edd0ba62-094a-48f5-955b-9fb7d6d1baad",
+              "name": "This response is returned when the authorization parameters are missing in the HTTP Auth Header.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "custom-templates",
+                    "push"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"ANDROID\": {\n    \"basic_details\": {\n      \"app_name_color_code\": \"APP_NAME_COLOR_CODE\",\n      \"notification_control_color\": \"Light/Dark\",\n      \"background_color_code\": \"BG_COLOR_CODE\",\n      \"title\": \"TITLE_OF_ANDROID_TEMPLATE\",\n      \"message\": \"MESSAGE_OF_ANDROID_TEMPLATE\",\n      \"summary\": \"SUMMARY\",\n      \"image_url\": \"IMAGE_URL\",\n      \"default_click_action\": \"DEEPLINKING/RICH_LANDING/NAVIGATE_TO_A_SCREEN\",\n      \"default_click_action_value\": \"CLICK_ACTION_URL_HERE\",\n      \"key_value_pairs\": [\n        {\n          \"key\": \"KEY\",\n          \"value\": \" VALUE\"\n        }\n      ]\n    },\n    \"buttons\": [\n      {\n        \"btn_name\": \"NAME_OF_THE_BUTTON\",\n        \"click_action_type\": \"NAVIGATE_TO_A_SCREEN/DEEPLINKING/RICH_LANDING/CALL/SHARE/COPY/SET_USER_ATTRIBUTE/TRACK_EVENT/CUSTOM_ACTION/SNOOZE/REMIND_LATER\",\n        \"click_action_name\": \"VALID_CLICK_ACTION_NAME_HERE\",\n        \"click_action_value\": \"CLICK_ACTION_URL_HERE\"\n      }\n    ],\n    \"advanced\": {\n      \"coupon_code\": \"COUPON_CODE\",\n      \"icon_type_in_notification\": \"appicon/url\",\n      \"large_icon_url\": \"LARGE_ICON_URL_HERE IF icon_type_in_notification is url\",\n      \"auto_dismiss_notification\": true,\n      \"dismissal_time_multiplier\": \"days/hours/minutes\",\n      \"dismissal_time_value\": 1,\n      \"make_notification_sticky\": true,\n      \"dismiss_button_text\": \"DISMISS_BUTTON_TEXT_HERE\"\n    },\n    \"template_backup\": {\n      \"title\": \"TITLE_OF_ANDROID_BACKUP_TEMPLATE\",\n      \"message\": \"MESSAGE_OF_ANDROID_BACKUP_TEMPLATE\",\n      \"summary\": \"SUMMARY\",\n      \"image_url\": \"IMAGE_URL\",\n      \"default_click_action\": \"DEEPLINKING/RICH_LANDING/NAVIGATE_TO_A_SCREEN\",\n      \"default_click_action_value\": \"CLICK_ACTION_URL_HERE\",\n      \"key_value_pairs\": [\n        {\n          \"key\": \"KEY\",\n          \"value\": \" VALUE\"\n        }\n      ]\n    }\n  },\n  \"IOS\": {\n    \"basic_details\": {\n      \"background_color_code\": \"BG_COLOR_CODE\",\n      \"title\": \"TITLE_OF_IOS_TEMPLATE\",\n      \"subtitle\": \"SUBTITLE_OF_IOS_TEMPLATE\",\n      \"message\": \"MESSAGE_OF_IOS_TEMPLATE\",\n      \"rich_media_value\": \"RICH_MEDIA_URL_HERE\",\n      \"default_click_action\": \"DEEPLINKING/RICH_LANDING/NAVIGATE_TO_A_SCREEN\",\n      \"default_click_action_value\": \"CLICK_ACTION_URL_HERE\",\n      \"allow_bg_refresh\": true\n    },\n    \"buttons\": [\n      {\n        \"button_category\": \"CATEGORY_OF_BUTTON\"\n      }\n    ],\n    \"advanced\": {\n      \"coupon_code\": \"COUPON_CODE\",\n      \"sound_file\": \"SOUND_FILE\",\n      \"enable_ios_badge\": true\n    },\n    \"template_backup\": {\n      \"title\": \"TITLE_OF_IOS_TEMPLATE\",\n      \"subtitle\": \"SUBTITLE_OF_IOS_TEMPLATE\",\n      \"message\": \"MESSAGE_OF_IOS_TEMPLATE\",\n      \"rich_media_value\": \"RICH_MEDIA_URL_HERE\",\n      \"default_click_action\": \"DEEPLINKING/RICH_LANDING/NAVIGATE_TO_A_SCREEN\",\n      \"default_click_action_value\": \"CLICK_ACTION_URL_HERE\",\n      \"allow_bg_refresh\": true\n    }\n  },\n  \"meta_info\": {\n    \"platform\": [\n      \"ANDROID\",\n      \"IOS\"\n    ],\n    \"template_style\": \"BASIC/STYLIZED\",\n    \"template_id\": 1234567890,\n    \"template_name\": \"NAME_OF_THE_TEMPLATE\",\n    \"template_version\": \"VERSION_OF_THE_TEMPLATE\",\n    \"created_by\": \"USER_CREATED\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"title\": \"Authentication required\",\n  \"description\": \"MOE-APPKEY missing in Authentication Header\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ce34525b-4a81-4aef-b543-edf08096300f",
+              "name": "This response is returned when the header Content-Type is not provided/is not supported.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "custom-templates",
+                    "push"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"ANDROID\": {\n    \"basic_details\": {\n      \"app_name_color_code\": \"APP_NAME_COLOR_CODE\",\n      \"notification_control_color\": \"Light/Dark\",\n      \"background_color_code\": \"BG_COLOR_CODE\",\n      \"title\": \"TITLE_OF_ANDROID_TEMPLATE\",\n      \"message\": \"MESSAGE_OF_ANDROID_TEMPLATE\",\n      \"summary\": \"SUMMARY\",\n      \"image_url\": \"IMAGE_URL\",\n      \"default_click_action\": \"DEEPLINKING/RICH_LANDING/NAVIGATE_TO_A_SCREEN\",\n      \"default_click_action_value\": \"CLICK_ACTION_URL_HERE\",\n      \"key_value_pairs\": [\n        {\n          \"key\": \"KEY\",\n          \"value\": \" VALUE\"\n        }\n      ]\n    },\n    \"buttons\": [\n      {\n        \"btn_name\": \"NAME_OF_THE_BUTTON\",\n        \"click_action_type\": \"NAVIGATE_TO_A_SCREEN/DEEPLINKING/RICH_LANDING/CALL/SHARE/COPY/SET_USER_ATTRIBUTE/TRACK_EVENT/CUSTOM_ACTION/SNOOZE/REMIND_LATER\",\n        \"click_action_name\": \"VALID_CLICK_ACTION_NAME_HERE\",\n        \"click_action_value\": \"CLICK_ACTION_URL_HERE\"\n      }\n    ],\n    \"advanced\": {\n      \"coupon_code\": \"COUPON_CODE\",\n      \"icon_type_in_notification\": \"appicon/url\",\n      \"large_icon_url\": \"LARGE_ICON_URL_HERE IF icon_type_in_notification is url\",\n      \"auto_dismiss_notification\": true,\n      \"dismissal_time_multiplier\": \"days/hours/minutes\",\n      \"dismissal_time_value\": 1,\n      \"make_notification_sticky\": true,\n      \"dismiss_button_text\": \"DISMISS_BUTTON_TEXT_HERE\"\n    },\n    \"template_backup\": {\n      \"title\": \"TITLE_OF_ANDROID_BACKUP_TEMPLATE\",\n      \"message\": \"MESSAGE_OF_ANDROID_BACKUP_TEMPLATE\",\n      \"summary\": \"SUMMARY\",\n      \"image_url\": \"IMAGE_URL\",\n      \"default_click_action\": \"DEEPLINKING/RICH_LANDING/NAVIGATE_TO_A_SCREEN\",\n      \"default_click_action_value\": \"CLICK_ACTION_URL_HERE\",\n      \"key_value_pairs\": [\n        {\n          \"key\": \"KEY\",\n          \"value\": \" VALUE\"\n        }\n      ]\n    }\n  },\n  \"IOS\": {\n    \"basic_details\": {\n      \"background_color_code\": \"BG_COLOR_CODE\",\n      \"title\": \"TITLE_OF_IOS_TEMPLATE\",\n      \"subtitle\": \"SUBTITLE_OF_IOS_TEMPLATE\",\n      \"message\": \"MESSAGE_OF_IOS_TEMPLATE\",\n      \"rich_media_value\": \"RICH_MEDIA_URL_HERE\",\n      \"default_click_action\": \"DEEPLINKING/RICH_LANDING/NAVIGATE_TO_A_SCREEN\",\n      \"default_click_action_value\": \"CLICK_ACTION_URL_HERE\",\n      \"allow_bg_refresh\": true\n    },\n    \"buttons\": [\n      {\n        \"button_category\": \"CATEGORY_OF_BUTTON\"\n      }\n    ],\n    \"advanced\": {\n      \"coupon_code\": \"COUPON_CODE\",\n      \"sound_file\": \"SOUND_FILE\",\n      \"enable_ios_badge\": true\n    },\n    \"template_backup\": {\n      \"title\": \"TITLE_OF_IOS_TEMPLATE\",\n      \"subtitle\": \"SUBTITLE_OF_IOS_TEMPLATE\",\n      \"message\": \"MESSAGE_OF_IOS_TEMPLATE\",\n      \"rich_media_value\": \"RICH_MEDIA_URL_HERE\",\n      \"default_click_action\": \"DEEPLINKING/RICH_LANDING/NAVIGATE_TO_A_SCREEN\",\n      \"default_click_action_value\": \"CLICK_ACTION_URL_HERE\",\n      \"allow_bg_refresh\": true\n    }\n  },\n  \"meta_info\": {\n    \"platform\": [\n      \"ANDROID\",\n      \"IOS\"\n    ],\n    \"template_style\": \"BASIC/STYLIZED\",\n    \"template_id\": 1234567890,\n    \"template_name\": \"NAME_OF_THE_TEMPLATE\",\n    \"template_version\": \"VERSION_OF_THE_TEMPLATE\",\n    \"created_by\": \"USER_CREATED\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unsupported Media Type",
+              "code": 415,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"title\": \"Unsupported media type\",\n  \"description\": \"Content type is not supported\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d4e67f58-9e57-419d-802f-0cce1290e80c",
+              "name": "This response is returned when the number of requests per minute has exceeded the rate limit or the number of templates has exceeded the allowed quota per channel.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "custom-templates",
+                    "push"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"ANDROID\": {\n    \"basic_details\": {\n      \"app_name_color_code\": \"APP_NAME_COLOR_CODE\",\n      \"notification_control_color\": \"Light/Dark\",\n      \"background_color_code\": \"BG_COLOR_CODE\",\n      \"title\": \"TITLE_OF_ANDROID_TEMPLATE\",\n      \"message\": \"MESSAGE_OF_ANDROID_TEMPLATE\",\n      \"summary\": \"SUMMARY\",\n      \"image_url\": \"IMAGE_URL\",\n      \"default_click_action\": \"DEEPLINKING/RICH_LANDING/NAVIGATE_TO_A_SCREEN\",\n      \"default_click_action_value\": \"CLICK_ACTION_URL_HERE\",\n      \"key_value_pairs\": [\n        {\n          \"key\": \"KEY\",\n          \"value\": \" VALUE\"\n        }\n      ]\n    },\n    \"buttons\": [\n      {\n        \"btn_name\": \"NAME_OF_THE_BUTTON\",\n        \"click_action_type\": \"NAVIGATE_TO_A_SCREEN/DEEPLINKING/RICH_LANDING/CALL/SHARE/COPY/SET_USER_ATTRIBUTE/TRACK_EVENT/CUSTOM_ACTION/SNOOZE/REMIND_LATER\",\n        \"click_action_name\": \"VALID_CLICK_ACTION_NAME_HERE\",\n        \"click_action_value\": \"CLICK_ACTION_URL_HERE\"\n      }\n    ],\n    \"advanced\": {\n      \"coupon_code\": \"COUPON_CODE\",\n      \"icon_type_in_notification\": \"appicon/url\",\n      \"large_icon_url\": \"LARGE_ICON_URL_HERE IF icon_type_in_notification is url\",\n      \"auto_dismiss_notification\": true,\n      \"dismissal_time_multiplier\": \"days/hours/minutes\",\n      \"dismissal_time_value\": 1,\n      \"make_notification_sticky\": true,\n      \"dismiss_button_text\": \"DISMISS_BUTTON_TEXT_HERE\"\n    },\n    \"template_backup\": {\n      \"title\": \"TITLE_OF_ANDROID_BACKUP_TEMPLATE\",\n      \"message\": \"MESSAGE_OF_ANDROID_BACKUP_TEMPLATE\",\n      \"summary\": \"SUMMARY\",\n      \"image_url\": \"IMAGE_URL\",\n      \"default_click_action\": \"DEEPLINKING/RICH_LANDING/NAVIGATE_TO_A_SCREEN\",\n      \"default_click_action_value\": \"CLICK_ACTION_URL_HERE\",\n      \"key_value_pairs\": [\n        {\n          \"key\": \"KEY\",\n          \"value\": \" VALUE\"\n        }\n      ]\n    }\n  },\n  \"IOS\": {\n    \"basic_details\": {\n      \"background_color_code\": \"BG_COLOR_CODE\",\n      \"title\": \"TITLE_OF_IOS_TEMPLATE\",\n      \"subtitle\": \"SUBTITLE_OF_IOS_TEMPLATE\",\n      \"message\": \"MESSAGE_OF_IOS_TEMPLATE\",\n      \"rich_media_value\": \"RICH_MEDIA_URL_HERE\",\n      \"default_click_action\": \"DEEPLINKING/RICH_LANDING/NAVIGATE_TO_A_SCREEN\",\n      \"default_click_action_value\": \"CLICK_ACTION_URL_HERE\",\n      \"allow_bg_refresh\": true\n    },\n    \"buttons\": [\n      {\n        \"button_category\": \"CATEGORY_OF_BUTTON\"\n      }\n    ],\n    \"advanced\": {\n      \"coupon_code\": \"COUPON_CODE\",\n      \"sound_file\": \"SOUND_FILE\",\n      \"enable_ios_badge\": true\n    },\n    \"template_backup\": {\n      \"title\": \"TITLE_OF_IOS_TEMPLATE\",\n      \"subtitle\": \"SUBTITLE_OF_IOS_TEMPLATE\",\n      \"message\": \"MESSAGE_OF_IOS_TEMPLATE\",\n      \"rich_media_value\": \"RICH_MEDIA_URL_HERE\",\n      \"default_click_action\": \"DEEPLINKING/RICH_LANDING/NAVIGATE_TO_A_SCREEN\",\n      \"default_click_action_value\": \"CLICK_ACTION_URL_HERE\",\n      \"allow_bg_refresh\": true\n    }\n  },\n  \"meta_info\": {\n    \"platform\": [\n      \"ANDROID\",\n      \"IOS\"\n    ],\n    \"template_style\": \"BASIC/STYLIZED\",\n    \"template_id\": 1234567890,\n    \"template_name\": \"NAME_OF_THE_TEMPLATE\",\n    \"template_version\": \"VERSION_OF_THE_TEMPLATE\",\n    \"created_by\": \"USER_CREATED\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"response_id\": \"OUUkHvcn\",\n  \"type\": \"custom_template\",\n  \"error\": {\n    \"code\": \"Too Many Requests\",\n    \"message\": \"API rate limit breached. Current limit: n/m mins\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "007d2a05-22ce-4358-ac7c-5a214b9fed60",
+              "name": "This response is returned when the system runs into an unexpected error.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "custom-templates",
+                    "push"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"ANDROID\": {\n    \"basic_details\": {\n      \"app_name_color_code\": \"APP_NAME_COLOR_CODE\",\n      \"notification_control_color\": \"Light/Dark\",\n      \"background_color_code\": \"BG_COLOR_CODE\",\n      \"title\": \"TITLE_OF_ANDROID_TEMPLATE\",\n      \"message\": \"MESSAGE_OF_ANDROID_TEMPLATE\",\n      \"summary\": \"SUMMARY\",\n      \"image_url\": \"IMAGE_URL\",\n      \"default_click_action\": \"DEEPLINKING/RICH_LANDING/NAVIGATE_TO_A_SCREEN\",\n      \"default_click_action_value\": \"CLICK_ACTION_URL_HERE\",\n      \"key_value_pairs\": [\n        {\n          \"key\": \"KEY\",\n          \"value\": \" VALUE\"\n        }\n      ]\n    },\n    \"buttons\": [\n      {\n        \"btn_name\": \"NAME_OF_THE_BUTTON\",\n        \"click_action_type\": \"NAVIGATE_TO_A_SCREEN/DEEPLINKING/RICH_LANDING/CALL/SHARE/COPY/SET_USER_ATTRIBUTE/TRACK_EVENT/CUSTOM_ACTION/SNOOZE/REMIND_LATER\",\n        \"click_action_name\": \"VALID_CLICK_ACTION_NAME_HERE\",\n        \"click_action_value\": \"CLICK_ACTION_URL_HERE\"\n      }\n    ],\n    \"advanced\": {\n      \"coupon_code\": \"COUPON_CODE\",\n      \"icon_type_in_notification\": \"appicon/url\",\n      \"large_icon_url\": \"LARGE_ICON_URL_HERE IF icon_type_in_notification is url\",\n      \"auto_dismiss_notification\": true,\n      \"dismissal_time_multiplier\": \"days/hours/minutes\",\n      \"dismissal_time_value\": 1,\n      \"make_notification_sticky\": true,\n      \"dismiss_button_text\": \"DISMISS_BUTTON_TEXT_HERE\"\n    },\n    \"template_backup\": {\n      \"title\": \"TITLE_OF_ANDROID_BACKUP_TEMPLATE\",\n      \"message\": \"MESSAGE_OF_ANDROID_BACKUP_TEMPLATE\",\n      \"summary\": \"SUMMARY\",\n      \"image_url\": \"IMAGE_URL\",\n      \"default_click_action\": \"DEEPLINKING/RICH_LANDING/NAVIGATE_TO_A_SCREEN\",\n      \"default_click_action_value\": \"CLICK_ACTION_URL_HERE\",\n      \"key_value_pairs\": [\n        {\n          \"key\": \"KEY\",\n          \"value\": \" VALUE\"\n        }\n      ]\n    }\n  },\n  \"IOS\": {\n    \"basic_details\": {\n      \"background_color_code\": \"BG_COLOR_CODE\",\n      \"title\": \"TITLE_OF_IOS_TEMPLATE\",\n      \"subtitle\": \"SUBTITLE_OF_IOS_TEMPLATE\",\n      \"message\": \"MESSAGE_OF_IOS_TEMPLATE\",\n      \"rich_media_value\": \"RICH_MEDIA_URL_HERE\",\n      \"default_click_action\": \"DEEPLINKING/RICH_LANDING/NAVIGATE_TO_A_SCREEN\",\n      \"default_click_action_value\": \"CLICK_ACTION_URL_HERE\",\n      \"allow_bg_refresh\": true\n    },\n    \"buttons\": [\n      {\n        \"button_category\": \"CATEGORY_OF_BUTTON\"\n      }\n    ],\n    \"advanced\": {\n      \"coupon_code\": \"COUPON_CODE\",\n      \"sound_file\": \"SOUND_FILE\",\n      \"enable_ios_badge\": true\n    },\n    \"template_backup\": {\n      \"title\": \"TITLE_OF_IOS_TEMPLATE\",\n      \"subtitle\": \"SUBTITLE_OF_IOS_TEMPLATE\",\n      \"message\": \"MESSAGE_OF_IOS_TEMPLATE\",\n      \"rich_media_value\": \"RICH_MEDIA_URL_HERE\",\n      \"default_click_action\": \"DEEPLINKING/RICH_LANDING/NAVIGATE_TO_A_SCREEN\",\n      \"default_click_action_value\": \"CLICK_ACTION_URL_HERE\",\n      \"allow_bg_refresh\": true\n    }\n  },\n  \"meta_info\": {\n    \"platform\": [\n      \"ANDROID\",\n      \"IOS\"\n    ],\n    \"template_style\": \"BASIC/STYLIZED\",\n    \"template_id\": 1234567890,\n    \"template_name\": \"NAME_OF_THE_TEMPLATE\",\n    \"template_version\": \"VERSION_OF_THE_TEMPLATE\",\n    \"created_by\": \"USER_CREATED\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"title\": \"Internal Server Error\",\n  \"message\": \"An unexpected error was encountered while processing this request. Please contact MoEngage Team\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "df10a54d-9242-497d-8529-04159d1460cc",
+          "name": "Update Push Template",
+          "request": {
+            "name": "Update Push Template",
+            "description": {
+              "content": "This API updates an existing push notification template by creating a new version.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "custom-templates",
+                "push"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "description": "The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+                  "type": "any",
+                  "value": "{{dc}}",
+                  "key": "dc"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"external_template_id\": \"<uuid>\",\n  \"meta_info\": {\n    \"platform\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"template_style\": \"<string>\",\n    \"updated_by\": \"<string>\",\n    \"template_name\": \"<string>\",\n    \"template_version\": \"<string>\",\n    \"vendor_template_id\": \"<string>\"\n  },\n  \"update_campaigns\": false,\n  \"ANDROID\": {\n    \"basic_details\": {\n      \"title\": \"<string>\",\n      \"message\": \"<string>\",\n      \"default_click_action\": \"<string>\",\n      \"default_click_action_value\": \"<string>\",\n      \"summary\": \"<string>\",\n      \"app_name_color_code\": \"<string>\",\n      \"notification_control_color\": \"<string>\",\n      \"background_color_code\": \"<string>\",\n      \"apply_background_color\": \"<boolean>\",\n      \"image_url\": \"<uri>\",\n      \"input_gif_url\": \"<uri>\",\n      \"key_value_pairs\": [\n        {\n          \"key\": \"<string>\",\n          \"value\": \"<string>\"\n        },\n        {\n          \"key\": \"<string>\",\n          \"value\": \"<string>\"\n        }\n      ]\n    },\n    \"buttons\": [\n      {\n        \"btn_name\": \"<string>\",\n        \"click_action_type\": \"<string>\",\n        \"click_action_value\": \"<string>\",\n        \"click_action_name\": \"<string>\",\n        \"key_value_pairs\": [\n          {\n            \"key\": \"<string>\",\n            \"value\": \"<string>\"\n          },\n          {\n            \"key\": \"<string>\",\n            \"value\": \"<string>\"\n          }\n        ]\n      },\n      {\n        \"btn_name\": \"<string>\",\n        \"click_action_type\": \"<string>\",\n        \"click_action_value\": \"<string>\",\n        \"click_action_name\": \"<string>\",\n        \"key_value_pairs\": [\n          {\n            \"key\": \"<string>\",\n            \"value\": \"<string>\"\n          },\n          {\n            \"key\": \"<string>\",\n            \"value\": \"<string>\"\n          }\n        ]\n      }\n    ],\n    \"advanced\": {\n      \"coupon_code\": \"<string>\",\n      \"icon_type_in_notification\": \"<string>\",\n      \"large_icon_url\": \"<uri>\",\n      \"auto_dismiss_notification\": \"<boolean>\",\n      \"dismissal_time_multiplier\": \"<string>\",\n      \"dismissal_time_value\": \"<integer>\",\n      \"make_notification_sticky\": \"<boolean>\",\n      \"dismiss_button_text\": \"<string>\",\n      \"group_key\": \"<string>\",\n      \"collapse_replace_key\": \"<string>\"\n    },\n    \"template_backup\": {\n      \"title\": \"<string>\",\n      \"message\": \"<string>\",\n      \"default_click_action\": \"<string>\",\n      \"default_click_action_value\": \"<string>\",\n      \"summary\": \"<string>\",\n      \"image_url\": \"<uri>\",\n      \"key_value_pairs\": [\n        {\n          \"key\": \"<string>\",\n          \"value\": \"<string>\"\n        },\n        {\n          \"key\": \"<string>\",\n          \"value\": \"<string>\"\n        }\n      ]\n    }\n  },\n  \"IOS\": {\n    \"basic_details\": {\n      \"title\": \"<string>\",\n      \"message\": \"<string>\",\n      \"default_click_action_value\": \"<string>\",\n      \"subtitle\": \"<string>\",\n      \"background_color_code\": \"<string>\",\n      \"apply_background_color\": \"<boolean>\",\n      \"default_click_action\": \"<string>\",\n      \"key_value_pairs\": [\n        {\n          \"key\": \"<string>\",\n          \"value\": \"<string>\"\n        },\n        {\n          \"key\": \"<string>\",\n          \"value\": \"<string>\"\n        }\n      ],\n      \"rich_media_type\": \"<string>\",\n      \"rich_media_value\": \"<uri>\",\n      \"allow_bg_refresh\": \"<boolean>\"\n    },\n    \"buttons\": [\n      {\n        \"button_category\": \"<string>\"\n      },\n      {\n        \"button_category\": \"<string>\"\n      }\n    ],\n    \"advanced\": {\n      \"coupon_code\": \"<string>\",\n      \"sound_file\": \"<string>\",\n      \"enable_ios_badge\": \"<boolean>\",\n      \"group_key\": \"<string>\",\n      \"collapse_replace_key\": \"<string>\"\n    },\n    \"template_backup\": {\n      \"title\": \"<string>\",\n      \"message\": \"<string>\",\n      \"default_click_action\": \"<string>\",\n      \"default_click_action_value\": \"<string>\",\n      \"subtitle\": \"<string>\",\n      \"key_value_pairs\": [\n        {\n          \"key\": \"<string>\",\n          \"value\": \"<string>\"\n        },\n        {\n          \"key\": \"<string>\",\n          \"value\": \"<string>\"\n        }\n      ],\n      \"rich_media_type\": \"<string>\",\n      \"rich_media_value\": \"<uri>\",\n      \"allow_bg_refresh\": \"<boolean>\"\n    }\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "e5bed1ee-aa9c-4f6f-b46a-32352c87178a",
+              "name": "This response is returned when the request is processed successfully.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "custom-templates",
+                    "push"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"external_template_id\": \"d05a44f0-a7cf-471a-bcb6-63054800a367\",\n  \"update_campaigns\": false,\n  \"ANDROID\": {\n    \"basic_details\": {\n      \"title\": \"Updated Basic Android Template\",\n      \"message\": \"Updated Basic Android Template\",\n      \"summary\": \"Updated Basic Android Template summary\",\n      \"image_url\": \"\",\n      \"default_click_action\": \"DEEPLINKING\",\n      \"default_click_action_value\": \"https://www.google.com\"\n    },\n    \"buttons\": [\n      {\n        \"btn_name\": \"btn1\",\n        \"click_action_type\": \"DEEPLINKING\",\n        \"click_action_name\": \"btn1\",\n        \"click_action_value\": \"https://www.google.com\"\n      }\n    ],\n    \"advanced\": {\n      \"coupon_code\": \"\",\n      \"icon_type_in_notification\": \"url\",\n      \"large_icon_url\": \"https://www.google.com\",\n      \"auto_dismiss_notification\": true,\n      \"dismissal_time_multiplier\": \"minutes\",\n      \"dismissal_time_value\": 5\n    }\n  },\n  \"meta_info\": {\n    \"platform\": [\n      \"ANDROID\"\n    ],\n    \"template_style\": \"BASIC\",\n    \"updated_by\": \"John.doe@yourbrand.com\",\n    \"template_name\": \"Basic Android Template 2\",\n    \"template_version\": \"2.0\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"external_template_id\": \"eca024b7-a8ea-4f31-9154-5b80c85d18a9\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "498393d0-a7e2-4343-a3fc-05ea159507e6",
+              "name": "This response is returned when the required parameters are missing from the request or when the provided parameters are invalid.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "custom-templates",
+                    "push"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"external_template_id\": \"d05a44f0-a7cf-471a-bcb6-63054800a367\",\n  \"update_campaigns\": false,\n  \"ANDROID\": {\n    \"basic_details\": {\n      \"title\": \"Updated Basic Android Template\",\n      \"message\": \"Updated Basic Android Template\",\n      \"summary\": \"Updated Basic Android Template summary\",\n      \"image_url\": \"\",\n      \"default_click_action\": \"DEEPLINKING\",\n      \"default_click_action_value\": \"https://www.google.com\"\n    },\n    \"buttons\": [\n      {\n        \"btn_name\": \"btn1\",\n        \"click_action_type\": \"DEEPLINKING\",\n        \"click_action_name\": \"btn1\",\n        \"click_action_value\": \"https://www.google.com\"\n      }\n    ],\n    \"advanced\": {\n      \"coupon_code\": \"\",\n      \"icon_type_in_notification\": \"url\",\n      \"large_icon_url\": \"https://www.google.com\",\n      \"auto_dismiss_notification\": true,\n      \"dismissal_time_multiplier\": \"minutes\",\n      \"dismissal_time_value\": 5\n    }\n  },\n  \"meta_info\": {\n    \"platform\": [\n      \"ANDROID\"\n    ],\n    \"template_style\": \"BASIC\",\n    \"updated_by\": \"John.doe@yourbrand.com\",\n    \"template_name\": \"Basic Android Template 2\",\n    \"template_version\": \"2.0\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"400 Bad Request\",\n    \"message\": \"Invalid template id\",\n    \"details\": [\n      {\n        \"code\": \"MissingValue\",\n        \"target\": \"9925c8\",\n        \"message\": \"9925c8 is invalid template id.\"\n      }\n    ],\n    \"request_id\": \"BTkUaYgU\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "706d086b-7d66-488e-9c02-cffeebfbcf96",
+              "name": "Rate Limit Breach.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "custom-templates",
+                    "push"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"external_template_id\": \"d05a44f0-a7cf-471a-bcb6-63054800a367\",\n  \"update_campaigns\": false,\n  \"ANDROID\": {\n    \"basic_details\": {\n      \"title\": \"Updated Basic Android Template\",\n      \"message\": \"Updated Basic Android Template\",\n      \"summary\": \"Updated Basic Android Template summary\",\n      \"image_url\": \"\",\n      \"default_click_action\": \"DEEPLINKING\",\n      \"default_click_action_value\": \"https://www.google.com\"\n    },\n    \"buttons\": [\n      {\n        \"btn_name\": \"btn1\",\n        \"click_action_type\": \"DEEPLINKING\",\n        \"click_action_name\": \"btn1\",\n        \"click_action_value\": \"https://www.google.com\"\n      }\n    ],\n    \"advanced\": {\n      \"coupon_code\": \"\",\n      \"icon_type_in_notification\": \"url\",\n      \"large_icon_url\": \"https://www.google.com\",\n      \"auto_dismiss_notification\": true,\n      \"dismissal_time_multiplier\": \"minutes\",\n      \"dismissal_time_value\": 5\n    }\n  },\n  \"meta_info\": {\n    \"platform\": [\n      \"ANDROID\"\n    ],\n    \"template_style\": \"BASIC\",\n    \"updated_by\": \"John.doe@yourbrand.com\",\n    \"template_name\": \"Basic Android Template 2\",\n    \"template_version\": \"2.0\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"400 Bad Request\",\n    \"message\": \"Validation failed because of invalid request data\",\n    \"details\": [\n      {\n        \"code\": \"MissingValue\",\n        \"target\": \"template_name\",\n        \"message\": \"template_name value is required but value is passed empty.\"\n      },\n      {\n        \"code\": \"MissingValue\",\n        \"target\": \"template_name\",\n        \"message\": \"template_name value is required but value is passed empty.\"\n      }\n    ],\n    \"request_id\": \"jUxStmFn\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d6602fb2-cc84-488f-9e4e-fbea6df9c6ef",
+              "name": "This response is returned when the system runs into an unexpected error.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "custom-templates",
+                    "push"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"external_template_id\": \"d05a44f0-a7cf-471a-bcb6-63054800a367\",\n  \"update_campaigns\": false,\n  \"ANDROID\": {\n    \"basic_details\": {\n      \"title\": \"Updated Basic Android Template\",\n      \"message\": \"Updated Basic Android Template\",\n      \"summary\": \"Updated Basic Android Template summary\",\n      \"image_url\": \"\",\n      \"default_click_action\": \"DEEPLINKING\",\n      \"default_click_action_value\": \"https://www.google.com\"\n    },\n    \"buttons\": [\n      {\n        \"btn_name\": \"btn1\",\n        \"click_action_type\": \"DEEPLINKING\",\n        \"click_action_name\": \"btn1\",\n        \"click_action_value\": \"https://www.google.com\"\n      }\n    ],\n    \"advanced\": {\n      \"coupon_code\": \"\",\n      \"icon_type_in_notification\": \"url\",\n      \"large_icon_url\": \"https://www.google.com\",\n      \"auto_dismiss_notification\": true,\n      \"dismissal_time_multiplier\": \"minutes\",\n      \"dismissal_time_value\": 5\n    }\n  },\n  \"meta_info\": {\n    \"platform\": [\n      \"ANDROID\"\n    ],\n    \"template_style\": \"BASIC\",\n    \"updated_by\": \"John.doe@yourbrand.com\",\n    \"template_name\": \"Basic Android Template 2\",\n    \"template_version\": \"2.0\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"title\": \"Internal Server Error\",\n  \"message\": \"An unexpected error was encountered while processing this request. Please contact MoEngage Team\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "6d745ea3-b47f-41c3-9ea5-fe7ac7c1723e",
+          "name": "Search for Push Templates",
+          "request": {
+            "name": "Search for Push Templates",
+            "description": {
+              "content": "This API searches the push templates created in your MoEngage account.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "custom-templates",
+                "push",
+                "search"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "description": "The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+                  "type": "any",
+                  "value": "{{dc}}",
+                  "key": "dc"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"page\": 1,\n  \"entries\": 10,\n  \"template_name\": \"<string>\",\n  \"platform\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"template_source\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"template_style\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"template_type\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"created_by\": [\n    \"<email>\",\n    \"<email>\"\n  ],\n  \"updated_by\": [\n    \"<email>\",\n    \"<email>\"\n  ],\n  \"sort_params\": [\n    {\n      \"template_name\": \"<string>\",\n      \"last_modified_date\": \"<string>\",\n      \"last_modified_by\": \"<string>\"\n    },\n    {\n      \"template_name\": \"<string>\",\n      \"last_modified_date\": \"<string>\",\n      \"last_modified_by\": \"<string>\"\n    }\n  ],\n  \"template_ids\": [\n    {\n      \"external_template_id\": \"<uuid>\",\n      \"version\": \"<integer>\"\n    },\n    {\n      \"external_template_id\": \"<uuid>\",\n      \"version\": \"<integer>\"\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "268379b8-7d95-4253-af78-9dcd1ace6d77",
+              "name": "This response is returned when the request is processed successfully.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "custom-templates",
+                    "push",
+                    "search"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"page\": 1,\n  \"entries\": 10,\n  \"template_name\": \"NAME_OF_THE_TEMPLATE(PARTIAL SEARCH)/ID_OF_TEMPLATE\",\n  \"platform\": [\n    \"ANDROID\",\n    \"IOS\"\n  ],\n  \"template_source\": [\n    \"API\",\n    \"MOENGAGE\"\n  ],\n  \"template_style\": [\n    \"BASIC\",\n    \"STYLIZED\"\n  ],\n  \"template_type\": [\n    \"CUSTOM\",\n    \"PRE_BUILT\"\n  ],\n  \"created_by\": [\n    \"user1@moengage.com\",\n    \"user2@moengage.com\"\n  ],\n  \"updated_by\": [\n    \"user1@moengage.com\",\n    \"user2@moengage.com\"\n  ],\n  \"sort_params\": [\n    {\n      \"last_modified_date\": \"DESCENDING\"\n    }\n  ],\n  \"template_ids\": [\n    {\n      \"external_template_id\": \"ID_OF_TEMPLATE\",\n      \"version\": 1\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": [\n    {\n      \"external_template_id\": \"9b09875c-edda-42e9-8f9f-a7d0a9a2aa26\",\n      \"version\": 2,\n      \"ANDROID\": {\n        \"basic_details\": {\n          \"background_color_code\": \"#ffffff\",\n          \"notification_control_color\": \"Dark\",\n          \"apply_background_color\": false,\n          \"title\": \"Winter Sale 50% Off\",\n          \"message\": \"Sample Message\",\n          \"summary\": \"Sample Summary\",\n          \"image_url\": \"\",\n          \"default_click_action\": \"RICH_LANDING\",\n          \"default_click_action_value\": \"https://www.google.com\"\n        },\n        \"buttons\": [\n          {\n            \"btn_name\": \"View Offers\",\n            \"click_action_type\": \"RICH_LANDING\",\n            \"click_action_value\": \"https://www.google.com\"\n          },\n          {\n            \"btn_name\": \"Show More Like This\",\n            \"click_action_type\": \"RICH_LANDING\",\n            \"click_action_value\": \"https://www.google.com\"\n          }\n        ],\n        \"advanced\": {\n          \"icon_type_in_notification\": \"appicon\",\n          \"make_notification_sticky\": true,\n          \"dismiss_button_text\": \"Dismiss\",\n          \"auto_dismiss_notification\": true,\n          \"dismissal_time_value\": 24,\n          \"dismissal_time_multiplier\": \"hours\"\n        },\n        \"template_backup\": {\n          \"title\": \"Stylized Android Template\",\n          \"message\": \"Sample Stylized Android Template\",\n          \"default_click_action\": \"RICH_LANDING\",\n          \"default_click_action_value\": \"https://www.google.com\"\n        }\n      },\n      \"IOS\": {\n        \"basic_details\": {}\n      },\n      \"meta_info\": {\n        \"platform\": [\n          \"ANDROID\"\n        ],\n        \"template_style\": \"STYLIZED\",\n        \"template_id\": \"Stylizedandroid1\",\n        \"template_name\": \"Stylized Android Template 2\",\n        \"template_version\": \"1\",\n        \"updated_by\": \"Jane Doe\",\n        \"channel\": \"PUSH\",\n        \"template_source\": \"API\",\n        \"template_type\": \"CUSTOM\"\n      },\n      \"created_by\": \"John Doe\",\n      \"created_at\": \"2023-02-27T12:33:05.575000\",\n      \"updated_by\": \"Jane Doe\",\n      \"updated_at\": \"2023-02-27T12:33:05.575000\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d0b3e9a0-a2c4-4d9b-83a4-c3912c53c0dd",
+              "name": "Bad Request.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "custom-templates",
+                    "push",
+                    "search"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"page\": 1,\n  \"entries\": 10,\n  \"template_name\": \"NAME_OF_THE_TEMPLATE(PARTIAL SEARCH)/ID_OF_TEMPLATE\",\n  \"platform\": [\n    \"ANDROID\",\n    \"IOS\"\n  ],\n  \"template_source\": [\n    \"API\",\n    \"MOENGAGE\"\n  ],\n  \"template_style\": [\n    \"BASIC\",\n    \"STYLIZED\"\n  ],\n  \"template_type\": [\n    \"CUSTOM\",\n    \"PRE_BUILT\"\n  ],\n  \"created_by\": [\n    \"user1@moengage.com\",\n    \"user2@moengage.com\"\n  ],\n  \"updated_by\": [\n    \"user1@moengage.com\",\n    \"user2@moengage.com\"\n  ],\n  \"sort_params\": [\n    {\n      \"last_modified_date\": \"DESCENDING\"\n    }\n  ],\n  \"template_ids\": [\n    {\n      \"external_template_id\": \"ID_OF_TEMPLATE\",\n      \"version\": 1\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"title\": \"Invalid Field Value\",\n  \"description\": \"Some of the field values are invalid\",\n  \"code\": \"nGpUNpDQ\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "fcf76352-f47b-4601-aa8a-9ce1cfa1793d",
+              "name": "This response is returned when the number of requests per minute has exceeded the rate limit.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "custom-templates",
+                    "push",
+                    "search"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"page\": 1,\n  \"entries\": 10,\n  \"template_name\": \"NAME_OF_THE_TEMPLATE(PARTIAL SEARCH)/ID_OF_TEMPLATE\",\n  \"platform\": [\n    \"ANDROID\",\n    \"IOS\"\n  ],\n  \"template_source\": [\n    \"API\",\n    \"MOENGAGE\"\n  ],\n  \"template_style\": [\n    \"BASIC\",\n    \"STYLIZED\"\n  ],\n  \"template_type\": [\n    \"CUSTOM\",\n    \"PRE_BUILT\"\n  ],\n  \"created_by\": [\n    \"user1@moengage.com\",\n    \"user2@moengage.com\"\n  ],\n  \"updated_by\": [\n    \"user1@moengage.com\",\n    \"user2@moengage.com\"\n  ],\n  \"sort_params\": [\n    {\n      \"last_modified_date\": \"DESCENDING\"\n    }\n  ],\n  \"template_ids\": [\n    {\n      \"external_template_id\": \"ID_OF_TEMPLATE\",\n      \"version\": 1\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"response_id\": \"OUUkHvcn\",\n  \"type\": \"custom_template\",\n  \"error\": {\n    \"code\": \"Too Many Requests\",\n    \"message\": \"API rate limit breached. Current limit: n/m mins\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "65d4e361-9067-42a6-84d4-aae57f1ec104",
+              "name": "This response is returned when the system runs into an unexpected error.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "custom-templates",
+                    "push",
+                    "search"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"page\": 1,\n  \"entries\": 10,\n  \"template_name\": \"NAME_OF_THE_TEMPLATE(PARTIAL SEARCH)/ID_OF_TEMPLATE\",\n  \"platform\": [\n    \"ANDROID\",\n    \"IOS\"\n  ],\n  \"template_source\": [\n    \"API\",\n    \"MOENGAGE\"\n  ],\n  \"template_style\": [\n    \"BASIC\",\n    \"STYLIZED\"\n  ],\n  \"template_type\": [\n    \"CUSTOM\",\n    \"PRE_BUILT\"\n  ],\n  \"created_by\": [\n    \"user1@moengage.com\",\n    \"user2@moengage.com\"\n  ],\n  \"updated_by\": [\n    \"user1@moengage.com\",\n    \"user2@moengage.com\"\n  ],\n  \"sort_params\": [\n    {\n      \"last_modified_date\": \"DESCENDING\"\n    }\n  ],\n  \"template_ids\": [\n    {\n      \"external_template_id\": \"ID_OF_TEMPLATE\",\n      \"version\": 1\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"title\": \"Internal Server Error\",\n  \"message\": \"An unexpected error was encountered while processing this request. Please contact MoEngage Team\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "description": {
+        "content": "The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "01",
+      "key": "dc"
+    },
+    {
+      "type": "string",
+      "value": "https://api-{{dc}}.moengage.com/v1.0",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "basic",
+    "basic": [
+      {
+        "key": "username",
+        "value": "{{basicAuthUsername}}"
+      },
+      {
+        "key": "password",
+        "value": "{{basicAuthPassword}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "73026181-3566-4380-91c8-3142f70d659a",
+    "name": "Push Templates API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "An API for creating, updating, and searching for push notification templates for Android and iOS platforms.\n",
+      "type": "text/plain"
+    }
+  }
+}

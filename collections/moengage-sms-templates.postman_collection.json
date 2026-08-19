@@ -1,0 +1,1053 @@
+{
+  "item": [
+    {
+      "id": "86ed1484-eca9-4038-8e5f-7844fc5ef615",
+      "name": "SMS Templates",
+      "description": {
+        "content": "Operations to manage SMS templates.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "fb0c1ec5-8668-485a-a620-ae3a45de3ea4",
+          "name": "Create SMS Template",
+          "request": {
+            "name": "Create SMS Template",
+            "description": {
+              "content": "This API creates an SMS template in MoEngage. It helps you upload templates created outside the MoEngage ecosystem to MoEngage and use them for campaign creation.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "custom-templates",
+                "sms"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "description": "The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+                  "type": "any",
+                  "value": "{{dc}}",
+                  "key": "dc"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"basic_details\": {\n    \"message\": \"<string>\"\n  },\n  \"meta_info\": {\n    \"created_by\": \"<string>\",\n    \"template_id\": \"<string>\",\n    \"template_name\": \"<string>\",\n    \"template_version\": \"<string>\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "4f324876-89be-4623-8c0b-581ca4d75fa0",
+              "name": "Success. This response is returned when the template is created successfully.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "custom-templates",
+                    "sms"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"basic_details\": {\n    \"message\": \"Hello {{UserAttribute['first_name']}}, your order is on its way!\"\n  },\n  \"meta_info\": {\n    \"created_by\": \"john.doe@example.com\",\n    \"template_id\": \"shipping_update_v1\",\n    \"template_name\": \"Shipping Update Template\",\n    \"template_version\": \"1\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"external_template_id\": \"d05a44f0-a7cf-471a-bcb6-63054800a367\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c6c71f76-7aa5-4c2a-a9ad-1701cf52fda8",
+              "name": "Bad Request. Returned when required parameters are missing, invalid, or duplicates exist.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "custom-templates",
+                    "sms"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"basic_details\": {\n    \"message\": \"Hello {{UserAttribute['first_name']}}, your order is on its way!\"\n  },\n  \"meta_info\": {\n    \"created_by\": \"john.doe@example.com\",\n    \"template_id\": \"shipping_update_v1\",\n    \"template_name\": \"Shipping Update Template\",\n    \"template_version\": \"1\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"400 Bad Request\",\n    \"message\": \"Validation failed because of invalid request data\",\n    \"details\": [\n      {\n        \"code\": \"NotSupported\",\n        \"target\": \"['summary']\",\n        \"message\": \"['summary'] are not expected in this request.\"\n      },\n      {\n        \"code\": \"MissingValue\",\n        \"target\": \"platform\",\n        \"message\": \"Template Body is missing for ANDROID.\"\n      }\n    ],\n    \"request_id\": \"LMwPhRMB\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "7b6f6c84-b997-4fae-b595-e7a51d90f2d5",
+              "name": "Authentication Failure. Returned when authorization parameters are missing.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "custom-templates",
+                    "sms"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"basic_details\": {\n    \"message\": \"Hello {{UserAttribute['first_name']}}, your order is on its way!\"\n  },\n  \"meta_info\": {\n    \"created_by\": \"john.doe@example.com\",\n    \"template_id\": \"shipping_update_v1\",\n    \"template_name\": \"Shipping Update Template\",\n    \"template_version\": \"1\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"title\": \"Authentication required\",\n  \"description\": \"MOE-APPKEY missing in Authentication Header\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "5d525bce-ce0e-4da9-938d-e6424a9174f0",
+              "name": "Unauthorized Access. Returned when authorization fails due to incorrect keys.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "custom-templates",
+                    "sms"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"basic_details\": {\n    \"message\": \"Hello {{UserAttribute['first_name']}}, your order is on its way!\"\n  },\n  \"meta_info\": {\n    \"created_by\": \"john.doe@example.com\",\n    \"template_id\": \"shipping_update_v1\",\n    \"template_name\": \"Shipping Update Template\",\n    \"template_version\": \"1\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"403 Forbidden\",\n    \"message\": \"Authentication required\",\n    \"details\": [\n      {\n        \"code\": \"InvalidValue\",\n        \"target\": \"APP_SECRET_KEY\",\n        \"message\": \"Invalid APP_SECRET_KEY is provided.\"\n      }\n    ],\n    \"request_id\": \"oZEMYhqA\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ac9a0a36-2116-4a17-821f-97eb1b1b667f",
+              "name": "Unsupported File Type. Content-Type header is missing or invalid.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "custom-templates",
+                    "sms"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"basic_details\": {\n    \"message\": \"Hello {{UserAttribute['first_name']}}, your order is on its way!\"\n  },\n  \"meta_info\": {\n    \"created_by\": \"john.doe@example.com\",\n    \"template_id\": \"shipping_update_v1\",\n    \"template_name\": \"Shipping Update Template\",\n    \"template_version\": \"1\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unsupported Media Type",
+              "code": 415,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"title\": \"Unsupported media type\",\n  \"description\": \"Content type is not supported\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "151053d8-b3de-45d7-a715-df3c335d4f18",
+              "name": "Rate Limit Breach (100 RPM).",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "custom-templates",
+                    "sms"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"basic_details\": {\n    \"message\": \"Hello {{UserAttribute['first_name']}}, your order is on its way!\"\n  },\n  \"meta_info\": {\n    \"created_by\": \"john.doe@example.com\",\n    \"template_id\": \"shipping_update_v1\",\n    \"template_name\": \"Shipping Update Template\",\n    \"template_version\": \"1\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"response_id\": \"OUUkHvcn\",\n  \"type\": \"custom_segment\",\n  \"error\": {\n    \"code\": \"Too Many Requests\",\n    \"message\": \"API rate limit breached. Current limit: n/m mins\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "660721cd-3d11-42d0-9ef6-3c6478dc014d",
+              "name": "Internal Server Error.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "custom-templates",
+                    "sms"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"basic_details\": {\n    \"message\": \"Hello {{UserAttribute['first_name']}}, your order is on its way!\"\n  },\n  \"meta_info\": {\n    \"created_by\": \"john.doe@example.com\",\n    \"template_id\": \"shipping_update_v1\",\n    \"template_name\": \"Shipping Update Template\",\n    \"template_version\": \"1\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"title\": \"Internal Server Error\",\n  \"message\": \"An unexpected error was encountered while processing this request. Please contact MoEngage Team\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "4e67f32b-41ce-4249-908c-7cb8a848afb7",
+          "name": "Update SMS Template",
+          "request": {
+            "name": "Update SMS Template",
+            "description": {
+              "content": "This API updates an SMS template by specifying its external template ID. You can specify in the request whether the updated version of the template can be used in active campaigns.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "custom-templates",
+                "sms"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "description": "The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+                  "type": "any",
+                  "value": "{{dc}}",
+                  "key": "dc"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"external_template_id\": \"<uuid>\",\n  \"basic_details\": {\n    \"message\": \"<string>\"\n  },\n  \"meta_info\": {\n    \"template_name\": \"<string>\",\n    \"updated_by\": \"<email>\",\n    \"template_version\": \"<string>\"\n  },\n  \"update_campaigns\": false\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "f66aa255-683f-491d-bc30-aeede3926823",
+              "name": "Template updated successfully.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "custom-templates",
+                    "sms"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"external_template_id\": \"d05a44f0-a7cf-471a-bcb6-63054800a367\",\n  \"update_campaigns\": false,\n  \"basic_details\": {\n    \"message\": \"Hi {{UserAttribute['first_name']}}, your order has been delivered!\"\n  },\n  \"meta_info\": {\n    \"template_name\": \"Shipping Update Template V2\",\n    \"updated_by\": \"jane.doe@example.com\",\n    \"template_version\": \"2\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"external_template_id\": \"eca024b7-a8ea-4f31-9154-5b80c85d18a9\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "16dc4fa7-9002-4b72-97c6-c5e27a509724",
+              "name": "Bad Request. Invalid `external_template_id` or other request data validation errors.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "custom-templates",
+                    "sms"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"external_template_id\": \"d05a44f0-a7cf-471a-bcb6-63054800a367\",\n  \"update_campaigns\": false,\n  \"basic_details\": {\n    \"message\": \"Hi {{UserAttribute['first_name']}}, your order has been delivered!\"\n  },\n  \"meta_info\": {\n    \"template_name\": \"Shipping Update Template V2\",\n    \"updated_by\": \"jane.doe@example.com\",\n    \"template_version\": \"2\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"400 Bad Request\",\n    \"message\": \"Invalid template id\",\n    \"details\": [\n      {\n        \"code\": \"MissingValue\",\n        \"target\": \"9925c8\",\n        \"message\": \"9925c8 is invalid template id.\"\n      }\n    ],\n    \"request_id\": \"BTkUaYgU\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "0d79124c-b3d3-483c-a41d-425aa6e99489",
+              "name": "Internal Server Error.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "custom-templates",
+                    "sms"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"external_template_id\": \"d05a44f0-a7cf-471a-bcb6-63054800a367\",\n  \"update_campaigns\": false,\n  \"basic_details\": {\n    \"message\": \"Hi {{UserAttribute['first_name']}}, your order has been delivered!\"\n  },\n  \"meta_info\": {\n    \"template_name\": \"Shipping Update Template V2\",\n    \"updated_by\": \"jane.doe@example.com\",\n    \"template_version\": \"2\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"title\": \"Internal Server Error\",\n  \"message\": \"An unexpected error was encountered while processing this request. Please contact MoEngage Team\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "5ab66a0a-8e7f-496d-ac94-1c144a74a0c6",
+          "name": "Search SMS Templates",
+          "request": {
+            "name": "Search SMS Templates",
+            "description": {
+              "content": "This API searches and retrieves a list of SMS templates, created in your MoEngage account, based on specified filter criteria.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "custom-templates",
+                "sms",
+                "search"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "description": "The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+                  "type": "any",
+                  "value": "{{dc}}",
+                  "key": "dc"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"page\": 1,\n  \"entries\": 15,\n  \"template_name\": \"<string>\",\n  \"template_source\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"template_type\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"created_by\": [\n    \"<email>\",\n    \"<email>\"\n  ],\n  \"updated_by\": [\n    \"<email>\",\n    \"<email>\"\n  ],\n  \"sort_params\": [\n    {\n      \"template_name\": \"<string>\",\n      \"last_modified_date\": \"<string>\",\n      \"last_modified_by\": \"<string>\"\n    },\n    {\n      \"template_name\": \"<string>\",\n      \"last_modified_date\": \"<string>\",\n      \"last_modified_by\": \"<string>\"\n    }\n  ],\n  \"template_ids\": [\n    {\n      \"external_template_id\": \"<uuid>\",\n      \"version\": \"<integer>\"\n    },\n    {\n      \"external_template_id\": \"<uuid>\",\n      \"version\": \"<integer>\"\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "9f386edc-6bca-4dea-97ab-2975a130a245",
+              "name": "Search successful. Returns a list of templates.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "custom-templates",
+                    "sms",
+                    "search"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"page\": 1,\n  \"entries\": 10,\n  \"template_source\": [\n    \"API\"\n  ],\n  \"sort_params\": [\n    {\n      \"last_modified_date\": \"DESCENDING\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": [\n    {\n      \"external_template_id\": \"b564524f-aa08-4149-a498-dbde0b7b3740\",\n      \"version\": 1,\n      \"basic_details\": {\n        \"message\": \"Sample SMS Template message\"\n      },\n      \"meta_info\": {\n        \"template_id\": \"CCIJASDA12345\",\n        \"template_name\": \"CouponCodeTemplate1\",\n        \"template_version\": \"1\",\n        \"created_by\": \"Jane Doe\",\n        \"channel\": \"SMS\",\n        \"template_type\": \"CUSTOM\"\n      },\n      \"created_by\": \"Jane Doe\",\n      \"created_at\": \"2023-02-27T12:33:05.575000\",\n      \"updated_by\": \"John Doe\",\n      \"updated_at\": \"2023-02-27T12:33:05.575000\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "8aad0465-f910-476b-bd26-330b0da783bf",
+              "name": "Bad Request. Invalid field values in the search criteria.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "custom-templates",
+                    "sms",
+                    "search"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"page\": 1,\n  \"entries\": 10,\n  \"template_source\": [\n    \"API\"\n  ],\n  \"sort_params\": [\n    {\n      \"last_modified_date\": \"DESCENDING\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"title\": \"Invalid Field Value\",\n  \"description\": \"Some of the field values are invalid\",\n  \"code\": \"nGpUNpDQ\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "6a3e333b-1504-474f-b462-7cbe1e5dcc23",
+              "name": "Rate limit breached (100 RPM).",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "custom-templates",
+                    "sms",
+                    "search"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"page\": 1,\n  \"entries\": 10,\n  \"template_source\": [\n    \"API\"\n  ],\n  \"sort_params\": [\n    {\n      \"last_modified_date\": \"DESCENDING\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"response_id\": \"OUUkHvcn\",\n  \"type\": \"custom_segment\",\n  \"error\": {\n    \"code\": \"Too Many Requests\",\n    \"message\": \"API rate limit breached. Current limit: n/m mins\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "df614f0a-3641-4a8f-94c8-c365429becc2",
+              "name": "Internal Server Error.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "custom-templates",
+                    "sms",
+                    "search"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"page\": 1,\n  \"entries\": 10,\n  \"template_source\": [\n    \"API\"\n  ],\n  \"sort_params\": [\n    {\n      \"last_modified_date\": \"DESCENDING\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"title\": \"Internal Server Error\",\n  \"message\": \"An unexpected error was encountered while processing this request. Please contact MoEngage Team\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "description": {
+        "content": "The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "01",
+      "key": "dc"
+    },
+    {
+      "type": "string",
+      "value": "https://api-{{dc}}.moengage.com/v1.0",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "basic",
+    "basic": [
+      {
+        "key": "username",
+        "value": "{{basicAuthUsername}}"
+      },
+      {
+        "key": "password",
+        "value": "{{basicAuthPassword}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "5eedaa06-c124-47d3-a7eb-9d1305e2b8ae",
+    "name": "MoEngage SMS Template API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "API for creating, updating, and searching SMS templates within the MoEngage platform.",
+      "type": "text/plain"
+    }
+  }
+}

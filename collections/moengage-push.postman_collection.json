@@ -1,0 +1,301 @@
+{
+  "item": [
+    {
+      "id": "33edadc7-8295-4f43-9443-2e48acec3aa1",
+      "name": "Transactional",
+      "description": {
+        "content": "Operations to create and send push notification campaigns.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "4b488f26-78f9-4f9e-a58f-5f5a6c6c1e90",
+          "name": "Send Push Notification",
+          "request": {
+            "name": "Send Push Notification",
+            "description": {
+              "content": "This API creates and sends a push notification campaign. You can use this API to create campaigns (targeting all users or a group of users) to send notifications, target a single user using a unique user attribute, and personalize payload for each user.\n\n#### Rate Limit\n\nThe rate limit is 10,000 requests per minute.\n\n#### Migrating to v2.1\n\nThis version does not use a separate query-type header — MoEngage resolves the request category directly from the `targetAudience` field in the request body. The [v2.1 endpoint](/api/push/push-api) introduces the `X-MOE-Query-Type` header as an explicit equivalent, sent alongside `targetAudience` rather than in place of it. No action is required if you continue using this version.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "transaction",
+                "sendpush"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "description": "The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+                  "type": "any",
+                  "value": "{{dc}}",
+                  "key": "dc"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"appId\": \"<string>\",\n  \"campaignName\": \"<string>\",\n  \"signature\": \"<string>\",\n  \"targetPlatform\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"targetAudience\": \"<string>\",\n  \"payload\": {\n    \"ANDROID\": {\n      \"message\": \"<string>\",\n      \"title\": \"<string>\",\n      \"groupKey\": \"<string>\",\n      \"collapseReplaceKey\": \"<string>\",\n      \"channel_id\": \"<string>\",\n      \"summary\": \"<string>\",\n      \"richContent\": [\n        {\n          \"type\": \"<string>\",\n          \"value\": \"<string>\"\n        },\n        {\n          \"type\": \"<string>\",\n          \"value\": \"<string>\"\n        }\n      ],\n      \"defaultAction\": {\n        \"type\": \"<string>\",\n        \"value\": \"<string>\",\n        \"kvPairs\": {\n          \"key_0\": \"<string>\"\n        }\n      },\n      \"additionalActions\": [\n        {\n          \"type\": \"<string>\",\n          \"value\": \"<string>\",\n          \"name\": \"<string>\",\n          \"iconURL\": \"<string>\"\n        },\n        {\n          \"type\": \"<string>\",\n          \"value\": \"<string>\",\n          \"name\": \"<string>\",\n          \"iconURL\": \"<string>\"\n        }\n      ],\n      \"fallback\": \"<object>\"\n    },\n    \"IOS\": {\n      \"message\": \"<string>\",\n      \"title\": \"<string>\",\n      \"groupKey\": \"<string>\",\n      \"collapseReplaceKey\": \"<string>\",\n      \"subtitle\": \"<string>\",\n      \"enableIosBadge\": \"<boolean>\",\n      \"richContent\": [\n        {\n          \"type\": \"<string>\",\n          \"value\": \"<string>\"\n        },\n        {\n          \"type\": \"<string>\",\n          \"value\": \"<string>\"\n        }\n      ],\n      \"defaultAction\": {\n        \"type\": \"<string>\",\n        \"value\": \"<string>\",\n        \"kvPairs\": {\n          \"key_0\": \"<string>\",\n          \"key_1\": \"<string>\",\n          \"key_2\": \"<string>\",\n          \"key_3\": \"<string>\"\n        }\n      },\n      \"additionalActions\": [\n        {\n          \"category\": \"<string>\"\n        },\n        {\n          \"category\": \"<string>\"\n        }\n      ],\n      \"fallback\": \"<object>\"\n    },\n    \"WEB\": {\n      \"message\": \"<string>\",\n      \"title\": \"<string>\",\n      \"redirectURL\": \"<uri>\",\n      \"iconURL\": \"<uri>\",\n      \"imageURL\": \"<uri>\",\n      \"autoDismiss\": \"<boolean>\"\n    }\n  },\n  \"campaignDelivery\": {\n    \"type\": \"<string>\",\n    \"date\": \"<string>\",\n    \"time\": \"<string>\",\n    \"endDate\": \"<string>\",\n    \"repeatAfter\": \"<string>\",\n    \"timezone\": \"<string>\"\n  },\n  \"campaignTags\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"requestType\": \"push\",\n  \"customSegmentName\": \"<string>\",\n  \"targetUserAttributes\": {\n    \"attribute\": \"<string>\",\n    \"comparisonParameter\": \"<string>\",\n    \"attributeValue\": \"<string>\",\n    \"isCustom\": false\n  },\n  \"conversionGoals\": [\n    {\n      \"name\": \"<string>\",\n      \"eventName\": \"<string>\",\n      \"attrs\": {\n        \"name\": \"<string>\",\n        \"filter\": \"<string>\",\n        \"value\": \"<string>\",\n        \"type\": \"<string>\"\n      }\n    },\n    {\n      \"name\": \"<string>\",\n      \"eventName\": \"<string>\",\n      \"attrs\": {\n        \"name\": \"<string>\",\n        \"filter\": \"<string>\",\n        \"value\": \"<string>\",\n        \"type\": \"<string>\"\n      }\n    }\n  ],\n  \"advancedSettings\": {\n    \"ttl\": {\n      \"ANDROID\": \"<integer>\",\n      \"WEB\": \"<integer>\"\n    },\n    \"ignoreFC\": \"<string>\",\n    \"countFC\": \"<string>\",\n    \"notificationPrioritySettings\": {\n      \"Android\": \"<string>\",\n      \"iOS\": \"<integer>\"\n    },\n    \"pushAmp+\": \"<string>\",\n    \"preCacheSegment\": \"<string>\",\n    \"campaignThrottleTime\": \"<integer>\",\n    \"campaignThrottleRpm\": \"<integer>\",\n    \"useJinjaPersonalization\": \"<string>\",\n    \"ignoreMinimumDelay\": \"<string>\",\n    \"inboxExpiry\": \"<integer>\",\n    \"iOSTargetDevice\": \"<string>\",\n    \"deliverWhenActive\": \"<string>\",\n    \"bypassDND\": \"<boolean>\",\n    \"sendAtHighPriority\": \"<string>\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "d6b03681-cae9-422f-b313-e4013948e416",
+              "name": "Request received. The status in the response body indicates whether it was successfully processed or failed.\nPossible failures include:\n* Invalid Request Type\n* Invalid appId / appId not present\n* Campaign Name too short (must be >= 5 chars) / Campaign name missing\n* Request limit exceeded\n* Signature missing or not verified\n* Duplicate campaign name\n* Key not of Type List or Value not allowed\n* Error parsing parameters\n\n**Response fields:**\n* `status`: `Success` or `Fail`, indicating whether the campaign was accepted.\n* `requestId`: The request ID you sent, echoed back (empty on failure).\n* `responseId`: A unique ID MoEngage generates for this response.\n* `cid`: The campaign ID (present on success only).\n* `Error_Message`: A human-readable failure reason (present on failure only).\n\nThis response envelope (`status`, `requestId`, `responseId`, `cid`) predates MoEngage's newer API conventions (for example, the `{response_id, type, data}` shape used by the Analytics Custom Dashboards API) and is kept as-is here for backward compatibility.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "transaction",
+                    "sendpush"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"appId\": \"{{your Workspace ID}}\",\n  \"campaignName\": \"{{your campaign name}}\",\n  \"signature\": \"{{Signature}}\",\n  \"requestType\": \"push\",\n  \"targetPlatform\": [\n    \"ANDROID\"\n  ],\n  \"targetAudience\": \"User\",\n  \"targetUserAttributes\": {\n    \"attribute\": \"USER_ATTRIBUTE_USER_EMAIL\",\n    \"comparisonParameter\": \"is\",\n    \"attributeValue\": \"abc@example.com\"\n  },\n  \"payload\": {\n    \"ANDROID\": {\n      \"message\": \"message\",\n      \"title\": \"title\"\n    }\n  },\n  \"campaignDelivery\": {\n    \"type\": \"soon\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"Success\",\n  \"requestId\": \"09562729-236b-4773-8207-63321523456\",\n  \"responseId\": \"09562729-236b-4773-8207-63321523456\",\n  \"cid\": \"66321523456\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "7f89330e-3a95-46b9-b746-51047f97801f",
+              "name": "Unauthorized. Invalid authentication credentials or JSON format.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "transaction",
+                    "sendpush"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"appId\": \"{{your Workspace ID}}\",\n  \"campaignName\": \"{{your campaign name}}\",\n  \"signature\": \"{{Signature}}\",\n  \"requestType\": \"push\",\n  \"targetPlatform\": [\n    \"ANDROID\"\n  ],\n  \"targetAudience\": \"User\",\n  \"targetUserAttributes\": {\n    \"attribute\": \"USER_ATTRIBUTE_USER_EMAIL\",\n    \"comparisonParameter\": \"is\",\n    \"attributeValue\": \"abc@example.com\"\n  },\n  \"payload\": {\n    \"ANDROID\": {\n      \"message\": \"message\",\n      \"title\": \"title\"\n    }\n  },\n  \"campaignDelivery\": {\n    \"type\": \"soon\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "acf41a9b-d488-4c1e-829b-f43aedc2ae2c",
+              "name": "Not Found. Invalid endpoint.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "transaction",
+                    "sendpush"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"appId\": \"{{your Workspace ID}}\",\n  \"campaignName\": \"{{your campaign name}}\",\n  \"signature\": \"{{Signature}}\",\n  \"requestType\": \"push\",\n  \"targetPlatform\": [\n    \"ANDROID\"\n  ],\n  \"targetAudience\": \"User\",\n  \"targetUserAttributes\": {\n    \"attribute\": \"USER_ATTRIBUTE_USER_EMAIL\",\n    \"comparisonParameter\": \"is\",\n    \"attributeValue\": \"abc@example.com\"\n  },\n  \"payload\": {\n    \"ANDROID\": {\n      \"message\": \"message\",\n      \"title\": \"title\"\n    }\n  },\n  \"campaignDelivery\": {\n    \"type\": \"soon\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 404,\n  \"status\": \"error\",\n  \"reason\": \"Page not found. Please recheck the URL\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b6be6f92-38b3-4133-8d97-72d7f702088e",
+              "name": "Internal Server Error.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "transaction",
+                    "sendpush"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"appId\": \"{{your Workspace ID}}\",\n  \"campaignName\": \"{{your campaign name}}\",\n  \"signature\": \"{{Signature}}\",\n  \"requestType\": \"push\",\n  \"targetPlatform\": [\n    \"ANDROID\"\n  ],\n  \"targetAudience\": \"User\",\n  \"targetUserAttributes\": {\n    \"attribute\": \"USER_ATTRIBUTE_USER_EMAIL\",\n    \"comparisonParameter\": \"is\",\n    \"attributeValue\": \"abc@example.com\"\n  },\n  \"payload\": {\n    \"ANDROID\": {\n      \"message\": \"message\",\n      \"title\": \"title\"\n    }\n  },\n  \"campaignDelivery\": {\n    \"type\": \"soon\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 500,\n  \"status\": \"error\",\n  \"reason\": \"There seems to be an error. We are working to fix this.\",\n  \"reference\": \"reference\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "description": {
+        "content": "The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "01",
+      "key": "dc"
+    },
+    {
+      "type": "string",
+      "value": "https://pushapi-{{dc}}.moengage.com/v2",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "e25f8d0a-e49e-4d68-a217-49834133dd08",
+    "name": "MoEngage Push API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "# Overview\nPush API is used to:\n* Create campaigns (targeting all users or a group of users) to send notifications.\n* Target a single user using a unique user attribute.\n* Personalize payload for each user.\n",
+      "type": "text/plain"
+    }
+  }
+}

@@ -1,0 +1,199 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "MoEngage Catalog API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "basic",
+      "username": "{{username}}",
+      "password": "{{password}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Catalog",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create Catalog",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-{dc}.moengage.com/v1/catalog",
+            "headers": [
+              {
+                "name": "MOE-APPKEY",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "This API creates a new catalog with a unique name. You can specify the necessary attributes along with their respective data types.\n"
+        },
+        {
+          "info": {
+            "name": "Add Catalog Attributes",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api-{dc}.moengage.com/v1/catalog/:catalog_id/attributes",
+            "headers": [
+              {
+                "name": "MOE-APPKEY",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "catalog_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier for the catalog, obtained during catalog creation."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "This API adds new attributes to the catalog. If the API request contains attributes that already exist, they will not be added again.\n"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Items",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Add Items",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-{dc}.moengage.com/v1/catalog/:catalog_id/items",
+            "headers": [
+              {
+                "name": "MOE-APPKEY",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "catalog_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier for the catalog, obtained during catalog creation."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "This API ingests items into an existing catalog as long as the attributes provided during ingestion match the attributes provided during catalog creation.\n"
+        },
+        {
+          "info": {
+            "name": "Update Items",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api-{dc}.moengage.com/v1/catalog/:catalog_id/items",
+            "headers": [
+              {
+                "name": "MOE-APPKEY",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "catalog_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier for the catalog, obtained during catalog creation."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "This API updates items with new attribute values. Attributes must adhere to the data type defined.\n"
+        },
+        {
+          "info": {
+            "name": "Delete Items",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-{dc}.moengage.com/v1/catalog/:catalog_id/items/bulk-delete",
+            "headers": [
+              {
+                "name": "MOE-APPKEY",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "catalog_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier for the catalog, obtained during catalog creation."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "This API deletes existing items in a given catalog.\n"
+        },
+        {
+          "info": {
+            "name": "Get Items",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-{dc}.moengage.com/v1/catalog/:catalog_id/items/search",
+            "headers": [
+              {
+                "name": "MOE-APPKEY",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "catalog_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier for the catalog, obtained during catalog creation."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "This API retrieves item attribute details for catalog items using their unique item IDs. The attributes can include the title, price, category, link, image_link, and the respective creation date.\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

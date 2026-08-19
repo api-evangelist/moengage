@@ -1,0 +1,1072 @@
+{
+  "item": [
+    {
+      "id": "de5b92fd-1452-4f8b-87ab-02ba934172e8",
+      "name": "Recommendations",
+      "description": {
+        "content": "Operations related to fetching recommendation configurations and results.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "6a9bce5a-fc69-4457-96fb-f60d5063213d",
+          "name": "Fetch Recommendation Details",
+          "request": {
+            "name": "Fetch Recommendation Details",
+            "description": {
+              "content": "This API retrieves the metadata associated with a specific recommendation setup using its unique ID. The metadata can include the recommendation name, model type, status, creation and update time, and so on.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "recommendations",
+                ":recommendations_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "recommendations_id",
+                  "description": "(Required) This parameter indicates the unique identifier associated with the recommendation created in the recommendation module.\n\nYou can obtain the `recommendation_id` from the recommendation you created on the recommendation page.\n"
+                },
+                {
+                  "description": "The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+                  "type": "any",
+                  "value": "{{dc}}",
+                  "key": "dc"
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) This is the Workspace ID of your MoEngage account that must be passed with the request. You can find it in the MoEngage dashboard at **Settings** > **Account** > **APIs** > **Workspace ID (earlier app id)**.\n",
+                "key": "MOE-APPKEY",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "040dcdf0-7b45-40f7-bcf6-ca9bd0f9fc5b",
+              "name": "Indicates that the request is successful and a recommendation is fetched.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "recommendations",
+                    ":recommendations_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "recommendations_id",
+                      "description": "(Required) This parameter indicates the unique identifier associated with the recommendation created in the recommendation module.\n\nYou can obtain the `recommendation_id` from the recommendation you created on the recommendation page.\n"
+                    },
+                    {
+                      "description": "The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) This is the Workspace ID of your MoEngage account that must be passed with the request. You can find it in the MoEngage dashboard at **Settings** > **Account** > **APIs** > **Workspace ID (earlier app id)**.\n",
+                    "key": "MOE-APPKEY",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"string\",\n  \"db_name\": \"string\",\n  \"recommendation_type\": \"string\",\n  \"name\": \"string\",\n  \"description\": \"string\",\n  \"catalog\": \"string\",\n  \"status\": \"string\",\n  \"created_time\": \"2025-05-22T17:33:07.785Z\",\n  \"updated_time\": \"1975-10-24T05:25:08.703Z\",\n  \"all_user_actions\": true,\n  \"include_filters\": {\n    \"filters\": [\n      {\n        \"executed\": false,\n        \"filter_type\": \"product_filter\",\n        \"operator_fe\": \"exists\",\n        \"name\": \"product_id\",\n        \"data_type\": \"string\",\n        \"operator\": \"exists\",\n        \"value\": \"string\",\n        \"negate\": true,\n        \"case_sensitive\": false,\n        \"hasError\": false\n      },\n      {\n        \"executed\": true,\n        \"filter_type\": \"product_filter\",\n        \"operator_fe\": \"exists\",\n        \"name\": \"product_id\",\n        \"data_type\": \"string\",\n        \"operator\": \"exists\",\n        \"value\": \"string\",\n        \"negate\": false,\n        \"case_sensitive\": false,\n        \"hasError\": false\n      }\n    ],\n    \"filter_operator\": \"or\"\n  },\n  \"exclude_filters\": {\n    \"filters\": [\n      {\n        \"executed\": true,\n        \"filter_type\": \"product_filter\",\n        \"operator_fe\": \"exists\",\n        \"name\": \"product_id\",\n        \"data_type\": \"string\",\n        \"operator\": \"exists\",\n        \"value\": \"string\",\n        \"negate\": false,\n        \"case_sensitive\": true,\n        \"hasError\": false\n      },\n      {\n        \"executed\": false,\n        \"filter_type\": \"product_filter\",\n        \"operator_fe\": \"exists\",\n        \"name\": \"product_id\",\n        \"data_type\": \"string\",\n        \"operator\": \"exists\",\n        \"value\": \"string\",\n        \"negate\": true,\n        \"case_sensitive\": false,\n        \"hasError\": true\n      }\n    ],\n    \"filter_operator\": \"or\"\n  },\n  \"custom_settings\": {\n    \"item_filters\": {\n      \"user_actions\": {}\n    }\n  },\n  \"sort\": {\n    \"data_type\": \"double\",\n    \"param_type\": \"product_attribute\",\n    \"param\": \"price\",\n    \"direction\": \"-1\"\n  },\n  \"trends\": {\n    \"trend_type\": \"most_viewed\",\n    \"duration_days\": 7\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e2eedc1a-f24f-4b71-976d-cd1779b5b5be",
+              "name": "Bad request. Possible issues include a recommendation, the user does not exist, or the wrong format provided.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "recommendations",
+                    ":recommendations_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "recommendations_id",
+                      "description": "(Required) This parameter indicates the unique identifier associated with the recommendation created in the recommendation module.\n\nYou can obtain the `recommendation_id` from the recommendation you created on the recommendation page.\n"
+                    },
+                    {
+                      "description": "The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) This is the Workspace ID of your MoEngage account that must be passed with the request. You can find it in the MoEngage dashboard at **Settings** > **Account** > **APIs** > **Workspace ID (earlier app id)**.\n",
+                    "key": "MOE-APPKEY",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error-code\": \"recommendation does not exist\",\n  \"message\": \"Recommendation does not exist or archived. Please check recommendation_id.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f002d4fb-12e5-43a8-8d19-9e3adf914320",
+              "name": "Unauthenticated. Your request is unauthorized. Verify your credentials and try again.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "recommendations",
+                    ":recommendations_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "recommendations_id",
+                      "description": "(Required) This parameter indicates the unique identifier associated with the recommendation created in the recommendation module.\n\nYou can obtain the `recommendation_id` from the recommendation you created on the recommendation page.\n"
+                    },
+                    {
+                      "description": "The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) This is the Workspace ID of your MoEngage account that must be passed with the request. You can find it in the MoEngage dashboard at **Settings** > **Account** > **APIs** > **Workspace ID (earlier app id)**.\n",
+                    "key": "MOE-APPKEY",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error-code\": \"request-unauthenticated\",\n  \"message\": \"Your request is unauthorized. Please verify your credentials and try again.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "3b23bbca-a6b2-4972-8848-8ab64a1721a6",
+              "name": "Request entity too large. The request body can be large in terms of size (bytes) or length of items.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "recommendations",
+                    ":recommendations_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "recommendations_id",
+                      "description": "(Required) This parameter indicates the unique identifier associated with the recommendation created in the recommendation module.\n\nYou can obtain the `recommendation_id` from the recommendation you created on the recommendation page.\n"
+                    },
+                    {
+                      "description": "The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) This is the Workspace ID of your MoEngage account that must be passed with the request. You can find it in the MoEngage dashboard at **Settings** > **Account** > **APIs** > **Workspace ID (earlier app id)**.\n",
+                    "key": "MOE-APPKEY",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Request Entity Too Large",
+              "code": 413,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error-code\": \"payload-size-exceeded\",\n  \"message\": \"Your payload size exceeds the 1MB limit. Please reduce the payload size and try again.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "fb73953d-a7b0-4774-81eb-a974ea726212",
+              "name": "Too Many Requests. There won't be any response body for this request.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "recommendations",
+                    ":recommendations_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "recommendations_id",
+                      "description": "(Required) This parameter indicates the unique identifier associated with the recommendation created in the recommendation module.\n\nYou can obtain the `recommendation_id` from the recommendation you created on the recommendation page.\n"
+                    },
+                    {
+                      "description": "The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) This is the Workspace ID of your MoEngage account that must be passed with the request. You can find it in the MoEngage dashboard at **Settings** > **Account** > **APIs** > **Workspace ID (earlier app id)**.\n",
+                    "key": "MOE-APPKEY",
+                    "value": "<string>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "The maximum number of requests that the consumer is permitted to make in a given time window.",
+                  "key": "x-ratelimit-limit",
+                  "value": "9875"
+                },
+                {
+                  "disabled": false,
+                  "description": "The number of requests remaining in the current rate limit window.",
+                  "key": "x-ratelimit-remaining",
+                  "value": "9875"
+                },
+                {
+                  "disabled": false,
+                  "description": "The time at which the current rate limit window resets in UTC epoch seconds.",
+                  "key": "x-ratelimit-reset",
+                  "value": "9875"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "a06dfed2-f471-4252-8d91-94678d311289",
+              "name": "This response is returned when the system runs into an unexpected error.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "recommendations",
+                    ":recommendations_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "recommendations_id",
+                      "description": "(Required) This parameter indicates the unique identifier associated with the recommendation created in the recommendation module.\n\nYou can obtain the `recommendation_id` from the recommendation you created on the recommendation page.\n"
+                    },
+                    {
+                      "description": "The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) This is the Workspace ID of your MoEngage account that must be passed with the request. You can find it in the MoEngage dashboard at **Settings** > **Account** > **APIs** > **Workspace ID (earlier app id)**.\n",
+                    "key": "MOE-APPKEY",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error-code\": \"unexpected-error\",\n  \"message\": \"Something went wrong with your request. Please contact the MoEngage team for further assistance.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "b52afeb4-d2df-478c-98df-a16d0bcaf809",
+          "name": "Fetch Recommendation Results",
+          "request": {
+            "name": "Fetch Recommendation Results",
+            "description": {
+              "content": "This API fetches/retrieves the metadata results of any recommendations for a user based on their user ID and item ID.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "recommendations",
+                ":recommendations_id",
+                "items"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "recommendations_id",
+                  "description": "(Required) This parameter indicates the unique identifier associated with the recommendation created in the recommendation module.\n\nYou can obtain the `recommendation_id` from the recommendation you created on the recommendation page.\n"
+                },
+                {
+                  "description": "The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+                  "type": "any",
+                  "value": "{{dc}}",
+                  "key": "dc"
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) This is the Workspace ID of your MoEngage account that must be passed with the request. You can find it in the MoEngage dashboard at **Settings** > **Account** > **APIs** > **Workspace ID (earlier app id)**.\n",
+                "key": "MOE-APPKEY",
+                "value": "<string>"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) It represents the type of recommendations from which the results are fetched.",
+                "key": "RECOMMENDATION-TYPE",
+                "value": "<string>"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"user_id\": \"<string>\",\n  \"item_id\": \"<string>\",\n  \"include_fields\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "997096d9-7d8e-4358-b87e-dc663ef4889b",
+              "name": "Indicates that the request is successful and a recommendation is fetched.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "recommendations",
+                    ":recommendations_id",
+                    "items"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "recommendations_id",
+                      "description": "(Required) This parameter indicates the unique identifier associated with the recommendation created in the recommendation module.\n\nYou can obtain the `recommendation_id` from the recommendation you created on the recommendation page.\n"
+                    },
+                    {
+                      "description": "The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) This is the Workspace ID of your MoEngage account that must be passed with the request. You can find it in the MoEngage dashboard at **Settings** > **Account** > **APIs** > **Workspace ID (earlier app id)**.\n",
+                    "key": "MOE-APPKEY",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) It represents the type of recommendations from which the results are fetched.",
+                    "key": "RECOMMENDATION-TYPE",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"user_id\": \"user123@example.com\",\n  \"item_id\": \"product_sku_abc\",\n  \"include_fields\": [\n    \"title\",\n    \"image_link\",\n    \"price\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"items\": [\n    {\n      \"item_id\": \"prod_xyz\",\n      \"title\": \"Stylish Red Scarf\",\n      \"link\": \"https://example.com/products/prod_xyz\",\n      \"image_link\": \"https://example.com/images/prod_xyz.jpg\",\n      \"price\": 19.99\n    },\n    {\n      \"item_id\": \"prod_xyz\",\n      \"title\": \"Stylish Red Scarf\",\n      \"link\": \"https://example.com/products/prod_xyz\",\n      \"image_link\": \"https://example.com/images/prod_xyz.jpg\",\n      \"price\": 19.99\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c42dce6f-a1c0-4e3d-b044-14d0a8386c94",
+              "name": "Bad request. Possible issues include a recommendation, the user does not exist, or the wrong format provided.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "recommendations",
+                    ":recommendations_id",
+                    "items"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "recommendations_id",
+                      "description": "(Required) This parameter indicates the unique identifier associated with the recommendation created in the recommendation module.\n\nYou can obtain the `recommendation_id` from the recommendation you created on the recommendation page.\n"
+                    },
+                    {
+                      "description": "The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) This is the Workspace ID of your MoEngage account that must be passed with the request. You can find it in the MoEngage dashboard at **Settings** > **Account** > **APIs** > **Workspace ID (earlier app id)**.\n",
+                    "key": "MOE-APPKEY",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) It represents the type of recommendations from which the results are fetched.",
+                    "key": "RECOMMENDATION-TYPE",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"user_id\": \"user123@example.com\",\n  \"item_id\": \"product_sku_abc\",\n  \"include_fields\": [\n    \"title\",\n    \"image_link\",\n    \"price\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error-code\": \"recommendation does not exist\",\n  \"message\": \"Recommendation does not exist or archived. Please check recommendation_id.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ccb9fc2c-7d85-4514-a63a-1a5c2b0b7bf0",
+              "name": "Unauthenticated. Your request is unauthorized. Verify your credentials and try again.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "recommendations",
+                    ":recommendations_id",
+                    "items"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "recommendations_id",
+                      "description": "(Required) This parameter indicates the unique identifier associated with the recommendation created in the recommendation module.\n\nYou can obtain the `recommendation_id` from the recommendation you created on the recommendation page.\n"
+                    },
+                    {
+                      "description": "The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) This is the Workspace ID of your MoEngage account that must be passed with the request. You can find it in the MoEngage dashboard at **Settings** > **Account** > **APIs** > **Workspace ID (earlier app id)**.\n",
+                    "key": "MOE-APPKEY",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) It represents the type of recommendations from which the results are fetched.",
+                    "key": "RECOMMENDATION-TYPE",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"user_id\": \"user123@example.com\",\n  \"item_id\": \"product_sku_abc\",\n  \"include_fields\": [\n    \"title\",\n    \"image_link\",\n    \"price\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error-code\": \"request-unauthenticated\",\n  \"message\": \"Your request is unauthorized. Please verify your credentials and try again.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e59a019d-5542-49bb-9da8-89c584773072",
+              "name": "Request entity too large. The request body can be large in terms of size (bytes) or length of items.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "recommendations",
+                    ":recommendations_id",
+                    "items"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "recommendations_id",
+                      "description": "(Required) This parameter indicates the unique identifier associated with the recommendation created in the recommendation module.\n\nYou can obtain the `recommendation_id` from the recommendation you created on the recommendation page.\n"
+                    },
+                    {
+                      "description": "The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) This is the Workspace ID of your MoEngage account that must be passed with the request. You can find it in the MoEngage dashboard at **Settings** > **Account** > **APIs** > **Workspace ID (earlier app id)**.\n",
+                    "key": "MOE-APPKEY",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) It represents the type of recommendations from which the results are fetched.",
+                    "key": "RECOMMENDATION-TYPE",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"user_id\": \"user123@example.com\",\n  \"item_id\": \"product_sku_abc\",\n  \"include_fields\": [\n    \"title\",\n    \"image_link\",\n    \"price\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Request Entity Too Large",
+              "code": 413,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error-code\": \"payload-size-exceeded\",\n  \"message\": \"Your payload size exceeds the 1MB limit. Please reduce the payload size and try again.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "62bb1653-4aa6-4251-b6ed-127a1f3cd489",
+              "name": "Too Many Requests. There won't be any response body for this request.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "recommendations",
+                    ":recommendations_id",
+                    "items"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "recommendations_id",
+                      "description": "(Required) This parameter indicates the unique identifier associated with the recommendation created in the recommendation module.\n\nYou can obtain the `recommendation_id` from the recommendation you created on the recommendation page.\n"
+                    },
+                    {
+                      "description": "The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) This is the Workspace ID of your MoEngage account that must be passed with the request. You can find it in the MoEngage dashboard at **Settings** > **Account** > **APIs** > **Workspace ID (earlier app id)**.\n",
+                    "key": "MOE-APPKEY",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) It represents the type of recommendations from which the results are fetched.",
+                    "key": "RECOMMENDATION-TYPE",
+                    "value": "<string>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"user_id\": \"user123@example.com\",\n  \"item_id\": \"product_sku_abc\",\n  \"include_fields\": [\n    \"title\",\n    \"image_link\",\n    \"price\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "The maximum number of requests that the consumer is permitted to make in a given time window.",
+                  "key": "x-ratelimit-limit",
+                  "value": "9875"
+                },
+                {
+                  "disabled": false,
+                  "description": "The number of requests remaining in the current rate limit window.",
+                  "key": "x-ratelimit-remaining",
+                  "value": "9875"
+                },
+                {
+                  "disabled": false,
+                  "description": "The time at which the current rate limit window resets in UTC epoch seconds.",
+                  "key": "x-ratelimit-reset",
+                  "value": "9875"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "691f5d6c-b86a-4ca0-aba4-55ee6f73b23e",
+              "name": "This response is returned when the system runs into an unexpected error.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "recommendations",
+                    ":recommendations_id",
+                    "items"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "recommendations_id",
+                      "description": "(Required) This parameter indicates the unique identifier associated with the recommendation created in the recommendation module.\n\nYou can obtain the `recommendation_id` from the recommendation you created on the recommendation page.\n"
+                    },
+                    {
+                      "description": "The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) This is the Workspace ID of your MoEngage account that must be passed with the request. You can find it in the MoEngage dashboard at **Settings** > **Account** > **APIs** > **Workspace ID (earlier app id)**.\n",
+                    "key": "MOE-APPKEY",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) It represents the type of recommendations from which the results are fetched.",
+                    "key": "RECOMMENDATION-TYPE",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"user_id\": \"user123@example.com\",\n  \"item_id\": \"product_sku_abc\",\n  \"include_fields\": [\n    \"title\",\n    \"image_link\",\n    \"price\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error-code\": \"unexpected-error\",\n  \"message\": \"Something went wrong with your request. Please contact the MoEngage team for further assistance.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "description": {
+        "content": "The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "01",
+      "key": "dc"
+    },
+    {
+      "type": "string",
+      "value": "https://api-{{dc}}.moengage.com/v1",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "basic",
+    "basic": [
+      {
+        "key": "username",
+        "value": "{{basicAuthUsername}}"
+      },
+      {
+        "key": "password",
+        "value": "{{basicAuthPassword}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "d609d5b3-2e2e-4c54-a732-7a2df8194529",
+    "name": "MoEngage Recommendation API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "This API lets you fetch/retrieve the metadata associated with a recommendation using the recommendation ID. The metadata can include the recommendation name, model type, status, creation and update time, and so on.\n\nAuthentication is via Basic Auth.\n",
+      "type": "text/plain"
+    }
+  }
+}

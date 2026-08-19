@@ -1,0 +1,70 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Email Templates API V2",
+    "version": "v1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "basic",
+      "username": "{{username}}",
+      "password": "{{password}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Email Templates",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create Email Template (V2)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-{dc}.moengage.com/v1.0/custom-templates/email",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "This API creates an email template in MoEngage. You can use this API to upload templates created outside the MoEngage ecosystem to MoEngage and use them for campaign creation. The uploaded templates can be edited in the Froala editor (custom HTML editor) on the MoEngage dashboard.\n"
+        },
+        {
+          "info": {
+            "name": "Update Email Template",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api-{dc}.moengage.com/v1.0/custom-templates/email",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "This API updates an email template by specifying its external template ID. You can specify whether the updated version of the template can be used in active campaigns in the request.\n"
+        },
+        {
+          "info": {
+            "name": "Search Email Template",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-{dc}.moengage.com/v1.0/custom-templates/email/search",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "This API searches the email templates created in your MoEngage account.\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

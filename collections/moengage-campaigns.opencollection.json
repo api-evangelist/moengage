@@ -1,0 +1,258 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "MoEngage Campaigns API",
+    "version": "2025-11-20"
+  },
+  "request": {
+    "auth": {
+      "type": "basic",
+      "username": "{{username}}",
+      "password": "{{password}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Create Campaigns",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create Campaign",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-{dc}.moengage.com/core-services/v1/campaigns",
+            "headers": [
+              {
+                "name": "MOE-APPKEY",
+                "value": "YOUR_WORKSPACE_ID"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "This API creates a new Push or Email campaign in MoEngage with specified content, audience, and delivery settings.   \n"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Update Campaigns",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Update Campaign (V1 — Legacy)",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api-{dc}.moengage.com/core-services/v1/campaigns/:campaign_id",
+            "headers": [
+              {
+                "name": "MOE-APPKEY",
+                "value": "YOUR_WORKSPACE_ID"
+              }
+            ],
+            "params": [
+              {
+                "name": "campaign_id",
+                "value": "camp_abc123xyz",
+                "type": "path",
+                "description": "The unique ID of the campaign to update.\n\nYou can fetch the campaign ID using the [Get Campaign Details API](/api/get-campaign-details/search-campaigns) by filtering with campaign name, channel, or other criteria.\n"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "This API updates an existing Push or Email campaign in MoEngage. You can only update campaigns created via the API, not campaigns created through the MoEngage dashboard.\n"
+        },
+        {
+          "info": {
+            "name": "Change Campaign Status",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-{dc}.moengage.com/core-services/v1/campaigns/status",
+            "headers": [
+              {
+                "name": "MOE-APPKEY",
+                "value": "YOUR_WORKSPACE_ID"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "This API updates the status of campaigns to stop, pause, or resume them. You can only change the status of campaigns created via the [Create Campaign API](https://www.moengage.com/docs/api/create-campaigns/create-campaign) (not dashboard-created campaigns).\n"
+        },
+        {
+          "info": {
+            "name": "Update Global Control Group",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api-{dc}.moengage.com/core-services/v1/global-control-group/users",
+            "headers": [
+              {
+                "name": "MOE-APPKEY",
+                "value": "YOUR_WORKSPACE_ID"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "This API adds or removes users from the Global Control Group (GCG) in MoEngage. Provide a publicly accessible CSV of user IDs and specify whether to add or remove those users.\n"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Get Campaign Details",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Search Campaigns",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-{dc}.moengage.com/core-services/v1/campaigns/search",
+            "headers": [
+              {
+                "name": "MOE-APPKEY",
+                "value": "YOUR_WORKSPACE_ID"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "This API fetches a list of Push, Email, or SMS campaigns with all current fields and status. You can pass multiple filters to find specific campaigns.\n"
+        },
+        {
+          "info": {
+            "name": "Get Campaign Meta (V1 — Legacy)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-{dc}.moengage.com/core-services/v1/campaigns/meta",
+            "headers": [
+              {
+                "name": "MOE-APPKEY",
+                "value": "YOUR_WORKSPACE_ID"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "This API retrieves campaign details and reachability information for scheduled campaigns.\n"
+        },
+        {
+          "info": {
+            "name": "Get Child Campaigns",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-{dc}.moengage.com/core-services/v1/campaigns/:parent_campaign_id/executions",
+            "headers": [
+              {
+                "name": "MOE-APPKEY",
+                "value": "YOUR_WORKSPACE_ID"
+              }
+            ],
+            "params": [
+              {
+                "name": "parent_campaign_id",
+                "value": "camp_periodic_parent_123",
+                "type": "path",
+                "description": "The unique ID of the parent campaign (Periodic or Business Event-triggered).\n\nYou can fetch the parent campaign ID using the Search Campaigns API.\n"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "This API retrieves child campaign execution details for Periodic or Business Event-triggered campaigns. Use this API to track execution history of recurring campaigns and monitor the performance of individual instances.\n"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Test Campaigns",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Test Campaign",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-{dc}.moengage.com/core-services/v1/campaigns/test",
+            "headers": [
+              {
+                "name": "MOE-APPKEY",
+                "value": "YOUR_WORKSPACE_ID"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "This API sends a test Push or Email campaign to specific users or identifiers before launching it to your entire audience. You can only test campaigns created via the API, not campaigns created through the MoEngage dashboard.\n"
+        },
+        {
+          "info": {
+            "name": "Personalized Preview",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-{dc}.moengage.com/core-services/v1/personalization/preview",
+            "headers": [
+              {
+                "name": "MOE-APPKEY",
+                "value": "YOUR_WORKSPACE_ID"
+              },
+              {
+                "name": "data-compression",
+                "value": "false"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "This API shows a preview of personalized content for a specific user before sending a Push, Email, or SMS campaign. This API retrieves personalized message content with all user/event attributes resolved. Use this API to validate your personalization logic and see exactly how content will appear to specific users before launching campaigns. \n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

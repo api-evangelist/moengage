@@ -1,0 +1,490 @@
+{
+  "item": [
+    {
+      "id": "e22b3306-464e-4d78-bcb2-10d25bfe0423",
+      "name": "Transactional",
+      "description": {
+        "content": "Operations to create and send push notification campaigns.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "4ed57a3e-0765-4cd1-8932-efe3b68ca863",
+          "name": "Send Push Notification (V2.1)",
+          "request": {
+            "name": "Send Push Notification (V2.1)",
+            "description": {
+              "content": "This API creates and sends a push notification campaign. You can use this API to create campaigns (targeting all users or a group of users) to send notifications, target a single user using a unique user attribute, and personalize payload for each user.\n\nThis endpoint accepts three request headers: `X-MOE-APPKEY` (your Workspace ID), `X-MOE-PushAPI-Signature` (the authorization signature), and `X-MOE-Query-Type` (the target audience, corresponding to the `targetAudience` field in the request body).\n\n#### Rate Limit\n\nThe rate limit is 10,000 requests per minute.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v2.1",
+                "transaction",
+                "sendpush"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "description": "The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101. (This can only be one of 01,02,03,04,05,06,101)",
+                  "type": "any",
+                  "value": "{{dc}}",
+                  "key": "dc"
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) This is the Workspace ID of your MoEngage account that must be passed with the request. You can find it in the MoEngage dashboard at **Settings** > **Account** > **APIs** > **Workspace ID (earlier app id)**. MoEngage recommends that you test API integration in the Test Environment. The App ID for TEST ACCOUNT is suffixed with _DEBUG.",
+                "key": "X-MOE-APPKEY",
+                "value": "<string>"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) This field denotes the signature that is required to verify whether the client is authorized to make the API call. It is generated from a hash of the campaign name, app ID, and API key, using the SHA 256 method.\n\n1. On the left navigation menu in the MoEngage dashboard, go to **Settings** > **Account** > **APIs**.\n2. Copy the following details:\n* **app_id**: Under **Workspace ID (earlier app_id)**, click the copy icon to copy the app-id.\n* **api_key**: In the **API keys** section, click the copy icon in the **Push** tile to copy the API key.\n* **campaign_name**: Ensure the campaign name matches the one used in the request body.\n\n**Generate Authentication Signature**\n\nPython code to generate the signature for your test account, use the app_id that is appropriate for your account.\n\nPython 3.XX:\n```python\nfrom hashlib import sha256\napp_id = \"{{Your Workspace ID}}\"\ncampaign_name = \"{{your campaign name}}\"\napi_key = \"{{your push api key}}\"\nsignature_key = app_id+'|'+ campaign_name+'|'+ api_key\nsignature = sha256(signature_key.encode('utf-8')).hexdigest()\nprint(signature)\n```\n\nPython 2.XX:\n```python\nfrom hashlib import sha256\napp_id = \"{{Your Workspace ID}}\"\ncampaign_name = \"{{your campaign name}}\"\napi_key = \"{{your push api key}}\"\nsignature_key = app_id+'|'+ campaign_name+'|'+ api_key\nsignature = sha256(signature_key).hexdigest()\nprint(signature)\n```\n\nSend this signature value in the `X-MOE-PushAPI-Signature` request header.\n",
+                "key": "X-MOE-PushAPI-Signature",
+                "value": "<string>"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) This field mirrors the `targetAudience` field in the request body, but uses lowercase values. For example, when `targetAudience` is \"User\", send `X-MOE-Query-Type: user`.\n",
+                "key": "X-MOE-Query-Type",
+                "value": "<string>"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"campaignName\": \"<string>\",\n  \"targetPlatform\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"targetAudience\": \"<string>\",\n  \"payload\": {\n    \"ANDROID\": {\n      \"message\": \"<string>\",\n      \"title\": \"<string>\",\n      \"groupKey\": \"<string>\",\n      \"collapseReplaceKey\": \"<string>\",\n      \"channel_id\": \"<string>\",\n      \"summary\": \"<string>\",\n      \"richContent\": [\n        {\n          \"type\": \"<string>\",\n          \"value\": \"<string>\"\n        },\n        {\n          \"type\": \"<string>\",\n          \"value\": \"<string>\"\n        }\n      ],\n      \"defaultAction\": {\n        \"type\": \"<string>\",\n        \"value\": \"<string>\",\n        \"kvPairs\": {\n          \"key_0\": \"<string>\",\n          \"key_1\": \"<string>\"\n        }\n      },\n      \"additionalActions\": [\n        {\n          \"type\": \"<string>\",\n          \"value\": \"<string>\",\n          \"name\": \"<string>\",\n          \"iconURL\": \"<string>\"\n        },\n        {\n          \"type\": \"<string>\",\n          \"value\": \"<string>\",\n          \"name\": \"<string>\",\n          \"iconURL\": \"<string>\"\n        }\n      ],\n      \"fallback\": \"<object>\"\n    },\n    \"IOS\": {\n      \"message\": \"<string>\",\n      \"title\": \"<string>\",\n      \"groupKey\": \"<string>\",\n      \"collapseReplaceKey\": \"<string>\",\n      \"subtitle\": \"<string>\",\n      \"enableIosBadge\": \"<boolean>\",\n      \"richContent\": [\n        {\n          \"type\": \"<string>\",\n          \"value\": \"<string>\"\n        },\n        {\n          \"type\": \"<string>\",\n          \"value\": \"<string>\"\n        }\n      ],\n      \"defaultAction\": {\n        \"type\": \"<string>\",\n        \"value\": \"<string>\",\n        \"kvPairs\": {\n          \"key_0\": \"<string>\",\n          \"key_1\": \"<string>\",\n          \"key_2\": \"<string>\"\n        }\n      },\n      \"additionalActions\": [\n        {\n          \"category\": \"<string>\"\n        },\n        {\n          \"category\": \"<string>\"\n        }\n      ],\n      \"fallback\": \"<object>\"\n    },\n    \"WEB\": {\n      \"message\": \"<string>\",\n      \"title\": \"<string>\",\n      \"redirectURL\": \"<uri>\",\n      \"iconURL\": \"<uri>\",\n      \"imageURL\": \"<uri>\",\n      \"autoDismiss\": \"<boolean>\"\n    }\n  },\n  \"campaignDelivery\": {\n    \"type\": \"<string>\",\n    \"date\": \"<string>\",\n    \"time\": \"<string>\",\n    \"endDate\": \"<string>\",\n    \"repeatAfter\": \"<string>\",\n    \"timezone\": \"<string>\"\n  },\n  \"campaignTags\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"requestType\": \"push\",\n  \"customSegmentName\": \"<string>\",\n  \"targetUserAttributes\": {\n    \"attribute\": \"<string>\",\n    \"comparisonParameter\": \"<string>\",\n    \"attributeValue\": \"<string>\",\n    \"isCustom\": false\n  },\n  \"conversionGoals\": [\n    {\n      \"name\": \"<string>\",\n      \"eventName\": \"<string>\",\n      \"attrs\": {\n        \"name\": \"<string>\",\n        \"filter\": \"<string>\",\n        \"value\": \"<string>\",\n        \"type\": \"<string>\"\n      }\n    },\n    {\n      \"name\": \"<string>\",\n      \"eventName\": \"<string>\",\n      \"attrs\": {\n        \"name\": \"<string>\",\n        \"filter\": \"<string>\",\n        \"value\": \"<string>\",\n        \"type\": \"<string>\"\n      }\n    }\n  ],\n  \"advancedSettings\": {\n    \"ttl\": {\n      \"ANDROID\": \"<integer>\",\n      \"WEB\": \"<integer>\"\n    },\n    \"ignoreFC\": \"<string>\",\n    \"countFC\": \"<string>\",\n    \"notificationPrioritySettings\": {\n      \"Android\": \"<string>\",\n      \"iOS\": \"<integer>\"\n    },\n    \"pushAmp+\": \"<string>\",\n    \"preCacheSegment\": \"<string>\",\n    \"campaignThrottleTime\": \"<integer>\",\n    \"campaignThrottleRpm\": \"<integer>\",\n    \"useJinjaPersonalization\": \"<string>\",\n    \"ignoreMinimumDelay\": \"<string>\",\n    \"inboxExpiry\": \"<integer>\",\n    \"iOSTargetDevice\": \"<string>\",\n    \"deliverWhenActive\": \"<string>\",\n    \"bypassDND\": \"<boolean>\",\n    \"sendAtHighPriority\": \"<string>\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "4fe9e916-6b2b-4e41-a765-68c5e0442572",
+              "name": "Request received. The status in the response body indicates whether it was successfully processed or failed.\nPossible failures include:\n* Invalid Request Type\n* Invalid appId / appId not present\n* Campaign Name too short (must be >= 5 chars) / Campaign name missing\n* Request limit exceeded\n* Signature missing or not verified\n* Duplicate campaign name\n* Key not of Type List or Value not allowed\n* Error parsing parameters\n\n**Response fields:**\n* `status`: `Success` or `Fail`, indicating whether the campaign was accepted.\n* `requestId`: The request ID you sent, echoed back (empty on failure).\n* `responseId`: A unique ID MoEngage generates for this response.\n* `cid`: The campaign ID (present on success only).\n* `Error_Message`: A human-readable failure reason (present on failure only).\n\nThis response envelope (`status`, `requestId`, `responseId`, `cid`) predates MoEngage's newer API conventions (for example, the `{response_id, type, data}` shape used by the Analytics Custom Dashboards API) and is kept as-is for backward compatibility with v2.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2.1",
+                    "transaction",
+                    "sendpush"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101. (This can only be one of 01,02,03,04,05,06,101)",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) This is the Workspace ID of your MoEngage account that must be passed with the request. You can find it in the MoEngage dashboard at **Settings** > **Account** > **APIs** > **Workspace ID (earlier app id)**. MoEngage recommends that you test API integration in the Test Environment. The App ID for TEST ACCOUNT is suffixed with _DEBUG.",
+                    "key": "X-MOE-APPKEY",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) This field denotes the signature that is required to verify whether the client is authorized to make the API call. It is generated from a hash of the campaign name, app ID, and API key, using the SHA 256 method.\n\n1. On the left navigation menu in the MoEngage dashboard, go to **Settings** > **Account** > **APIs**.\n2. Copy the following details:\n* **app_id**: Under **Workspace ID (earlier app_id)**, click the copy icon to copy the app-id.\n* **api_key**: In the **API keys** section, click the copy icon in the **Push** tile to copy the API key.\n* **campaign_name**: Ensure the campaign name matches the one used in the request body.\n\n**Generate Authentication Signature**\n\nPython code to generate the signature for your test account, use the app_id that is appropriate for your account.\n\nPython 3.XX:\n```python\nfrom hashlib import sha256\napp_id = \"{{Your Workspace ID}}\"\ncampaign_name = \"{{your campaign name}}\"\napi_key = \"{{your push api key}}\"\nsignature_key = app_id+'|'+ campaign_name+'|'+ api_key\nsignature = sha256(signature_key.encode('utf-8')).hexdigest()\nprint(signature)\n```\n\nPython 2.XX:\n```python\nfrom hashlib import sha256\napp_id = \"{{Your Workspace ID}}\"\ncampaign_name = \"{{your campaign name}}\"\napi_key = \"{{your push api key}}\"\nsignature_key = app_id+'|'+ campaign_name+'|'+ api_key\nsignature = sha256(signature_key).hexdigest()\nprint(signature)\n```\n\nSend this signature value in the `X-MOE-PushAPI-Signature` request header.\n",
+                    "key": "X-MOE-PushAPI-Signature",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) This field mirrors the `targetAudience` field in the request body, but uses lowercase values. For example, when `targetAudience` is \"User\", send `X-MOE-Query-Type: user`.\n",
+                    "key": "X-MOE-Query-Type",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"campaignName\": \"{{your campaign name}}\",\n  \"requestType\": \"push\",\n  \"targetPlatform\": [\n    \"ANDROID\"\n  ],\n  \"targetAudience\": \"User\",\n  \"targetUserAttributes\": {\n    \"attribute\": \"USER_ATTRIBUTE_USER_EMAIL\",\n    \"comparisonParameter\": \"is\",\n    \"attributeValue\": \"abc@example.com\"\n  },\n  \"payload\": {\n    \"ANDROID\": {\n      \"message\": \"Your order has shipped\",\n      \"title\": \"Order Shipped\"\n    }\n  },\n  \"campaignDelivery\": {\n    \"type\": \"soon\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"Success\",\n  \"requestId\": \"09562729-236b-4773-8207-63321523456\",\n  \"responseId\": \"09562729-236b-4773-8207-63321523456\",\n  \"cid\": \"66321523456\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "7032b2f6-f29d-45b0-b962-199115c70896",
+              "name": "Unauthorized. Invalid authentication credentials or JSON format.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2.1",
+                    "transaction",
+                    "sendpush"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101. (This can only be one of 01,02,03,04,05,06,101)",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) This is the Workspace ID of your MoEngage account that must be passed with the request. You can find it in the MoEngage dashboard at **Settings** > **Account** > **APIs** > **Workspace ID (earlier app id)**. MoEngage recommends that you test API integration in the Test Environment. The App ID for TEST ACCOUNT is suffixed with _DEBUG.",
+                    "key": "X-MOE-APPKEY",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) This field denotes the signature that is required to verify whether the client is authorized to make the API call. It is generated from a hash of the campaign name, app ID, and API key, using the SHA 256 method.\n\n1. On the left navigation menu in the MoEngage dashboard, go to **Settings** > **Account** > **APIs**.\n2. Copy the following details:\n* **app_id**: Under **Workspace ID (earlier app_id)**, click the copy icon to copy the app-id.\n* **api_key**: In the **API keys** section, click the copy icon in the **Push** tile to copy the API key.\n* **campaign_name**: Ensure the campaign name matches the one used in the request body.\n\n**Generate Authentication Signature**\n\nPython code to generate the signature for your test account, use the app_id that is appropriate for your account.\n\nPython 3.XX:\n```python\nfrom hashlib import sha256\napp_id = \"{{Your Workspace ID}}\"\ncampaign_name = \"{{your campaign name}}\"\napi_key = \"{{your push api key}}\"\nsignature_key = app_id+'|'+ campaign_name+'|'+ api_key\nsignature = sha256(signature_key.encode('utf-8')).hexdigest()\nprint(signature)\n```\n\nPython 2.XX:\n```python\nfrom hashlib import sha256\napp_id = \"{{Your Workspace ID}}\"\ncampaign_name = \"{{your campaign name}}\"\napi_key = \"{{your push api key}}\"\nsignature_key = app_id+'|'+ campaign_name+'|'+ api_key\nsignature = sha256(signature_key).hexdigest()\nprint(signature)\n```\n\nSend this signature value in the `X-MOE-PushAPI-Signature` request header.\n",
+                    "key": "X-MOE-PushAPI-Signature",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) This field mirrors the `targetAudience` field in the request body, but uses lowercase values. For example, when `targetAudience` is \"User\", send `X-MOE-Query-Type: user`.\n",
+                    "key": "X-MOE-Query-Type",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"campaignName\": \"{{your campaign name}}\",\n  \"requestType\": \"push\",\n  \"targetPlatform\": [\n    \"ANDROID\"\n  ],\n  \"targetAudience\": \"User\",\n  \"targetUserAttributes\": {\n    \"attribute\": \"USER_ATTRIBUTE_USER_EMAIL\",\n    \"comparisonParameter\": \"is\",\n    \"attributeValue\": \"abc@example.com\"\n  },\n  \"payload\": {\n    \"ANDROID\": {\n      \"message\": \"Your order has shipped\",\n      \"title\": \"Order Shipped\"\n    }\n  },\n  \"campaignDelivery\": {\n    \"type\": \"soon\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ac87ce37-05e7-4b9c-b2ec-aaccbc4e4c60",
+              "name": "Not Found. Invalid endpoint.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2.1",
+                    "transaction",
+                    "sendpush"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101. (This can only be one of 01,02,03,04,05,06,101)",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) This is the Workspace ID of your MoEngage account that must be passed with the request. You can find it in the MoEngage dashboard at **Settings** > **Account** > **APIs** > **Workspace ID (earlier app id)**. MoEngage recommends that you test API integration in the Test Environment. The App ID for TEST ACCOUNT is suffixed with _DEBUG.",
+                    "key": "X-MOE-APPKEY",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) This field denotes the signature that is required to verify whether the client is authorized to make the API call. It is generated from a hash of the campaign name, app ID, and API key, using the SHA 256 method.\n\n1. On the left navigation menu in the MoEngage dashboard, go to **Settings** > **Account** > **APIs**.\n2. Copy the following details:\n* **app_id**: Under **Workspace ID (earlier app_id)**, click the copy icon to copy the app-id.\n* **api_key**: In the **API keys** section, click the copy icon in the **Push** tile to copy the API key.\n* **campaign_name**: Ensure the campaign name matches the one used in the request body.\n\n**Generate Authentication Signature**\n\nPython code to generate the signature for your test account, use the app_id that is appropriate for your account.\n\nPython 3.XX:\n```python\nfrom hashlib import sha256\napp_id = \"{{Your Workspace ID}}\"\ncampaign_name = \"{{your campaign name}}\"\napi_key = \"{{your push api key}}\"\nsignature_key = app_id+'|'+ campaign_name+'|'+ api_key\nsignature = sha256(signature_key.encode('utf-8')).hexdigest()\nprint(signature)\n```\n\nPython 2.XX:\n```python\nfrom hashlib import sha256\napp_id = \"{{Your Workspace ID}}\"\ncampaign_name = \"{{your campaign name}}\"\napi_key = \"{{your push api key}}\"\nsignature_key = app_id+'|'+ campaign_name+'|'+ api_key\nsignature = sha256(signature_key).hexdigest()\nprint(signature)\n```\n\nSend this signature value in the `X-MOE-PushAPI-Signature` request header.\n",
+                    "key": "X-MOE-PushAPI-Signature",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) This field mirrors the `targetAudience` field in the request body, but uses lowercase values. For example, when `targetAudience` is \"User\", send `X-MOE-Query-Type: user`.\n",
+                    "key": "X-MOE-Query-Type",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"campaignName\": \"{{your campaign name}}\",\n  \"requestType\": \"push\",\n  \"targetPlatform\": [\n    \"ANDROID\"\n  ],\n  \"targetAudience\": \"User\",\n  \"targetUserAttributes\": {\n    \"attribute\": \"USER_ATTRIBUTE_USER_EMAIL\",\n    \"comparisonParameter\": \"is\",\n    \"attributeValue\": \"abc@example.com\"\n  },\n  \"payload\": {\n    \"ANDROID\": {\n      \"message\": \"Your order has shipped\",\n      \"title\": \"Order Shipped\"\n    }\n  },\n  \"campaignDelivery\": {\n    \"type\": \"soon\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 404,\n  \"status\": \"error\",\n  \"reason\": \"Page not found. Please recheck the URL\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "8cd23426-fb56-4210-834c-0baf789ad796",
+              "name": "Too Many Requests. The Envoy gateway rejected the request because the per-`app_key` rate limit for the resolved `X-MOE-Query-Type` category was exceeded (`seg_user_search` for `user`; `seg_user_query` for `all users` and `custom segment`). The response body is empty; rate-limit details are returned in the `x-ratelimit-*` and `x-envoy-ratelimited` response headers.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2.1",
+                    "transaction",
+                    "sendpush"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101. (This can only be one of 01,02,03,04,05,06,101)",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) This is the Workspace ID of your MoEngage account that must be passed with the request. You can find it in the MoEngage dashboard at **Settings** > **Account** > **APIs** > **Workspace ID (earlier app id)**. MoEngage recommends that you test API integration in the Test Environment. The App ID for TEST ACCOUNT is suffixed with _DEBUG.",
+                    "key": "X-MOE-APPKEY",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) This field denotes the signature that is required to verify whether the client is authorized to make the API call. It is generated from a hash of the campaign name, app ID, and API key, using the SHA 256 method.\n\n1. On the left navigation menu in the MoEngage dashboard, go to **Settings** > **Account** > **APIs**.\n2. Copy the following details:\n* **app_id**: Under **Workspace ID (earlier app_id)**, click the copy icon to copy the app-id.\n* **api_key**: In the **API keys** section, click the copy icon in the **Push** tile to copy the API key.\n* **campaign_name**: Ensure the campaign name matches the one used in the request body.\n\n**Generate Authentication Signature**\n\nPython code to generate the signature for your test account, use the app_id that is appropriate for your account.\n\nPython 3.XX:\n```python\nfrom hashlib import sha256\napp_id = \"{{Your Workspace ID}}\"\ncampaign_name = \"{{your campaign name}}\"\napi_key = \"{{your push api key}}\"\nsignature_key = app_id+'|'+ campaign_name+'|'+ api_key\nsignature = sha256(signature_key.encode('utf-8')).hexdigest()\nprint(signature)\n```\n\nPython 2.XX:\n```python\nfrom hashlib import sha256\napp_id = \"{{Your Workspace ID}}\"\ncampaign_name = \"{{your campaign name}}\"\napi_key = \"{{your push api key}}\"\nsignature_key = app_id+'|'+ campaign_name+'|'+ api_key\nsignature = sha256(signature_key).hexdigest()\nprint(signature)\n```\n\nSend this signature value in the `X-MOE-PushAPI-Signature` request header.\n",
+                    "key": "X-MOE-PushAPI-Signature",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) This field mirrors the `targetAudience` field in the request body, but uses lowercase values. For example, when `targetAudience` is \"User\", send `X-MOE-Query-Type: user`.\n",
+                    "key": "X-MOE-Query-Type",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"campaignName\": \"{{your campaign name}}\",\n  \"requestType\": \"push\",\n  \"targetPlatform\": [\n    \"ANDROID\"\n  ],\n  \"targetAudience\": \"User\",\n  \"targetUserAttributes\": {\n    \"attribute\": \"USER_ATTRIBUTE_USER_EMAIL\",\n    \"comparisonParameter\": \"is\",\n    \"attributeValue\": \"abc@example.com\"\n  },\n  \"payload\": {\n    \"ANDROID\": {\n      \"message\": \"Your order has shipped\",\n      \"title\": \"Order Shipped\"\n    }\n  },\n  \"campaignDelivery\": {\n    \"type\": \"soon\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "Present and set to `true` when the request was rate limited.",
+                  "key": "x-envoy-ratelimited",
+                  "value": "true"
+                },
+                {
+                  "disabled": false,
+                  "description": "The configured limit for the resolved category, e.g. `5, 5;w=60`.",
+                  "key": "x-ratelimit-limit",
+                  "value": "5, 5;w=60"
+                },
+                {
+                  "disabled": false,
+                  "description": "Requests remaining in the current window (`0` when throttled).",
+                  "key": "x-ratelimit-remaining",
+                  "value": "0"
+                },
+                {
+                  "disabled": false,
+                  "description": "Seconds until the current rate-limit window resets.",
+                  "key": "x-ratelimit-reset",
+                  "value": "23"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "4574b3dc-c282-485e-aecd-acba51871d89",
+              "name": "Internal Server Error.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2.1",
+                    "transaction",
+                    "sendpush"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101. (This can only be one of 01,02,03,04,05,06,101)",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) This is the Workspace ID of your MoEngage account that must be passed with the request. You can find it in the MoEngage dashboard at **Settings** > **Account** > **APIs** > **Workspace ID (earlier app id)**. MoEngage recommends that you test API integration in the Test Environment. The App ID for TEST ACCOUNT is suffixed with _DEBUG.",
+                    "key": "X-MOE-APPKEY",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) This field denotes the signature that is required to verify whether the client is authorized to make the API call. It is generated from a hash of the campaign name, app ID, and API key, using the SHA 256 method.\n\n1. On the left navigation menu in the MoEngage dashboard, go to **Settings** > **Account** > **APIs**.\n2. Copy the following details:\n* **app_id**: Under **Workspace ID (earlier app_id)**, click the copy icon to copy the app-id.\n* **api_key**: In the **API keys** section, click the copy icon in the **Push** tile to copy the API key.\n* **campaign_name**: Ensure the campaign name matches the one used in the request body.\n\n**Generate Authentication Signature**\n\nPython code to generate the signature for your test account, use the app_id that is appropriate for your account.\n\nPython 3.XX:\n```python\nfrom hashlib import sha256\napp_id = \"{{Your Workspace ID}}\"\ncampaign_name = \"{{your campaign name}}\"\napi_key = \"{{your push api key}}\"\nsignature_key = app_id+'|'+ campaign_name+'|'+ api_key\nsignature = sha256(signature_key.encode('utf-8')).hexdigest()\nprint(signature)\n```\n\nPython 2.XX:\n```python\nfrom hashlib import sha256\napp_id = \"{{Your Workspace ID}}\"\ncampaign_name = \"{{your campaign name}}\"\napi_key = \"{{your push api key}}\"\nsignature_key = app_id+'|'+ campaign_name+'|'+ api_key\nsignature = sha256(signature_key).hexdigest()\nprint(signature)\n```\n\nSend this signature value in the `X-MOE-PushAPI-Signature` request header.\n",
+                    "key": "X-MOE-PushAPI-Signature",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) This field mirrors the `targetAudience` field in the request body, but uses lowercase values. For example, when `targetAudience` is \"User\", send `X-MOE-Query-Type: user`.\n",
+                    "key": "X-MOE-Query-Type",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"campaignName\": \"{{your campaign name}}\",\n  \"requestType\": \"push\",\n  \"targetPlatform\": [\n    \"ANDROID\"\n  ],\n  \"targetAudience\": \"User\",\n  \"targetUserAttributes\": {\n    \"attribute\": \"USER_ATTRIBUTE_USER_EMAIL\",\n    \"comparisonParameter\": \"is\",\n    \"attributeValue\": \"abc@example.com\"\n  },\n  \"payload\": {\n    \"ANDROID\": {\n      \"message\": \"Your order has shipped\",\n      \"title\": \"Order Shipped\"\n    }\n  },\n  \"campaignDelivery\": {\n    \"type\": \"soon\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 500,\n  \"status\": \"error\",\n  \"reason\": \"There seems to be an error. We are working to fix this.\",\n  \"reference\": \"reference\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "description": {
+        "content": "The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101. (This can only be one of 01,02,03,04,05,06,101)",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "01",
+      "key": "dc"
+    },
+    {
+      "type": "string",
+      "value": "https://pushapi-{{dc}}.moengage.com",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "c1e6bab9-6703-42ae-9bc7-231a18ef4736",
+    "name": "MoEngage Push API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "# Overview\nPush API is used to:\n* Create campaigns (targeting all users or a group of users) to send notifications.\n* Target a single user using a unique user attribute.\n* Personalize payload for each user.\n",
+      "type": "text/plain"
+    }
+  }
+}

@@ -1,0 +1,70 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "MoEngage SMS Template API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "basic",
+      "username": "{{username}}",
+      "password": "{{password}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "SMS Templates",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create SMS Template",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-{dc}.moengage.com/v1.0/custom-templates/sms",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "This API creates an SMS template in MoEngage. It helps you upload templates created outside the MoEngage ecosystem to MoEngage and use them for campaign creation."
+        },
+        {
+          "info": {
+            "name": "Update SMS Template",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api-{dc}.moengage.com/v1.0/custom-templates/sms",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "This API updates an SMS template by specifying its external template ID. You can specify in the request whether the updated version of the template can be used in active campaigns."
+        },
+        {
+          "info": {
+            "name": "Search SMS Templates",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-{dc}.moengage.com/v1.0/custom-templates/sms/search",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "This API searches and retrieves a list of SMS templates, created in your MoEngage account, based on specified filter criteria."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

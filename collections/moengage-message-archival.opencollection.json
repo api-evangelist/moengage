@@ -1,0 +1,46 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "MoEngage Message Archival API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "basic",
+      "username": "{{username}}",
+      "password": "{{password}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Message Archival",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "View Archived Message",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-{dc}.moengage.com/v1/archival/view",
+            "headers": [
+              {
+                "name": "MOE-APPKEY",
+                "value": "YOUR_WORKSPACE_ID_XXXX"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "You can use this API to store any communication sent to customers for later access.\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

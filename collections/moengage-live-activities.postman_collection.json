@@ -1,0 +1,1629 @@
+{
+  "item": [
+    {
+      "id": "6ea45c16-eb76-4f97-9a80-1b7dd9f4645b",
+      "name": "Live Activities",
+      "description": {
+        "content": "Operations to manage broadcast Live Activities for iOS.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "e8655784-500b-47df-bf0f-c69a82f28618",
+          "name": "Start Broadcast Live Activity",
+          "request": {
+            "name": "Start Broadcast Live Activity",
+            "description": {
+              "content": "This API initiates a shared, real-time activity for a large audience, such as a live sporting match or real-time election result tracking.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "live-activity",
+                "broadcast",
+                "start"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "description": "The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+                  "type": "any",
+                  "value": "{{dc}}",
+                  "key": "dc"
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) This is the Workspace ID of your MoEngage account that must be passed with the request. You can find it in the MoEngage dashboard at **Settings** > **Account** > **APIs** > **Workspace ID (earlier app id)**.\n",
+                "key": "X-MOE-APPKEY",
+                "value": "<string>"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"broadcast_live_activity_id\": \"<string>\",\n  \"ios\": {\n    \"attribute_type\": \"<string>\",\n    \"attribute_info\": {\n      \"key_0\": true,\n      \"key_1\": \"string\",\n      \"key_2\": 1102\n    },\n    \"content_state\": {\n      \"key_0\": false,\n      \"key_1\": 5764.470067546419,\n      \"key_2\": 7412\n    },\n    \"alert\": {\n      \"title\": \"<string>\",\n      \"body\": \"<string>\",\n      \"subtitle\": \"<string>\",\n      \"sound\": \"<string>\"\n    },\n    \"dismissal_date\": \"<long>\"\n  },\n  \"instance_id\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "22acc7a9-0b1f-47cd-b5da-5d9afa79e1bc",
+              "name": "Success. The live activity instance was created.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "live-activity",
+                    "broadcast",
+                    "start"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) This is the Workspace ID of your MoEngage account that must be passed with the request. You can find it in the MoEngage dashboard at **Settings** > **Account** > **APIs** > **Workspace ID (earlier app id)**.\n",
+                    "key": "X-MOE-APPKEY",
+                    "value": "YOUR_WORKSPACE_ID_XXXX"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"broadcast_live_activity_id\": \"<string>\",\n  \"ios\": {\n    \"attribute_type\": \"LiveActivityAttributes\",\n    \"attribute_info\": {\n      \"key_0\": 801.9216683062547,\n      \"key_1\": \"string\"\n    },\n    \"content_state\": {\n      \"key_0\": 171\n    },\n    \"alert\": {\n      \"title\": \"<string>\",\n      \"body\": \"<string>\",\n      \"subtitle\": \"<string>\",\n      \"sound\": \"<string>\"\n    },\n    \"dismissal_date\": \"<long>\"\n  },\n  \"instance_id\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"instance_id\": \"1749822841120-57c5c617\",\n    \"message\": \"success\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "5d23d19c-aa5f-490a-be21-e85be14df96c",
+              "name": "Bad Request - Mandatory fields are missing or invalid.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "live-activity",
+                    "broadcast",
+                    "start"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) This is the Workspace ID of your MoEngage account that must be passed with the request. You can find it in the MoEngage dashboard at **Settings** > **Account** > **APIs** > **Workspace ID (earlier app id)**.\n",
+                    "key": "X-MOE-APPKEY",
+                    "value": "YOUR_WORKSPACE_ID_XXXX"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"broadcast_live_activity_id\": \"<string>\",\n  \"ios\": {\n    \"attribute_type\": \"LiveActivityAttributes\",\n    \"attribute_info\": {\n      \"key_0\": 801.9216683062547,\n      \"key_1\": \"string\"\n    },\n    \"content_state\": {\n      \"key_0\": 171\n    },\n    \"alert\": {\n      \"title\": \"<string>\",\n      \"body\": \"<string>\",\n      \"subtitle\": \"<string>\",\n      \"sound\": \"<string>\"\n    },\n    \"dismissal_date\": \"<long>\"\n  },\n  \"instance_id\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"PayloadError\",\n    \"message\": \"Mandatory fields are missing or invalid\",\n    \"details\": [\n      {\n        \"code\": \"extra_forbidden\",\n        \"target\": \"ios.alert.metrics\",\n        \"message\": \"Extra inputs are not permitted\"\n      }\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "bee889f4-ebce-461c-bd01-a796b99e1c95",
+              "name": "Unauthorized - Invalid credentials or missing headers.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "live-activity",
+                    "broadcast",
+                    "start"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) This is the Workspace ID of your MoEngage account that must be passed with the request. You can find it in the MoEngage dashboard at **Settings** > **Account** > **APIs** > **Workspace ID (earlier app id)**.\n",
+                    "key": "X-MOE-APPKEY",
+                    "value": "YOUR_WORKSPACE_ID_XXXX"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"broadcast_live_activity_id\": \"<string>\",\n  \"ios\": {\n    \"attribute_type\": \"LiveActivityAttributes\",\n    \"attribute_info\": {\n      \"key_0\": 801.9216683062547,\n      \"key_1\": \"string\"\n    },\n    \"content_state\": {\n      \"key_0\": 171\n    },\n    \"alert\": {\n      \"title\": \"<string>\",\n      \"body\": \"<string>\",\n      \"subtitle\": \"<string>\",\n      \"sound\": \"<string>\"\n    },\n    \"dismissal_date\": \"<long>\"\n  },\n  \"instance_id\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"AuthError\",\n    \"message\": \"Invalid App Key\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "4a6706da-bc55-4ed5-a27e-864acd7dcb93",
+              "name": "Forbidden - Operation not allowed due to logic or permission constraints.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "live-activity",
+                    "broadcast",
+                    "start"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) This is the Workspace ID of your MoEngage account that must be passed with the request. You can find it in the MoEngage dashboard at **Settings** > **Account** > **APIs** > **Workspace ID (earlier app id)**.\n",
+                    "key": "X-MOE-APPKEY",
+                    "value": "YOUR_WORKSPACE_ID_XXXX"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"broadcast_live_activity_id\": \"<string>\",\n  \"ios\": {\n    \"attribute_type\": \"LiveActivityAttributes\",\n    \"attribute_info\": {\n      \"key_0\": 801.9216683062547,\n      \"key_1\": \"string\"\n    },\n    \"content_state\": {\n      \"key_0\": 171\n    },\n    \"alert\": {\n      \"title\": \"<string>\",\n      \"body\": \"<string>\",\n      \"subtitle\": \"<string>\",\n      \"sound\": \"<string>\"\n    },\n    \"dismissal_date\": \"<long>\"\n  },\n  \"instance_id\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"OperationNotAllowed\",\n    \"message\": \"Campaign not found for <broadcast live activity id>\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "daaa9691-e1fd-4cdf-bf1d-22753c610bad",
+              "name": "Payload Too Large - The payload exceeds the limit (e.g., 5120 bytes for iOS).",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "live-activity",
+                    "broadcast",
+                    "start"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) This is the Workspace ID of your MoEngage account that must be passed with the request. You can find it in the MoEngage dashboard at **Settings** > **Account** > **APIs** > **Workspace ID (earlier app id)**.\n",
+                    "key": "X-MOE-APPKEY",
+                    "value": "YOUR_WORKSPACE_ID_XXXX"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"broadcast_live_activity_id\": \"<string>\",\n  \"ios\": {\n    \"attribute_type\": \"LiveActivityAttributes\",\n    \"attribute_info\": {\n      \"key_0\": 801.9216683062547,\n      \"key_1\": \"string\"\n    },\n    \"content_state\": {\n      \"key_0\": 171\n    },\n    \"alert\": {\n      \"title\": \"<string>\",\n      \"body\": \"<string>\",\n      \"subtitle\": \"<string>\",\n      \"sound\": \"<string>\"\n    },\n    \"dismissal_date\": \"<long>\"\n  },\n  \"instance_id\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Request Entity Too Large",
+              "code": 413,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"PayloadSizeError\",\n    \"message\": \"Payload size exceeded for IOS. Max size is 5120 bytes\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "71dcca40-def3-49e6-8040-d96928103083",
+              "name": "Too Many Requests.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "live-activity",
+                    "broadcast",
+                    "start"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) This is the Workspace ID of your MoEngage account that must be passed with the request. You can find it in the MoEngage dashboard at **Settings** > **Account** > **APIs** > **Workspace ID (earlier app id)**.\n",
+                    "key": "X-MOE-APPKEY",
+                    "value": "YOUR_WORKSPACE_ID_XXXX"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"broadcast_live_activity_id\": \"<string>\",\n  \"ios\": {\n    \"attribute_type\": \"LiveActivityAttributes\",\n    \"attribute_info\": {\n      \"key_0\": 801.9216683062547,\n      \"key_1\": \"string\"\n    },\n    \"content_state\": {\n      \"key_0\": 171\n    },\n    \"alert\": {\n      \"title\": \"<string>\",\n      \"body\": \"<string>\",\n      \"subtitle\": \"<string>\",\n      \"sound\": \"<string>\"\n    },\n    \"dismissal_date\": \"<long>\"\n  },\n  \"instance_id\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "3b3139d3-5fc0-4411-a8ad-4ac454c1c335",
+              "name": "Internal Server Error.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "live-activity",
+                    "broadcast",
+                    "start"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) This is the Workspace ID of your MoEngage account that must be passed with the request. You can find it in the MoEngage dashboard at **Settings** > **Account** > **APIs** > **Workspace ID (earlier app id)**.\n",
+                    "key": "X-MOE-APPKEY",
+                    "value": "YOUR_WORKSPACE_ID_XXXX"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"broadcast_live_activity_id\": \"<string>\",\n  \"ios\": {\n    \"attribute_type\": \"LiveActivityAttributes\",\n    \"attribute_info\": {\n      \"key_0\": 801.9216683062547,\n      \"key_1\": \"string\"\n    },\n    \"content_state\": {\n      \"key_0\": 171\n    },\n    \"alert\": {\n      \"title\": \"<string>\",\n      \"body\": \"<string>\",\n      \"subtitle\": \"<string>\",\n      \"sound\": \"<string>\"\n    },\n    \"dismissal_date\": \"<long>\"\n  },\n  \"instance_id\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"ServerError\",\n    \"message\": \"Internal Server Error, something went wrong\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "ebb2a2a6-7d80-4ca3-b353-9eaf05da7cdf",
+          "name": "Update Broadcast Live Activity",
+          "request": {
+            "name": "Update Broadcast Live Activity",
+            "description": {
+              "content": "This API pushes a single, unified update to all subscribed Live Activities, such as an updated game score or a new development in a breaking news story.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "live-activity",
+                "broadcast",
+                "update"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "description": "The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+                  "type": "any",
+                  "value": "{{dc}}",
+                  "key": "dc"
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) This is the Workspace ID of your MoEngage account that must be passed with the request. You can find it in the MoEngage dashboard at **Settings** > **Account** > **APIs** > **Workspace ID (earlier app id)**.\n",
+                "key": "X-MOE-APPKEY",
+                "value": "<string>"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"broadcast_live_activity_id\": \"<string>\",\n  \"ios\": {\n    \"content_state\": {\n      \"key_0\": \"string\",\n      \"key_1\": \"string\"\n    },\n    \"alert\": {\n      \"title\": \"<string>\",\n      \"body\": \"<string>\",\n      \"subtitle\": \"<string>\",\n      \"sound\": \"<string>\"\n    },\n    \"dismissal_date\": \"<long>\",\n    \"stale_date\": \"<long>\"\n  },\n  \"instance_id\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "11dfb42e-854b-49ca-b28a-0e2134f31a4f",
+              "name": "Success. The live activity was updated.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "live-activity",
+                    "broadcast",
+                    "update"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) This is the Workspace ID of your MoEngage account that must be passed with the request. You can find it in the MoEngage dashboard at **Settings** > **Account** > **APIs** > **Workspace ID (earlier app id)**.\n",
+                    "key": "X-MOE-APPKEY",
+                    "value": "YOUR_WORKSPACE_ID_XXXX"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"broadcast_live_activity_id\": \"<string>\",\n  \"ios\": {\n    \"content_state\": {\n      \"key_0\": 5417,\n      \"key_1\": 3638.2695213894544\n    },\n    \"alert\": {\n      \"title\": \"<string>\",\n      \"body\": \"<string>\",\n      \"subtitle\": \"<string>\",\n      \"sound\": \"<string>\"\n    },\n    \"dismissal_date\": \"<long>\",\n    \"stale_date\": \"<long>\"\n  },\n  \"instance_id\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"instance_id\": \"1749822841120-57c5c617\",\n    \"message\": \"success\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f32f75bd-6e03-4efd-90f1-5bfb855511b2",
+              "name": "Bad Request - Mandatory fields are missing or invalid.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "live-activity",
+                    "broadcast",
+                    "update"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) This is the Workspace ID of your MoEngage account that must be passed with the request. You can find it in the MoEngage dashboard at **Settings** > **Account** > **APIs** > **Workspace ID (earlier app id)**.\n",
+                    "key": "X-MOE-APPKEY",
+                    "value": "YOUR_WORKSPACE_ID_XXXX"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"broadcast_live_activity_id\": \"<string>\",\n  \"ios\": {\n    \"content_state\": {\n      \"key_0\": 5417,\n      \"key_1\": 3638.2695213894544\n    },\n    \"alert\": {\n      \"title\": \"<string>\",\n      \"body\": \"<string>\",\n      \"subtitle\": \"<string>\",\n      \"sound\": \"<string>\"\n    },\n    \"dismissal_date\": \"<long>\",\n    \"stale_date\": \"<long>\"\n  },\n  \"instance_id\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"PayloadError\",\n    \"message\": \"Mandatory fields are missing or invalid\",\n    \"details\": [\n      {\n        \"code\": \"extra_forbidden\",\n        \"target\": \"ios.alert.metrics\",\n        \"message\": \"Extra inputs are not permitted\"\n      }\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "504e6d6e-e1e8-4d87-801d-307b570c8743",
+              "name": "Unauthorized - Invalid credentials or missing headers.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "live-activity",
+                    "broadcast",
+                    "update"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) This is the Workspace ID of your MoEngage account that must be passed with the request. You can find it in the MoEngage dashboard at **Settings** > **Account** > **APIs** > **Workspace ID (earlier app id)**.\n",
+                    "key": "X-MOE-APPKEY",
+                    "value": "YOUR_WORKSPACE_ID_XXXX"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"broadcast_live_activity_id\": \"<string>\",\n  \"ios\": {\n    \"content_state\": {\n      \"key_0\": 5417,\n      \"key_1\": 3638.2695213894544\n    },\n    \"alert\": {\n      \"title\": \"<string>\",\n      \"body\": \"<string>\",\n      \"subtitle\": \"<string>\",\n      \"sound\": \"<string>\"\n    },\n    \"dismissal_date\": \"<long>\",\n    \"stale_date\": \"<long>\"\n  },\n  \"instance_id\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"AuthError\",\n    \"message\": \"Invalid App Key\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "0bf67da1-a294-4578-93a0-5ba0c3392c2d",
+              "name": "Forbidden - Operation not allowed due to logic or permission constraints.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "live-activity",
+                    "broadcast",
+                    "update"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) This is the Workspace ID of your MoEngage account that must be passed with the request. You can find it in the MoEngage dashboard at **Settings** > **Account** > **APIs** > **Workspace ID (earlier app id)**.\n",
+                    "key": "X-MOE-APPKEY",
+                    "value": "YOUR_WORKSPACE_ID_XXXX"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"broadcast_live_activity_id\": \"<string>\",\n  \"ios\": {\n    \"content_state\": {\n      \"key_0\": 5417,\n      \"key_1\": 3638.2695213894544\n    },\n    \"alert\": {\n      \"title\": \"<string>\",\n      \"body\": \"<string>\",\n      \"subtitle\": \"<string>\",\n      \"sound\": \"<string>\"\n    },\n    \"dismissal_date\": \"<long>\",\n    \"stale_date\": \"<long>\"\n  },\n  \"instance_id\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"OperationNotAllowed\",\n    \"message\": \"Campaign not found for <broadcast live activity id>\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "55f58591-53e1-46aa-a467-49d58c4d7ddb",
+              "name": "Payload Too Large.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "live-activity",
+                    "broadcast",
+                    "update"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) This is the Workspace ID of your MoEngage account that must be passed with the request. You can find it in the MoEngage dashboard at **Settings** > **Account** > **APIs** > **Workspace ID (earlier app id)**.\n",
+                    "key": "X-MOE-APPKEY",
+                    "value": "YOUR_WORKSPACE_ID_XXXX"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"broadcast_live_activity_id\": \"<string>\",\n  \"ios\": {\n    \"content_state\": {\n      \"key_0\": 5417,\n      \"key_1\": 3638.2695213894544\n    },\n    \"alert\": {\n      \"title\": \"<string>\",\n      \"body\": \"<string>\",\n      \"subtitle\": \"<string>\",\n      \"sound\": \"<string>\"\n    },\n    \"dismissal_date\": \"<long>\",\n    \"stale_date\": \"<long>\"\n  },\n  \"instance_id\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Request Entity Too Large",
+              "code": 413,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"PayloadSizeError\",\n    \"message\": \"Payload size exceeded for IOS. Max size is 5120 bytes\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ef8025d5-6dac-406c-8033-d2c472cfbb95",
+              "name": "Too Many Requests.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "live-activity",
+                    "broadcast",
+                    "update"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) This is the Workspace ID of your MoEngage account that must be passed with the request. You can find it in the MoEngage dashboard at **Settings** > **Account** > **APIs** > **Workspace ID (earlier app id)**.\n",
+                    "key": "X-MOE-APPKEY",
+                    "value": "YOUR_WORKSPACE_ID_XXXX"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"broadcast_live_activity_id\": \"<string>\",\n  \"ios\": {\n    \"content_state\": {\n      \"key_0\": 5417,\n      \"key_1\": 3638.2695213894544\n    },\n    \"alert\": {\n      \"title\": \"<string>\",\n      \"body\": \"<string>\",\n      \"subtitle\": \"<string>\",\n      \"sound\": \"<string>\"\n    },\n    \"dismissal_date\": \"<long>\",\n    \"stale_date\": \"<long>\"\n  },\n  \"instance_id\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "fa151bca-e586-4742-a3bd-2501cb0633d9",
+              "name": "Internal Server Error.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "live-activity",
+                    "broadcast",
+                    "update"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) This is the Workspace ID of your MoEngage account that must be passed with the request. You can find it in the MoEngage dashboard at **Settings** > **Account** > **APIs** > **Workspace ID (earlier app id)**.\n",
+                    "key": "X-MOE-APPKEY",
+                    "value": "YOUR_WORKSPACE_ID_XXXX"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"broadcast_live_activity_id\": \"<string>\",\n  \"ios\": {\n    \"content_state\": {\n      \"key_0\": 5417,\n      \"key_1\": 3638.2695213894544\n    },\n    \"alert\": {\n      \"title\": \"<string>\",\n      \"body\": \"<string>\",\n      \"subtitle\": \"<string>\",\n      \"sound\": \"<string>\"\n    },\n    \"dismissal_date\": \"<long>\",\n    \"stale_date\": \"<long>\"\n  },\n  \"instance_id\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"ServerError\",\n    \"message\": \"Internal Server Error, something went wrong\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "5a1caffb-cb80-43d0-890f-c700054b88fa",
+          "name": "End Broadcast Live Activity",
+          "request": {
+            "name": "End Broadcast Live Activity",
+            "description": {
+              "content": "This API terminates a broadcast Live Activity across all subscribed devices simultaneously, with options for a final state update or immediate dismissal.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "live-activity",
+                "broadcast",
+                "end"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "description": "The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+                  "type": "any",
+                  "value": "{{dc}}",
+                  "key": "dc"
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) This is the Workspace ID of your MoEngage account that must be passed with the request. You can find it in the MoEngage dashboard at **Settings** > **Account** > **APIs** > **Workspace ID (earlier app id)**.\n",
+                "key": "X-MOE-APPKEY",
+                "value": "<string>"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"broadcast_live_activity_id\": \"<string>\",\n  \"ios\": {\n    \"content_state\": {\n      \"key_0\": 3377.968166110864\n    },\n    \"alert\": {\n      \"title\": \"<string>\",\n      \"body\": \"<string>\",\n      \"subtitle\": \"<string>\",\n      \"sound\": \"<string>\"\n    },\n    \"dismissal_date\": \"<long>\",\n    \"stale_date\": \"<long>\"\n  },\n  \"instance_id\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "564d394a-2ddb-449f-9d5e-2627727a568b",
+              "name": "Success. The live activity was ended.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "live-activity",
+                    "broadcast",
+                    "end"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) This is the Workspace ID of your MoEngage account that must be passed with the request. You can find it in the MoEngage dashboard at **Settings** > **Account** > **APIs** > **Workspace ID (earlier app id)**.\n",
+                    "key": "X-MOE-APPKEY",
+                    "value": "YOUR_WORKSPACE_ID_XXXX"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"broadcast_live_activity_id\": \"<string>\",\n  \"ios\": {\n    \"content_state\": {\n      \"key_0\": \"string\",\n      \"key_1\": \"string\"\n    },\n    \"alert\": {\n      \"title\": \"<string>\",\n      \"body\": \"<string>\",\n      \"subtitle\": \"<string>\",\n      \"sound\": \"<string>\"\n    },\n    \"dismissal_date\": \"<long>\",\n    \"stale_date\": \"<long>\"\n  },\n  \"instance_id\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"instance_id\": \"1749822841120-57c5c617\",\n    \"message\": \"success\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "1535cb7f-5552-4e69-96b4-572d5e462e4d",
+              "name": "Bad Request - Mandatory fields are missing or invalid.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "live-activity",
+                    "broadcast",
+                    "end"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) This is the Workspace ID of your MoEngage account that must be passed with the request. You can find it in the MoEngage dashboard at **Settings** > **Account** > **APIs** > **Workspace ID (earlier app id)**.\n",
+                    "key": "X-MOE-APPKEY",
+                    "value": "YOUR_WORKSPACE_ID_XXXX"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"broadcast_live_activity_id\": \"<string>\",\n  \"ios\": {\n    \"content_state\": {\n      \"key_0\": \"string\",\n      \"key_1\": \"string\"\n    },\n    \"alert\": {\n      \"title\": \"<string>\",\n      \"body\": \"<string>\",\n      \"subtitle\": \"<string>\",\n      \"sound\": \"<string>\"\n    },\n    \"dismissal_date\": \"<long>\",\n    \"stale_date\": \"<long>\"\n  },\n  \"instance_id\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"PayloadError\",\n    \"message\": \"Mandatory fields are missing or invalid\",\n    \"details\": [\n      {\n        \"code\": \"extra_forbidden\",\n        \"target\": \"ios.alert.metrics\",\n        \"message\": \"Extra inputs are not permitted\"\n      }\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "8d30c13c-6713-4195-b8c2-41ce33521954",
+              "name": "Unauthorized - Invalid credentials or missing headers.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "live-activity",
+                    "broadcast",
+                    "end"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) This is the Workspace ID of your MoEngage account that must be passed with the request. You can find it in the MoEngage dashboard at **Settings** > **Account** > **APIs** > **Workspace ID (earlier app id)**.\n",
+                    "key": "X-MOE-APPKEY",
+                    "value": "YOUR_WORKSPACE_ID_XXXX"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"broadcast_live_activity_id\": \"<string>\",\n  \"ios\": {\n    \"content_state\": {\n      \"key_0\": \"string\",\n      \"key_1\": \"string\"\n    },\n    \"alert\": {\n      \"title\": \"<string>\",\n      \"body\": \"<string>\",\n      \"subtitle\": \"<string>\",\n      \"sound\": \"<string>\"\n    },\n    \"dismissal_date\": \"<long>\",\n    \"stale_date\": \"<long>\"\n  },\n  \"instance_id\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"AuthError\",\n    \"message\": \"Invalid App Key\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "3649b57f-32ca-49a2-a9f5-af28bfd23273",
+              "name": "Forbidden - Operation not allowed due to logic or permission constraints.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "live-activity",
+                    "broadcast",
+                    "end"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) This is the Workspace ID of your MoEngage account that must be passed with the request. You can find it in the MoEngage dashboard at **Settings** > **Account** > **APIs** > **Workspace ID (earlier app id)**.\n",
+                    "key": "X-MOE-APPKEY",
+                    "value": "YOUR_WORKSPACE_ID_XXXX"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"broadcast_live_activity_id\": \"<string>\",\n  \"ios\": {\n    \"content_state\": {\n      \"key_0\": \"string\",\n      \"key_1\": \"string\"\n    },\n    \"alert\": {\n      \"title\": \"<string>\",\n      \"body\": \"<string>\",\n      \"subtitle\": \"<string>\",\n      \"sound\": \"<string>\"\n    },\n    \"dismissal_date\": \"<long>\",\n    \"stale_date\": \"<long>\"\n  },\n  \"instance_id\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"OperationNotAllowed\",\n    \"message\": \"Campaign not found for <broadcast live activity id>\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "0d62d88d-b67f-41c5-b138-88df9bc0edb6",
+              "name": "Payload Too Large - The payload exceeds the limit (e.g., 5120 bytes for iOS).",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "live-activity",
+                    "broadcast",
+                    "end"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) This is the Workspace ID of your MoEngage account that must be passed with the request. You can find it in the MoEngage dashboard at **Settings** > **Account** > **APIs** > **Workspace ID (earlier app id)**.\n",
+                    "key": "X-MOE-APPKEY",
+                    "value": "YOUR_WORKSPACE_ID_XXXX"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"broadcast_live_activity_id\": \"<string>\",\n  \"ios\": {\n    \"content_state\": {\n      \"key_0\": \"string\",\n      \"key_1\": \"string\"\n    },\n    \"alert\": {\n      \"title\": \"<string>\",\n      \"body\": \"<string>\",\n      \"subtitle\": \"<string>\",\n      \"sound\": \"<string>\"\n    },\n    \"dismissal_date\": \"<long>\",\n    \"stale_date\": \"<long>\"\n  },\n  \"instance_id\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Request Entity Too Large",
+              "code": 413,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"PayloadSizeError\",\n    \"message\": \"Payload size exceeded for IOS. Max size is 5120 bytes\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "fc7f133c-d260-4bf0-a9fd-c231dbaf55e8",
+              "name": "Too Many Requests.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "live-activity",
+                    "broadcast",
+                    "end"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) This is the Workspace ID of your MoEngage account that must be passed with the request. You can find it in the MoEngage dashboard at **Settings** > **Account** > **APIs** > **Workspace ID (earlier app id)**.\n",
+                    "key": "X-MOE-APPKEY",
+                    "value": "YOUR_WORKSPACE_ID_XXXX"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"broadcast_live_activity_id\": \"<string>\",\n  \"ios\": {\n    \"content_state\": {\n      \"key_0\": \"string\",\n      \"key_1\": \"string\"\n    },\n    \"alert\": {\n      \"title\": \"<string>\",\n      \"body\": \"<string>\",\n      \"subtitle\": \"<string>\",\n      \"sound\": \"<string>\"\n    },\n    \"dismissal_date\": \"<long>\",\n    \"stale_date\": \"<long>\"\n  },\n  \"instance_id\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "17e0b9e1-6697-4453-b33b-3432e8d9b735",
+              "name": "Internal Server Error.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "live-activity",
+                    "broadcast",
+                    "end"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) This is the Workspace ID of your MoEngage account that must be passed with the request. You can find it in the MoEngage dashboard at **Settings** > **Account** > **APIs** > **Workspace ID (earlier app id)**.\n",
+                    "key": "X-MOE-APPKEY",
+                    "value": "YOUR_WORKSPACE_ID_XXXX"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"broadcast_live_activity_id\": \"<string>\",\n  \"ios\": {\n    \"content_state\": {\n      \"key_0\": \"string\",\n      \"key_1\": \"string\"\n    },\n    \"alert\": {\n      \"title\": \"<string>\",\n      \"body\": \"<string>\",\n      \"subtitle\": \"<string>\",\n      \"sound\": \"<string>\"\n    },\n    \"dismissal_date\": \"<long>\",\n    \"stale_date\": \"<long>\"\n  },\n  \"instance_id\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"ServerError\",\n    \"message\": \"Internal Server Error, something went wrong\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "description": {
+        "content": "The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "01",
+      "key": "dc"
+    },
+    {
+      "type": "string",
+      "value": "https://api-{{dc}}.moengage.com/v1.0",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "basic",
+    "basic": [
+      {
+        "key": "username",
+        "value": "{{basicAuthUsername}}"
+      },
+      {
+        "key": "password",
+        "value": "{{basicAuthPassword}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "19936ae7-e0dd-4bbb-b0b7-e307c1e42b45",
+    "name": "MoEngage Broadcast Live Activities API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "API for starting, updating, and ending broadcast Live Activities for iOS Push Campaigns. Live Activities must be created via the Create Push Campaigns API with the `BROADCAST_LIVE_ACTIVITY` delivery type.",
+      "type": "text/plain"
+    }
+  }
+}

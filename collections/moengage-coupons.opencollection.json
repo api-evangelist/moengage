@@ -1,0 +1,334 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Coupon List API 🏷️",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "basic",
+      "username": "{{username}}",
+      "password": "{{password}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Coupon Lists",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Fetch All Coupon Lists",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-{dc}.moengage.com/v1/coupon-list",
+            "headers": [
+              {
+                "name": "MOE-APPKEY",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "status",
+                "value": "",
+                "type": "query",
+                "description": "This field contains an array of all the coupons with their respective attributes based on the following statuses you provide in the request parameter:\n\n* ACTIVE - to view only active coupon lists\n* ARCHIVED - to view only archived coupon lists\n* EXPIRED - to view only expired coupon lists\n\n**Note**: Not specifying any status will display all the existing coupon lists together.\n"
+              }
+            ]
+          },
+          "docs": "This API fetches all created coupon lists in a specific workspace. By default, this API returns the coupon lists marked with an *ACTIVE* status. In return, it offers detailed specifications of the active coupon lists, respective configurations, statuses, expiry dates, and alert conditions, including on-time data on the total coupons added and those that are currently available.\n"
+        },
+        {
+          "info": {
+            "name": "Create a Coupon List",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-{dc}.moengage.com/v1/coupon-list",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "This API creates single-use coupon codes. You can use this API to create and organize distinct lists for different coupon code categories.\n"
+        },
+        {
+          "info": {
+            "name": "Fetch Coupon List Details",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-{dc}.moengage.com/v1/coupon-list/:coupon_list_id",
+            "headers": [
+              {
+                "name": "MOE-APPKEY",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "coupon_list_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier for the coupon list."
+              }
+            ]
+          },
+          "docs": "This API retrieves the specifications of a particular coupon list. It includes information such as configurations, statuses, expiry dates, and alert conditions with real-time counts of added and currently available coupons. Using this API, you can easily access and manage critical data about individual coupon lists.\n"
+        },
+        {
+          "info": {
+            "name": "Update a Coupon List",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api-{dc}.moengage.com/v1/coupon-list/:coupon_list_id",
+            "headers": [
+              {
+                "name": "MOE-APPKEY",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "coupon_list_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier for the coupon list."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "This API modifies existing coupon lists within a defined workspace. It facilitates changes to specifications like list name, expiry date, and alert settings, thereby promoting efficient coupon operations management.\n"
+        },
+        {
+          "info": {
+            "name": "Activate Coupon List",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api-{dc}.moengage.com/v1/coupon-list/:coupon_list_id/activate",
+            "headers": [
+              {
+                "name": "MOE-APPKEY",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "coupon_list_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier for the coupon list."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "This API reactivates archived coupon lists, provided the expiry date is in the future.\n"
+        },
+        {
+          "info": {
+            "name": "Archive a Coupon List",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api-{dc}.moengage.com/v1/coupon-list/:coupon_list_id/archive",
+            "headers": [
+              {
+                "name": "MOE-APPKEY",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "coupon_list_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier for the coupon list."
+              }
+            ]
+          },
+          "docs": "This API transitions an active coupon list to an archived status. Upon archival, the coupon codes within the list are deleted. Consequently, any campaigns that were previously dependent on this list will no longer be able to utilize the dynamic coupon allocation.\n"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Coupon Files",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Fetch All Coupon Files From Coupon List",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-{dc}.moengage.com/v1/coupon-list/:coupon_list_id/files",
+            "headers": [
+              {
+                "name": "MOE-APPKEY",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "coupon_list_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier for the coupon list."
+              }
+            ]
+          },
+          "docs": "This API retrieves the details of each file in the given coupon list that is added and not deleted. The information retrieved will include the file's status, the number of coupons added from each file, and the respective file's addition date, thereby providing a comprehensive breakdown of each file's information for improved management and tracking.\n"
+        },
+        {
+          "info": {
+            "name": "Upload a Coupon File to the Coupon List",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-{dc}.moengage.com/v1/coupon-list/:coupon_list_id/files",
+            "headers": [
+              {
+                "name": "MOE-APPKEY",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "coupon_list_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier for the coupon list."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "After you create a coupon list, you must add coupons to the list to be distributed through campaigns. If a coupon list has been running for some time, it may be running low after serving several campaigns.\n\nUsing this API, you can replenish an older list or populate a new list by providing the URL of a file containing the coupons, thereby enabling their distribution through various campaigns. These coupons can be provided through a file, and the API requires the URL where your coupon file is hos"
+        },
+        {
+          "info": {
+            "name": "Fetch a Coupon File from Coupon List",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-{dc}.moengage.com/v1/coupon-list/:coupon_list_id/files/:coupon_file_id",
+            "headers": [
+              {
+                "name": "MOE-APPKEY",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "coupon_list_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier for the coupon list."
+              },
+              {
+                "name": "coupon_file_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier for the coupon file."
+              }
+            ]
+          },
+          "docs": "This API retrieves the details of a particular coupon file added to a given coupon list. This includes information such as file status, the number of added coupons, and the file addition date.\n"
+        },
+        {
+          "info": {
+            "name": "Delete a Coupon File from the Coupon List",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api-{dc}.moengage.com/v1/coupon-list/:coupon_list_id/files/:coupon_file_id",
+            "headers": [
+              {
+                "name": "MOE-APPKEY",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "coupon_list_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier for the coupon list."
+              },
+              {
+                "name": "coupon_file_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier for the coupon file."
+              }
+            ]
+          },
+          "docs": "This API removes a specific coupon file from a coupon list. It is useful in scenarios where a test file or incorrect file is inadvertently uploaded, thereby ensuring the accuracy and effectiveness of your coupon list management.\n"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Reports",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Generate Usage Report",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-{dc}.moengage.com/v1/coupon-list/:coupon_list_id/usage-report",
+            "headers": [
+              {
+                "name": "MOE-APPKEY",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "coupon_list_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier for the coupon list."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "This API produces a detailed usage report for a specific coupon list, providing details on which user received which coupon from which locale or variation of which campaign at what time. After it is generated, this report is delivered directly to the requested email addresses. Using this API, you can conduct a comprehensive analysis of critical data and coupon usage trends efficiently.\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

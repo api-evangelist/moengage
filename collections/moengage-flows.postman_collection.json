@@ -1,0 +1,2656 @@
+{
+  "item": [
+    {
+      "id": "60ad3efd-f530-4336-95c1-681024c31abb",
+      "name": "Flows",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "c7608139-2972-46ff-8820-ef8c0b4776fd",
+          "name": "Search Flows",
+          "request": {
+            "name": "Search Flows",
+            "description": {
+              "content": "This API returns a paginated list of flows matching your filters. Send filters in the\nrequest body — all are optional and combine with AND. Multi-valued filters (`status`,\n`delivery_type`, `tags`) match ANY of the supplied values, and archived flows are excluded\nunless `include_archived` is `true`.\n\nEach response includes a `next_cursor`. To get the next page, send that value as the\n`cursor` in your next request. Sorting is not supported in this version; results are\nreturned most recent first. Your API key must have the `campaigns:view` permission (see\n[Authentication](/api/flows/flows-overview#authentication)).\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v5",
+                "flows",
+                "search"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "description": "MoEngage data center identifier. Replace it with the number assigned to your account, such as 01 (US), 02 (EU), 03 (India), 04 (US), 05 (Singapore), or 06 (Indonesia). For example, https://api-01.moengage.com. Data center 101 is not supported.\n (This can only be one of 01,02,03,04,05,06)",
+                  "type": "any",
+                  "value": "{{dc}}",
+                  "key": "dc"
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "Identifies the tenant/workspace making the request. Optional — when omitted, the workspace is resolved from the Basic Auth credentials in the `Authorization` header.\n",
+                "key": "X-MOE-Tenant-ID",
+                "value": "<string>"
+              },
+              {
+                "disabled": false,
+                "description": "Client-supplied trace ID. The server echoes it in the `X-MOE-Request-Id` response header and in `response_id`. If you omit it, the server generates one.\n",
+                "key": "X-MOE-Request-Id",
+                "value": "<string>"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "{{basicAuthUsername}}"
+                },
+                {
+                  "key": "password",
+                  "value": "{{basicAuthPassword}}"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"request_id\": \"<string>\",\n  \"status\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"delivery_type\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"tags\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"teams\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"name\": \"<string>\",\n  \"created_by\": [\n    \"<email>\",\n    \"<email>\"\n  ],\n  \"creation_start_time\": \"<string>\",\n  \"creation_end_time\": \"<string>\",\n  \"include_archived\": false,\n  \"limit\": 20,\n  \"cursor\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "a5e199b2-52a0-45e5-8393-c449b7a7b0a8",
+              "name": "Flows matching the filters.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v5",
+                    "flows",
+                    "search"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "MoEngage data center identifier. Replace it with the number assigned to your account, such as 01 (US), 02 (EU), 03 (India), 04 (US), 05 (Singapore), or 06 (Indonesia). For example, https://api-01.moengage.com. Data center 101 is not supported.\n (This can only be one of 01,02,03,04,05,06)",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Identifies the tenant/workspace making the request. Optional — when omitted, the workspace is resolved from the Basic Auth credentials in the `Authorization` header.\n",
+                    "key": "X-MOE-Tenant-ID",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Client-supplied trace ID. The server echoes it in the `X-MOE-Request-Id` response header and in `response_id`. If you omit it, the server generates one.\n",
+                    "key": "X-MOE-Request-Id",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"limit\": 20\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "Echoed request ID. If you do not provide one, the server generates it.",
+                  "key": "X-MOE-Request-Id",
+                  "value": "string"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"response_id\": \"abc-701\",\n  \"type\": \"flow\",\n  \"data\": {\n    \"flows\": [\n      {\n        \"flow_id\": \"69f1de84f9e401a2d7d9a931\",\n        \"name\": \"Welcome journey\",\n        \"status\": \"ACTIVE\",\n        \"archived\": false,\n        \"delivery_type\": \"EVENT_TRIGGERED\",\n        \"active_version_name\": \"Version 2\",\n        \"tags\": [\n          \"onboarding\"\n        ],\n        \"created_at\": \"2026-01-05T10:00:00Z\",\n        \"updated_at\": \"2026-02-01T09:30:00Z\",\n        \"published_at\": \"2026-01-06T08:00:00Z\",\n        \"created_by\": \"agent@example.com\"\n      }\n    ],\n    \"has_more\": true,\n    \"next_cursor\": \"eyJpZCI6ICI2OWYxZGU4NGY5ZTQwMWEyZDdkOWE5MzEifQ==\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "13b48eef-d2ef-4944-9250-1567868edf9d",
+              "name": "The request failed validation — for example, a bad filter value, a malformed cursor, a non-integer `version_no`, an invalid date range, or a `flow_id` that is actually a version ID.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v5",
+                    "flows",
+                    "search"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "MoEngage data center identifier. Replace it with the number assigned to your account, such as 01 (US), 02 (EU), 03 (India), 04 (US), 05 (Singapore), or 06 (Indonesia). For example, https://api-01.moengage.com. Data center 101 is not supported.\n (This can only be one of 01,02,03,04,05,06)",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Identifies the tenant/workspace making the request. Optional — when omitted, the workspace is resolved from the Basic Auth credentials in the `Authorization` header.\n",
+                    "key": "X-MOE-Tenant-ID",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Client-supplied trace ID. The server echoes it in the `X-MOE-Request-Id` response header and in `response_id`. If you omit it, the server generates one.\n",
+                    "key": "X-MOE-Request-Id",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"limit\": 20\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"response_id\": \"abc-101\",\n  \"error\": {\n    \"code\": \"VALIDATION_FAILED\",\n    \"target\": \"request\",\n    \"message\": \"One or more request parameters failed validation.\",\n    \"details\": [\n      {\n        \"target\": \"request\",\n        \"message\": \"Check the request parameters and try again.\"\n      }\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "26dd203a-f129-4578-a301-508e21240dae",
+              "name": "Authentication failed (missing or invalid credentials).",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v5",
+                    "flows",
+                    "search"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "MoEngage data center identifier. Replace it with the number assigned to your account, such as 01 (US), 02 (EU), 03 (India), 04 (US), 05 (Singapore), or 06 (Indonesia). For example, https://api-01.moengage.com. Data center 101 is not supported.\n (This can only be one of 01,02,03,04,05,06)",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Identifies the tenant/workspace making the request. Optional — when omitted, the workspace is resolved from the Basic Auth credentials in the `Authorization` header.\n",
+                    "key": "X-MOE-Tenant-ID",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Client-supplied trace ID. The server echoes it in the `X-MOE-Request-Id` response header and in `response_id`. If you omit it, the server generates one.\n",
+                    "key": "X-MOE-Request-Id",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"limit\": 20\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"response_id\": \"abc-101\",\n  \"error\": {\n    \"code\": \"UNAUTHORIZED\",\n    \"message\": \"Invalid or missing credentials.\",\n    \"details\": []\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "27a69d19-f550-4b64-bf6c-900b15b5c434",
+              "name": "You do not have the required permission for this operation.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v5",
+                    "flows",
+                    "search"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "MoEngage data center identifier. Replace it with the number assigned to your account, such as 01 (US), 02 (EU), 03 (India), 04 (US), 05 (Singapore), or 06 (Indonesia). For example, https://api-01.moengage.com. Data center 101 is not supported.\n (This can only be one of 01,02,03,04,05,06)",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Identifies the tenant/workspace making the request. Optional — when omitted, the workspace is resolved from the Basic Auth credentials in the `Authorization` header.\n",
+                    "key": "X-MOE-Tenant-ID",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Client-supplied trace ID. The server echoes it in the `X-MOE-Request-Id` response header and in `response_id`. If you omit it, the server generates one.\n",
+                    "key": "X-MOE-Request-Id",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"limit\": 20\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"response_id\": \"abc-450\",\n  \"error\": {\n    \"code\": \"FORBIDDEN\",\n    \"target\": \"permission\",\n    \"message\": \"You do not have the required permission for this operation.\",\n    \"details\": [\n      {\n        \"target\": \"permission\",\n        \"message\": \"Required permission: campaigns:view\"\n      }\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "acce97ad-462e-4c1e-bda2-1de64903e522",
+              "name": "Per-app rate limit exceeded. Retry after the interval indicated in the `Retry-After` header.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v5",
+                    "flows",
+                    "search"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "MoEngage data center identifier. Replace it with the number assigned to your account, such as 01 (US), 02 (EU), 03 (India), 04 (US), 05 (Singapore), or 06 (Indonesia). For example, https://api-01.moengage.com. Data center 101 is not supported.\n (This can only be one of 01,02,03,04,05,06)",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Identifies the tenant/workspace making the request. Optional — when omitted, the workspace is resolved from the Basic Auth credentials in the `Authorization` header.\n",
+                    "key": "X-MOE-Tenant-ID",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Client-supplied trace ID. The server echoes it in the `X-MOE-Request-Id` response header and in `response_id`. If you omit it, the server generates one.\n",
+                    "key": "X-MOE-Request-Id",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"limit\": 20\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "Seconds until the rate-limit window resets.",
+                  "key": "Retry-After",
+                  "value": "4254"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"response_id\": \"abc-101\",\n  \"error\": {\n    \"code\": \"RATE_LIMITED\",\n    \"message\": \"Rate limit exceeded for app key.\",\n    \"details\": []\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "183565b0-e83c-41dc-9578-54a026f29031",
+              "name": "Unhandled server-side failure.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v5",
+                    "flows",
+                    "search"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "MoEngage data center identifier. Replace it with the number assigned to your account, such as 01 (US), 02 (EU), 03 (India), 04 (US), 05 (Singapore), or 06 (Indonesia). For example, https://api-01.moengage.com. Data center 101 is not supported.\n (This can only be one of 01,02,03,04,05,06)",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Identifies the tenant/workspace making the request. Optional — when omitted, the workspace is resolved from the Basic Auth credentials in the `Authorization` header.\n",
+                    "key": "X-MOE-Tenant-ID",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Client-supplied trace ID. The server echoes it in the `X-MOE-Request-Id` response header and in `response_id`. If you omit it, the server generates one.\n",
+                    "key": "X-MOE-Request-Id",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"limit\": 20\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"response_id\": \"abc-101\",\n  \"error\": {\n    \"code\": \"INTERNAL_ERROR\",\n    \"message\": \"Internal server error.\",\n    \"details\": []\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "f8e30286-69e9-4f6a-8fb2-324743ffc788",
+          "name": "Get a Single Flow",
+          "request": {
+            "name": "Get a Single Flow",
+            "description": {
+              "content": "This API returns everything about one flow — its settings, targeting, conversion\ngoal, and full stage-by-stage structure — typically after you find its `flow_id` with Search\nFlows. Use the optional `version_no` query parameter to view a specific version; by default,\nyou get the last published version, or the draft if the flow was never published. Your API\nkey must have the `campaigns:view` permission (see the\n[Authentication](/api/flows/flows-overview#authentication) section).\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v5",
+                "flows",
+                ":flow_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "version_no",
+                  "value": "<integer>",
+                  "description": "View a specific version of the flow by its version number (the trailing integer of the version name, for example `Version 3` becomes `3`). When omitted, the last published version is returned, or the draft if none is published. A non-integer value returns `400`; a number that does not exist for this flow returns `404`.\n"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "flow_id",
+                  "description": "(Required) The 24-character ID of the flow. This must be the flow's own ID, not a version ID; passing a version ID returns `400`.\n"
+                },
+                {
+                  "description": "MoEngage data center identifier. Replace it with the number assigned to your account, such as 01 (US), 02 (EU), 03 (India), 04 (US), 05 (Singapore), or 06 (Indonesia). For example, https://api-01.moengage.com. Data center 101 is not supported.\n (This can only be one of 01,02,03,04,05,06)",
+                  "type": "any",
+                  "value": "{{dc}}",
+                  "key": "dc"
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "Identifies the tenant/workspace making the request. Optional — when omitted, the workspace is resolved from the Basic Auth credentials in the `Authorization` header.\n",
+                "key": "X-MOE-Tenant-ID",
+                "value": "<string>"
+              },
+              {
+                "disabled": false,
+                "description": "Client-supplied trace ID. The server echoes it in the `X-MOE-Request-Id` response header and in `response_id`. If you omit it, the server generates one.\n",
+                "key": "X-MOE-Request-Id",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "{{basicAuthUsername}}"
+                },
+                {
+                  "key": "password",
+                  "value": "{{basicAuthPassword}}"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "c17abc12-0c11-4877-83cc-35ad6ffb85ec",
+              "name": "Flow found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v5",
+                    "flows",
+                    ":flow_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "version_no",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "flow_id",
+                      "description": "(Required) The 24-character ID of the flow. This must be the flow's own ID, not a version ID; passing a version ID returns `400`.\n"
+                    },
+                    {
+                      "description": "MoEngage data center identifier. Replace it with the number assigned to your account, such as 01 (US), 02 (EU), 03 (India), 04 (US), 05 (Singapore), or 06 (Indonesia). For example, https://api-01.moengage.com. Data center 101 is not supported.\n (This can only be one of 01,02,03,04,05,06)",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Identifies the tenant/workspace making the request. Optional — when omitted, the workspace is resolved from the Basic Auth credentials in the `Authorization` header.\n",
+                    "key": "X-MOE-Tenant-ID",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Client-supplied trace ID. The server echoes it in the `X-MOE-Request-Id` response header and in `response_id`. If you omit it, the server generates one.\n",
+                    "key": "X-MOE-Request-Id",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "Echoed request ID. If you do not provide one, the server generates it.",
+                  "key": "X-MOE-Request-Id",
+                  "value": "string"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"response_id\": \"abc-100\",\n  \"type\": \"flow\",\n  \"data\": {\n    \"flow_id\": \"69f1de84f9e401a2d7d9a931\",\n    \"name\": \"Welcome journey\",\n    \"status\": \"ACTIVE\",\n    \"archived\": false,\n    \"delivery_type\": \"EVENT_TRIGGERED\",\n    \"tags\": [\n      \"onboarding\"\n    ],\n    \"created_at\": \"2026-01-05T10:00:00Z\",\n    \"updated_at\": \"2026-02-01T09:30:00Z\",\n    \"published_at\": \"2026-01-06T08:00:00Z\",\n    \"created_by\": \"agent@example.com\",\n    \"published_by\": \"agent@example.com\",\n    \"global_control_group_enabled\": false,\n    \"active_version_name\": \"Version 2\",\n    \"versions\": [\n      {\n        \"version_id\": \"69f1de84f9e401a2d7d9a931\",\n        \"version_name\": \"Version 1\",\n        \"version_no\": 1,\n        \"status\": \"RETIRED\"\n      },\n      {\n        \"version_id\": \"7a02ef95f9e401a2d7d9aa42\",\n        \"version_name\": \"Version 2\",\n        \"version_no\": 2,\n        \"status\": \"ACTIVE\"\n      }\n    ],\n    \"settings\": {\n      \"control_group\": {\n        \"enabled\": false\n      },\n      \"frequency_capping\": {\n        \"ignore\": false,\n        \"ignore_and_count\": false\n      },\n      \"bypass_dnd\": false\n    },\n    \"attribution\": {\n      \"click_track_hours\": 24,\n      \"impression_track_hours\": 24\n    },\n    \"conversion_goal_details\": {\n      \"primary_goal\": {\n        \"event\": \"Purchase\",\n        \"goal_name\": \"Made a purchase\"\n      },\n      \"secondary_goals\": [],\n      \"revenue_tracking\": true,\n      \"revenue_attribute\": \"amount\",\n      \"revenue_currency\": \"USD\",\n      \"exit_on_conversion\": false\n    },\n    \"structure\": {\n      \"nodes\": [\n        {\n          \"stage_id\": \"n1\",\n          \"type\": \"TRIGGER\",\n          \"sub_type\": \"EVENT\",\n          \"parent_stage_id\": null,\n          \"child_stage_ids\": [\n            \"n2\"\n          ],\n          \"label\": \"App Opened\",\n          \"config\": {\n            \"schedule\": {\n              \"delivery\": \"one_time\",\n              \"start_time\": \"2026-01-06T08:00:00Z\",\n              \"timezone\": \"Asia/Kolkata\"\n            },\n            \"segmentation\": {\n              \"audience_type\": \"all_users\"\n            }\n          }\n        },\n        {\n          \"stage_id\": \"n2\",\n          \"type\": \"ACTION\",\n          \"sub_type\": \"EMAIL\",\n          \"parent_stage_id\": \"n1\",\n          \"child_stage_ids\": [],\n          \"label\": \"Welcome email\",\n          \"config\": {\n            \"campaign_id\": \"69f1de84f9e401a2d7d9a999\",\n            \"channel\": \"EMAIL\",\n            \"campaign_name\": \"Welcome email\"\n          }\n        }\n      ]\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "92517920-cc39-43cb-974d-547016a10574",
+              "name": "The request failed validation — for example, a bad filter value, a malformed cursor, a non-integer `version_no`, an invalid date range, or a `flow_id` that is actually a version ID.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v5",
+                    "flows",
+                    ":flow_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "version_no",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "flow_id",
+                      "description": "(Required) The 24-character ID of the flow. This must be the flow's own ID, not a version ID; passing a version ID returns `400`.\n"
+                    },
+                    {
+                      "description": "MoEngage data center identifier. Replace it with the number assigned to your account, such as 01 (US), 02 (EU), 03 (India), 04 (US), 05 (Singapore), or 06 (Indonesia). For example, https://api-01.moengage.com. Data center 101 is not supported.\n (This can only be one of 01,02,03,04,05,06)",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Identifies the tenant/workspace making the request. Optional — when omitted, the workspace is resolved from the Basic Auth credentials in the `Authorization` header.\n",
+                    "key": "X-MOE-Tenant-ID",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Client-supplied trace ID. The server echoes it in the `X-MOE-Request-Id` response header and in `response_id`. If you omit it, the server generates one.\n",
+                    "key": "X-MOE-Request-Id",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"response_id\": \"abc-101\",\n  \"error\": {\n    \"code\": \"VALIDATION_FAILED\",\n    \"target\": \"request\",\n    \"message\": \"One or more request parameters failed validation.\",\n    \"details\": [\n      {\n        \"target\": \"request\",\n        \"message\": \"Check the request parameters and try again.\"\n      }\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f8c6fc37-3499-4b49-a2f2-42b4a01f8595",
+              "name": "Authentication failed (missing or invalid credentials).",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v5",
+                    "flows",
+                    ":flow_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "version_no",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "flow_id",
+                      "description": "(Required) The 24-character ID of the flow. This must be the flow's own ID, not a version ID; passing a version ID returns `400`.\n"
+                    },
+                    {
+                      "description": "MoEngage data center identifier. Replace it with the number assigned to your account, such as 01 (US), 02 (EU), 03 (India), 04 (US), 05 (Singapore), or 06 (Indonesia). For example, https://api-01.moengage.com. Data center 101 is not supported.\n (This can only be one of 01,02,03,04,05,06)",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Identifies the tenant/workspace making the request. Optional — when omitted, the workspace is resolved from the Basic Auth credentials in the `Authorization` header.\n",
+                    "key": "X-MOE-Tenant-ID",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Client-supplied trace ID. The server echoes it in the `X-MOE-Request-Id` response header and in `response_id`. If you omit it, the server generates one.\n",
+                    "key": "X-MOE-Request-Id",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"response_id\": \"abc-101\",\n  \"error\": {\n    \"code\": \"UNAUTHORIZED\",\n    \"message\": \"Invalid or missing credentials.\",\n    \"details\": []\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ebccd499-f1c7-4b7f-92dd-cf489d39ab77",
+              "name": "You do not have the required permission for this operation.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v5",
+                    "flows",
+                    ":flow_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "version_no",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "flow_id",
+                      "description": "(Required) The 24-character ID of the flow. This must be the flow's own ID, not a version ID; passing a version ID returns `400`.\n"
+                    },
+                    {
+                      "description": "MoEngage data center identifier. Replace it with the number assigned to your account, such as 01 (US), 02 (EU), 03 (India), 04 (US), 05 (Singapore), or 06 (Indonesia). For example, https://api-01.moengage.com. Data center 101 is not supported.\n (This can only be one of 01,02,03,04,05,06)",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Identifies the tenant/workspace making the request. Optional — when omitted, the workspace is resolved from the Basic Auth credentials in the `Authorization` header.\n",
+                    "key": "X-MOE-Tenant-ID",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Client-supplied trace ID. The server echoes it in the `X-MOE-Request-Id` response header and in `response_id`. If you omit it, the server generates one.\n",
+                    "key": "X-MOE-Request-Id",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"response_id\": \"abc-450\",\n  \"error\": {\n    \"code\": \"FORBIDDEN\",\n    \"target\": \"permission\",\n    \"message\": \"You do not have the required permission for this operation.\",\n    \"details\": [\n      {\n        \"target\": \"permission\",\n        \"message\": \"Required permission: campaigns:view\"\n      }\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "084551f6-e92e-46e5-8dc4-993d83cc1b0d",
+              "name": "The flow (or the requested version) does not exist in this workspace.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v5",
+                    "flows",
+                    ":flow_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "version_no",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "flow_id",
+                      "description": "(Required) The 24-character ID of the flow. This must be the flow's own ID, not a version ID; passing a version ID returns `400`.\n"
+                    },
+                    {
+                      "description": "MoEngage data center identifier. Replace it with the number assigned to your account, such as 01 (US), 02 (EU), 03 (India), 04 (US), 05 (Singapore), or 06 (Indonesia). For example, https://api-01.moengage.com. Data center 101 is not supported.\n (This can only be one of 01,02,03,04,05,06)",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Identifies the tenant/workspace making the request. Optional — when omitted, the workspace is resolved from the Basic Auth credentials in the `Authorization` header.\n",
+                    "key": "X-MOE-Tenant-ID",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Client-supplied trace ID. The server echoes it in the `X-MOE-Request-Id` response header and in `response_id`. If you omit it, the server generates one.\n",
+                    "key": "X-MOE-Request-Id",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"response_id\": \"abc-100\",\n  \"error\": {\n    \"code\": \"NOT_FOUND\",\n    \"target\": \"flow\",\n    \"message\": \"Flow not found.\",\n    \"details\": [\n      {\n        \"target\": \"flow_id\",\n        \"message\": \"Flow not found.\"\n      }\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a2f4eb1a-fe69-4b57-99be-b58e121978a4",
+              "name": "Per-app rate limit exceeded. Retry after the interval indicated in the `Retry-After` header.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v5",
+                    "flows",
+                    ":flow_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "version_no",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "flow_id",
+                      "description": "(Required) The 24-character ID of the flow. This must be the flow's own ID, not a version ID; passing a version ID returns `400`.\n"
+                    },
+                    {
+                      "description": "MoEngage data center identifier. Replace it with the number assigned to your account, such as 01 (US), 02 (EU), 03 (India), 04 (US), 05 (Singapore), or 06 (Indonesia). For example, https://api-01.moengage.com. Data center 101 is not supported.\n (This can only be one of 01,02,03,04,05,06)",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Identifies the tenant/workspace making the request. Optional — when omitted, the workspace is resolved from the Basic Auth credentials in the `Authorization` header.\n",
+                    "key": "X-MOE-Tenant-ID",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Client-supplied trace ID. The server echoes it in the `X-MOE-Request-Id` response header and in `response_id`. If you omit it, the server generates one.\n",
+                    "key": "X-MOE-Request-Id",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "Seconds until the rate-limit window resets.",
+                  "key": "Retry-After",
+                  "value": "4254"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"response_id\": \"abc-101\",\n  \"error\": {\n    \"code\": \"RATE_LIMITED\",\n    \"message\": \"Rate limit exceeded for app key.\",\n    \"details\": []\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "15137f57-3c8d-46b0-8e9d-37d774e73fef",
+              "name": "Unhandled server-side failure.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v5",
+                    "flows",
+                    ":flow_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "version_no",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "flow_id",
+                      "description": "(Required) The 24-character ID of the flow. This must be the flow's own ID, not a version ID; passing a version ID returns `400`.\n"
+                    },
+                    {
+                      "description": "MoEngage data center identifier. Replace it with the number assigned to your account, such as 01 (US), 02 (EU), 03 (India), 04 (US), 05 (Singapore), or 06 (Indonesia). For example, https://api-01.moengage.com. Data center 101 is not supported.\n (This can only be one of 01,02,03,04,05,06)",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Identifies the tenant/workspace making the request. Optional — when omitted, the workspace is resolved from the Basic Auth credentials in the `Authorization` header.\n",
+                    "key": "X-MOE-Tenant-ID",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Client-supplied trace ID. The server echoes it in the `X-MOE-Request-Id` response header and in `response_id`. If you omit it, the server generates one.\n",
+                    "key": "X-MOE-Request-Id",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"response_id\": \"abc-101\",\n  \"error\": {\n    \"code\": \"INTERNAL_ERROR\",\n    \"message\": \"Internal server error.\",\n    \"details\": []\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "08504f1a-2997-4c18-a36a-1bce3f784ee6",
+          "name": "Get a Specific Version of a Flow",
+          "request": {
+            "name": "Get a Specific Version of a Flow",
+            "description": {
+              "content": "This API returns a flow exactly as it was in a past version — for example,\nto audit what was live before a recent change. If you already have the version number\nrather than its ID, use `version_no` on Get a Single Flow instead. The `version_id` must\nbelong to `flow_id`, otherwise the API returns `404`. Your API key must have the\n`campaigns:view` permission (see the\n[Authentication](/api/flows/flows-overview#authentication) section).\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v5",
+                "flows",
+                ":flow_id",
+                "versions",
+                ":version_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "flow_id",
+                  "description": "(Required) The 24-character ID of the flow. This must be the flow's own ID, not a version ID; passing a version ID returns `400`.\n"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "version_id",
+                  "description": "(Required) The 24-character ID of a specific version of the flow. Must belong to `flow_id`.\n"
+                },
+                {
+                  "description": "MoEngage data center identifier. Replace it with the number assigned to your account, such as 01 (US), 02 (EU), 03 (India), 04 (US), 05 (Singapore), or 06 (Indonesia). For example, https://api-01.moengage.com. Data center 101 is not supported.\n (This can only be one of 01,02,03,04,05,06)",
+                  "type": "any",
+                  "value": "{{dc}}",
+                  "key": "dc"
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "Identifies the tenant/workspace making the request. Optional — when omitted, the workspace is resolved from the Basic Auth credentials in the `Authorization` header.\n",
+                "key": "X-MOE-Tenant-ID",
+                "value": "<string>"
+              },
+              {
+                "disabled": false,
+                "description": "Client-supplied trace ID. The server echoes it in the `X-MOE-Request-Id` response header and in `response_id`. If you omit it, the server generates one.\n",
+                "key": "X-MOE-Request-Id",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "{{basicAuthUsername}}"
+                },
+                {
+                  "key": "password",
+                  "value": "{{basicAuthPassword}}"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "38e907f4-bb37-46b2-81de-6536a7e667cb",
+              "name": "Flow version found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v5",
+                    "flows",
+                    ":flow_id",
+                    "versions",
+                    ":version_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "flow_id",
+                      "description": "(Required) The 24-character ID of the flow. This must be the flow's own ID, not a version ID; passing a version ID returns `400`.\n"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "version_id",
+                      "description": "(Required) The 24-character ID of a specific version of the flow. Must belong to `flow_id`.\n"
+                    },
+                    {
+                      "description": "MoEngage data center identifier. Replace it with the number assigned to your account, such as 01 (US), 02 (EU), 03 (India), 04 (US), 05 (Singapore), or 06 (Indonesia). For example, https://api-01.moengage.com. Data center 101 is not supported.\n (This can only be one of 01,02,03,04,05,06)",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Identifies the tenant/workspace making the request. Optional — when omitted, the workspace is resolved from the Basic Auth credentials in the `Authorization` header.\n",
+                    "key": "X-MOE-Tenant-ID",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Client-supplied trace ID. The server echoes it in the `X-MOE-Request-Id` response header and in `response_id`. If you omit it, the server generates one.\n",
+                    "key": "X-MOE-Request-Id",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "Echoed request ID. If you do not provide one, the server generates it.",
+                  "key": "X-MOE-Request-Id",
+                  "value": "string"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"response_id\": \"abc-102\",\n  \"type\": \"flow\",\n  \"data\": {\n    \"flow_id\": \"69f1de84f9e401a2d7d9a931\",\n    \"name\": \"Welcome journey\",\n    \"status\": \"RETIRED\",\n    \"archived\": false,\n    \"delivery_type\": \"EVENT_TRIGGERED\",\n    \"tags\": [\n      \"onboarding\"\n    ],\n    \"created_at\": \"2026-01-05T10:00:00Z\",\n    \"updated_at\": \"2026-01-20T09:30:00Z\",\n    \"published_at\": \"2026-01-06T08:00:00Z\",\n    \"created_by\": \"agent@example.com\",\n    \"published_by\": \"agent@example.com\",\n    \"global_control_group_enabled\": false,\n    \"active_version_name\": \"Version 1\",\n    \"versions\": [\n      {\n        \"version_id\": \"7a02ef95f9e401a2d7d9aa42\",\n        \"version_name\": \"Version 1\",\n        \"version_no\": 1,\n        \"status\": \"RETIRED\"\n      }\n    ],\n    \"settings\": {\n      \"control_group\": {\n        \"enabled\": false\n      },\n      \"frequency_capping\": {\n        \"ignore\": false,\n        \"ignore_and_count\": false\n      },\n      \"bypass_dnd\": false\n    },\n    \"attribution\": {\n      \"click_track_hours\": 24,\n      \"impression_track_hours\": 24\n    },\n    \"conversion_goal_details\": {\n      \"primary_goal\": {\n        \"event\": \"Purchase\",\n        \"goal_name\": \"Made a purchase\"\n      },\n      \"secondary_goals\": [],\n      \"revenue_tracking\": true,\n      \"revenue_attribute\": \"amount\",\n      \"revenue_currency\": \"USD\",\n      \"exit_on_conversion\": false\n    },\n    \"structure\": {\n      \"nodes\": [\n        {\n          \"stage_id\": \"n1\",\n          \"type\": \"TRIGGER\",\n          \"sub_type\": \"EVENT\",\n          \"parent_stage_id\": null,\n          \"child_stage_ids\": [\n            \"n2\"\n          ],\n          \"label\": \"App Opened\",\n          \"config\": {\n            \"schedule\": {\n              \"delivery\": \"one_time\",\n              \"start_time\": \"2026-01-06T08:00:00Z\",\n              \"timezone\": \"Asia/Kolkata\"\n            },\n            \"segmentation\": {\n              \"audience_type\": \"all_users\"\n            }\n          }\n        },\n        {\n          \"stage_id\": \"n2\",\n          \"type\": \"ACTION\",\n          \"sub_type\": \"EMAIL\",\n          \"parent_stage_id\": \"n1\",\n          \"child_stage_ids\": [],\n          \"label\": \"Welcome email\",\n          \"config\": {\n            \"campaign_id\": \"69f1de84f9e401a2d7d9a999\",\n            \"channel\": \"EMAIL\",\n            \"campaign_name\": \"Welcome email\"\n          }\n        }\n      ]\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c41070c1-ea80-4012-980c-9a07a4bb0f01",
+              "name": "The request failed validation — for example, a bad filter value, a malformed cursor, a non-integer `version_no`, an invalid date range, or a `flow_id` that is actually a version ID.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v5",
+                    "flows",
+                    ":flow_id",
+                    "versions",
+                    ":version_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "flow_id",
+                      "description": "(Required) The 24-character ID of the flow. This must be the flow's own ID, not a version ID; passing a version ID returns `400`.\n"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "version_id",
+                      "description": "(Required) The 24-character ID of a specific version of the flow. Must belong to `flow_id`.\n"
+                    },
+                    {
+                      "description": "MoEngage data center identifier. Replace it with the number assigned to your account, such as 01 (US), 02 (EU), 03 (India), 04 (US), 05 (Singapore), or 06 (Indonesia). For example, https://api-01.moengage.com. Data center 101 is not supported.\n (This can only be one of 01,02,03,04,05,06)",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Identifies the tenant/workspace making the request. Optional — when omitted, the workspace is resolved from the Basic Auth credentials in the `Authorization` header.\n",
+                    "key": "X-MOE-Tenant-ID",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Client-supplied trace ID. The server echoes it in the `X-MOE-Request-Id` response header and in `response_id`. If you omit it, the server generates one.\n",
+                    "key": "X-MOE-Request-Id",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"response_id\": \"abc-101\",\n  \"error\": {\n    \"code\": \"VALIDATION_FAILED\",\n    \"target\": \"request\",\n    \"message\": \"One or more request parameters failed validation.\",\n    \"details\": [\n      {\n        \"target\": \"request\",\n        \"message\": \"Check the request parameters and try again.\"\n      }\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a834c036-5ca1-4b5b-befe-b2c55064d339",
+              "name": "Authentication failed (missing or invalid credentials).",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v5",
+                    "flows",
+                    ":flow_id",
+                    "versions",
+                    ":version_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "flow_id",
+                      "description": "(Required) The 24-character ID of the flow. This must be the flow's own ID, not a version ID; passing a version ID returns `400`.\n"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "version_id",
+                      "description": "(Required) The 24-character ID of a specific version of the flow. Must belong to `flow_id`.\n"
+                    },
+                    {
+                      "description": "MoEngage data center identifier. Replace it with the number assigned to your account, such as 01 (US), 02 (EU), 03 (India), 04 (US), 05 (Singapore), or 06 (Indonesia). For example, https://api-01.moengage.com. Data center 101 is not supported.\n (This can only be one of 01,02,03,04,05,06)",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Identifies the tenant/workspace making the request. Optional — when omitted, the workspace is resolved from the Basic Auth credentials in the `Authorization` header.\n",
+                    "key": "X-MOE-Tenant-ID",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Client-supplied trace ID. The server echoes it in the `X-MOE-Request-Id` response header and in `response_id`. If you omit it, the server generates one.\n",
+                    "key": "X-MOE-Request-Id",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"response_id\": \"abc-101\",\n  \"error\": {\n    \"code\": \"UNAUTHORIZED\",\n    \"message\": \"Invalid or missing credentials.\",\n    \"details\": []\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "2612c92f-ee36-46b4-aed0-7a8334120f16",
+              "name": "You do not have the required permission for this operation.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v5",
+                    "flows",
+                    ":flow_id",
+                    "versions",
+                    ":version_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "flow_id",
+                      "description": "(Required) The 24-character ID of the flow. This must be the flow's own ID, not a version ID; passing a version ID returns `400`.\n"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "version_id",
+                      "description": "(Required) The 24-character ID of a specific version of the flow. Must belong to `flow_id`.\n"
+                    },
+                    {
+                      "description": "MoEngage data center identifier. Replace it with the number assigned to your account, such as 01 (US), 02 (EU), 03 (India), 04 (US), 05 (Singapore), or 06 (Indonesia). For example, https://api-01.moengage.com. Data center 101 is not supported.\n (This can only be one of 01,02,03,04,05,06)",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Identifies the tenant/workspace making the request. Optional — when omitted, the workspace is resolved from the Basic Auth credentials in the `Authorization` header.\n",
+                    "key": "X-MOE-Tenant-ID",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Client-supplied trace ID. The server echoes it in the `X-MOE-Request-Id` response header and in `response_id`. If you omit it, the server generates one.\n",
+                    "key": "X-MOE-Request-Id",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"response_id\": \"abc-450\",\n  \"error\": {\n    \"code\": \"FORBIDDEN\",\n    \"target\": \"permission\",\n    \"message\": \"You do not have the required permission for this operation.\",\n    \"details\": [\n      {\n        \"target\": \"permission\",\n        \"message\": \"Required permission: campaigns:view\"\n      }\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b09c972c-b292-4fbf-84a6-d4c2d9974ac5",
+              "name": "The flow (or the requested version) does not exist in this workspace.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v5",
+                    "flows",
+                    ":flow_id",
+                    "versions",
+                    ":version_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "flow_id",
+                      "description": "(Required) The 24-character ID of the flow. This must be the flow's own ID, not a version ID; passing a version ID returns `400`.\n"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "version_id",
+                      "description": "(Required) The 24-character ID of a specific version of the flow. Must belong to `flow_id`.\n"
+                    },
+                    {
+                      "description": "MoEngage data center identifier. Replace it with the number assigned to your account, such as 01 (US), 02 (EU), 03 (India), 04 (US), 05 (Singapore), or 06 (Indonesia). For example, https://api-01.moengage.com. Data center 101 is not supported.\n (This can only be one of 01,02,03,04,05,06)",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Identifies the tenant/workspace making the request. Optional — when omitted, the workspace is resolved from the Basic Auth credentials in the `Authorization` header.\n",
+                    "key": "X-MOE-Tenant-ID",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Client-supplied trace ID. The server echoes it in the `X-MOE-Request-Id` response header and in `response_id`. If you omit it, the server generates one.\n",
+                    "key": "X-MOE-Request-Id",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"response_id\": \"abc-100\",\n  \"error\": {\n    \"code\": \"NOT_FOUND\",\n    \"target\": \"flow\",\n    \"message\": \"Flow not found.\",\n    \"details\": [\n      {\n        \"target\": \"flow_id\",\n        \"message\": \"Flow not found.\"\n      }\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "751afca4-719f-4597-a381-fa8d38863b64",
+              "name": "Per-app rate limit exceeded. Retry after the interval indicated in the `Retry-After` header.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v5",
+                    "flows",
+                    ":flow_id",
+                    "versions",
+                    ":version_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "flow_id",
+                      "description": "(Required) The 24-character ID of the flow. This must be the flow's own ID, not a version ID; passing a version ID returns `400`.\n"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "version_id",
+                      "description": "(Required) The 24-character ID of a specific version of the flow. Must belong to `flow_id`.\n"
+                    },
+                    {
+                      "description": "MoEngage data center identifier. Replace it with the number assigned to your account, such as 01 (US), 02 (EU), 03 (India), 04 (US), 05 (Singapore), or 06 (Indonesia). For example, https://api-01.moengage.com. Data center 101 is not supported.\n (This can only be one of 01,02,03,04,05,06)",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Identifies the tenant/workspace making the request. Optional — when omitted, the workspace is resolved from the Basic Auth credentials in the `Authorization` header.\n",
+                    "key": "X-MOE-Tenant-ID",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Client-supplied trace ID. The server echoes it in the `X-MOE-Request-Id` response header and in `response_id`. If you omit it, the server generates one.\n",
+                    "key": "X-MOE-Request-Id",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "Seconds until the rate-limit window resets.",
+                  "key": "Retry-After",
+                  "value": "4254"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"response_id\": \"abc-101\",\n  \"error\": {\n    \"code\": \"RATE_LIMITED\",\n    \"message\": \"Rate limit exceeded for app key.\",\n    \"details\": []\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ea735a5b-8611-4476-8db9-35d043d928de",
+              "name": "Unhandled server-side failure.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v5",
+                    "flows",
+                    ":flow_id",
+                    "versions",
+                    ":version_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "flow_id",
+                      "description": "(Required) The 24-character ID of the flow. This must be the flow's own ID, not a version ID; passing a version ID returns `400`.\n"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "version_id",
+                      "description": "(Required) The 24-character ID of a specific version of the flow. Must belong to `flow_id`.\n"
+                    },
+                    {
+                      "description": "MoEngage data center identifier. Replace it with the number assigned to your account, such as 01 (US), 02 (EU), 03 (India), 04 (US), 05 (Singapore), or 06 (Indonesia). For example, https://api-01.moengage.com. Data center 101 is not supported.\n (This can only be one of 01,02,03,04,05,06)",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Identifies the tenant/workspace making the request. Optional — when omitted, the workspace is resolved from the Basic Auth credentials in the `Authorization` header.\n",
+                    "key": "X-MOE-Tenant-ID",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Client-supplied trace ID. The server echoes it in the `X-MOE-Request-Id` response header and in `response_id`. If you omit it, the server generates one.\n",
+                    "key": "X-MOE-Request-Id",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"response_id\": \"abc-101\",\n  \"error\": {\n    \"code\": \"INTERNAL_ERROR\",\n    \"message\": \"Internal server error.\",\n    \"details\": []\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "f7b817e0-d83f-470f-a3dd-cad871f5eecd",
+          "name": "Update Flow Status",
+          "request": {
+            "name": "Update Flow Status",
+            "description": {
+              "content": "This API changes a flow's lifecycle state. It validates the requested transition against the flow's\ncurrent state before applying it; an invalid transition returns `409`. Your API key must have the\n`campaigns:create_manage` permission (see the [Authentication](/api/flows/flows-overview#authentication) section).\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v5",
+                "flows",
+                ":flow_id",
+                "status"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "flow_id",
+                  "description": "(Required) The 24-character ID of the flow. This must be the flow's own ID, not a version ID; passing a version ID returns `400`.\n"
+                },
+                {
+                  "description": "MoEngage data center identifier. Replace it with the number assigned to your account, such as 01 (US), 02 (EU), 03 (India), 04 (US), 05 (Singapore), or 06 (Indonesia). For example, https://api-01.moengage.com. Data center 101 is not supported.\n (This can only be one of 01,02,03,04,05,06)",
+                  "type": "any",
+                  "value": "{{dc}}",
+                  "key": "dc"
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) Client-generated UUID v4. Reusing the same key replays the original response instead of re-applying the transition.",
+                "key": "Idempotency-Key",
+                "value": "<uuid>"
+              },
+              {
+                "disabled": false,
+                "description": "Identifies the tenant/workspace making the request. Optional — when omitted, the workspace is resolved from the Basic Auth credentials in the `Authorization` header.\n",
+                "key": "X-MOE-Tenant-ID",
+                "value": "<string>"
+              },
+              {
+                "disabled": false,
+                "description": "Client-supplied trace ID. The server echoes it in the `X-MOE-Request-Id` response header and in `response_id`. If you omit it, the server generates one.\n",
+                "key": "X-MOE-Request-Id",
+                "value": "<string>"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PATCH",
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "{{basicAuthUsername}}"
+                },
+                {
+                  "key": "password",
+                  "value": "{{basicAuthPassword}}"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"action\": \"<string>\",\n  \"updated_by\": \"<email>\",\n  \"version_no\": \"<integer>\",\n  \"request_id\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "f6474c46-aa6b-4bd6-b184-dc16a04f957e",
+              "name": "Flow status updated.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v5",
+                    "flows",
+                    ":flow_id",
+                    "status"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "flow_id",
+                      "description": "(Required) The 24-character ID of the flow. This must be the flow's own ID, not a version ID; passing a version ID returns `400`.\n"
+                    },
+                    {
+                      "description": "MoEngage data center identifier. Replace it with the number assigned to your account, such as 01 (US), 02 (EU), 03 (India), 04 (US), 05 (Singapore), or 06 (Indonesia). For example, https://api-01.moengage.com. Data center 101 is not supported.\n (This can only be one of 01,02,03,04,05,06)",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) Client-generated UUID v4. Reusing the same key replays the original response instead of re-applying the transition.",
+                    "key": "Idempotency-Key",
+                    "value": "<uuid>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Identifies the tenant/workspace making the request. Optional — when omitted, the workspace is resolved from the Basic Auth credentials in the `Authorization` header.\n",
+                    "key": "X-MOE-Tenant-ID",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Client-supplied trace ID. The server echoes it in the `X-MOE-Request-Id` response header and in `response_id`. If you omit it, the server generates one.\n",
+                    "key": "X-MOE-Request-Id",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"action\": \"pause\",\n  \"updated_by\": \"agent@example.com\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "Echoed request ID. If you do not provide one, the server generates it.",
+                  "key": "X-MOE-Request-Id",
+                  "value": "string"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"response_id\": \"abc-200\",\n  \"type\": \"flow\",\n  \"data\": {\n    \"flow_id\": \"69f1de84f9e401a2d7d9a931\",\n    \"status\": \"PAUSED\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "0f479b3a-0176-494b-a358-50dc63ce149d",
+              "name": "The request failed validation — for example, a bad filter value, a malformed cursor, a non-integer `version_no`, an invalid date range, or a `flow_id` that is actually a version ID.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v5",
+                    "flows",
+                    ":flow_id",
+                    "status"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "flow_id",
+                      "description": "(Required) The 24-character ID of the flow. This must be the flow's own ID, not a version ID; passing a version ID returns `400`.\n"
+                    },
+                    {
+                      "description": "MoEngage data center identifier. Replace it with the number assigned to your account, such as 01 (US), 02 (EU), 03 (India), 04 (US), 05 (Singapore), or 06 (Indonesia). For example, https://api-01.moengage.com. Data center 101 is not supported.\n (This can only be one of 01,02,03,04,05,06)",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) Client-generated UUID v4. Reusing the same key replays the original response instead of re-applying the transition.",
+                    "key": "Idempotency-Key",
+                    "value": "<uuid>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Identifies the tenant/workspace making the request. Optional — when omitted, the workspace is resolved from the Basic Auth credentials in the `Authorization` header.\n",
+                    "key": "X-MOE-Tenant-ID",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Client-supplied trace ID. The server echoes it in the `X-MOE-Request-Id` response header and in `response_id`. If you omit it, the server generates one.\n",
+                    "key": "X-MOE-Request-Id",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"action\": \"pause\",\n  \"updated_by\": \"agent@example.com\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"response_id\": \"abc-101\",\n  \"error\": {\n    \"code\": \"VALIDATION_FAILED\",\n    \"target\": \"request\",\n    \"message\": \"One or more request parameters failed validation.\",\n    \"details\": [\n      {\n        \"target\": \"request\",\n        \"message\": \"Check the request parameters and try again.\"\n      }\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "5c50697d-f002-462b-b2e3-120dd282fd14",
+              "name": "Authentication failed (missing or invalid credentials).",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v5",
+                    "flows",
+                    ":flow_id",
+                    "status"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "flow_id",
+                      "description": "(Required) The 24-character ID of the flow. This must be the flow's own ID, not a version ID; passing a version ID returns `400`.\n"
+                    },
+                    {
+                      "description": "MoEngage data center identifier. Replace it with the number assigned to your account, such as 01 (US), 02 (EU), 03 (India), 04 (US), 05 (Singapore), or 06 (Indonesia). For example, https://api-01.moengage.com. Data center 101 is not supported.\n (This can only be one of 01,02,03,04,05,06)",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) Client-generated UUID v4. Reusing the same key replays the original response instead of re-applying the transition.",
+                    "key": "Idempotency-Key",
+                    "value": "<uuid>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Identifies the tenant/workspace making the request. Optional — when omitted, the workspace is resolved from the Basic Auth credentials in the `Authorization` header.\n",
+                    "key": "X-MOE-Tenant-ID",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Client-supplied trace ID. The server echoes it in the `X-MOE-Request-Id` response header and in `response_id`. If you omit it, the server generates one.\n",
+                    "key": "X-MOE-Request-Id",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"action\": \"pause\",\n  \"updated_by\": \"agent@example.com\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"response_id\": \"abc-101\",\n  \"error\": {\n    \"code\": \"UNAUTHORIZED\",\n    \"message\": \"Invalid or missing credentials.\",\n    \"details\": []\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "eee4d253-f030-47e2-a5c8-3dab5603faef",
+              "name": "You do not have the required permission for this operation.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v5",
+                    "flows",
+                    ":flow_id",
+                    "status"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "flow_id",
+                      "description": "(Required) The 24-character ID of the flow. This must be the flow's own ID, not a version ID; passing a version ID returns `400`.\n"
+                    },
+                    {
+                      "description": "MoEngage data center identifier. Replace it with the number assigned to your account, such as 01 (US), 02 (EU), 03 (India), 04 (US), 05 (Singapore), or 06 (Indonesia). For example, https://api-01.moengage.com. Data center 101 is not supported.\n (This can only be one of 01,02,03,04,05,06)",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) Client-generated UUID v4. Reusing the same key replays the original response instead of re-applying the transition.",
+                    "key": "Idempotency-Key",
+                    "value": "<uuid>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Identifies the tenant/workspace making the request. Optional — when omitted, the workspace is resolved from the Basic Auth credentials in the `Authorization` header.\n",
+                    "key": "X-MOE-Tenant-ID",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Client-supplied trace ID. The server echoes it in the `X-MOE-Request-Id` response header and in `response_id`. If you omit it, the server generates one.\n",
+                    "key": "X-MOE-Request-Id",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"action\": \"pause\",\n  \"updated_by\": \"agent@example.com\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"response_id\": \"abc-450\",\n  \"error\": {\n    \"code\": \"FORBIDDEN\",\n    \"target\": \"permission\",\n    \"message\": \"You do not have the required permission for this operation.\",\n    \"details\": [\n      {\n        \"target\": \"permission\",\n        \"message\": \"Required permission: campaigns:create_manage\"\n      }\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "7b6ffb8e-9061-4450-a998-727e3be35d6c",
+              "name": "The flow (or the requested version) does not exist in this workspace.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v5",
+                    "flows",
+                    ":flow_id",
+                    "status"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "flow_id",
+                      "description": "(Required) The 24-character ID of the flow. This must be the flow's own ID, not a version ID; passing a version ID returns `400`.\n"
+                    },
+                    {
+                      "description": "MoEngage data center identifier. Replace it with the number assigned to your account, such as 01 (US), 02 (EU), 03 (India), 04 (US), 05 (Singapore), or 06 (Indonesia). For example, https://api-01.moengage.com. Data center 101 is not supported.\n (This can only be one of 01,02,03,04,05,06)",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) Client-generated UUID v4. Reusing the same key replays the original response instead of re-applying the transition.",
+                    "key": "Idempotency-Key",
+                    "value": "<uuid>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Identifies the tenant/workspace making the request. Optional — when omitted, the workspace is resolved from the Basic Auth credentials in the `Authorization` header.\n",
+                    "key": "X-MOE-Tenant-ID",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Client-supplied trace ID. The server echoes it in the `X-MOE-Request-Id` response header and in `response_id`. If you omit it, the server generates one.\n",
+                    "key": "X-MOE-Request-Id",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"action\": \"pause\",\n  \"updated_by\": \"agent@example.com\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"response_id\": \"abc-100\",\n  \"error\": {\n    \"code\": \"NOT_FOUND\",\n    \"target\": \"flow\",\n    \"message\": \"Flow not found.\",\n    \"details\": [\n      {\n        \"target\": \"flow_id\",\n        \"message\": \"Flow not found.\"\n      }\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "58470760-aa40-4f3d-b604-c9ec32ae73c8",
+              "name": "The requested action is not a valid transition from the flow's current status.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v5",
+                    "flows",
+                    ":flow_id",
+                    "status"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "flow_id",
+                      "description": "(Required) The 24-character ID of the flow. This must be the flow's own ID, not a version ID; passing a version ID returns `400`.\n"
+                    },
+                    {
+                      "description": "MoEngage data center identifier. Replace it with the number assigned to your account, such as 01 (US), 02 (EU), 03 (India), 04 (US), 05 (Singapore), or 06 (Indonesia). For example, https://api-01.moengage.com. Data center 101 is not supported.\n (This can only be one of 01,02,03,04,05,06)",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) Client-generated UUID v4. Reusing the same key replays the original response instead of re-applying the transition.",
+                    "key": "Idempotency-Key",
+                    "value": "<uuid>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Identifies the tenant/workspace making the request. Optional — when omitted, the workspace is resolved from the Basic Auth credentials in the `Authorization` header.\n",
+                    "key": "X-MOE-Tenant-ID",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Client-supplied trace ID. The server echoes it in the `X-MOE-Request-Id` response header and in `response_id`. If you omit it, the server generates one.\n",
+                    "key": "X-MOE-Request-Id",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"action\": \"pause\",\n  \"updated_by\": \"agent@example.com\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Conflict",
+              "code": 409,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"response_id\": \"abc-409\",\n  \"error\": {\n    \"code\": \"BAD_REQUEST\",\n    \"target\": \"action\",\n    \"message\": \"Cannot resume a flow that is not paused.\",\n    \"details\": []\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "2caa02cf-82d9-4689-aeed-59a6fb58e602",
+              "name": "Per-app rate limit exceeded. Retry after the interval indicated in the `Retry-After` header.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v5",
+                    "flows",
+                    ":flow_id",
+                    "status"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "flow_id",
+                      "description": "(Required) The 24-character ID of the flow. This must be the flow's own ID, not a version ID; passing a version ID returns `400`.\n"
+                    },
+                    {
+                      "description": "MoEngage data center identifier. Replace it with the number assigned to your account, such as 01 (US), 02 (EU), 03 (India), 04 (US), 05 (Singapore), or 06 (Indonesia). For example, https://api-01.moengage.com. Data center 101 is not supported.\n (This can only be one of 01,02,03,04,05,06)",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) Client-generated UUID v4. Reusing the same key replays the original response instead of re-applying the transition.",
+                    "key": "Idempotency-Key",
+                    "value": "<uuid>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Identifies the tenant/workspace making the request. Optional — when omitted, the workspace is resolved from the Basic Auth credentials in the `Authorization` header.\n",
+                    "key": "X-MOE-Tenant-ID",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Client-supplied trace ID. The server echoes it in the `X-MOE-Request-Id` response header and in `response_id`. If you omit it, the server generates one.\n",
+                    "key": "X-MOE-Request-Id",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"action\": \"pause\",\n  \"updated_by\": \"agent@example.com\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "Seconds until the rate-limit window resets.",
+                  "key": "Retry-After",
+                  "value": "4254"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"response_id\": \"abc-101\",\n  \"error\": {\n    \"code\": \"RATE_LIMITED\",\n    \"message\": \"Rate limit exceeded for app key.\",\n    \"details\": []\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "61e8786a-0ba0-4175-b075-498e7cb0d404",
+              "name": "Unhandled server-side failure.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v5",
+                    "flows",
+                    ":flow_id",
+                    "status"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "flow_id",
+                      "description": "(Required) The 24-character ID of the flow. This must be the flow's own ID, not a version ID; passing a version ID returns `400`.\n"
+                    },
+                    {
+                      "description": "MoEngage data center identifier. Replace it with the number assigned to your account, such as 01 (US), 02 (EU), 03 (India), 04 (US), 05 (Singapore), or 06 (Indonesia). For example, https://api-01.moengage.com. Data center 101 is not supported.\n (This can only be one of 01,02,03,04,05,06)",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) Client-generated UUID v4. Reusing the same key replays the original response instead of re-applying the transition.",
+                    "key": "Idempotency-Key",
+                    "value": "<uuid>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Identifies the tenant/workspace making the request. Optional — when omitted, the workspace is resolved from the Basic Auth credentials in the `Authorization` header.\n",
+                    "key": "X-MOE-Tenant-ID",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Client-supplied trace ID. The server echoes it in the `X-MOE-Request-Id` response header and in `response_id`. If you omit it, the server generates one.\n",
+                    "key": "X-MOE-Request-Id",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"action\": \"pause\",\n  \"updated_by\": \"agent@example.com\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"response_id\": \"abc-101\",\n  \"error\": {\n    \"code\": \"INTERNAL_ERROR\",\n    \"message\": \"Internal server error.\",\n    \"details\": []\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "description": {
+        "content": "MoEngage data center identifier. Replace it with the number assigned to your account, such as 01 (US), 02 (EU), 03 (India), 04 (US), 05 (Singapore), or 06 (Indonesia). For example, https://api-01.moengage.com. Data center 101 is not supported.\n (This can only be one of 01,02,03,04,05,06)",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "01",
+      "key": "dc"
+    },
+    {
+      "type": "string",
+      "value": "https://api-{{dc}}.moengage.com",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "basic",
+    "basic": [
+      {
+        "key": "username",
+        "value": "{{basicAuthUsername}}"
+      },
+      {
+        "key": "password",
+        "value": "{{basicAuthPassword}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "0c8a9b7b-c9c6-42d8-8727-8b02ae190dbc",
+    "name": "Flows",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Use the Flows endpoints to list your flows, view the details of a single flow (including its\nversions and stages), and change a flow's status. These\nendpoints read and control existing flows; they do not create them.\n\n<Note>\n  The Flows endpoints are in early access. MoEngage enhances these endpoints based on feedback during this period, but does not make breaking changes.\n</Note>\n\nThe API exposes the following endpoints:\n\n- `POST /v5/flows/search` — paginated listing with filters (status, delivery type, tags,\n  teams, name, creator, creation-date range).\n- `GET /v5/flows/{flow_id}` — single flow detail. Use the optional `version_no` query\n  parameter to view a specific version; the default is the last published version, or\n  the draft if none is published.\n- `GET /v5/flows/{flow_id}/versions/{version_id}` — the details of a flow as it was in a\n  specific version, identified by its ID.\n- `PATCH /v5/flows/{flow_id}/status` — lifecycle transition (`pause`, `resume`, `stop`,\n  `retire`) or the flow-level `archive` / `unarchive` toggle.\n\n**Conventions**\n\n- IDs are 24-character identifiers. `flow_id` identifies the flow; `version_id` identifies one\n  of its versions.\n- Every successful response uses the format `{response_id, type, data}`. The `response_id`\n  echoes the `request_id` you send; if you omit it, the server uses the first 12 characters\n  of a system-generated UUID.\n- Dates and times are in ISO 8601 UTC format (`YYYY-MM-DDThh:mm:ssZ`).\n- The search endpoint returns results one page at a time. To fetch the next page, send the\n  `next_cursor` from the previous response back as the `cursor` value.\n\n**Permissions**\n\nFlows reuse the `campaigns` permission for scope checks. Read endpoints require the\n`campaigns:view` permission; the status endpoint requires `campaigns:create_manage`.\n\n**Status Model**\n\nPublic flow statuses: `DRAFT`, `ACTIVE`, `SCHEDULED`, `PAUSED`, `STOPPED`, `COMPLETED`,\n`RETIRED`, `UNDER_REVIEW`, `REJECTED`. `archived` is a separate boolean flag\n(it spans every version of the flow), not a status.\n\n**Rate Limits**: The rate limits are at the workspace level. A maximum of 10 requests per second,\n100 requests per minute, and 6,000 requests per hour are allowed per workspace for the search,\nget, and status endpoints.\n\n <Note>\n   Breaching any limit rejects the request with a `429` response.\n </Note>\n",
+      "type": "text/plain"
+    }
+  }
+}

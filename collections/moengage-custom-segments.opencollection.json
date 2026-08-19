@@ -1,0 +1,271 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "MoEngage Segments API",
+    "version": "3.0"
+  },
+  "request": {
+    "auth": {
+      "type": "basic",
+      "username": "{{username}}",
+      "password": "{{password}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "File Segments",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create File Segment",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-{dc}.moengage.com/v2/custom-segments/file-segment",
+            "headers": [
+              {
+                "name": "Content-Type",
+                "value": ""
+              },
+              {
+                "name": "Database",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "This API creates a new file segment from a CSV file URL."
+        },
+        {
+          "info": {
+            "name": "Add Users to File Segment",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api-{dc}.moengage.com/v2/custom-segments/file-segment/add-users",
+            "headers": [
+              {
+                "name": "Content-Type",
+                "value": ""
+              },
+              {
+                "name": "Database",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "This API adds a list of users from a CSV file to an existing file segment."
+        },
+        {
+          "info": {
+            "name": "Remove Users from File Segment",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api-{dc}.moengage.com/v2/custom-segments/file-segment/remove-users",
+            "headers": [
+              {
+                "name": "Content-Type",
+                "value": ""
+              },
+              {
+                "name": "Database",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "This API removes a list of users from a CSV file from an existing file segment."
+        },
+        {
+          "info": {
+            "name": "Replace Users from File Segment",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api-{dc}.moengage.com/v2/custom-segments/file-segment/replace",
+            "headers": [
+              {
+                "name": "Content-Type",
+                "value": ""
+              },
+              {
+                "name": "Database",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "This API replaces all users in an existing file segment with a new list of users from a CSV file."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Manage Segments",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Archive Segment",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api-{dc}.moengage.com/v2/custom-segments/archive",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "This API archives an existing segment (File or Filter). Archiving and unarchiving through APIs makes it easy to retrieve and reuse segments whenever required for purposes such as A/B testing, maintaining regulatory compliance, and improving system performance. You can access the archived segments and utilize them to analyze and market campaigns without the need to recreate them from scratch."
+        },
+        {
+          "info": {
+            "name": "Unarchive Segment",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api-{dc}.moengage.com/v2/custom-segments/unarchive",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "This API unarchives an existing segment, making it active again."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Filter Segments",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Segments",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-{dc}.moengage.com/v3/custom-segments",
+            "headers": [
+              {
+                "name": "MOE-APPKEY",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "name",
+                "value": "",
+                "type": "query",
+                "description": "The URL-encoded name of the segment to retrieve."
+              }
+            ]
+          },
+          "docs": "This API lists all segments. You can optionally filter segments by an exact name match."
+        },
+        {
+          "info": {
+            "name": "Create Filter Segment",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-{dc}.moengage.com/v3/custom-segments",
+            "headers": [
+              {
+                "name": "MOE-APPKEY",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "This API creates a new segment based on a set of filter conditions."
+        },
+        {
+          "info": {
+            "name": "Get Segment by ID",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-{dc}.moengage.com/v3/custom-segments/:id",
+            "headers": [
+              {
+                "name": "MOE-APPKEY",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the segment."
+              }
+            ]
+          },
+          "docs": "This API fetches a specific segment (File or Filter) by its ID."
+        },
+        {
+          "info": {
+            "name": "Update Filter Segment",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api-{dc}.moengage.com/v3/custom-segments/:id",
+            "headers": [
+              {
+                "name": "MOE-APPKEY",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the segment."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "This API updates an existing filter segment by its ID."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

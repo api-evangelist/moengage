@@ -1,0 +1,1259 @@
+{
+  "item": [
+    {
+      "id": "48debb9e-df85-4185-9c8b-825648133cdd",
+      "name": "Dashboards",
+      "description": {
+        "content": "Read custom dashboards and their chart data.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "e8239db7-4c8b-44ce-bd75-d75ca4c0e328",
+          "name": "List Dashboards",
+          "request": {
+            "name": "List Dashboards",
+            "description": {
+              "content": "Returns the custom dashboards available to the authenticated workspace. Archived dashboards are excluded.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v5",
+                "analytics",
+                "dashboards"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "description": "The 'dc' in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of 'dc' in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+                  "type": "any",
+                  "value": "{{dc}}",
+                  "key": "dc"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "37a8f938-263e-499c-83e7-a0b8beb921ff",
+              "name": "This response is returned when the request is processed successfully.\n\nEach item contains the dashboard ID and name. Use the dashboard ID with [Get Dashboard Charts](/api/dashboards/get-dashboard-charts) to retrieve the charts on a dashboard.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v5",
+                    "analytics",
+                    "dashboards"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "The 'dc' in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of 'dc' in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"response_id\": \"b3f1c0d2-2a4e-4f9b-9c1a-6d2e8f0a1b23\",\n  \"type\": \"dashboard\",\n  \"data\": [\n    {\n      \"_id\": \"63ede292b4c6a68b18c2c93f\",\n      \"name\": \"Acquisition Overview\"\n    },\n    {\n      \"_id\": \"63ef1f824da10b4fd96c6e3b\",\n      \"name\": \"Retention Deep Dive\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "61364bd5-9db3-4734-88bb-71014214569f",
+              "name": "This response is returned when the authentication credentials are missing or invalid.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v5",
+                    "analytics",
+                    "dashboards"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "The 'dc' in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of 'dc' in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"UNAUTHORIZED\",\n    \"message\": \"Missing or invalid credentials.\",\n    \"doc_url\": \"string\"\n  },\n  \"response_id\": \"b3f1c0d2-2a4e-4f9b-9c1a-6d2e8f0a1b23\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "41b68806-2905-4f61-9001-aac8f8768276",
+              "name": "This response is returned when the system runs into an unexpected error.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v5",
+                    "analytics",
+                    "dashboards"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "The 'dc' in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of 'dc' in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"INTERNAL_ERROR\",\n    \"message\": \"An unexpected error occurred while processing the request.\",\n    \"doc_url\": \"string\"\n  },\n  \"response_id\": \"b3f1c0d2-2a4e-4f9b-9c1a-6d2e8f0a1b23\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "7f3c9de5-65d0-4512-8989-8277893963ec",
+          "name": "Get Dashboard Charts",
+          "request": {
+            "name": "Get Dashboard Charts",
+            "description": {
+              "content": "Returns the details of a single dashboard, including its name, creator, and owner. It also returns the list of charts on the dashboard, in layout order. Each chart entry contains the chart's ID and name.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v5",
+                "analytics",
+                "dashboards",
+                ":dashboard_id",
+                "charts"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "dashboard_id",
+                  "description": "(Required) The unique identifier of the dashboard. You can retrieve dashboard IDs from the [List Dashboards](/api/dashboards/list-dashboards) response."
+                },
+                {
+                  "description": "The 'dc' in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of 'dc' in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+                  "type": "any",
+                  "value": "{{dc}}",
+                  "key": "dc"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "4c9cc62f-eecd-4a14-9926-831f8bf1561d",
+              "name": "This response is returned when the request is processed successfully.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v5",
+                    "analytics",
+                    "dashboards",
+                    ":dashboard_id",
+                    "charts"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "dashboard_id",
+                      "description": "(Required) The unique identifier of the dashboard. You can retrieve dashboard IDs from the [List Dashboards](/api/dashboards/list-dashboards) response."
+                    },
+                    {
+                      "description": "The 'dc' in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of 'dc' in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"response_id\": \"b3f1c0d2-2a4e-4f9b-9c1a-6d2e8f0a1b23\",\n  \"type\": \"dashboard\",\n  \"data\": {\n    \"name\": \"Acquisition Overview\",\n    \"created_by\": \"john.doe@example.com\",\n    \"owned_by\": \"john.doe@example.com\",\n    \"chart_ids\": [\n      {\n        \"_id\": \"67f9d9df279348ecdc84415f\",\n        \"name\": \"New Users by Day\"\n      },\n      {\n        \"_id\": \"68f08c79d33bd238d3ef00e0\",\n        \"name\": \"Sign-ups by Channel\"\n      }\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "7a0deb8d-4e28-4541-8f3d-1af2a4401c09",
+              "name": "This response is returned when the dashboard ID or chart ID is invalid, or the request is malformed.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v5",
+                    "analytics",
+                    "dashboards",
+                    ":dashboard_id",
+                    "charts"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "dashboard_id",
+                      "description": "(Required) The unique identifier of the dashboard. You can retrieve dashboard IDs from the [List Dashboards](/api/dashboards/list-dashboards) response."
+                    },
+                    {
+                      "description": "The 'dc' in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of 'dc' in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"VALIDATION_FAILED\",\n    \"message\": \"Invalid dashboard_id.\",\n    \"doc_url\": \"string\"\n  },\n  \"response_id\": \"b3f1c0d2-2a4e-4f9b-9c1a-6d2e8f0a1b23\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "42f78833-50f9-43a0-be76-9577037a9687",
+              "name": "This response is returned when the authentication credentials are missing or invalid.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v5",
+                    "analytics",
+                    "dashboards",
+                    ":dashboard_id",
+                    "charts"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "dashboard_id",
+                      "description": "(Required) The unique identifier of the dashboard. You can retrieve dashboard IDs from the [List Dashboards](/api/dashboards/list-dashboards) response."
+                    },
+                    {
+                      "description": "The 'dc' in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of 'dc' in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"UNAUTHORIZED\",\n    \"message\": \"Missing or invalid credentials.\",\n    \"doc_url\": \"string\"\n  },\n  \"response_id\": \"b3f1c0d2-2a4e-4f9b-9c1a-6d2e8f0a1b23\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a7ceb298-7b99-4856-ac3b-f441c8b6812c",
+              "name": "This response is returned when the caller does not have access to the requested dashboard or chart.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v5",
+                    "analytics",
+                    "dashboards",
+                    ":dashboard_id",
+                    "charts"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "dashboard_id",
+                      "description": "(Required) The unique identifier of the dashboard. You can retrieve dashboard IDs from the [List Dashboards](/api/dashboards/list-dashboards) response."
+                    },
+                    {
+                      "description": "The 'dc' in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of 'dc' in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"FORBIDDEN\",\n    \"message\": \"You do not have access to this dashboard.\",\n    \"doc_url\": \"string\"\n  },\n  \"response_id\": \"b3f1c0d2-2a4e-4f9b-9c1a-6d2e8f0a1b23\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "94186ca4-5a21-4704-ae2a-287a6be0ea65",
+              "name": "This response is returned when the requested dashboard or chart does not exist.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v5",
+                    "analytics",
+                    "dashboards",
+                    ":dashboard_id",
+                    "charts"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "dashboard_id",
+                      "description": "(Required) The unique identifier of the dashboard. You can retrieve dashboard IDs from the [List Dashboards](/api/dashboards/list-dashboards) response."
+                    },
+                    {
+                      "description": "The 'dc' in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of 'dc' in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"NOT_FOUND\",\n    \"message\": \"Dashboard not found.\",\n    \"doc_url\": \"string\"\n  },\n  \"response_id\": \"b3f1c0d2-2a4e-4f9b-9c1a-6d2e8f0a1b23\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f676ab03-3cfb-475d-863f-4e93e15737d0",
+              "name": "This response is returned when the system runs into an unexpected error.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v5",
+                    "analytics",
+                    "dashboards",
+                    ":dashboard_id",
+                    "charts"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "dashboard_id",
+                      "description": "(Required) The unique identifier of the dashboard. You can retrieve dashboard IDs from the [List Dashboards](/api/dashboards/list-dashboards) response."
+                    },
+                    {
+                      "description": "The 'dc' in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of 'dc' in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"INTERNAL_ERROR\",\n    \"message\": \"An unexpected error occurred while processing the request.\",\n    \"doc_url\": \"string\"\n  },\n  \"response_id\": \"b3f1c0d2-2a4e-4f9b-9c1a-6d2e8f0a1b23\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "56c58eda-50a0-47f2-ad13-f57dc97790af",
+          "name": "Get Chart Data",
+          "request": {
+            "name": "Get Chart Data",
+            "description": {
+              "content": "Returns the data behind a single chart, as an array of rows. Each call runs the chart's analytics query and returns the result.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v5",
+                "analytics",
+                "dashboards",
+                ":dashboard_id",
+                "charts",
+                ":chart_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "cache",
+                  "value": "true",
+                  "description": "Controls whether the chart data is served from the server-side cache. Set to `false` to bypass the cache and recompute the chart. Defaults to `true`."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "dashboard_id",
+                  "description": "(Required) The unique identifier of the dashboard. You can retrieve dashboard IDs from the [List Dashboards](/api/dashboards/list-dashboards) response."
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "chart_id",
+                  "description": "(Required) The unique identifier of the chart on the dashboard. You can retrieve chart IDs from the [Get Dashboard Charts](/api/dashboards/get-dashboard-charts) response."
+                },
+                {
+                  "description": "The 'dc' in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of 'dc' in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+                  "type": "any",
+                  "value": "{{dc}}",
+                  "key": "dc"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "ad8e94aa-ce69-45a5-8013-f341c3f9d7be",
+              "name": "This response is returned when the request is processed successfully.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v5",
+                    "analytics",
+                    "dashboards",
+                    ":dashboard_id",
+                    "charts",
+                    ":chart_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "cache",
+                      "value": "true"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "dashboard_id",
+                      "description": "(Required) The unique identifier of the dashboard. You can retrieve dashboard IDs from the [List Dashboards](/api/dashboards/list-dashboards) response."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "chart_id",
+                      "description": "(Required) The unique identifier of the chart on the dashboard. You can retrieve chart IDs from the [Get Dashboard Charts](/api/dashboards/get-dashboard-charts) response."
+                    },
+                    {
+                      "description": "The 'dc' in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of 'dc' in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"response_id\": \"b3f1c0d2-2a4e-4f9b-9c1a-6d2e8f0a1b23\",\n  \"type\": \"chart_data\",\n  \"data\": [\n    {\n      \"metric\": 1,\n      \"granularity\": \"2026/06/29\",\n      \"splitby\": [],\n      \"grouped_by\": [],\n      \"step\": \"A\",\n      \"tseq\": 0,\n      \"cseq\": 0\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "9ed289e8-2c00-49b6-b174-b905fafc0352",
+              "name": "This response is returned when the dashboard ID or chart ID is invalid, or the request is malformed.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v5",
+                    "analytics",
+                    "dashboards",
+                    ":dashboard_id",
+                    "charts",
+                    ":chart_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "cache",
+                      "value": "true"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "dashboard_id",
+                      "description": "(Required) The unique identifier of the dashboard. You can retrieve dashboard IDs from the [List Dashboards](/api/dashboards/list-dashboards) response."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "chart_id",
+                      "description": "(Required) The unique identifier of the chart on the dashboard. You can retrieve chart IDs from the [Get Dashboard Charts](/api/dashboards/get-dashboard-charts) response."
+                    },
+                    {
+                      "description": "The 'dc' in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of 'dc' in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"VALIDATION_FAILED\",\n    \"message\": \"Invalid dashboard_id.\",\n    \"doc_url\": \"string\"\n  },\n  \"response_id\": \"b3f1c0d2-2a4e-4f9b-9c1a-6d2e8f0a1b23\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "68cbc2d5-94f0-430a-ba03-29a334c1c2c0",
+              "name": "This response is returned when the authentication credentials are missing or invalid.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v5",
+                    "analytics",
+                    "dashboards",
+                    ":dashboard_id",
+                    "charts",
+                    ":chart_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "cache",
+                      "value": "true"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "dashboard_id",
+                      "description": "(Required) The unique identifier of the dashboard. You can retrieve dashboard IDs from the [List Dashboards](/api/dashboards/list-dashboards) response."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "chart_id",
+                      "description": "(Required) The unique identifier of the chart on the dashboard. You can retrieve chart IDs from the [Get Dashboard Charts](/api/dashboards/get-dashboard-charts) response."
+                    },
+                    {
+                      "description": "The 'dc' in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of 'dc' in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"UNAUTHORIZED\",\n    \"message\": \"Missing or invalid credentials.\",\n    \"doc_url\": \"string\"\n  },\n  \"response_id\": \"b3f1c0d2-2a4e-4f9b-9c1a-6d2e8f0a1b23\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "dacc2bbc-0030-4787-8649-d1fb2b72ce0f",
+              "name": "This response is returned when the caller does not have access to the requested dashboard or chart.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v5",
+                    "analytics",
+                    "dashboards",
+                    ":dashboard_id",
+                    "charts",
+                    ":chart_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "cache",
+                      "value": "true"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "dashboard_id",
+                      "description": "(Required) The unique identifier of the dashboard. You can retrieve dashboard IDs from the [List Dashboards](/api/dashboards/list-dashboards) response."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "chart_id",
+                      "description": "(Required) The unique identifier of the chart on the dashboard. You can retrieve chart IDs from the [Get Dashboard Charts](/api/dashboards/get-dashboard-charts) response."
+                    },
+                    {
+                      "description": "The 'dc' in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of 'dc' in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"FORBIDDEN\",\n    \"message\": \"You do not have access to this dashboard.\",\n    \"doc_url\": \"string\"\n  },\n  \"response_id\": \"b3f1c0d2-2a4e-4f9b-9c1a-6d2e8f0a1b23\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "2942ce13-dcee-4f03-b75a-b0df3b5ce1a8",
+              "name": "This response is returned when the requested dashboard or chart does not exist.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v5",
+                    "analytics",
+                    "dashboards",
+                    ":dashboard_id",
+                    "charts",
+                    ":chart_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "cache",
+                      "value": "true"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "dashboard_id",
+                      "description": "(Required) The unique identifier of the dashboard. You can retrieve dashboard IDs from the [List Dashboards](/api/dashboards/list-dashboards) response."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "chart_id",
+                      "description": "(Required) The unique identifier of the chart on the dashboard. You can retrieve chart IDs from the [Get Dashboard Charts](/api/dashboards/get-dashboard-charts) response."
+                    },
+                    {
+                      "description": "The 'dc' in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of 'dc' in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"NOT_FOUND\",\n    \"message\": \"Dashboard not found.\",\n    \"doc_url\": \"string\"\n  },\n  \"response_id\": \"b3f1c0d2-2a4e-4f9b-9c1a-6d2e8f0a1b23\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "18650960-5c34-4e57-afdf-ce2c67269440",
+              "name": "This response is returned when the workspace has reached its monthly Fair Usage Policy limit for analytics usage.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v5",
+                    "analytics",
+                    "dashboards",
+                    ":dashboard_id",
+                    "charts",
+                    ":chart_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "cache",
+                      "value": "true"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "dashboard_id",
+                      "description": "(Required) The unique identifier of the dashboard. You can retrieve dashboard IDs from the [List Dashboards](/api/dashboards/list-dashboards) response."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "chart_id",
+                      "description": "(Required) The unique identifier of the chart on the dashboard. You can retrieve chart IDs from the [Get Dashboard Charts](/api/dashboards/get-dashboard-charts) response."
+                    },
+                    {
+                      "description": "The 'dc' in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of 'dc' in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Precondition Required",
+              "code": 428,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"QUOTA_EXCEEDED\",\n    \"message\": \"Your workspace has reached its monthly Fair Usage Policy limit for analytics usage. Please contact your Customer Success Manager to expand your quota.\",\n    \"doc_url\": \"https://www.moengage.com/docs/api/dashboards/get-chart-data\"\n  },\n  \"response_id\": \"b3f1c0d2-2a4e-4f9b-9c1a-6d2e8f0a1b23\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "67e251d8-e7f1-4f62-8ec2-2dbde881447a",
+              "name": "This response is returned when the system runs into an unexpected error.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v5",
+                    "analytics",
+                    "dashboards",
+                    ":dashboard_id",
+                    "charts",
+                    ":chart_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "cache",
+                      "value": "true"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "dashboard_id",
+                      "description": "(Required) The unique identifier of the dashboard. You can retrieve dashboard IDs from the [List Dashboards](/api/dashboards/list-dashboards) response."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "chart_id",
+                      "description": "(Required) The unique identifier of the chart on the dashboard. You can retrieve chart IDs from the [Get Dashboard Charts](/api/dashboards/get-dashboard-charts) response."
+                    },
+                    {
+                      "description": "The 'dc' in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of 'dc' in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+                      "type": "any",
+                      "value": "{{dc}}",
+                      "key": "dc"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"INTERNAL_ERROR\",\n    \"message\": \"An unexpected error occurred while processing the request.\",\n    \"doc_url\": \"string\"\n  },\n  \"response_id\": \"b3f1c0d2-2a4e-4f9b-9c1a-6d2e8f0a1b23\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "description": {
+        "content": "The 'dc' in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of 'dc' in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "01",
+      "key": "dc"
+    },
+    {
+      "type": "string",
+      "value": "https://api-{{dc}}.moengage.com",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "basic",
+    "basic": [
+      {
+        "key": "username",
+        "value": "{{basicAuthUsername}}"
+      },
+      {
+        "key": "password",
+        "value": "{{basicAuthPassword}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "9cf62aa1-6c27-4bc6-9891-a7055d286720",
+    "name": "MoEngage Analytics Dashboard and Chart API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Read-only REST APIs to access your MoEngage Custom Dashboards and the analytics data behind their charts. All endpoints are `GET` requests and do not modify any data.\n",
+      "type": "text/plain"
+    }
+  }
+}
