@@ -17,7 +17,7 @@ image: https://www.moengage.com/wp-content/uploads/2023/03/MoEngage-Logo.svg
 url: https://raw.githubusercontent.com/api-evangelist/moengage/refs/heads/main/apis.yml
 x-type: company
 x-source: harvest:secondary-market
-specificationVersion: '0.21'
+specificationVersion: '0.23'
 created: '2026-08-01'
 modified: '2026-08-14'
 tags:
