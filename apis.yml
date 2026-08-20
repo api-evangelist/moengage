@@ -21,6 +21,22 @@ specificationVersion: '0.23'
 created: '2026-08-01'
 modified: '2026-08-14'
 tags:
+- Customer Engagement
+- Marketing Automation
+- Customer Data Platform
+- Push Notifications
+- Email
+- SMS
+- WhatsApp
+- In-App Messaging
+- Segmentation
+- Personalization
+- Campaign Management
+- Analytics
+- Mobile SDK
+- MCP
+- MarTech
+tags_raw:
 - customer-engagement
 - marketing-automation
 - customer-data-platform
@@ -50,6 +66,12 @@ apis:
   humanURL: https://www.moengage.com/docs/api/data/data-overview
   baseURL: https://api-01.moengage.com/v1
   tags:
+  - Data
+  - User Profiles
+  - Event
+  - Bulk Import
+  - GDPR
+  tags_raw:
   - data
   - user-profiles
   - events
@@ -86,6 +108,12 @@ apis:
   humanURL: https://www.moengage.com/docs/api/campaigns/campaign-draft-overview
   baseURL: https://api-01.moengage.com/core-services/v1
   tags:
+  - Campaigns
+  - Push
+  - Email
+  - campaign-stats
+  - Idempotency
+  tags_raw:
   - campaigns
   - push
   - email
@@ -117,6 +145,10 @@ apis:
   humanURL: https://www.moengage.com/docs/api/push/push-overview
   baseURL: https://pushapi-01.moengage.com/v2
   tags:
+  - Push
+  - Transactional
+  - Mobile
+  tags_raw:
   - push
   - transactional
   - mobile
@@ -139,6 +171,10 @@ apis:
   humanURL: https://www.moengage.com/docs/api/custom-segments/custom-segments-overview
   baseURL: https://api-01.moengage.com
   tags:
+  - Segmentation
+  - Audiences
+  - Cohorts
+  tags_raw:
   - segmentation
   - audiences
   - cohorts
@@ -157,6 +193,12 @@ apis:
   humanURL: https://www.moengage.com/docs/api/content-blocks/content-blocks-overview
   baseURL: https://api-01.moengage.com/v1.0
   tags:
+  - Templates
+  - Content
+  - Email
+  - SMS
+  - In-App Messaging
+  tags_raw:
   - templates
   - content
   - email
@@ -201,6 +243,11 @@ apis:
   humanURL: https://www.moengage.com/docs/api/catalog/catalog-overview
   baseURL: https://api-01.moengage.com/v1
   tags:
+  - Catalog
+  - Recommendations
+  - Coupons
+  - E-Commerce
+  tags_raw:
   - catalog
   - recommendations
   - coupons
@@ -227,6 +274,11 @@ apis:
   humanURL: https://www.moengage.com/docs/api/email-subscription/email-subscription-overview
   baseURL: https://api-01.moengage.com
   tags:
+  - Subscription
+  - Opt-In
+  - Email
+  - Preferences
+  tags_raw:
   - subscriptions
   - opt-in
   - email
@@ -249,6 +301,11 @@ apis:
   humanURL: https://www.moengage.com/docs/api/analytics/analytics-overview
   baseURL: https://api-01.moengage.com
   tags:
+  - Analytics
+  - Dashboards
+  - Flows
+  - Reporting
+  tags_raw:
   - analytics
   - dashboards
   - flows
@@ -272,6 +329,12 @@ apis:
   humanURL: https://www.moengage.com/docs/api/inform/inform-overview
   baseURL: https://api-01.moengage.com/v1.0
   tags:
+  - Transactional
+  - Alerts
+  - SMS
+  - Email
+  - Push
+  tags_raw:
   - transactional
   - alerts
   - sms
@@ -294,6 +357,11 @@ apis:
   humanURL: https://www.moengage.com/docs/api/cards/cards-overview
   baseURL: https://api-01.moengage.com/v1
   tags:
+  - Cards
+  - Live Activities
+  - Personalization
+  - Offers
+  tags_raw:
   - cards
   - live-activities
   - personalization
@@ -326,6 +394,11 @@ apis:
   humanURL: https://www.moengage.com/docs/user-guide/ai-and-intelligence/merlin-ai/moengage-mcp-server
   baseURL: https://mcp.moengage.com
   tags:
+  - MCP
+  - Agents
+  - Artificial Intelligence
+  - Authentication
+  tags_raw:
   - mcp
   - agents
   - ai
