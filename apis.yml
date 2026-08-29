@@ -13,6 +13,18 @@ description: >-
   native mobile and web SDKs for Android, iOS, Web, React Native, Flutter, Unity, Cordova and Capacitor,
   and operates a hosted, OAuth-secured Model Context Protocol (MCP) server so AI assistants can draft
   campaigns, manage segments and flows, and analyze performance conversationally.
+deliveryModel:
+  model: saas
+  open_source: false
+  commercial: true
+  callable_host: true
+  label: Hosted service · you call their endpoint
+  confidence: high
+  source:
+  - openapi
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 image: https://www.moengage.com/wp-content/uploads/2023/03/MoEngage-Logo.svg
 url: https://raw.githubusercontent.com/api-evangelist/moengage/refs/heads/main/apis.yml
 x-type: company
@@ -1740,6 +1752,9 @@ apis:
   - type: Documentation
     url: https://www.moengage.com/docs/api/cards/cards-overview
 common:
+- type: CapabilityMap
+  url: capabilities/moengage-capability-edges.yml
+  name: MoEngage Business Capability Map
 - type: Overlay
   url: overlays/moengage-data-overlay.yaml
 - type: Overlay
