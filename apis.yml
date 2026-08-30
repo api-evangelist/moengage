@@ -34,20 +34,20 @@ created: '2026-08-01'
 modified: '2026-08-14'
 tags:
 - Customer Engagement
-- Marketing Automation
-- Customer Data Platform
+- marketing-automation
+- customer-data-platform
 - Push Notifications
 - Email
 - SMS
 - WhatsApp
-- In-App Messaging
-- Segmentation
-- Personalization
-- Campaign Management
+- in-app-messaging
+- segmentation
+- personalization
+- campaign-management
 - Analytics
-- Mobile SDK
+- mobile-sdk
 - MCP
-- MarTech
+- martech
 tags_raw:
 - customer-engagement
 - marketing-automation
@@ -610,6 +610,8 @@ apis:
   humanURL: https://www.moengage.com/docs/api/data/data-overview
   baseURL: https://api-01.moengage.com/v1
   tags:
+  - Event
+  tags_raw:
   - Events
   properties:
   - type: OpenAPI
@@ -646,6 +648,8 @@ apis:
   humanURL: https://www.moengage.com/docs/api/data/data-overview
   baseURL: https://api-01.moengage.com/v1
   tags:
+  - Experience
+  tags_raw:
   - Experiences
   properties:
   - type: OpenAPI
@@ -958,6 +962,8 @@ apis:
   humanURL: https://www.moengage.com/docs/api/data/data-overview
   baseURL: https://api-01.moengage.com/v1
   tags:
+  - Item
+  tags_raw:
   - Items
   properties:
   - type: OpenAPI
