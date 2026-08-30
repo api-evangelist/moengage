@@ -1,0 +1,539 @@
+openapi: 3.2.0
+info:
+  title: MoEngage Catalog API
+  description: 'This API allows for the management of product and item catalogs, including **creation**, **attribute definition**, **item ingestion, updates, deletion**, and **retrieval**.
+
+
+    Authentication is handled via **Basic Auth** (using your Workspace ID as username and API Key as password), and all requests additionally require the `MOE-APPKEY` header (Workspace ID).
+
+
+    The API has a platform-wide rate limit of **100 requests/minute OR 1000 requests/hour**, with a maximum payload size of **5MB**.
+
+    '
+  x-mint:
+    content: '#example 500 max #
+
+      '
+  version: '1.0'
+servers:
+- url: https://api-{dc}.moengage.com/v1
+  variables:
+    dc:
+      default: '01'
+      description: The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.
+security:
+- basicAuth: []
+tags:
+- name: Catalog
+  description: Operations related to creating and managing catalog schemas (attributes).
+paths:
+  /catalog:
+    post:
+      tags:
+      - Catalog
+      summary: Create Catalog
+      operationId: createCatalog
+      description: 'This API creates a new catalog with a unique name. You can specify the necessary attributes along with their respective data types.
+
+        '
+      x-mint:
+        content: '#### Rate Limit
+
+
+          - Request limit: You can create 100 catalogs per minute OR 1000 catalogs per hour.
+
+
+          - Payload size limit: 5 MB only when Content-Length header is provided.
+
+          '
+      parameters:
+      - name: MOE-APPKEY
+        in: header
+        description: This is the Workspace ID of your MoEngage account that must be passed with the request. You can find it in the MoEngage dashboard at **Settings** > **Account** > **APIs** > **Workspace ID (earlier app id)**.
+        required: true
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateCatalogRequest'
+            examples:
+              example-1:
+                summary: Basic catalog creation
+                value:
+                  name: SummerCollection2024
+                  price_currency: USD
+                  attributes:
+                  - name: id
+                    type: string
+                  - name: title
+                    type: string
+                  - name: link
+                    type: string
+                  - name: image_link
+                    type: string
+                  - name: price
+                    type: double
+                  - name: in_stock
+                    type: bool
+                  - name: sale_start_date
+                    type: datetime
+                  - name: store_location
+                    type: geopoint
+      responses:
+        '201':
+          description: Catalog created successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  catalog_id:
+                    type: string
+                    description: 'The unique ID corresponding to a successful catalog creation,
+
+                      returned as a 24-character hex string.
+
+                      Store this ID and use it as a path parameter for all
+
+                      subsequent item ingestion and modification requests.
+
+                      '
+                    example: 507f1f77bcf86cd799439011
+              example:
+                catalog_id: 507f1f77bcf86cd799439011
+        '400':
+          description: Bad Request - Validation or logic error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                duplicate-name:
+                  summary: Duplicate Catalog Name
+                  value:
+                    error-code: duplicate-catalog-name
+                    message: Catalog name already exists. Please use a different name for your catalog and try again.
+                invalid-datatype:
+                  summary: Invalid Data Type
+                  value:
+                    error-code: invalid-request
+                    message: 'The data type provided for some of the attributes is invalid. Provided value: <provided datatype> You can add attributes with valid data types - [bool, double, string, datetime, geopoint] only
+
+                      '
+                missing-attributes:
+                  summary: Missing Mandatory Attributes
+                  value:
+                    error-code: missing-mandatory-attributes
+                    message: 'You must include mandatory attributes: id, title, link, and image_link with string data type and try again. Invalid or absent attributes: <missing attributes>'
+                catalog-limit-exceeded:
+                  summary: Catalog Limit Exceeded
+                  value:
+                    error-code: catalog-limit-exceeded
+                    message: You have exceeded the total limit of 35 catalogs for your account. You need to delete unused catalogs from the dashboard and try again.
+                attribute-limit-exceeded:
+                  summary: Attribute Limit Exceeded
+                  value:
+                    error-code: attribute-limit-exceeded
+                    message: Your catalog has exceeded the maximum limit of 50 attributes per catalog. Please reduce the number of attributes and try again.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '409':
+          description: Conflict - A catalog with the provided name already exists.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                error-code: duplicate-catalog-name
+                message: Catalog name already exists. Please use a different name for your catalog and try again.
+        '413':
+          description: Payload Too Large - Attribute limit exceeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                error-code: too-many-attributes
+                message: Maximum allowed attributes is 50
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+  /catalog/{catalog_id}/attributes:
+    patch:
+      tags:
+      - Catalog
+      summary: Add Catalog Attributes
+      operationId: addCatalogAttributes
+      description: 'This API adds new attributes to the catalog. If the API request contains attributes that already exist, they will not be added again.
+
+        '
+      x-mint:
+        content: '#### Rate Limit
+
+
+          - Request limit: You can add 100 attributes per minute OR 1000 attributes per hour.
+
+
+          - Payload size limit - 5 MB only when Content-Length header is provided.
+
+          '
+      parameters:
+      - name: MOE-APPKEY
+        in: header
+        description: This is the Workspace ID of your MoEngage account that must be passed with the request. You can find it in the MoEngage dashboard at **Settings** > **Account** > **APIs** > **Workspace ID (earlier app id)**.
+        required: true
+        schema:
+          type: string
+      - $ref: '#/components/parameters/CatalogIdPath'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - attributes
+              properties:
+                attributes:
+                  type: array
+                  description: A list of new attributes to add to the catalog schema.
+                  items:
+                    $ref: '#/components/schemas/AttributeDefinition'
+            examples:
+              example-1:
+                summary: Add new attributes
+                value:
+                  attributes:
+                  - name: color
+                    type: string
+                  - name: weight_kg
+                    type: double
+                  - name: sale_start_date
+                    type: datetime
+                  - name: store_location
+                    type: geopoint
+      responses:
+        '202':
+          description: Accepted. The request was processed. The response contains a list of attributes that were already present and ignored.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  duplicate-item-attributes:
+                    type: array
+                    description: A list of attributes that already existed in the catalog and were ignored.
+                    items:
+                      type: string
+                    example:
+                    - pricing
+              examples:
+                new-attribute-added:
+                  summary: New attribute added successfully
+                  description: All requested attributes were new and added to the catalog. The `duplicate-item-attributes` array is empty.
+                  value:
+                    success: true
+                    duplicate-item-attributes: []
+                duplicate-attribute:
+                  summary: Duplicate attribute ignored
+                  description: One or more requested attributes already existed on the catalog and were ignored. The duplicates are listed in `duplicate-item-attributes`.
+                  value:
+                    success: true
+                    duplicate-item-attributes:
+                    - pricing
+        '400':
+          description: Bad Request - Attribute already exists.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                error-code: attribute-exists
+                message: Attribute already exists in the catalog
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '413':
+          description: Payload Too Large - Maximum attributes exceeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                error-code: too-many-attributes
+                message: Maximum allowed attributes is 50
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+components:
+  parameters:
+    CatalogIdPath:
+      name: catalog_id
+      in: path
+      required: true
+      description: The unique identifier for the catalog, obtained during catalog creation.
+      schema:
+        type: string
+  responses:
+    TooManyRequests:
+      description: 'Too Many Requests - The rate limit for the API has been exceeded.
+
+
+        The following headers are returned in case of rate-limit breach:
+
+        * **x-ratelimit-limit (integer)**: The maximum number of requests that the consumer is permitted to make in a given time window.
+
+        * **x-ratelimit-remaining (integer)**: The number of requests remaining in the current rate limit window.
+
+        * **x-ratelimit-reset (integer)**: The time at which the current rate limit window resets in UTC epoch seconds.'
+    Unauthorized:
+      description: Unauthorized - The request does not have valid authentication credentials.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            error-code: request-unauthenticated
+            message: Your request is unauthorized. Please verify your credentials and try again.
+    Forbidden:
+      description: Forbidden - The client does not have access rights to the Catalog APIs.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            error-code: request-denied
+            message: Your account does not have access to the Catalog APIs.
+    NotFound:
+      description: Not Found - The specified resource (catalog) could not be found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            error-code: catalog-not-found
+            message: We could not find any API based catalog for the provided catalog id.
+  schemas:
+    AttributeDefinition:
+      type: object
+      required:
+      - name
+      - type
+      properties:
+        name:
+          type: string
+          description: The name of the attribute (e.g., 'color', 'price').
+        type:
+          type: string
+          description: 'The data type of the attribute. Supported values:
+
+            - `string` — text values.
+
+            - `bool` — boolean values (`true` or `false`).
+
+            - `double` — numeric values, including decimals.
+
+            - `datetime` — ISO 8601 timestamp with milliseconds and a UTC offset (`Z` or `±HH:mm`). Example: `2025-08-27T19:26:38.00Z`.
+
+            - `geopoint` — a geographic coordinate as `"latitude,longitude"`. Example: `"12.9716,77.5946"`.
+
+            '
+          enum:
+          - string
+          - bool
+          - double
+          - datetime
+          - geopoint
+    CreateCatalogRequest:
+      type: object
+      required:
+      - name
+      - attributes
+      - price_currency
+      properties:
+        name:
+          type: string
+          description: A unique name for the catalog.
+          example: ProductCatalog
+        price_currency:
+          type: string
+          description: The ISO 4217 currency code for prices in the catalog.
+          enum:
+          - USD
+          - CAD
+          - EUR
+          - AED
+          - AFN
+          - ALL
+          - AMD
+          - AOA
+          - ARS
+          - AUD
+          - AZN
+          - BAM
+          - BDT
+          - BGN
+          - BHD
+          - BIF
+          - BND
+          - BOB
+          - BRL
+          - BWP
+          - BYR
+          - BZD
+          - CDF
+          - CHF
+          - CLP
+          - CNY
+          - COP
+          - CRC
+          - CVE
+          - CZK
+          - DJF
+          - DKK
+          - DOP
+          - DZD
+          - EEK
+          - EGP
+          - ERN
+          - ETB
+          - GBP
+          - GEL
+          - GHS
+          - GNF
+          - GTQ
+          - HKD
+          - HNL
+          - HRK
+          - HUF
+          - IDR
+          - ILS
+          - INR
+          - IQD
+          - IRR
+          - ISK
+          - JMD
+          - JOD
+          - JPY
+          - KES
+          - KHR
+          - KMF
+          - KRW
+          - KWD
+          - KZT
+          - LBP
+          - LKR
+          - LTL
+          - LVL
+          - LYD
+          - MAD
+          - MDL
+          - MGA
+          - MKD
+          - MMK
+          - MOP
+          - MUR
+          - MXN
+          - MYR
+          - MZN
+          - NAD
+          - NGN
+          - NIO
+          - NOK
+          - NPR
+          - NZD
+          - OMR
+          - PAB
+          - PEN
+          - PHP
+          - PKR
+          - PLN
+          - PYG
+          - QAR
+          - RON
+          - RSD
+          - RUB
+          - RWF
+          - SAR
+          - SDG
+          - SEK
+          - SGD
+          - SOS
+          - SYP
+          - THB
+          - TND
+          - TOP
+          - TRY
+          - TTD
+          - TWD
+          - TZS
+          - UAH
+          - UGX
+          - UYU
+          - UZS
+          - VEF
+          - VND
+          - XAF
+          - XOF
+          - YER
+          - ZAR
+          - ZMK
+        attributes:
+          type: array
+          maxItems: 50
+          description: 'An array defining the schema of attributes for this catalog.
+
+
+            **title** - name of the item (string)
+
+            **link** - weblink of the item (string)
+
+            **id** - unique ID of that represent this item item (string)
+
+            **image_link** - image source link of this item (string)
+
+            '
+          items:
+            $ref: '#/components/schemas/AttributeDefinition'
+    Error:
+      type: object
+      properties:
+        error-code:
+          type: string
+          description: A machine-readable error code.
+        message:
+          type: string
+          description: A human-readable description of the error.
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+      description: 'Authentication is done via Basic Auth. This requires a base64-encoded string of your credentials in the format ''username:password''.
+
+
+        - **Username**: Use your MoEngage workspace ID (also known as the App ID). You can find it in the MoEngage dashboard at **Settings** > **Account** > **APIs** > **Workspace ID (earlier app id)**.
+
+        - **Password**: Use your API Key, which you can find within the **Campaign report/Business events/Custom templates/Catalog API/Inform Report** tile.
+
+
+        For more information on authentication and getting your credentials, refer [here](https://www.moengage.com/docs/api/introduction#getting-your-credentials).
+
+        '
+    AppKeyHeader:
+      type: apiKey
+      in: header
+      name: MOE-APPKEY
+      description: 'This is the Workspace ID of your MoEngage account that must be passed with the request. You can find it in the MoEngage dashboard at **Settings** > **Account** > **APIs** > **Workspace ID (earlier app id)**.
+
+        '

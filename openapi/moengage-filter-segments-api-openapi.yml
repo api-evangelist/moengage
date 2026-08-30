@@ -1,0 +1,976 @@
+openapi: 3.2.0
+info:
+  title: MoEngage Segments Filter Segments API
+  description: 'Use the MoEngage Segments API to create, update, and manage your file and filter segments.
+
+
+    - **v2 API:** Manage File Segments and segment lifecycle (Archive/Unarchive).
+
+    - **v3 API:** Create, read, update, and list filter-based Segments.
+
+    '
+  version: '3.0'
+servers:
+- url: https://api-{dc}.moengage.com
+  description: MoEngage API Endpoint
+  variables:
+    dc:
+      description: The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.
+      default: '01'
+security:
+- basicAuth: []
+tags:
+- name: Filter Segments
+  description: 'If you need to create a segment based on the events or actions performed by your users on your application or website, the recommended approach is to use the filter segment API. With this API, you can create a segment by specifying the desired filter conditions.
+
+
+    The filter segment API supports various operations, including create, update, get, and list, allowing you to effectively manage your segments based on specific criteria.
+
+    '
+  x-mint:
+    content: '## Authentication
+
+      Authentication is performed using Basic Auth. You must also provide the `MOE-APPKEY` header.
+
+
+      ## Request Headers
+
+
+      | Key | Required | Description |
+
+      | :--- | :--- | :--- |
+
+      | `Content-Type` | Yes | Set to `application/json`. |
+
+      | `Authorization` | Yes | Basic Auth. `{"Authorization": "Basic Base64_ENCODED_WORKSPACEID_APIKEY="}` |
+
+      | `MOE-APPKEY` | Yes | Your MoEngage App ID. Found in Settings -> Account -> APIs -> App ID. |
+
+      '
+paths:
+  /v3/custom-segments:
+    get:
+      tags:
+      - Filter Segments
+      summary: List Segments
+      description: This API lists all segments. You can optionally filter segments by an exact name match.
+      operationId: listCustomSegments
+      x-mint:
+        content: '<Note>
+
+          This API endpoint does not currently support Team-level scoping. All segments generated using this call will be assigned to the Default Team automatically.
+
+          </Note>
+
+
+          #### Rate Limit
+
+
+          The rate limit is 50 request/minute, 200 requests/hour, and 1000 requests/day.
+
+          '
+      parameters:
+      - $ref: '#/components/parameters/AppKeyHeader'
+      - $ref: '#/components/parameters/SegmentNameQuery'
+      responses:
+        '200':
+          $ref: '#/components/responses/200_SegmentListV3'
+        '400':
+          $ref: '#/components/responses/400_FilterSegmentError'
+        '401':
+          $ref: '#/components/responses/401_FilterSegmentError'
+        '429':
+          $ref: '#/components/responses/429_FilterSegmentRateLimitOnly'
+        '500':
+          $ref: '#/components/responses/500_FilterSegmentError'
+    post:
+      tags:
+      - Filter Segments
+      summary: Create Filter Segment
+      description: This API creates a new segment based on a set of filter conditions.
+      operationId: createFilterSegment
+      x-mint:
+        content: '<Note>
+
+          This API endpoint does not currently support Team-level scoping. All segments generated using this call will be assigned to the Default Team automatically.
+
+          </Note>
+
+
+          #### Generate Request from Dashboard
+
+
+          To simplify the request generation, MoEngage has added an option in the dashboard where you can specify filters as per your requirement and generate the payload.
+
+
+          1. Login to the MoEngage dashboard.
+
+          2. Click **Test & Debug** at the lower left in the side panel.
+
+          3. Click **Segment Payload**.
+
+          4. Specify the name for your segment payload and provide the required filters.
+
+          5. Click **Generate payload** button.
+
+
+          #### Rate Limit
+
+
+          The rate limit is 50 request/minute, 200 requests/hour, and 1000 requests/day.
+
+          '
+      parameters:
+      - $ref: '#/components/parameters/AppKeyHeader'
+      requestBody:
+        description: The filter definition for the new segment.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FilterSegmentRequestV3'
+            example:
+              name: segment_example_name
+              included_filters:
+                filter_operator: and
+                filters:
+                - filter_type: user_attributes
+                  name: Name
+                  data_type: string
+                  operator: in
+                  value:
+                  - Chandan
+                  - Kumar
+                  negate: false
+                  case_sensitive: false
+      responses:
+        '201':
+          $ref: '#/components/responses/201_SegmentCreatedV3'
+        '400':
+          $ref: '#/components/responses/400_FilterSegmentError'
+        '401':
+          $ref: '#/components/responses/401_FilterSegmentError'
+        '409':
+          $ref: '#/components/responses/409_FilterSegmentError'
+        '413':
+          $ref: '#/components/responses/413_FilterSegmentError'
+        '429':
+          $ref: '#/components/responses/429_FilterSegmentError'
+        '500':
+          $ref: '#/components/responses/500_FilterSegmentError'
+  /v3/custom-segments/{id}:
+    get:
+      tags:
+      - Filter Segments
+      summary: Get Segment by ID
+      description: This API fetches a specific segment (File or Filter) by its ID.
+      operationId: getCustomSegment
+      x-mint:
+        content: '<Note>
+
+          This API endpoint does not currently support Team-level scoping. All segments generated using this call will be assigned to the Default Team automatically.
+
+          </Note>
+
+
+          #### Rate Limit
+
+
+          The rate limit is 100 requests/minute, 1000 requests/hour, and 4000 requests/day.
+
+          '
+      parameters:
+      - $ref: '#/components/parameters/AppKeyHeader'
+      - $ref: '#/components/parameters/SegmentIdPath'
+      responses:
+        '200':
+          $ref: '#/components/responses/200_SegmentListV3'
+        '400':
+          $ref: '#/components/responses/400_FilterSegmentError'
+        '401':
+          $ref: '#/components/responses/401_FilterSegmentError'
+        '429':
+          $ref: '#/components/responses/429_FilterSegmentRateLimitOnly'
+        '500':
+          $ref: '#/components/responses/500_FilterSegmentError'
+    patch:
+      tags:
+      - Filter Segments
+      summary: Update Filter Segment
+      description: This API updates an existing filter segment by its ID.
+      operationId: updateFilterSegment
+      parameters:
+      - $ref: '#/components/parameters/AppKeyHeader'
+      - $ref: '#/components/parameters/SegmentIdPath'
+      x-mint:
+        content: '<Note>
+
+          This API endpoint does not currently support Team-level scoping. All segments generated using this call will be assigned to the Default Team automatically.
+
+          </Note>
+
+          '
+      requestBody:
+        description: The updated filter definition for the segment.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FilterSegmentUpdateRequestV3'
+            example:
+              name: segment_example_name_updated
+              included_filters:
+                filter_operator: and
+                filters:
+                - filter_type: user_attributes
+                  name: Name
+                  data_type: string
+                  operator: in
+                  value:
+                  - chandan
+                  negate: false
+                  case_sensitive: false
+              updated_by: admin@example.com
+      responses:
+        '200':
+          $ref: '#/components/responses/200_SegmentUpdatedV3'
+        '400':
+          $ref: '#/components/responses/400_FilterSegmentError'
+        '401':
+          $ref: '#/components/responses/401_FilterSegmentError'
+        '403':
+          $ref: '#/components/responses/403_FilterSegmentError'
+        '404':
+          $ref: '#/components/responses/404_FilterSegmentError'
+        '409':
+          $ref: '#/components/responses/409_FilterSegmentError'
+        '412':
+          $ref: '#/components/responses/412_FilterSegmentError'
+        '413':
+          $ref: '#/components/responses/413_FilterSegmentError'
+        '429':
+          $ref: '#/components/responses/429_FilterSegmentError'
+        '500':
+          $ref: '#/components/responses/500_FilterSegmentError'
+components:
+  schemas:
+    FilterSegmentUpdateRequestV3:
+      type: object
+      description: Request schema for updating an existing filter-based segment.
+      properties:
+        name:
+          type: string
+          description: A new unique name for the segment.
+        included_filters:
+          description: The updated filtering criteria for the segment. Users satisfying this set of filters will be part of the segment.
+          $ref: '#/components/schemas/FilterGroupV3'
+        updated_by:
+          type: string
+          format: email
+          description: Email of the user performing the update (e.g., admin@companyemail.com).
+      required:
+      - included_filters
+    SegmentListResponseV3:
+      type: object
+      description: Response schema for listing segments.
+      properties:
+        data:
+          type: array
+          description: Array of segments matching the query criteria.
+          items:
+            $ref: '#/components/schemas/SegmentListItemV3'
+        response_id:
+          type: string
+          description: A unique identifier for this API response.
+        type:
+          type: string
+          description: The type of resource referenced in the response.
+          example: custom_segment
+    FilterSegmentResponseV3:
+      type: object
+      description: Response schema for filter segment operations (create/update).
+      properties:
+        data:
+          description: Information about the segment.
+          $ref: '#/components/schemas/FilterSegmentDataV3'
+        response_id:
+          type: string
+          description: A unique identifier for this API response.
+        type:
+          type: string
+          description: The type of resource referenced in the response.
+          example: custom_segment
+    SegmentListItemV3:
+      type: object
+      description: Summary information about a segment in a list.
+      properties:
+        name:
+          type: string
+          description: The name of the segment.
+        id:
+          type: string
+          description: The unique identifier of the segment.
+        created_time:
+          type: string
+          format: date-time
+          description: The timestamp when the segment was created (ISO 8601 format).
+        type:
+          type: string
+          description: The type of the segment. This is used for internal classification.
+          example: ELASTIC_SEARCH
+        source:
+          type: string
+          description: The source of segment creation.
+          example: API
+    AttributeFilterV3:
+      title: Attribute Filters
+      type: object
+      description: 'A filter based on a user or event attribute.
+
+
+        **Allowed Operators per Data Type:**
+
+        * **bool:** is, exists
+
+        * **double:** in, between, lessThan, greaterThan, exists
+
+        * **string:** in, contains, containsInTheFollowing, startWithInTheFollowing, endsWithInTheFollowing, exists, is
+
+        * **datetime:** inTheLast, on, between, before, after, inTheNext, exists, today
+
+        '
+      properties:
+        filter_type:
+          type: string
+          description: Identifies the filter as attribute-based.
+          enum:
+          - user_attributes
+        name:
+          type: string
+          description: The name of the user attribute.
+        data_type:
+          type: string
+          description: Data type of the attribute.
+          enum:
+          - string
+          - double
+          - datetime
+          - bool
+        operator:
+          type: string
+          description: The comparison operator. Allowed values depend on `data_type`.
+          enum:
+          - is
+          - exists
+          - in
+          - between
+          - lessThan
+          - greaterThan
+          - contains
+          - containsInTheFollowing
+          - startWithInTheFollowing
+          - endsWithInTheFollowing
+          - inTheLast
+          - true
+          - before
+          - after
+          - inTheNext
+          - today
+        value:
+          description: The value to compare against. Type depends on `data_type` and `operator`. For 'in' operator, this should be an array.
+          oneOf:
+          - type: string
+          - type: number
+          - type: boolean
+          - type: array
+            items:
+              oneOf:
+              - type: string
+              - type: number
+        value1:
+          description: The second value, used only for the 'between' operator.
+          oneOf:
+          - type: string
+          - type: number
+        negate:
+          type: boolean
+          description: If true, negates the filter condition.
+          default: false
+        case_sensitive:
+          type: boolean
+          description: If true, string comparisons are case-sensitive.
+          default: false
+      required:
+      - filter_type
+      - name
+      - data_type
+      - operator
+    ServerErrorDataV3:
+      type: object
+      description: Error details for server errors (5xx).
+      properties:
+        code:
+          type: string
+          description: A short error code indicating the type of server error (e.g., 'Internal Server Error').
+        message:
+          type: string
+          description: A detailed error message. For server errors, this typically advises contacting MoEngage support.
+      required:
+      - code
+      - message
+    FilterSegmentRequestV3:
+      type: object
+      description: Request schema for creating a filter-based segment.
+      properties:
+        name:
+          type: string
+          description: A unique name for the segment.
+        included_filters:
+          description: The filtering criteria used for segmentation. Users satisfying this set of filters will be part of the segment.
+          $ref: '#/components/schemas/FilterGroupV3'
+      required:
+      - name
+      - included_filters
+    ServerErrorResponseV3:
+      type: object
+      description: Error response schema for server errors (5xx).
+      properties:
+        response_id:
+          type: string
+          description: A unique identifier for this API response.
+        type:
+          type: string
+          description: The type of resource referenced in the response.
+          example: custom_segment
+        error:
+          description: Details about the server error that occurred.
+          $ref: '#/components/schemas/ServerErrorDataV3'
+    FilterSegmentDataV3:
+      type: object
+      description: Detailed information about a segment.
+      properties:
+        name:
+          type: string
+          description: The name of the segment.
+        id:
+          type: string
+          description: The unique identifier of the segment.
+        created_time:
+          type: string
+          format: date-time
+          description: The timestamp when the segment was created (ISO 8601 format).
+        updated_time:
+          type: string
+          format: date-time
+          description: The timestamp when the segment was last updated (ISO 8601 format). The updated time can change due to internally running services.
+        type:
+          type: string
+          description: The type of the segment. This is used for internal classification. Fixed value for filter-based segments.
+          example: ELASTIC_SEARCH
+        source:
+          type: string
+          description: The source of segment creation. Fixed value for API-created segments.
+          example: API
+        description:
+          type: string
+          description: A textual description summarizing the segment definition.
+        included_filters:
+          description: The filter criteria used for this segment.
+          $ref: '#/components/schemas/FilterGroupV3'
+    FilterV3:
+      description: A single filter criterion, which can be user attribute-based or action-based.
+      oneOf:
+      - $ref: '#/components/schemas/AttributeFilterV3'
+      - $ref: '#/components/schemas/ActionFilterV3'
+      discriminator:
+        propertyName: filter_type
+        mapping:
+          user_attributes: '#/components/schemas/AttributeFilterV3'
+          actions: '#/components/schemas/ActionFilterV3'
+    ErrorDataV3:
+      type: object
+      description: Error details for client errors (4xx).
+      properties:
+        code:
+          type: string
+          description: A short error code that provides a brief explanation of the error (e.g., 'Invalid Request', 'Authentication required').
+        message:
+          type: string
+          description: A detailed error message describing why the request failed.
+        existing_cs_name:
+          type: string
+          description: (Conflict errors only) The name of the existing segment that conflicts with the request.
+        existing_cs_id:
+          type: string
+          description: (Conflict errors only) The ID of the existing segment that conflicts with the request.
+        actual_count:
+          type: integer
+          description: (Rate limit errors only) The actual count of segments or requests.
+        limit:
+          type: integer
+          description: (Rate limit errors only) The maximum allowed limit.
+      required:
+      - code
+      - message
+    ErrorResponseV3:
+      type: object
+      description: Error response schema for client errors (4xx).
+      properties:
+        response_id:
+          type: string
+          description: A unique identifier for this API response.
+        type:
+          type: string
+          description: The type of resource referenced in the response.
+          example: custom_segment
+        error:
+          description: Details about the error that occurred.
+          $ref: '#/components/schemas/ErrorDataV3'
+    ActionAttributeFilterGroupV3:
+      type: object
+      description: A logical grouping of attribute filters for action-based filtering.
+      properties:
+        filter_operator:
+          type: string
+          description: The logical operator to combine the attribute filters.
+          enum:
+          - and
+          - or
+        filters:
+          type: array
+          description: Array of attribute filters to apply to the event's attributes.
+          items:
+            $ref: '#/components/schemas/AttributeFilterV3'
+      required:
+      - filter_operator
+      - filters
+    ActionFilterV3:
+      title: Action-based Filters
+      type: object
+      description: A filter based on a user action (event).
+      properties:
+        filter_type:
+          type: string
+          description: Identifies the filter as action-based.
+          enum:
+          - actions
+        action_name:
+          type: string
+          description: The internal name of the event/action.
+        attributes:
+          $ref: '#/components/schemas/ActionAttributeFilterGroupV3'
+          description: Additional filters to apply to the event's attributes.
+        executed:
+          type: boolean
+          description: Whether the action should have been performed (true) or not (false).
+        execution:
+          type: object
+          description: Specifies how many times the event must have been performed.
+          properties:
+            type:
+              type: string
+              description: The type of comparison for the execution count.
+              enum:
+              - atleast
+              - exactly
+              - atmost
+              - firstTime
+              - lastTime
+            count:
+              type: integer
+              format: int32
+              description: The number of times the event must have been performed.
+          required:
+          - type
+          - count
+        primary_time_range:
+          type: object
+          description: The time range during which the event should have been performed.
+          properties:
+            type:
+              type: string
+              description: The type of time range comparison.
+              enum:
+              - true
+              - inTheLast
+              - before
+              - after
+              - between
+            value_type:
+              type: string
+              description: Whether the time range is absolute (specific datetime) or relative (last N days/weeks/months).
+              enum:
+              - absolute
+              - relative_past
+            value:
+              type: string
+              description: Integer (as string) for relative_past, or ISO 8601 Datetime (e.g., 2022-12-21T00:00:00.000Z) for absolute.
+            value1:
+              type: string
+              description: The end datetime for the 'between' operator (ISO 8601).
+            period_unit:
+              type: string
+              description: The unit of time for relative time ranges.
+              enum:
+              - days
+              - weeks
+              - months
+          required:
+          - type
+          - value_type
+          - value
+          - period_unit
+      required:
+      - filter_type
+      - action_name
+      - executed
+      - execution
+      - primary_time_range
+    FilterGroupV3:
+      type: object
+      description: A logical grouping of filters.
+      properties:
+        filter_operator:
+          type: string
+          description: The logical operator to combine the filters.
+          enum:
+          - and
+          - or
+        filters:
+          type: array
+          items:
+            $ref: '#/components/schemas/FilterV3'
+      required:
+      - filter_operator
+      - filters
+  responses:
+    201_SegmentCreatedV3:
+      description: Segment created successfully. Returns the newly created segment details including its unique ID, filter definition, and metadata.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/FilterSegmentResponseV3'
+          example:
+            data:
+              name: segment name
+              id: segment id
+              created_time: '2022-12-20T06:21:44.112000'
+              updated_time: '2022-12-20T06:21:44.160000'
+              type: ELASTIC_SEARCH
+              source: API
+              description: Subscription Status 19Dec_7  is active  (case insensitive) AND Has executed Email Sent atleast 1 time in-between Jan 05, 2021 and Jan 08, 2021
+              included_filters:
+                filter_operator: and
+                filters:
+                - filter_type: user_attributes
+                  name: Subscription Status 19Dec_7
+                  data_type: string
+                  operator: in
+                  value:
+                  - active
+                  negate: false
+                  case_sensitive: false
+                - filter_type: actions
+                  attributes:
+                    filter_operator: and
+                    filters: []
+                  executed: true
+                  primary_time_range:
+                    type: between
+                    value: '2023-02-15T00:00:00.000Z'
+                    value1: '2023-02-24T23:59:59.999Z'
+                    value_type: absolute
+                    period_unit: days
+                  action_name: MOE_EMAIL_SENT
+                  execution:
+                    count: 1
+                    type: atleast
+            response_id: cNjnTEJw
+            type: custom_segment
+    500_FilterSegmentError:
+      description: Internal Server Error. An unexpected error occurred on the MoEngage server.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ServerErrorResponseV3'
+          example:
+            response_id: HKWwUkvM
+            type: custom_segment
+            error:
+              code: Internal Server Error
+              message: An unexpected error was encountered while processing this request. Please contact MoEngage Team
+    429_FilterSegmentError:
+      description: Too Many Requests. The API rate limit has been exceeded, or the total number of active segments has reached the maximum allowed limit.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponseV3'
+          examples:
+            rateLimit:
+              summary: API Rate Limit Breached
+              value:
+                response_id: OUUkHvcn
+                type: custom_segment
+                error:
+                  code: Too Many Requests
+                  message: 'API rate limit breached. Current limit: n/m mins'
+            activeSegmentLimit:
+              summary: Active Segment Limit Breached
+              value:
+                response_id: jfYkJWRB
+                type: custom_segment
+                error:
+                  code: Too Many Requests
+                  message: Total active segments limit breached. Request rejected!
+                  actual_count: 1001
+                  limit: 1000
+    429_FilterSegmentRateLimitOnly:
+      description: Too Many Requests. The API rate limit has been exceeded.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponseV3'
+          example:
+            response_id: OUUkHvcn
+            type: custom_segment
+            error:
+              code: Too Many Requests
+              message: 'API rate limit breached. Current limit: n/m mins'
+    401_FilterSegmentError:
+      description: Authentication Failure. The request failed authentication due to incorrect APP_KEY, APP_SECRET, or Authorization header.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponseV3'
+          examples:
+            secretMismatch:
+              summary: APP_SECRET Key Mismatch
+              value:
+                response_id: SzFRAzwK
+                type: custom_segment
+                error:
+                  code: Authentication required
+                  message: APP_SECRET key mismatch. Please login to the dashboard to verify key
+            invalidAppKey:
+              summary: Invalid APP_KEY in Auth
+              value:
+                response_id: bUfoyyhN
+                type: custom_segment
+                error:
+                  code: Authentication required
+                  message: Invalid APP_KEY used in Authentication Header
+    200_SegmentListV3:
+      description: Successful retrieval of segments. Returns a list of segments matching the query criteria. An empty list is returned if no segments match.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/SegmentListResponseV3'
+          example:
+            data:
+            - name: api_test_7
+              id: 6388a97a02adb9071ca84ce9
+              created_time: '2022-12-01T13:17:46.409000'
+              type: ELASTIC_SEARCH
+              source: API
+            response_id: WYanfieM
+            type: custom_segment
+    400_FilterSegmentError:
+      description: Bad Request. The request is invalid due to missing required parameters, invalid parameter format, or malformed request body.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponseV3'
+          examples:
+            invalidFormat:
+              summary: Invalid Request Format
+              value:
+                response_id: xFyVHeOr
+                type: custom_segment
+                error:
+                  code: Invalid request
+                  message: Invalid request format. Please check the documentation to ensure that the request has been formed correctly.
+            invalidName:
+              summary: Invalid Segment Name
+              value:
+                response_id: XtVyUnlJ
+                type: custom_segment
+                error:
+                  code: Invalid Request
+                  message: Invalid request. Please ensure that the filters are correct and the custom-segment name doesn't contain HTML characters/only whitespaces.
+            invalidAppKey:
+              summary: Invalid App Key/DB Name
+              value:
+                response_id: FkrgtCVr
+                type: custom_segment
+                error:
+                  code: Request Error
+                  message: MoEngage Client not found. Please check values for headers - MOE-APPKEY or MOE-DBNAME
+    413_FilterSegmentError:
+      description: Payload Too Large / Query Too Complex. The segment definition exceeds allowed limits (nesting levels, number of segments referenced, or total query size).
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponseV3'
+          examples:
+            tooManyNestingLevels:
+              summary: Too Many Nesting Levels
+              value:
+                response_id: YbSUZzCZ
+                type: custom_segment
+                error:
+                  code: Query has too many nesting levels
+                  message: The query has more than n levels of nesting. Please reduce the segment nesting.
+            tooManySegments:
+              summary: Too Many Segments in Query
+              value:
+                response_id: BcvlFaav
+                type: custom_segment
+                error:
+                  code: Too many segments in a query
+                  message: The query has more than n custom segments. Please reduce the custom segments.
+            queryLengthExceeded:
+              summary: Query Length Limit Exceeded
+              value:
+                response_id: AQvmPUIS
+                type: custom_segment
+                error:
+                  code: Query length limit exceeded
+                  message: The query is too large to execute. Please reduce the filters.
+    403_FilterSegmentError:
+      description: Forbidden Operation. The requested operation is not allowed for this type of segment (e.g., updating file segments, archived segments, or internally created segments).
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponseV3'
+          example:
+            response_id: xuLAWeCN
+            type: custom_segment
+            error:
+              code: Forbidden operation
+              message: Update isn't supported for file-segments, internally created custom-segments, custom-segments imported from Analyze and archived custom-segments.
+    200_SegmentUpdatedV3:
+      description: Segment updated successfully. Returns the updated segment details including the new filter definition and metadata.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/FilterSegmentResponseV3'
+          example:
+            data:
+              name: your segment name
+              id: your segment id
+              created_time: '2022-12-20T06:21:44.112000'
+              updated_time: '2022-12-20T06:21:44.160000'
+              type: ELASTIC_SEARCH
+              source: API
+              description: Subscription Status 19Dec_7  is active  (case insensitive) AND Has executed Email Sent atleast 1 time in-between Feb 15, 2023 and Feb 24, 2023
+              included_filters:
+                filter_operator: and
+                filters:
+                - filter_type: user_attributes
+                  name: Subscription Status 19Dec_7
+                  data_type: string
+                  operator: in
+                  value: active
+                  negate: false
+                  case_sensitive: false
+                - filter_type: actions
+                  attributes:
+                    filter_operator: and
+                    filters: []
+                  executed: true
+                  primary_time_range:
+                    type: between
+                    value: '2023-02-15T00:00:00.000Z'
+                    value1: '2023-02-24T23:59:59.999Z'
+                    value_type: absolute
+                    period_unit: days
+                  action_name: MOE_EMAIL_SENT
+                  execution:
+                    count: 1
+                    type: atleast
+            response_id: cNjnTEJw
+            type: custom_segment
+    404_FilterSegmentError:
+      description: Entity Not Found. The custom segment with the specified ID or name does not exist.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponseV3'
+          example:
+            response_id: UAMMfmuU
+            type: custom_segment
+            error:
+              code: Entity Not Found
+              message: 'Custom segment not found with the given id: 638a051185b6b50a018cacc'
+    412_FilterSegmentError:
+      description: Precondition Failed (Cyclic Entity). A circular reference was detected in the custom segment definition.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponseV3'
+          example:
+            response_id: acOcgPed
+            type: custom_segment
+            error:
+              code: Cyclic Entity
+              message: Circular reference detected in the custom segment definition.
+    409_FilterSegmentError:
+      description: Conflict / Resource Not Created. A custom segment with the same name or filter definition already exists. Both the name and definition must be unique.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponseV3'
+          examples:
+            nameExists:
+              summary: Name Already Exists
+              value:
+                response_id: flJhLXeo
+                type: custom_segment
+                error:
+                  code: Resource not created
+                  message: 'Another custom-segment already exists with the same name: api_test_8. Please change the custom-segment name.'
+            filterExists:
+              summary: Filters Already Exist
+              value:
+                response_id: YbzjKmhl
+                type: custom_segment
+                error:
+                  code: Resource not created
+                  message: 'Another custom-segment already exists containing the given filters: api_test_multiple_cs2_re. Please reuse the same or update the filters'
+                  existing_cs_name: api_test_multiple_cs2_re
+                  existing_cs_id: 63a017e8d2460ae81a05bf5e
+  parameters:
+    AppKeyHeader:
+      name: MOE-APPKEY
+      in: header
+      description: This is the Workspace ID of your MoEngage account that must be passed with the request. You can find it in the MoEngage dashboard at **Settings** > **Account** > **APIs** > **Workspace ID (earlier app id)**.
+      required: true
+      schema:
+        type: string
+    SegmentIdPath:
+      name: id
+      in: path
+      description: The ID of the segment.
+      required: true
+      schema:
+        type: string
+    SegmentNameQuery:
+      name: name
+      in: query
+      description: The URL-encoded name of the segment to retrieve.
+      required: false
+      schema:
+        type: string
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+      description: 'Authentication is done via Basic Auth. This requires a base64-encoded string of your credentials in the format ''username:password''.
+
+
+        - **Username**: Use your MoEngage workspace ID (also known as the App ID). You can find it in the MoEngage dashboard at **Settings** > **Account** > **APIs** > **Workspace ID (earlier app id)**.
+
+        - **Password**: Use your API Key, which you can find within the **Data** tile.
+
+
+        For more information on authentication and getting your credentials, refer [here](https://www.moengage.com/docs/api/introduction#getting-your-credentials).'

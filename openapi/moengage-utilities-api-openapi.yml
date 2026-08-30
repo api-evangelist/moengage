@@ -1,0 +1,138 @@
+openapi: 3.2.0
+info:
+  title: MoEngage Data Utilities API
+  version: '1.0'
+  description: 'This is a comprehensive OpenAPI specification for MoEngage''s Data APIs, including User, Event, and Device management.
+
+    It''s designed to power an interactive API playground on your new documentation site.'
+servers:
+- url: https://api-{dc}.moengage.com/v1
+  description: MoEngage Core API Server
+  variables:
+    dc:
+      default: '01'
+      description: 'The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101. '
+security:
+- Authentication: []
+tags:
+- name: Utilities
+  description: Utility endpoints for testing connections.
+paths:
+  /integrations/authentication:
+    post:
+      tags:
+      - Utilities
+      summary: Test Connection API
+      description: 'This API validates if the entered endpoint details are valid. It verifies if the provided endpoint URL, workspace ID, and data key are accessible and responds without any errors.
+
+        '
+      parameters:
+      - name: MOE-APPKEY
+        in: header
+        required: true
+        description: This is the Workspace ID of your MoEngage account that must be passed with the request. You can find it in the MoEngage dashboard at **Settings** > **Account** > **APIs** > **Workspace ID (earlier app id)**.
+        schema:
+          type: string
+      requestBody:
+        required: true
+        description: Set the Content-Type header to application/json.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TestConnectionRequest'
+            examples:
+              cURL_Body:
+                value:
+                  app_id: '********'
+                  app_secret: '**********'
+                  source: test
+                  region: '01'
+      responses:
+        '200':
+          description: 'Success. This response is returned when the request is processed successfully.
+
+            '
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    description: 'This field contains the status of the request and denotes whether it was successful or not.
+
+                      **Example**: "status": "success", "status": "error"
+
+                      '
+                    example: success
+                  app_name:
+                    type: string
+                    description: This field contains the workspace name of your MoEngage workspace
+                    example: Your_Workspace_ID
+              example:
+                status: success
+                app_name: Your_Workspace_ID
+        '401':
+          description: 'Authorization Failure. This response is returned when the authorization parameters are missing in the HTTP Auth Header.
+
+            '
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    description: This field denotes the overall outcome of the API request (e.g., "success" or "fail"), allowing the client to quickly determine if the operation was completed as expected.
+                    example: fail
+                  error:
+                    type: object
+                    description: This field denotes a container object that holds specific technical details and context regarding the failure when the status is returned as "fail".
+                    properties:
+                      message:
+                        type: string
+                        description: This field denotes a human-readable description explaining the specific cause of the error, intended to help the developer or end-user understand what went wrong (e.g., "Missing required parameter").
+                        example: App Secret key mismatch. Please login to the dashboard to verify key
+                      type:
+                        type: string
+                        description: This field denotes a machine-readable classification or category of the error (e.g., validation_error, authentication_error), which allows the client application to programmatically handle specific error scenarios.
+                        example: Authentication required
+                      request_id:
+                        type: string
+                        description: This field denotes a unique identifier assigned to this specific API transaction.
+                        example: kKcQUqvo
+              example:
+                status: fail
+                error:
+                  message: App Secret key mismatch. Please login to the dashboard to verify key
+                  type: Authentication required
+                  request_id: kKcQUqvo
+components:
+  schemas:
+    TestConnectionRequest:
+      type: object
+      required:
+      - app_id
+      - app_secret
+      - source
+      - region
+      properties:
+        app_id:
+          type: string
+          description: Your MoEngage Workspace ID.
+        app_secret:
+          type: string
+          description: Your MoEngage Data API Key.
+        source:
+          type: string
+          description: The tool from where you are sending the request.
+          example: test
+        region:
+          type: string
+          description: Your MoEngage region (e.g., "01" for DC-01).
+          example: '01'
+  securitySchemes:
+    Authentication:
+      type: http
+      scheme: basic
+      description: "Authentication is done via Basic Auth. This requires a base64-encoded string of your credentials in the format 'username:password'.\n\n- **Username**: Use your MoEngage workspace ID (also known as the App ID). You can find it in the MoEngage dashboard at **Settings** > **Account** > **APIs** > **Workspace ID (earlier app id)**.\n- **Password**: Use your API Key, which you can find within the **Data** tile.\n\n**Note**: After you generate and save the Data API Key, DO NOT generate a new key unless there is a security breach. After you generate a different Data API key and save it, the authentication will start failing. You must update your existing data tracking. \n\nFor more information on authentication and getting your credentials, refer [here](https://www.moengage.com/docs/api/introduction#getting-your-credentials).\n"

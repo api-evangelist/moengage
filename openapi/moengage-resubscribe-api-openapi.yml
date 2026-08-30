@@ -1,0 +1,356 @@
+openapi: 3.2.0
+info:
+  title: MoEngage Email Subscription Management Resubscribe API
+  description: 'APIs for managing user email resubscription and opt-in status.
+
+    This suite of APIs allows you to update the email subscription and opt-in preferences for your users directly within the MoEngage platform, and optionally synchronize resubscription status with an external Email Service Provider (ESP).
+
+    '
+  version: '1.0'
+servers:
+- url: https://api-{dc}.moengage.com
+  description: MoEngage API Server
+  variables:
+    dc:
+      default: '01'
+      description: The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.
+security:
+- basicAuth: []
+tags:
+- name: Resubscribe
+  description: Resubscribe users who previously unsubscribed, and optionally update the ESP suppression list.
+paths:
+  /emails/v1.0/bulk-resubscribe:
+    post:
+      tags:
+      - Resubscribe
+      summary: Bulk Resubscribe Users
+      description: 'This API resubscribes users who have previously unsubscribed on the MoEngage platform and an external email vendor platform simultaneously. This API resets the unsubscribe flag to “false” for users on MoEngage and makes a call to an External Service Provider (ESP) like SendGrid to remove the email addresses (associated with the unsubscribed users) from their suppression list.
+
+        '
+      operationId: bulkResubscribeUsers
+      x-mint:
+        content: '
+
+          <Note>
+
+          #### Supported ESPs
+
+          The Resubscription API currently supports only **SendGrid**.
+
+          </Note>
+
+
+          #### Rate Limit
+
+          The rate limit is **10 RPM** (requests per minute). The allowed volume is **14.4K** requests per day, with a maximum payload size of **100** recipient email addresses per request.
+
+          '
+      parameters:
+      - name: MOE-APPKEY
+        in: header
+        required: true
+        schema:
+          type: string
+        description: 'This is the Workspace ID of your MoEngage account that must be passed with the request. You can find it in the MoEngage dashboard at **Settings** > **Account** > **APIs** > **Workspace ID (earlier app id)**.
+
+          '
+        example: YOUR_WORKSPACE_ID_XXXX
+      requestBody:
+        description: List of recipients to resubscribe and ESP preference.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ResubscribeRequest'
+            example:
+              recipients:
+              - jane@domain.com
+              - mike@example.com
+              - john.doe@example.com
+              update_esp: true
+              esp: SENDGRID
+              request_id: 636b77e6e2cf83277195fb60
+      responses:
+        '202':
+          description: The request has been successfully submitted for asynchronous processing.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResubscribeSuccessResponse'
+              example:
+                message: The request is submitted successfully.
+                response_id: SrTuWVlPsq
+        '400':
+          description: Bad Request. Returned for issues like missing mandatory fields (e.g., `recipients`), invalid format, too many recipients (>100), or invalid ESP settings.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResubscribeError400Response'
+              examples:
+                missingRecipients:
+                  summary: Missing recipients field
+                  value:
+                    response_id: wkskLzEMwM
+                    error:
+                      message: Request_Body is mandatory. Kindly add request_body and the desired fields in the API payload.
+                      err_code: BadRequest
+                missingRequestId:
+                  summary: Missing request_id field
+                  value:
+                    response_id: jLcIFgNqiF
+                    error:
+                      message: request_id - Field is required but value is None
+                      err_code: InvalidFieldValue
+                tooManyRecipients:
+                  summary: Too many recipients (>100)
+                  value:
+                    response_id: ofVaFGNZeU
+                    error:
+                      message: Payload limit is set to 100
+                      err_code: BadRequest
+                invalidRecipientFormat:
+                  summary: Invalid email format in recipients
+                  value:
+                    response_id: CNjLIXzCxP
+                    error:
+                      message: Please provide input in a valid email address format (example@domain.com) as part of 'Recipients'.
+                      err_code: InvalidInput
+                emptyRecipients:
+                  summary: Empty recipients array
+                  value:
+                    response_id: VkJTiAOgxt
+                    error:
+                      message: Add at least one email address as part of the 'Recipients'
+                      err_code: InvalidInput
+                invalidEspSettings:
+                  summary: Invalid Email Connector Settings
+                  description: Occurs if the configured ESP settings are incorrect or the ESP is not SendGrid when `update_esp` is true.
+                  value:
+                    response_id: GENERATED_ID
+                    error:
+                      message: Valid email settings not present
+                      err_code: InvalidSettings
+        '401':
+          description: Authorization Failure. Returned for issues like `MOE-APPKEY` header mismatch with Basic Auth username, missing Basic Auth credentials, or invalid authentication type.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResubscribeError401Response'
+              examples:
+                headerMismatch:
+                  summary: MOE-APPKEY mismatch
+                  value:
+                    response_id: YNJhkZzfqt
+                    error:
+                      message: MOE_APPKEY doesn't match the Username (APP_KEY) used in Basic Auth authorization.
+                      err_code: HeaderMismatch
+                missingPassword:
+                  summary: Missing password in Basic Auth
+                  value:
+                    response_id: dKzDpSIiCG
+                    error:
+                      message: Password (APP_SECRET) is missing in the Basic Auth authorization.
+                      err_code: AuthenticationMissing
+        '405':
+          description: Method Not Allowed. Returned when a method other than POST is used (e.g., GET).
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResubscribeError405Response'
+              example:
+                response_id: GudkCOBkHT
+                error:
+                  message: This API only supports the POST method. Kindly update the method and retry again.
+                  err_code: MethodNotAllowed
+        '415':
+          description: Unsupported Media Type. Returned when the `Content-Type` header is missing or invalid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResubscribeError415Response'
+              example:
+                response_id: quUXnIinLK
+                error:
+                  message: The header 'Content-Type' is missing. Kindly provide the header 'Content-Type' and set it as 'application/json'
+                  err_code: HeaderMissing
+        '429':
+          description: Rate Limit Breach. The request rate has exceeded the limit of 10 RPM.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResubscribeError429Response'
+              example:
+                response_id: quUXnIinLK
+                error:
+                  message: Rate limit exceeded
+                  err_code: TooManyRequests
+        '500':
+          description: Internal Server Error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResubscribeError500Response'
+              example:
+                response_id: quUXnIinLK
+                error:
+                  message: Please Contact Moengage Team
+                  err_code: INTERNAL_SERVER_ERROR
+components:
+  schemas:
+    ResubscribeError405Response:
+      type: object
+      description: This response is returned when the wrong HTTP method is used for the API (405 Method Not Allowed).
+      properties:
+        response_id:
+          type: string
+          description: Unique identifier for the response.
+        error:
+          type: object
+          description: Contains the error details.
+          properties:
+            message:
+              type: string
+              description: A brief description of the error.
+            err_code:
+              type: string
+              description: The error code for the unsuccessful request.
+    ResubscribeError401Response:
+      type: object
+      description: This response is returned when the authorization fails due to invalid credentials or setup (401 Authorization Failure).
+      properties:
+        response_id:
+          type: string
+          description: Unique identifier for the response.
+        error:
+          type: object
+          description: Contains the error details.
+          properties:
+            message:
+              type: string
+              description: A brief description of the error.
+            err_code:
+              type: string
+              description: The error code for the unsuccessful request.
+    ResubscribeRequest:
+      type: object
+      required:
+      - recipients
+      - esp
+      - request_id
+      properties:
+        recipients:
+          type: string
+          description: 'This field contains the email ids of the users who have resubscribed.
+
+            **Note:** If an email address matches multiple profiles, all the profiles will be marked as resubscribed on the MoEngage dashboard (the unsubscribe flag will be set to false for the user).'
+          example:
+          - john@example.com
+          - mike@example.com
+        customer_id:
+          type: string
+          description: This field denotes the unique identifier used to identify a user in MoEngage. Note that devices can be created for existing users only.
+        esp:
+          type: string
+          description: 'This field contains information about the Email Service Provider (esp) whose suppression list needs to be updated. For example, “esp”: “SENDGRID” would imply that the email address of the customers who have resubscribed to your brand need to be removed from SendGrid’s suppression list.'
+        update_esp:
+          type: boolean
+          description: This field’s default value is false when it is not sent in the request payload. MoEngage calls the ESP to remove the email addresses from their email suppression list when this field is true.
+        request_id:
+          type: string
+          description: This field contains the value of the identifier for the request.
+    ResubscribeError500Response:
+      type: object
+      description: This response is returned when the system runs into an unexpected error (500 Internal Server Error).
+      properties:
+        response_id:
+          type: string
+          description: Unique identifier for the response.
+        error:
+          type: object
+          description: Contains the error details.
+          properties:
+            message:
+              type: string
+              description: A brief description of the error.
+            err_code:
+              type: string
+              description: The error code for the unsuccessful request.
+    ResubscribeError400Response:
+      type: object
+      description: This response is returned when the `recipients` field is not present in the request body (400 Bad Request).
+      properties:
+        response_id:
+          type: string
+          description: Unique identifier for the response.
+        error:
+          type: object
+          description: Contains the error details.
+          properties:
+            message:
+              type: string
+              description: A brief description of the error.
+            err_code:
+              type: string
+              description: The error code for the unsuccessful request.
+    ResubscribeError429Response:
+      type: object
+      description: This response is returned when the number of requests has exceeded the rate limit (429 Rate Limit Breach).
+      properties:
+        response_id:
+          type: string
+          description: Unique identifier for the response.
+        error:
+          type: object
+          description: Contains the error details.
+          properties:
+            message:
+              type: string
+              description: A brief description of the error.
+            err_code:
+              type: string
+              description: The error code for the unsuccessful request.
+    ResubscribeSuccessResponse:
+      type: object
+      description: Success response body for the Bulk Resubscribe API (202 Accepted).
+      properties:
+        message:
+          type: string
+          description: This field contains a brief description of the request status.
+          example: The request is submitted successfully.
+        response_id:
+          type: string
+          description: This field contains the unique identifier for the response and is present in the response only when the request is successful.
+          example: SrTuWVlPsq
+    ResubscribeError415Response:
+      type: object
+      description: This response is returned when the Content-Type header is missing or unsupported (415 Unsupported Media Type).
+      properties:
+        response_id:
+          type: string
+          description: Unique identifier for the response.
+        error:
+          type: object
+          description: Contains the error details.
+          properties:
+            message:
+              type: string
+              description: A brief description of the error.
+            err_code:
+              type: string
+              description: The error code for the unsuccessful request.
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+      description: 'Authentication is done via Basic Auth. This requires a base64-encoded string of your credentials in the format ''username:password''.
+
+
+        - **Username**: Use your MoEngage workspace ID (also known as the App ID). You can find it in the MoEngage dashboard at **Settings** > **Account** > **APIs** > **Workspace ID (earlier app id)**.
+
+        - **Password**: Use your API Key, which you can find within the **Data** tile.
+
+
+        For more information on authentication and getting your credentials, refer [here](https://www.moengage.com/docs/api/introduction#getting-your-credentials).
+
+        '

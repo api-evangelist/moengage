@@ -1,0 +1,414 @@
+openapi: 3.2.0
+info:
+  title: Personalize Events API
+  description: 'Personalize APIs constitute a set of endpoints that can be accessed from your platform''s code. These APIs offer personalization capabilities and must be invoked from your codebase for MoEngage to provide relevant data. After receiving the data, you can use it within your platform''s code to personalize the content for your users.
+
+    '
+  version: 1.0.0
+servers:
+- url: https://sdk-{dc}.moengage.com/v1
+  description: MoEngage API Server
+  variables:
+    dc:
+      default: '01'
+      description: The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.
+security:
+- basicAuth: []
+tags:
+- name: Events
+  description: API endpoints for reporting impressions and clicks.
+paths:
+  /experiences/events:
+    post:
+      tags:
+      - Events
+      summary: Track Experience Events
+      description: 'This API tracks impressions (shown) and user interactions (clicked) for accurate experience reporting. To report an impression or click for your experience via API, use the following endpoint.
+
+        '
+      x-mint:
+        content: "<Warning>\n  If you do not call this endpoint, your MoEngage analytics dashboard will show zero impressions and zero clicks, and campaign reporting will be empty.\n</Warning>\n"
+      operationId: reportExperienceEvents
+      parameters:
+      - name: MOE-APPKEY
+        in: header
+        required: true
+        description: This is the Workspace ID of your MoEngage account that must be passed with the request. You can find it in the MoEngage dashboard at **Settings** > **Account** > **APIs** > **Workspace ID (earlier app id)**.
+        schema:
+          type: string
+          example: Workspace ID
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                elements:
+                  type: array
+                  maxItems: 100
+                  description: Array of user-event objects. Each element represents one user. You can batch up to 100 users per request.
+                  items:
+                    type: object
+                    properties:
+                      customer_id:
+                        type: string
+                        description: 'Your brand provides this field, which should be pasted in the request. Generally, this is the phone number, email ID, or any other unique ID used to uniquely identify the user in MoEngage. This is essential for event mapping back to the user.
+
+                          If the **customer_id** shared is not present in MoEngage, a new user profile will be created with the shared details.
+
+                          '
+                      user_attributes:
+                        type: object
+                        description: 'This field is used to update the details of a user identified by **customer_id**.
+
+                          If the **customer_id** does not exist, a new user will be created with the details present in **user_attributes**.
+
+                          '
+                      user_timezone_offset:
+                        type: integer
+                        description: 'The user''s UTC offset **in seconds** (not minutes, not hours). Used for time-based analytics segmentation. Valid range: `-54000` to `54000`.
+
+
+                          **Common values**:
+
+                          - UTC: `0`
+
+                          - IST (UTC+5:30): `19800`
+
+                          - US Eastern (UTC−5): `-18000`
+
+                          - US Pacific (UTC−8): `-28800`
+
+                          '
+                        minimum: -54000
+                        maximum: 54000
+                      actions:
+                        type: array
+                        description: Multiple actions or events performed by a user can be grouped together in a single API call.
+                        items:
+                          type: object
+                          properties:
+                            action:
+                              type: string
+                              description: 'This field identifies the action or the event performed by the user. The value is case-sensitive — any other string returns a `400` error.
+
+
+                                **Accepted values**:
+
+                                - `MOE_PERSONALIZATION_MESSAGE_SHOWN` — send immediately after the personalized component becomes visible to the user.
+
+                                - `MOE_PERSONALIZATION_MESSAGE_CLICKED` — send when the user clicks or taps the personalized component.
+
+                                '
+                              enum:
+                              - MOE_PERSONALIZATION_MESSAGE_SHOWN
+                              - MOE_PERSONALIZATION_MESSAGE_CLICKED
+                            moe_event_uuid:
+                              type: string
+                              format: uuid
+                              description: 'Unique UUID v4 identifier for each event occurrence. Used by MoEngage for server-side deduplication.
+
+
+                                - **On first attempt**: generate a fresh UUID.
+
+                                - **On retry**: reuse the same UUID from the original attempt — MoEngage will deduplicate it and not double-count the event.
+
+                                - **Never reuse** a UUID across different events.
+
+
+                                Generate with: `uuid.uuid4()` (Python), `uuidv4()` (Node.js), `UUID.randomUUID()` (Java).
+
+                                '
+                            event_time:
+                              type: integer
+                              description: 'Unix timestamp of the event **in seconds** (not milliseconds).
+
+
+                                Generate with:
+
+                                - JavaScript: `Math.floor(Date.now() / 1000)`
+
+                                - Python: `int(time.time())`
+
+                                - Java: `Instant.now().getEpochSecond()`
+
+                                '
+                            platform:
+                              type: string
+                              description: 'The platform on which the user is shown the personalization event. If the value is missing or unrecognized, **Unknown** is used.
+
+
+                                **Accepted values**: `web`, `android`, `ios`, `tv`. Matching is case-insensitive (`Android`, `iOS`, and `Web` all work). Use lowercase for consistency with existing examples.
+
+                                '
+                            attributes:
+                              type: object
+                              description: 'Pass-through of the `experience_context` object returned by the [Fetch Experience](/api/experiences/fetch-experience) API. Store `experience_context` from the fetch response and copy each field into `attributes` here when the user sees or clicks the experience — for example, `experience_context.cid` becomes `attributes.cid`.
+
+                                '
+                              required:
+                              - cid
+                              - experience
+                              - moe_locale_id
+                              - moe_variation_id
+                              - audience_name
+                              - audience_id
+                              properties:
+                                cid:
+                                  type: string
+                                  description: Campaign ID. From `experience_context.cid`.
+                                experience:
+                                  type: string
+                                  description: Experience name. From `experience_context.experience`.
+                                moe_locale_id:
+                                  type: string
+                                  description: Locale ID. From `experience_context.moe_locale_id`.
+                                moe_variation_id:
+                                  type: string
+                                  description: Variation ID. From `experience_context.moe_variation_id`.
+                                audience_name:
+                                  type: string
+                                  description: Audience name. From `experience_context.audience_name`.
+                                audience_id:
+                                  type: string
+                                  description: Audience ID. From `experience_context.audience_id`.
+                                type:
+                                  type: string
+                                  description: Experience type. From `experience_context.type`.
+                                  enum:
+                                  - Web Personalization
+                            b_id:
+                              type: string
+                              description: 'This field can be used to uniquely identify click tracking events on multiple elements on a page.
+
+                                For example, *Add to Cart* & *Wishlist* can be used to identify if the user has clicked or tapped on these buttons on the website or the app.
+
+                                '
+            examples:
+              Impression Existing User:
+                summary: Impression (Existing User)
+                value:
+                  elements:
+                  - customer_id: '<unique user identifier like email or phone number. Eg: john@example.com>'
+                    user_timezone_offset: 19800
+                    actions:
+                    - action: MOE_PERSONALIZATION_MESSAGE_SHOWN
+                      moe_event_uuid: aa886712-4537-47c1-b126-2686efda2e26
+                      event_time: 1725258666
+                      platform: web
+                      attributes:
+                        cid: 66d55ae445921e4d35ae4368_F_T_WP_AB_2_P_0_AU_5A
+                        experience: Test Server side experience
+                        moe_locale_id: '0'
+                        moe_variation_id: '2'
+                        audience_name: All Users
+                        audience_id: 5A
+                        type: Web Personalization
+              Impression New User:
+                summary: Impression (New User)
+                value:
+                  elements:
+                  - customer_id: john@example.com
+                    user_attributes:
+                      name: John Doe
+                      first_name: John
+                      last_name: Doe
+                    user_timezone_offset: 19800
+                    actions:
+                    - action: MOE_PERSONALIZATION_MESSAGE_SHOWN
+                      moe_event_uuid: aa886712-4537-47c1-b126-2686efda2e26
+                      event_time: 1725258666
+                      platform: web
+                      attributes:
+                        cid: 66d55ae445921e4d35ae4368_F_T_WP_AB_2_P_0_AU_5A
+                        experience: Test Server side experience
+                        moe_locale_id: '0'
+                        moe_variation_id: '2'
+                        audience_name: All Users
+                        audience_id: 5A
+                        type: Web Personalization
+              Impression Anonymous User:
+                summary: Impression (Anonymous User)
+                value:
+                  elements:
+                  - customer_id: <identifier for the user for the session>
+                    user_timezone_offset: 19800
+                    actions:
+                    - action: MOE_PERSONALIZATION_MESSAGE_SHOWN
+                      moe_event_uuid: aa886712-4537-47c1-b126-2686efda2e26
+                      event_time: 1725258666
+                      platform: web
+                      attributes:
+                        cid: 66d55ae445921e4d35ae4368_F_T_WP_AB_2_P_0_AU_5A
+                        experience: Test Server side experience
+                        moe_locale_id: '0'
+                        moe_variation_id: '2'
+                        audience_name: All Users
+                        audience_id: 5A
+                        type: Web Personalization
+              Click Existing User:
+                summary: Click (Existing User)
+                value:
+                  elements:
+                  - customer_id: '<unique user identifier like email or phone number. Eg: john@example.com>'
+                    user_timezone_offset: 19800
+                    actions:
+                    - action: MOE_PERSONALIZATION_MESSAGE_CLICKED
+                      moe_event_uuid: aa886712-4537-47c1-b126-2686efda2e26
+                      event_time: 1725258666
+                      platform: web
+                      attributes:
+                        cid: 66d55ae445921e4d35ae4368_F_T_WP_AB_2_P_0_AU_5A
+                        experience: Test Server side experience
+                        moe_locale_id: '0'
+                        moe_variation_id: '2'
+                        b_id: Add to Cart
+                        audience_name: All Users
+                        audience_id: 5A
+                        type: Web Personalization
+              Click New User:
+                summary: Click (New User)
+                value:
+                  elements:
+                  - customer_id: john@example.com
+                    user_attributes:
+                      name: John Doe
+                      first_name: John
+                      last_name: Doe
+                    user_timezone_offset: 19800
+                    actions:
+                    - action: MOE_PERSONALIZATION_MESSAGE_CLICKED
+                      moe_event_uuid: bb997812-4537-47c1-b126-2686efda2e27
+                      event_time: 1725258670
+                      platform: web
+                      attributes:
+                        cid: 66d55ae445921e4d35ae4368_F_T_WP_AB_2_P_0_AU_5A
+                        experience: Test Server side experience
+                        moe_locale_id: '0'
+                        moe_variation_id: '2'
+                        b_id: Add to Cart
+                        audience_name: All Users
+                        audience_id: 5A
+                        type: Web Personalization
+              Click Anonymous User:
+                summary: Click (Anonymous User)
+                value:
+                  elements:
+                  - customer_id: <identifier for the user for the session>
+                    user_timezone_offset: 19800
+                    actions:
+                    - action: MOE_PERSONALIZATION_MESSAGE_CLICKED
+                      moe_event_uuid: aa886712-4537-47c1-b126-2686efda2e26
+                      event_time: 1725258666
+                      platform: web
+                      attributes:
+                        cid: 66d55ae445921e4d35ae4368_F_T_WP_AB_2_P_0_AU_5A
+                        experience: Test Server side experience
+                        moe_locale_id: '0'
+                        moe_variation_id: '2'
+                        b_id: Add to Cart
+                        audience_name: All Users
+                        audience_id: 5A
+                        type: Web Personalization
+      responses:
+        '200':
+          description: '**Success**
+
+            The event was accepted by the MoEngage ingestion pipeline.
+
+
+            **Note on idempotency**: Events are deduplicated using `moe_event_uuid`. On retry, reuse the same UUID from the original attempt — MoEngage will not double-count it. For a new event, always generate a fresh UUID.
+
+            '
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    description: Acknowledgement status, for example `success`.
+                  message:
+                    type: string
+                    description: Human-readable acknowledgement message.
+                  req_id:
+                    type: string
+                    description: Server-assigned request identifier. Include this when contacting support about a specific call.
+              example:
+                status: success
+                message: Your request has been accepted and will be processed soon.
+                req_id: SKuSLFnX
+        '400':
+          description: '**Bad Request**
+
+            Returned when the payload is malformed JSON, fails validation (for example, an unsupported `action` or `platform`, a missing required `attributes` field, or `user_timezone_offset` outside `-54000`–`54000`), or the `MOE-APPKEY` header is missing or not recognized.
+
+            '
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                title: Invalid Field Value
+                description: 'elements - Validators Failed : Validator: Element, Errored Field: actions'
+                code: NwRqMltB
+        '401':
+          description: '**Authorization Failed**
+
+            This response is returned when the authorization fails due to incorrect values for the Workspace ID or Personalize API Key.
+
+            '
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                title: Authentication required
+                description: Invalid API_KEY used in Authentication Header
+        '500':
+          description: '**Internal Server Error**
+
+            This response is returned when the system runs into an unexpected error. Retry using the same `moe_event_uuid` from the original attempt — the event will be safely deduplicated. If the error persists for more than 5 minutes, contact MoEngage support.
+
+            '
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+components:
+  schemas:
+    ErrorResponse:
+      type: object
+      description: Standard error envelope returned by Personalize endpoints for `4xx` and `5xx` responses.
+      properties:
+        title:
+          type: string
+          description: Short error category, for example `Invalid Field Value`, `Authentication required`, or `Malformed JSON`.
+        description:
+          type: string
+          description: Human-readable detail describing what failed.
+        code:
+          type: string
+          description: Opaque server-assigned error code. Present on validation failures; useful when contacting support.
+      required:
+      - title
+      - description
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+      description: 'Authentication is done via Basic Auth. This requires a base64-encoded string of your credentials in the format ''username:password''.
+
+
+        - **Username**: Use your MoEngage workspace ID (also known as the App ID). You can find it in the MoEngage dashboard at **Settings** > **Account** > **APIs** > **Workspace ID (earlier app id)**.
+
+        - **Password**: Use your API Key, which you can find within the **Personalize** tile.
+
+
+        **Note**: After you generate and save the Personalize API Key (SECRET KEY), DO NOT generate a new key unless there is a security breach. After you generate a different key and save it, API calls using the older key won''t work.
+
+
+        For more information on authentication and getting your credentials, refer [here](https://www.moengage.com/docs/api/introduction#getting-your-credentials).
+
+        '

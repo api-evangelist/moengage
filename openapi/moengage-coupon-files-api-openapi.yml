@@ -1,0 +1,586 @@
+openapi: 3.2.0
+info:
+  title: Coupon List API 🏷️ Coupon Files API
+  description: 'API for managing coupon lists within the MoEngage system. This includes creating, fetching, updating, activating, archiving lists, uploading coupon files, managing files, and generating usage reports.
+
+    Authentication is via Basic Auth using your **Workspace ID** as username and an **API Key** as password.
+
+    '
+  version: '1.0'
+servers:
+- url: https://api-{dc}.moengage.com/v1
+  description: The MoEngage Coupon Management API endpoint. The **X** in the URL is replaced by the data center number (e.g., 01, 02, 03).
+  variables:
+    dc:
+      default: '01'
+      description: The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.
+security:
+- basicAuth: []
+tags:
+- name: Coupon Files
+  description: Operations related to uploading coupon codes via files and checking/managing file processing status.
+paths:
+  /coupon-list/{coupon_list_id}/files:
+    post:
+      tags:
+      - Coupon Files
+      summary: Upload a Coupon File to the Coupon List
+      operationId: uploadCouponFile
+      description: 'After you create a coupon list, you must add coupons to the list to be distributed through campaigns. If a coupon list has been running for some time, it may be running low after serving several campaigns.
+
+
+        Using this API, you can replenish an older list or populate a new list by providing the URL of a file containing the coupons, thereby enabling their distribution through various campaigns. These coupons can be provided through a file, and the API requires the URL where your coupon file is hosted.
+
+        '
+      x-mint:
+        content: "<Note>\n  **Information**\n  \n  Upon API request, file processing begins, and the file status will be **PENDING** by default.\n  * For convenience, you can set up a callback URL to trigger when the file's processing is completed.\n  * You can check the processing status using the [Fetch a Coupon File API](https://www.moengage.com/docs/api/coupon-files/fetch-a-coupon-file-from-coupon-list) to get the status separately.\n</Note>\n\n#### Rate Limit\nYou can upload:\n* 5 coupon files to a coupon list per minute or\n* 50 coupon files to a coupon list per day\n\n**Note:**\n* **Payload size limit**: 64 MB for manual uploads or 100 MB for URL uploads.\n* **Additional limits**: The maximum number of coupons per coupon list is 100 million.\n"
+      parameters:
+      - $ref: '#/components/parameters/AppKeyHeader'
+      - $ref: '#/components/parameters/CouponListIdPath'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UploadCouponFileRequest'
+              properties:
+                name:
+                  description: This field consists of the file name of the coupon list.
+                file_url:
+                  description: This field consists of the file path of the coupon list.
+                file_url_auth_username:
+                  type: string
+                  description: This field consists of the coupon file username.
+                file_url_auth_password:
+                  type: string
+                  description: This field consists of the coupon file password.
+                created_by:
+                  description: This field consists of the name of the subscriber who uploaded the coupon file.
+                callback_url:
+                  description: This field consists of the coupon file callback URL.
+            examples: {}
+      responses:
+        '201':
+          description: 'Success
+
+            The request was successful, and the coupon URL upload request was accepted.
+
+
+            **Note**: The status of the URL upload is always PENDING.
+
+            '
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  name:
+                    type: string
+                    description: This field contains the coupon file name.
+                  file_url:
+                    type: string
+                    description: This field consists of the file path of the coupon list.
+                  created_by:
+                    type: string
+                    description: This field consists of the name of the subscriber who uploaded the coupon file.
+                  status:
+                    type: string
+                    description: 'Once the coupon URL upload request is accepted, the response displays the following status:
+
+                      * PENDING - The URL is waiting for approval.
+
+
+                      **Note:** To know the status of the coupon upload, you need to trigger the **Fetch a Coupon File API**.
+
+                      '
+                  coupons_list_id:
+                    type: string
+                    description: This field contains the coupon list ID that you have requested to upload the coupon file to.
+                  _id:
+                    type: string
+                    description: This field contains the coupon file ID.
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                invalid_json:
+                  summary: Invalid JSON
+                  value:
+                    error:
+                      code: invalid-request
+                      message: The requested JSON is incorrect. Please verify and try again.
+                empty_file_url:
+                  summary: Empty File URL
+                  value:
+                    error:
+                      code: invalid-request
+                      message: The 'file_url' can not be empty. Please provide the coupon file url and try again.
+                multiple_file_urls:
+                  summary: Multiple File URLs
+                  value:
+                    error:
+                      code: invalid-request
+                      message: Multiple file urls are not permitted. Please select one file url and try again.
+        '401':
+          description: Unauthenticated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                error:
+                  code: request-unauthenticated
+                  message: Your request is unauthorized. Please verify your credentials and try again.
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                error:
+                  code: request-forbidden
+                  message: Your account does not have access to the Coupon Management features. Please contact the MoEngage team for further assistance.
+        '429':
+          description: 'Too Many Requests - The rate limit for the API has been exceeded.
+
+
+            The following headers are returned in case of rate-limit breach:
+
+            * `x-ratelimit-limit` (integer): The maximum number of requests that the consumer is permitted to make in a given time window.
+
+            * `x-ratelimit-remaining` (integer): The number of requests remaining in the current rate limit window.
+
+            * `x-ratelimit-reset` (integer): The time at which the current rate limit window resets in UTC epoch seconds.
+
+            '
+          headers:
+            x-ratelimit-limit:
+              schema:
+                type: integer
+              description: The maximum number of requests that the consumer is permitted to make in a given time window.
+            x-ratelimit-remaining:
+              schema:
+                type: integer
+              description: The number of requests remaining in the current rate limit window.
+            x-ratelimit-reset:
+              schema:
+                type: integer
+              description: The time at which the current rate limit window resets in UTC epoch seconds.
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                error:
+                  code: unexpected-error
+                  message: Something went wrong with your request. Please contact the MoEngage team for further assistance.
+    get:
+      tags:
+      - Coupon Files
+      summary: Fetch All Coupon Files From Coupon List
+      operationId: fetchAllCouponFiles
+      description: 'This API retrieves the details of each file in the given coupon list that is added and not deleted. The information retrieved will include the file''s status, the number of coupons added from each file, and the respective file''s addition date, thereby providing a comprehensive breakdown of each file''s information for improved management and tracking.
+
+        '
+      x-mint:
+        content: "<Note>\n  There is no request body or content to send for this request except for headers.\n</Note>\n\n#### Rate Limit\nYou can fetch 10,000 coupon files from coupon lists per day.\n"
+      parameters:
+      - $ref: '#/components/parameters/AppKeyHeader'
+      - name: coupon_list_id
+        in: path
+        required: true
+        description: The unique identifier for the coupon list.
+        schema:
+          type: string
+      responses:
+        '200':
+          description: 'Success
+
+            Indicates that the request was successful and the coupon files have been fetched.
+
+            '
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        coupon_list_id:
+                          type: string
+                          description: This field contains the coupon list ID from which you fetched the coupon files.
+                        name:
+                          type: string
+                          description: This field contains the coupon file name.
+                        status:
+                          type: string
+                          description: 'This field shows one of the following statuses of the fetched coupon files:
+
+                            * PENDING
+
+                            '
+                        file_url:
+                          type: string
+                          description: This field consists of the file path of the coupon list.
+                        created_at:
+                          type: string
+                          description: This field consists of the date and time the coupon file was created.
+                        updated_at:
+                          type: string
+                          description: This field consists of the date and time of the most recent update to the coupon file.
+                        created_by:
+                          type: string
+                          description: This field consists of the name of the subscriber who uploaded the coupon file.
+                        _id:
+                          type: string
+                          description: This field contains the unique ID corresponding to a successful coupon file fetch request. This ID is also used to update and archive coupon files from the coupon list.
+                        added_coupons:
+                          type: integer
+                          description: This field consists of the available number of coupons added to the coupon list.
+                        callback_url:
+                          type: string
+                          description: This field consists of the callback URL.
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Unauthenticated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: 'Too Many Requests - The rate limit for the API has been exceeded.
+
+
+            The following headers are returned in case of rate-limit breach:
+
+            * `x-ratelimit-limit` (integer): The maximum number of requests that the consumer is permitted to make in a given time window.
+
+            * `x-ratelimit-remaining` (integer): The number of requests remaining in the current rate limit window.
+
+            * `x-ratelimit-reset` (integer): The time at which the current rate limit window resets in UTC epoch seconds.
+
+            '
+          headers:
+            x-ratelimit-limit:
+              schema:
+                type: integer
+              description: The maximum number of requests that the consumer is permitted to make in a given time window.
+            x-ratelimit-remaining:
+              schema:
+                type: integer
+              description: The number of requests remaining in the current rate limit window.
+            x-ratelimit-reset:
+              schema:
+                type: integer
+              description: The time at which the current rate limit window resets in UTC epoch seconds.
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /coupon-list/{coupon_list_id}/files/{coupon_file_id}:
+    get:
+      tags:
+      - Coupon Files
+      summary: Fetch a Coupon File from Coupon List
+      operationId: fetchCouponFile
+      description: 'This API retrieves the details of a particular coupon file added to a given coupon list. This includes information such as file status, the number of added coupons, and the file addition date.
+
+        '
+      x-mint:
+        content: "<Note>\n  **Information**\n  \n  There is no request body or content to send for this request except for headers.\n</Note>\n\n#### Rate Limit\nYou can fetch 10,000 coupon files from a coupon list per day.\n"
+      parameters:
+      - $ref: '#/components/parameters/AppKeyHeader'
+      - $ref: '#/components/parameters/CouponListIdPath'
+      - $ref: '#/components/parameters/CouponFileIdPath'
+      responses:
+        '200':
+          description: 'Success
+
+            Indicates that the request was successful and the coupon file was fetched.
+
+            '
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  coupon_list_id:
+                    type: string
+                    description: This field contains the coupon list ID from which you fetched the coupon file.
+                  name:
+                    type: string
+                    description: This field contains the coupon file name.
+                  status:
+                    type: string
+                    description: 'This field shows one of the following statuses of the fetched coupon file:
+
+                      * PENDING
+
+                      '
+                  file_url:
+                    type: string
+                    description: This field consists of the file path of the coupon list.
+                  created_by:
+                    type: string
+                    description: This field consists of the name of the subscriber who uploaded the coupon file.
+                  created_at:
+                    type: string
+                    description: This field consists of the date and time the coupon file was created.
+                  updated_at:
+                    type: string
+                    description: This field consists of the date and time of the most recent update to the coupon file.
+                  _id:
+                    type: string
+                    description: This field contains the unique ID corresponding to a successful coupon file fetch request. This ID is also used to update and archive coupon files from the coupon list.
+                  added_coupons:
+                    type: integer
+                    description: This field consists of the available number of coupons added to the coupon list.
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                error:
+                  code: bad-request
+                  message: Possible issues include duplicates, such as coupon list names, invalid data types, or missing mandatory attributes.
+        '401':
+          description: Unauthenticated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                error:
+                  code: request-unauthenticated
+                  message: Your request is unauthorized. Please verify your credentials and try again.
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                error:
+                  code: request-forbidden
+                  message: Your account does not have access to the Coupon Management features. Contact the MoEngage team for further assistance.
+        '429':
+          description: 'Too Many Requests - The rate limit for the API has been exceeded.
+
+
+            The following headers are returned in case of rate-limit breach:
+
+            * `x-ratelimit-limit` (integer): The maximum number of requests that the consumer is permitted to make in a given time window.
+
+            * `x-ratelimit-remaining` (integer): The number of requests remaining in the current rate limit window.
+
+            * `x-ratelimit-reset` (integer): The time at which the current rate limit window resets in UTC epoch seconds.
+
+            '
+          headers:
+            x-ratelimit-limit:
+              schema:
+                type: integer
+              description: The maximum number of requests that the consumer is permitted to make in a given time window.
+            x-ratelimit-remaining:
+              schema:
+                type: integer
+              description: The number of requests remaining in the current rate limit window.
+            x-ratelimit-reset:
+              schema:
+                type: integer
+              description: The time at which the current rate limit window resets in UTC epoch seconds.
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                error:
+                  code: unexpected-error
+                  message: Something went wrong with your request. Please contact the MoEngage team for further assistance.
+    delete:
+      tags:
+      - Coupon Files
+      summary: Delete a Coupon File from the Coupon List
+      operationId: deleteCouponFile
+      description: 'This API removes a specific coupon file from a coupon list. It is useful in scenarios where a test file or incorrect file is inadvertently uploaded, thereby ensuring the accuracy and effectiveness of your coupon list management.
+
+        '
+      x-mint:
+        content: "<Note>\n  **Information**\n  \n  There is no request body or content to send for this request except for headers.\n</Note>\n\n#### Rate Limit\nYou can delete:\n* 5 coupon files per minute or\n* 50 coupon files per day\n"
+      parameters:
+      - $ref: '#/components/parameters/AppKeyHeader'
+      - $ref: '#/components/parameters/CouponListIdPath'
+      - $ref: '#/components/parameters/CouponFileIdPath'
+      responses:
+        '204':
+          description: 'Success (No content)
+
+            The request is successful, and the coupon file is deleted.
+
+            '
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                error:
+                  code: invalid-request
+                  message: The requested JSON is incorrect. Please verify and try again.
+        '401':
+          description: Unauthenticated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                error:
+                  code: request-unauthenticated
+                  message: Your request is unauthorized. Please verify your credentials and try again.
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                error:
+                  code: request-forbidden
+                  message: Your account does not have access to the Coupon Management features. Contact the MoEngage team for further assistance.
+        '429':
+          description: 'Too Many Requests - The rate limit for the API has been exceeded.
+
+
+            The following headers are returned in case of rate-limit breach:
+
+            * `x-ratelimit-limit` (integer): The maximum number of requests that the consumer is permitted to make in a given time window.
+
+            * `x-ratelimit-remaining` (integer): The number of requests remaining in the current rate limit window.
+
+            * `x-ratelimit-reset` (integer): The time at which the current rate limit window resets in UTC epoch seconds.
+
+            '
+          headers:
+            x-ratelimit-limit:
+              schema:
+                type: integer
+              description: The maximum number of requests that the consumer is permitted to make in a given time window.
+            x-ratelimit-remaining:
+              schema:
+                type: integer
+              description: The number of requests remaining in the current rate limit window.
+            x-ratelimit-reset:
+              schema:
+                type: integer
+              description: The time at which the current rate limit window resets in UTC epoch seconds.
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                error:
+                  code: unexpected-error
+                  message: Something went wrong with your request. Please contact the MoEngage team for further assistance.
+components:
+  schemas:
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          $ref: '#/components/schemas/Error'
+    UploadCouponFileRequest:
+      type: object
+      required:
+      - file_url
+      properties:
+        name:
+          type: string
+        file_url:
+          type: string
+          format: url
+        file_url_auth_username:
+          type: string
+        file_url_auth_password:
+          type: string
+        created_by:
+          type: string
+        callback_url:
+          type: string
+          format: url
+    Error:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Each error codes are unique and serve as a shorthand representation for the type of error, providing a quick reference that can be used to diagnose, troubleshoot, and address the problem based on a predefined set of error conditions.
+        message:
+          type: string
+          description: Along with the error code, a detailed message is also provided in the response, describing the specifics of the request failure and the nature of the error.
+  parameters:
+    CouponFileIdPath:
+      name: coupon_file_id
+      in: path
+      required: true
+      description: The unique identifier for the coupon file.
+      schema:
+        type: string
+    CouponListIdPath:
+      name: coupon_list_id
+      in: path
+      required: true
+      description: The unique identifier for the coupon list.
+      schema:
+        type: string
+    AppKeyHeader:
+      name: MOE-APPKEY
+      in: header
+      required: true
+      description: 'This is the Workspace ID of your MoEngage account that must be passed with the request. You can find it in the MoEngage dashboard at **Settings** > **Account** > **APIs** > **Workspace ID (earlier app id)**.
+
+        '
+      schema:
+        type: string
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+      description: 'Authentication is done via Basic Auth. This requires a base64-encoded string of your credentials in the format ''username:password''.
+
+
+        - **Username**: Use your MoEngage workspace ID (also known as the App ID). You can find it in the MoEngage dashboard at **Settings** > **Account** > **APIs** > **Workspace ID (earlier app id)**.
+
+        - **Password**: Use your API Key, which you can find within the **Campaign report/Business events/Custom templates/Catalog API/Inform Report** tile.
+
+
+        For more information on authentication and getting your credentials, refer [here](https://www.moengage.com/docs/api/introduction#getting-your-credentials).
+
+        '

@@ -1,0 +1,814 @@
+openapi: 3.2.0
+info:
+  title: MoEngage Data Device API
+  version: '1.0'
+  description: 'This is a comprehensive OpenAPI specification for MoEngage''s Data APIs, including User, Event, and Device management.
+
+    It''s designed to power an interactive API playground on your new documentation site.'
+servers:
+- url: https://api-{dc}.moengage.com/v1
+  description: MoEngage Core API Server
+  variables:
+    dc:
+      default: '01'
+      description: 'The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101. '
+security:
+- Authentication: []
+tags:
+- name: Device
+  description: Operations for managing user devices.
+paths:
+  /device/{app_id}:
+    post:
+      tags:
+      - Device
+      summary: Track Device
+      x-mint:
+        content: '
+
+          #### Rate Limit
+
+          A single API request contains one or more device updates. Maintain a rate limit of 10,000 device updates per minute.
+
+          '
+      description: This API adds or updates devices and device properties in MoEngage. You can create a new device for an existing user, create new device properties for an existing user, or update the device properties of the existing user.
+      parameters:
+      - name: app_id
+        in: path
+        required: true
+        description: This is the Workspace ID of your MoEngage account that must be passed with the request. You can find it in the MoEngage dashboard at **Settings** > **Account** > **APIs** > **Workspace ID (earlier app id)**.
+        schema:
+          type: string
+          example: VJ0GSMESHMQA3L7WV1EEK3UR
+      - name: X-Forwarded-For
+        in: header
+        required: false
+        description: The 'X-Forwarded-For' header is used to specify the IP address of the client that made the request. This header may be added by proxy servers or load balancers. The header value must contain the IP address of the original client that initiated the request. Multiple IP addresses may be specified in the header value, separated by commas.
+        schema:
+          type: string
+          example: 203.0.113.195
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateDeviceRequest'
+      responses:
+        '200':
+          description: This response is returned when the request is processed successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericSuccess'
+              examples:
+                success_response:
+                  summary: Success Response
+                  value:
+                    status: success
+                    message: Your request has been accepted and will be processed soon.
+        '400':
+          description: This response is returned when the required parameters are missing from the request, attributes are not found, and incorrect values are passed.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: fail
+                  error:
+                    type: object
+                    properties:
+                      attribute:
+                        type: string
+                        description: The attribute in the payload that caused the error.
+                      message:
+                        type: string
+                        description: A descriptive error message explaining why the request failed.
+                      type:
+                        type: string
+                        description: The type or category of the error ("MissingAttributeError").
+                      request_id:
+                        type: string
+                        description: A unique identifier for the request, useful for debugging.
+              examples:
+                missing_customerid:
+                  summary: Customer_id is missing
+                  value:
+                    status: fail
+                    error:
+                      attribute: customer_id
+                      message: '''customer_id'' is not found in the payload'
+                      type: MissingAttributeError
+                      request_id: izsZuQNw
+                missing_attributes:
+                  summary: Attributes is missing
+                  value:
+                    status: fail
+                    error:
+                      attribute: attributes
+                      message: '''attributes'' is not found in the payload'
+                      type: MissingAttributeError
+                      request_id: MwNnVDsC
+                invalid_platform:
+                  summary: Invalid platform
+                  value:
+                    status: fail
+                    error:
+                      attribute: platform
+                      message: '''platform'' is not a valid platform.'
+                      type: ValueError
+                      request_id: NDuFDLwS
+                missing_pushid:
+                  summary: Push_id is missing
+                  value:
+                    status: fail
+                    error:
+                      attribute: push_id
+                      message: '''push_id'' is not found in payload'
+                      type: MissingAttributeError
+                      request_id: dsLXpKgJ
+                missing_platform:
+                  summary: Platform is not found in payload
+                  value:
+                    status: fail
+                    error:
+                      attribute: platform
+                      message: '''platform'' is not found in payload'
+                      type: MissingAttributeError
+                      request_id: gyLYpBFV
+        '401':
+          description: This response is returned when the request does not have valid authentication credentials.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: fail
+                  error:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                        description: A descriptive error message explaining why the request failed.
+                      type:
+                        type: string
+                        description: The type or category of the error (e.g., Authentication required).
+                      request_id:
+                        type: string
+                        description: A unique identifier for the request, useful for debugging.
+              examples:
+                auth_error:
+                  summary: Authorization errors
+                  value:
+                    status: fail
+                    error:
+                      message: App Secret key mismatch. Please login to the dashboard to verify key
+                      type: Authentication required
+                      request_id: PVUDFisO
+                missing_header:
+                  summary: Missing authentication header
+                  value:
+                    status: fail
+                    error:
+                      message: Authentication Header Required
+                      type: Authentication required
+                      request_id: PisPjGQQ
+        '403':
+          description: This response is returned when your MoEngage account is suspended or blocked.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: fail
+                  error:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                        description: A descriptive error message explaining why the request failed.(e.g., Your account is suspended. Please contact MoEngage team.)
+                      type:
+                        type: string
+                        description: The type or category of the error (e.g., BlockedClient, Account Suspended, Account Temporarily Suspended).
+                      request_id:
+                        type: string
+                        description: A unique identifier for the request, useful for debugging.
+              examples:
+                account_blocked:
+                  summary: Account is blocked
+                  value:
+                    status: fail
+                    error:
+                      message: Your account is suspended. Please contact MoEngage team.
+                      type: BlockedClient
+                      request_id: ofHUEaEQ
+                account_suspended:
+                  summary: Account is suspended
+                  value:
+                    status: fail
+                    error:
+                      message: Your account is suspended. Please contact MoEngage team.
+                      type: Account Suspended
+                      request_id: gqJvCNYu3
+                temp_suspended:
+                  summary: Account is temporarily suspended
+                  value:
+                    status: fail
+                    error:
+                      message: Your account is temporarily suspended. Please contact MoEngage team.
+                      type: Account Temporarily Suspended
+                      request_id: ssSJjoyD
+        '413':
+          description: This response is returned when the payload size exceeds 128 KB.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: fail
+                  error:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                        description: A descriptive error message explaining why the request failed.
+                      type:
+                        type: string
+                        description: The type or category of the error (e.g., Payload too large).
+                      request_id:
+                        type: string
+                        description: A unique identifier for the request, useful for debugging.
+              examples:
+                payload_exceeded:
+                  summary: Payloads exceeding the size limit
+                  value:
+                    status: fail
+                    error:
+                      message: Payload size exceeds 128 KB
+                      type: PayloadTooLarge
+                      request_id: VFzDwhwt
+        '415':
+          description: This response is returned when the content type is not supported.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: fail
+                  error:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                        description: A descriptive error message explaining why the request failed.
+                      type:
+                        type: string
+                        description: The type or category of the error (e.g., Unsupported media type).
+                      request_id:
+                        type: string
+                        description: A unique identifier for the request, useful for debugging.
+              examples:
+                unsupported_media_type:
+                  summary: Unsupported media type
+                  value:
+                    status: fail
+                    error:
+                      message: Content type is not supported
+                      type: Unsupported media type
+                      request_id: SgBQfKJh
+        '429':
+          description: This response is returned when the number of requests has exceeded the rate limit.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: fail
+                  error:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                        description: A descriptive error message explaining why the request failed.
+                      type:
+                        type: string
+                        description: The type or category of the error (e.g., Rate Limits Exceeded).
+                      request_id:
+                        type: string
+                        description: A unique identifier for the request, useful for debugging.
+              examples:
+                rate_limit:
+                  summary: Rate limit breach
+                  value:
+                    status: fail
+                    error:
+                      message: Rate limits for customers exceeded. Please Try After Some Time
+                      type: Rate Limits Exceeded
+                      request_id: onqucLYL
+        '500':
+          description: This response is returned when the system runs into an unexpected error.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: fail
+                  error:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                        description: A descriptive error message explaining why the request failed.
+                      type:
+                        type: string
+                        description: The type or category of the error (e.g., Server Error).
+                      request_id:
+                        type: string
+                        description: A unique identifier for the request, useful for debugging.
+              examples:
+                unknown_error:
+                  summary: Unknown errors
+                  value:
+                    status: fail
+                    error:
+                      message: An unexpected error was encountered while processing this request. Please contact MoEngage Team
+                      type: ServerError
+                      request_id: KovrwJiF
+  /devices/manage:
+    post:
+      tags:
+      - Device
+      summary: Device Opt-out
+      description: This API blocks or unblocks specific devices from receiving push notifications triggered from MoEngage. To prevent push notifications from reaching a specific user or all devices associated with a user, call the API to block them. This is useful for reasons such as device theft or fraudulent activity. For example, if a device is stolen, you can use this API to block it in MoEngage, ensuring that any scheduled push notifications with sensitive content do not get delivered. You can also use the API to unblock a device if it is recovered.
+      x-mint:
+        content: "#### Rate Limit\nThe rate limit is 1000 API requests per minute.\n  \n"
+      parameters:
+      - name: app_id
+        in: query
+        required: true
+        description: This is the Workspace ID of your MoEngage account that must be passed with the request. You can find it in the MoEngage dashboard at **Settings** > **Account** > **APIs** > **Workspace ID (earlier app id)**.
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeviceOptOutRequest'
+      responses:
+        '200':
+          description: This response is returned when the request is processed successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericSuccess'
+              examples:
+                success_response:
+                  summary: Success Response
+                  value:
+                    status: success
+                    message: Your request has been accepted and will be processed soon.
+        '400':
+          description: This response is returned when the required parameters are missing from the request, attributes are not found, and incorrect values are passed.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: fail
+                  error:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                        description: A descriptive error message explaining why the request failed.
+                      type:
+                        type: string
+                        description: The type or category of the error ("MissingAttributeError").
+                      request_id:
+                        type: string
+                        description: A unique identifier for the request, useful for debugging.
+                      attribute:
+                        type: string
+                        description: This field denotes the attribute missing in the payload.
+              examples:
+                missing_useridentifiervalue:
+                  summary: User_identifier_value is missing in the payload
+                  value:
+                    status: fail
+                    error:
+                      attribute: user_identifier_value
+                      message: user_identifier_value is not found in the payload
+                      type: MissingAttributeError
+                      request_id: YRJTbvRM
+                missing_useridentifiertype:
+                  summary: User_identifier_type is missing in the payload
+                  value:
+                    status: fail
+                    error:
+                      attribute: user_identifier_type
+                      message: customer_identifier_type is not found in the payload
+                      type: MissingAttributeError
+                      request_id: nuJPehHC
+                missing_actiontype:
+                  summary: Action_type is missing in the payload
+                  value:
+                    status: fail
+                    error:
+                      attribute: action_type
+                      message: Action_type is not found in the payload
+                      type: MissingAttributeError
+                      request_id: nuJPehHC
+                missing_deviceid:
+                  summary: Device_identifiers is missing in the payload
+                  value:
+                    status: fail
+                    error:
+                      attribute: device_identifiers
+                      message: device_identifiers is missing in the payload
+                      type: MissingAttributeError
+                      request_id: jRwBuxdC
+                invalid_deviceid:
+                  summary: Action_type is missing in the payload
+                  value:
+                    status: fail
+                    error:
+                      attribute: device_identifiers
+                      message: 'device identifier can only be in [''moe_gaid'', ''push_id'', ''unique_id'', ''device_unique_id''] '
+                      type: ValueError
+                      request_id: ZtrftlVn
+        '401':
+          description: This response is returned when the request does not have valid authentication credentials.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: fail
+                  error:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                        description: A descriptive error message explaining why the request failed.
+                      type:
+                        type: string
+                        description: The type or category of the error (e.g., Authentication required).
+                      request_id:
+                        type: string
+                        description: A unique identifier for the request, useful for debugging.
+              examples:
+                auth_error:
+                  summary: Authorization errors
+                  value:
+                    status: fail
+                    error:
+                      message: App Secret key mismatch. Please login to the dashboard to verify key
+                      type: Authentication required
+                      request_id: PVUDFisO
+                missing_header:
+                  summary: Missing authentication header
+                  value:
+                    status: fail
+                    error:
+                      message: Authentication Header Required
+                      type: Authentication required
+                      request_id: PisPjGQQ
+        '403':
+          description: This response is returned when your MoEngage account is suspended or blocked.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: fail
+                  error:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                        description: A descriptive error message explaining why the request failed.(e.g., Your account is suspended. Please contact MoEngage team.)
+                      type:
+                        type: string
+                        description: The type or category of the error (e.g., BlockedClient, Account Suspended, Account Temporarily Suspended).
+                      request_id:
+                        type: string
+                        description: A unique identifier for the request, useful for debugging.
+              examples:
+                account_blocked:
+                  summary: Account is blocked
+                  value:
+                    status: fail
+                    error:
+                      message: Your account is suspended. Please contact MoEngage team.
+                      type: BlockedClient
+                      request_id: ofHUEaEQ
+                account_suspended:
+                  summary: Account is suspended
+                  value:
+                    status: fail
+                    error:
+                      message: Your account is suspended. Please contact MoEngage team.
+                      type: Account Suspended
+                      request_id: gqJvCNYu
+                temp_suspended:
+                  summary: Account is temporarily suspended
+                  value:
+                    status: fail
+                    error:
+                      message: Your account is temporarily suspended due to payment issues.
+                      type: Account Temporarily Suspended
+                      request_id: ssSJjoyD
+        '413':
+          description: This response is returned when the payload size exceeds 128 KB.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: fail
+                  error:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                        description: A descriptive error message explaining why the request failed.
+                      type:
+                        type: string
+                        description: The type or category of the error (e.g., Payload too large).
+                      request_id:
+                        type: string
+                        description: A unique identifier for the request, useful for debugging.
+              examples:
+                payload_exceeded:
+                  summary: Payloads exceeding the size limit
+                  value:
+                    status: fail
+                    error:
+                      message: Payload cannot exceed 128KB
+                      type: Payload too large
+                      request_id: VFzDwhwt
+        '415':
+          description: This response is returned when the content type is not supported.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: fail
+                  error:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                        description: A descriptive error message explaining why the request failed.
+                      type:
+                        type: string
+                        description: The type or category of the error (e.g., Unsupported media type).
+                      request_id:
+                        type: string
+                        description: A unique identifier for the request, useful for debugging.
+              examples:
+                unsupported_media_type:
+                  summary: Unsupported media type
+                  value:
+                    status: fail
+                    error:
+                      message: Content type is not supported
+                      type: Unsupported media type
+                      request_id: SgBQfKJh
+        '429':
+          description: This response is returned when the number of requests has exceeded the rate limit.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: fail
+                  error:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                        description: A descriptive error message explaining why the request failed.
+                      type:
+                        type: string
+                        description: The type or category of the error (e.g., Rate Limits Exceeded).
+                      request_id:
+                        type: string
+                        description: A unique identifier for the request, useful for debugging.
+              examples:
+                rate_limit:
+                  summary: Rate limit breach
+                  value:
+                    status: fail
+                    error:
+                      message: Rate limits for customers exceeded. Please Try After Some Time
+                      type: Rate Limits Exceeded
+                      request_id: onqucLYL
+        '500':
+          description: This response is returned when the system runs into an unexpected error.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: fail
+                  error:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                        description: A descriptive error message explaining why the request failed.
+                      type:
+                        type: string
+                        description: The type or category of the error (e.g., Server Error).
+                      request_id:
+                        type: string
+                        description: A unique identifier for the request, useful for debugging.
+              examples:
+                unknown_error:
+                  summary: Unknown errors
+                  value:
+                    status: fail
+                    error:
+                      message: An unexpected error was encountered while processing this request. Please contact MoEngage Team
+                      type: Server Error
+                      request_id: KovrwJiF
+components:
+  schemas:
+    GenericSuccess:
+      type: object
+      properties:
+        status:
+          type: string
+          description: This field contains the status of the request and specifies whether the request was successful.
+          example: success
+        message:
+          type: string
+          example: Your request has been accepted and will be processed soon.
+    DeviceAttributes:
+      type: object
+      description: This field contains the device attributes to add or update in the device profile.
+      required:
+      - platform
+      - push_id
+      properties:
+        model:
+          type: string
+          description: This field denotes the model of the device.
+        platform:
+          type: string
+          enum:
+          - ANDROID
+          - iOS
+          - web
+          - TV
+          description: This field denotes the platforms where the device is supported. Using unsupported values may result in an API response of 400.
+        push_id:
+          type: string
+          description: This field denotes the Push token of the device. When you pass a push token using this API, reachability is only updated if the device is currently marked as _Installed_. If a device is marked as _Uninstalled_, updating the `push_id` or `moe_push_opted` using Track Device API will not affect its reachability (it will remain Unreachable). To change a device's status back to _Installed_, the MoEngage SDK must actively track the device.
+        moe_push_opted:
+          type: string
+          enum:
+          - 'True'
+          - 'False'
+          description: This field denotes the opt-in status of the device of the user.
+        moe_push_provisional_opted:
+          type: string
+          description: This field denotes the provisional push opt-in status of the user. Know more about provisional push [here](/user-guide/campaigns-and-channels/mobile-push/notification-features-and-behavior/ios-push-permission-and-reachability).
+        app_version:
+          type: string
+          description: This field denotes the version of the app on the device.
+        os_version:
+          type: string
+          description: This field denotes the device's operating system version.
+        moe_gaid:
+          type: string
+          description: This field denotes the unique advertising identifier for Android devices to measure user behavior and campaign performance.
+        idfv:
+          type: string
+          description: This field denotes the unique advertising identifier for iOS devices.
+    DeviceOptOutRequest:
+      type: object
+      required:
+      - user_identifier_type
+      - user_identifier_value
+      - action_type
+      properties:
+        user_identifier_type:
+          type: string
+          description: This field denotes the type of user identifier.
+        user_identifier_value:
+          type: string
+          description: This field denotes the user identifier.
+        action_type:
+          type: string
+          enum:
+          - block
+          - unblock
+          description: This field denotes the type of action to be achieved using this API.
+        reason:
+          type: string
+          description: This field denotes the reason for blocking or unblocking a device.
+        client_reference_id:
+          type: string
+          description: This field denotes the reference ID of the user.
+        device_identifiers:
+          type: array
+          description: 'This field denotes the device identifiers associated with the device you intend to block or unblock. Supported values are:
+
+            * `unique_id` (unique_id)
+
+            * `device_unique_id` (device_id)
+
+            * `push_id` (push_id)
+
+            * `moe_gaid` (GAID)
+
+
+            Note:
+
+
+            * If you do not pass this value, the API blocks/unblocks all current devices of the user.
+
+            * Ensure to pass any one of the device identifiers for a particular device.
+
+            * When passing the device identifiers within the array, ensure to explicitly define each of them.
+
+            '
+          items:
+            type: object
+            properties:
+              GAID:
+                type: string
+                description: This field denotes the unique advertising identifier for Android devices to measure user behavior and campaign performance.
+              IDFV:
+                type: string
+                description: This field denotes the unique advertising identifier for iOS devices.
+              unique_id:
+                type: string
+              device_unique_id:
+                type: string
+                description: This field denotes the unique identifier used to identify the device associated with a user in MoEngage.
+              push_id:
+                type: string
+                description: This field denotes the Push token of the device.
+    CreateDeviceRequest:
+      title: Device
+      type: object
+      required:
+      - type
+      - customer_id
+      - device_id
+      - attributes
+      properties:
+        type:
+          type: string
+          enum:
+          - device
+          description: 'This field denotes the type of request. Supported value is: device. This field is case-sensitive. When passing the value in the request, follow the case as in the example.'
+        customer_id:
+          type: string
+          description: This field denotes the unique identifier used to identify a user in MoEngage. Note that devices can be created for existing users only.
+        device_id:
+          type: string
+          description: 'This field denotes the unique identifier used to identify the device associated with a user in MoEngage.
+
+            If your app is integrated with MoEngage SDK, the SDK assigns a unique device_id to the devices of your end-users.
+
+            If your app is not integrated with MoEngage SDK, you can use unique alphanumeric values or other device attributes such as Push token, GAID/IDFV to assign unique device_id values to devices of your user.'
+        attributes:
+          $ref: '#/components/schemas/DeviceAttributes'
+  securitySchemes:
+    Authentication:
+      type: http
+      scheme: basic
+      description: "Authentication is done via Basic Auth. This requires a base64-encoded string of your credentials in the format 'username:password'.\n\n- **Username**: Use your MoEngage workspace ID (also known as the App ID). You can find it in the MoEngage dashboard at **Settings** > **Account** > **APIs** > **Workspace ID (earlier app id)**.\n- **Password**: Use your API Key, which you can find within the **Data** tile.\n\n**Note**: After you generate and save the Data API Key, DO NOT generate a new key unless there is a security breach. After you generate a different Data API key and save it, the authentication will start failing. You must update your existing data tracking. \n\nFor more information on authentication and getting your credentials, refer [here](https://www.moengage.com/docs/api/introduction#getting-your-credentials).\n"

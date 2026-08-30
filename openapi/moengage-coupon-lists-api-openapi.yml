@@ -1,0 +1,962 @@
+openapi: 3.2.0
+info:
+  title: Coupon List API 🏷️ Coupon Lists API
+  description: 'API for managing coupon lists within the MoEngage system. This includes creating, fetching, updating, activating, archiving lists, uploading coupon files, managing files, and generating usage reports.
+
+    Authentication is via Basic Auth using your **Workspace ID** as username and an **API Key** as password.
+
+    '
+  version: '1.0'
+servers:
+- url: https://api-{dc}.moengage.com/v1
+  description: The MoEngage Coupon Management API endpoint. The **X** in the URL is replaced by the data center number (e.g., 01, 02, 03).
+  variables:
+    dc:
+      default: '01'
+      description: The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.
+security:
+- basicAuth: []
+tags:
+- name: Coupon Lists
+  description: Operations related to defining, managing status (active/archive), and modifying coupon list metadata.
+paths:
+  /coupon-list:
+    post:
+      tags:
+      - Coupon Lists
+      summary: Create a Coupon List
+      operationId: createCouponList
+      description: 'This API creates single-use coupon codes. You can use this API to create and organize distinct lists for different coupon code categories.
+
+        '
+      x-mint:
+        content: "<Note>\n  **Information**\n  \n  This API creates the coupon list with basic specifications only. The coupons should be added using [Upload the Coupons](https://www.moengage.com/docs/api/coupon-files/upload-a-coupon-file-to-the-coupon-list) API to this coupon list before utilizing it in campaigns.\n</Note>\n\n#### Rate Limit\nYou can create 100 coupon lists per day.\n"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateCouponListRequest'
+      responses:
+        '201':
+          description: 'Success
+
+            Indicates that the request is successful and the coupon list creation request is accepted.
+
+            '
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  name:
+                    type: string
+                    description: This field consists of the unique name of the coupon list corresponding to a successful coupon list creation request.
+                  label:
+                    type: string
+                    description: This field consists of the label name for the coupon list corresponding to a successful coupon list creation request.
+                  expires_at:
+                    type: string
+                    description: This field consists of the expiry date of the coupon list in yyyy-mm-dd format corresponding to a successful coupon list creation request.
+                  created_by:
+                    type: string
+                    description: This field consists of the user name who created the coupon list corresponding to a successful coupon list creation request.
+                  email_alert_subscribers:
+                    type: array
+                    items:
+                      type: string
+                    description: This field consists of the email address of the coupon list subscriber corresponding to a successful coupon list creation request.
+                  alert_conditions:
+                    type: object
+                    description: This field consists of the alert conditions and the statuses specified while creating the coupon list.
+                  status:
+                    type: string
+                    description: Once the coupon list creation request is accepted, the list status will show ACTIVE.
+                  _id:
+                    type: string
+                    description: This field contains the unique ID corresponding to a successful coupon list creation request. This ID is used as a parameter for fetching, updating, or archiving coupon lists.
+              example:
+                name: Example Name
+                label: Sample Label
+                expires_at: '2024-10-31T18:29:00'
+                created_by: John
+                email_alert_subscribers:
+                - john.doe@example.com
+                alert_conditions:
+                  success_alert: true
+                  failure_alert: true
+                  expiry_alert:
+                    alert: true
+                    days_before: 1
+                  coupon_shortage_alert:
+                    alert: true
+                    threshold_count: 10
+                status: ACTIVE
+                _id: 6721d00eefc476c0f67e0d05
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                duplicate_name:
+                  summary: Duplicate Name
+                  value:
+                    error:
+                      code: duplicate-coupon-list-name
+                      message: The coupon list name already exists. Please enter a unique name and try again.
+                duplicate_label:
+                  summary: Duplicate Label
+                  value:
+                    error:
+                      code: duplicate-coupon-list-label
+                      message: The coupon list label already exists. Please enter a unique label and try again.
+                missing_attributes:
+                  summary: Missing Attributes
+                  value:
+                    error:
+                      code: missing-mandatory-attributes
+                      message: Missing mandatory key. Please verify and try again.
+                invalid_request:
+                  summary: Invalid Request
+                  value:
+                    error:
+                      code: invalid-request
+                      message: The requested JSON is incorrect. Please verify and try again.
+        '401':
+          description: Unauthenticated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                error:
+                  code: request-unauthenticated
+                  message: Your request is unauthorized. Please verify your credentials and try again.
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                error:
+                  code: request-forbidden
+                  message: Your account does not have access to the Coupon Management features. Please contact the MoEngage team for further assistance.
+        '429':
+          description: 'Too Many Requests - The rate limit for the API has been exceeded.
+
+
+            The following headers are returned in case of rate-limit breach:
+
+            * `x-ratelimit-limit` (integer): The maximum number of requests that the consumer is permitted to make in a given time window.
+
+            * `x-ratelimit-remaining` (integer): The number of requests remaining in the current rate limit window.
+
+            * `x-ratelimit-reset` (integer): The time at which the current rate limit window resets in UTC epoch seconds.
+
+            '
+          headers:
+            x-ratelimit-limit:
+              schema:
+                type: integer
+              description: The maximum number of requests that the consumer is permitted to make in a given time window.
+            x-ratelimit-remaining:
+              schema:
+                type: integer
+              description: The number of requests remaining in the current rate limit window.
+            x-ratelimit-reset:
+              schema:
+                type: integer
+              description: The time at which the current rate limit window resets in UTC epoch seconds.
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                error:
+                  code: unexpected-error
+                  message: Something went wrong with your request. Please contact the MoEngage team for further assistance.
+    get:
+      tags:
+      - Coupon Lists
+      summary: Fetch All Coupon Lists
+      operationId: fetchAllCouponLists
+      description: 'This API fetches all created coupon lists in a specific workspace. By default, this API returns the coupon lists marked with an *ACTIVE* status. In return, it offers detailed specifications of the active coupon lists, respective configurations, statuses, expiry dates, and alert conditions, including on-time data on the total coupons added and those that are currently available.
+
+        '
+      x-mint:
+        content: "<Note>\n  **Information**\n  \n  There is no request body or content to send for this request except for the headers and parameters.\n</Note>\n\n#### Rate Limit\nYou can fetch 10,000 coupon lists per day.\n"
+      parameters:
+      - $ref: '#/components/parameters/AppKeyHeader'
+      - name: status
+        in: query
+        required: false
+        description: 'This field contains an array of all the coupons with their respective attributes based on the following statuses you provide in the request parameter:
+
+
+          * ACTIVE - to view only active coupon lists
+
+          * ARCHIVED - to view only archived coupon lists
+
+          * EXPIRED - to view only expired coupon lists
+
+
+          **Note**: Not specifying any status will display all the existing coupon lists together.
+
+          '
+        schema:
+          type: string
+          enum:
+          - ACTIVE
+          - ARCHIVED
+          - EXPIRED
+      responses:
+        '200':
+          description: 'Success
+
+            Indicates that the request is successful and all the active and/or archived coupon lists are fetched.
+
+            '
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                          description: This field consists of the unique name of the coupon list.
+                        label:
+                          type: string
+                          description: This field consists of the label name for the fetched coupon list.
+                        expires_at:
+                          type: string
+                          description: This field consists of the expiry date of the coupon list in yyyy-mm-dd format.
+                        status:
+                          type: string
+                          description: 'This field shows one of the following statuses of the fetched coupon list:
+
+                            * ACTIVE
+
+                            * EXPIRED
+
+                            * ARCHIVED
+
+                            '
+                        total_coupons:
+                          type: integer
+                          description: This field consists of the total number of coupons in the coupon list.
+                        created_at:
+                          type: string
+                          description: This field consists of the date and time the coupon list was created.
+                        updated_at:
+                          type: string
+                          description: This field consists of the date and time of the most recent update to the coupon list.
+                        email_alert_subscribers:
+                          type: string
+                          description: This field consists of the email address of the coupon list subscriber.
+                        alert_conditions:
+                          type: object
+                          description: This field consists of the alert conditions and their statuses specified while creating the coupon list.
+                        available_coupons:
+                          type: integer
+                          description: This field consists of the available number of coupons in coupon list.
+                        personalization_snippet:
+                          type: string
+                          description: This field consists of the personalization snippet of the coupon list.
+                        created_by:
+                          type: string
+                          description: This field consists of the user name who created the fetched coupon list.
+                        _id:
+                          type: string
+                          description: This field contains the unique ID corresponding to a successful coupon list fetch request. This ID is also used to update and archive coupon lists.
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                error:
+                  code: bad-request
+                  message: Possible issues include duplicates, such as coupon list names, invalid data types, or missing mandatory attributes.
+        '401':
+          description: Unauthenticated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                error:
+                  code: request-unauthenticated
+                  message: Your request is unauthorized. Verify your credentials and try again.
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                error:
+                  code: request-forbidden
+                  message: Your account does not have access to the Coupon Management features. Contact the MoEngage team for further assistance.
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                error:
+                  code: unexpected-error
+                  message: Something went wrong with your request. Please contact the MoEngage team for further assistance.
+  /coupon-list/{coupon_list_id}:
+    get:
+      tags:
+      - Coupon Lists
+      summary: Fetch Coupon List Details
+      operationId: fetchCouponList
+      description: 'This API retrieves the specifications of a particular coupon list. It includes information such as configurations, statuses, expiry dates, and alert conditions with real-time counts of added and currently available coupons. Using this API, you can easily access and manage critical data about individual coupon lists.
+
+        '
+      x-mint:
+        content: "<Note>\n  **Information**\n  \n  There is no request body or content to send for this request except for headers and parameters.\n</Note>\n\n#### Rate Limit\nYou can fetch 10000 coupon lists per day.\n"
+      parameters:
+      - $ref: '#/components/parameters/AppKeyHeader'
+      - $ref: '#/components/parameters/CouponListIdPath'
+      responses:
+        '200':
+          description: 'Success
+
+            Indicates that the request is successful and the coupon list is fetched.
+
+            '
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  name:
+                    type: string
+                    description: This field consists of the unique name of the coupon list.
+                  label:
+                    type: string
+                    description: This field consists of the label name for the fetched coupon list.
+                  expires_at:
+                    type: string
+                    description: This field consists of the expiry date of the coupon list in yyyy-mm-dd format.
+                  status:
+                    type: string
+                    description: 'This field shows one of the following statuses of the fetched coupon list:
+
+                      * ACTIVE
+
+                      * EXPIRED
+
+                      * ARCHIVED
+
+                      '
+                  total_coupons:
+                    type: integer
+                    description: This field consists of the total number of coupons in the coupon list.
+                  created_at:
+                    type: string
+                    description: This field consists of the date and time the coupon list was created.
+                  updated_at:
+                    type: string
+                    description: This field consists of the date and time of the most recent update to the coupon list.
+                  email_alert_subscribers:
+                    type: array
+                    items:
+                      type: string
+                    description: This field consists of the email address of the coupon list subscriber.
+                  alert_conditions:
+                    type: object
+                    description: This field consists of the alert conditions and their statuses specified while creating the coupon list.
+                  available_coupons:
+                    type: integer
+                    description: This field consists of the available number of coupons in coupon list.
+                  personalization_snippet:
+                    type: string
+                    description: This field consists of the personalization snippet of the coupon list.
+                  created_by:
+                    type: string
+                    description: This field consists of the user name who created the fetched coupon list.
+                  _id:
+                    type: string
+                    description: This field contains the unique ID corresponding to a successful coupon list fetch request. This ID is also used to update and archive coupon lists.
+              example:
+                name: signup coupons
+                label: signup_coupons
+                expires_at: '2024-10-26T18:29:00.000Z'
+                status: ACTIVE
+                total_coupons: 0
+                created_at: '2024-10-01T11:29:00.000Z'
+                updated_at: '2024-10-01T11:39:00.000Z'
+                email_alert_subscribers:
+                - john.doe@example.com
+                alert_conditions:
+                  success_alert: true
+                  failure_alert: true
+                  expiry_alert:
+                    alert: true
+                    days_before: 100
+                  coupon_shortage_alert:
+                    alert: true
+                    threshold_count: 100
+                available_coupons: 0
+                personalization_snippet: '{{Coupons.CouponListName[signup_coupons]}}'
+                created_by: test_user
+                _id: '{{coupon_list_id}}'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                error:
+                  code: bad-request
+                  message: Possible issues include duplicates, such as coupon list names, invalid data types, or missing mandatory attributes.
+        '401':
+          description: Unauthenticated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                error:
+                  code: request-unauthenticated
+                  message: Your request is unauthorized. Verify your credentials and try again.
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                error:
+                  code: request-forbidden
+                  message: Your account does not have access to the Coupon Management features. Contact the MoEngage team for further assistance.
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                error:
+                  code: unexpected-error
+                  message: Something went wrong with your request. Please contact the MoEngage team for further assistance.
+    patch:
+      tags:
+      - Coupon Lists
+      summary: Update a Coupon List
+      operationId: updateCouponList
+      description: 'This API modifies existing coupon lists within a defined workspace. It facilitates changes to specifications like list name, expiry date, and alert settings, thereby promoting efficient coupon operations management.
+
+        '
+      x-mint:
+        content: "<Note>\n  **Information**\n  \n  This API reactivates the *ARCHIVED* or *EXPIRED* coupon list upon modification, provided the list has a future expiration date.\n</Note>\n\n#### Rate Limit\nYou can update 100 coupon lists per day.\n"
+      parameters:
+      - $ref: '#/components/parameters/AppKeyHeader'
+      - $ref: '#/components/parameters/CouponListIdPath'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: This field contains the new name of the coupon list.
+                expires_at:
+                  type: string
+                  format: date
+                  description: This field contains the new date of the coupon list in yyyy-mm-dd format.
+                email_alert_subscribers:
+                  type: array
+                  items:
+                    type: string
+                    format: email
+                  description: This field consists of the new email address of the coupon list subscriber. The subscriber will receive all the alerts on the coupon list in the email provided in this field.
+                alert_conditions:
+                  $ref: '#/components/schemas/AlertConditions'
+                  description: This object contains the updated details for the alert conditions.
+      responses:
+        '200':
+          description: 'Success
+
+            Indicates that the request is successful and the coupon list update request is accepted.
+
+            '
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  name:
+                    type: string
+                    description: This field consists of the updated name of the coupon list.
+                  label:
+                    type: string
+                    description: This field consists of the label name for the coupon list.
+                  expires_at:
+                    type: string
+                    description: This field contains the updated expiration date of the coupon list in yyyy-mm-dd format.
+                  status:
+                    type: string
+                    description: 'This field consists of the status of the coupon list.
+
+
+                      **Note:** You can only update active coupon lists.
+
+                      '
+                  total_coupons:
+                    type: integer
+                    description: This field consists of the total number of coupons in the coupon list.
+                  created_at:
+                    type: string
+                    description: This field consists of the date and time the coupon list was created.
+                  updated_at:
+                    type: string
+                    description: This field consists of the date and time of the most recent update to the coupon list.
+                  email_alert_subscribers:
+                    type: string
+                    description: This field contains the subscriber's updated email address on the coupon list.
+                  alert_conditions:
+                    type: object
+                    description: This field consists of the updated alert conditions and the statuses specified for the coupon list.
+                  available_coupons:
+                    type: integer
+                    description: This field consists of the available number of coupons in coupon list.
+                  created_by:
+                    type: string
+                    description: This field consists of the user name who created the coupon list.
+                  _id:
+                    type: string
+                    description: This field contains the unique ID of the coupon list requested for update. This ID is used in the params to fetch and archive coupon lists.
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                duplicate_name:
+                  summary: Duplicate Name
+                  value:
+                    error:
+                      code: duplicate-coupon-list-name
+                      message: The coupon list name already exists. Please enter a unique name and try again.
+                duplicate_label:
+                  summary: Duplicate Label
+                  value:
+                    error:
+                      code: duplicate-coupon-list-label
+                      message: The coupon list label already exists. Please enter a unique label and try again.
+                missing_attributes:
+                  summary: Missing Attributes
+                  value:
+                    error:
+                      code: missing-mandatory-attributes
+                      message: Missing mandatory key ''. Please verify and try again.
+                invalid_request:
+                  summary: Invalid Request
+                  value:
+                    error:
+                      code: invalid-request
+                      message: The requested JSON is incorrect. Please verify and try again.
+        '401':
+          description: Unauthenticated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                error:
+                  code: request-unauthenticated
+                  message: Your request is unauthorized. Verify your credentials and try again.
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                error:
+                  code: request-forbidden
+                  message: Your account does not have access to the Coupon Management features. Contact the MoEngage team for further assistance.
+        '429':
+          description: 'Too Many Requests - The rate limit for the API has been exceeded.
+
+
+            The following headers are returned in case of rate-limit breach:
+
+            * `x-ratelimit-limit` (integer): The maximum number of requests that the consumer is permitted to make in a given time window.
+
+            * `x-ratelimit-remaining` (integer): The number of requests remaining in the current rate limit window.
+
+            * `x-ratelimit-reset` (integer): The time at which the current rate limit window resets in UTC epoch seconds.
+
+            '
+          headers:
+            x-ratelimit-limit:
+              schema:
+                type: integer
+              description: The maximum number of requests that the consumer is permitted to make in a given time window.
+            x-ratelimit-remaining:
+              schema:
+                type: integer
+              description: The number of requests remaining in the current rate limit window.
+            x-ratelimit-reset:
+              schema:
+                type: integer
+              description: The time at which the current rate limit window resets in UTC epoch seconds.
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                error:
+                  code: unexpected-error
+                  message: Something went wrong with your request. Please contact the MoEngage team for further assistance.
+  /coupon-list/{coupon_list_id}/activate:
+    put:
+      tags:
+      - Coupon Lists
+      summary: Activate Coupon List
+      operationId: activateCouponList
+      description: 'This API reactivates archived coupon lists, provided the expiry date is in the future.
+
+        '
+      x-mint:
+        content: "<Note>\n  **Information**\n  \n  * Only active coupon lists can be utilized in campaigns.\n  * If you need to modify the expiry date and activate a coupon list, you must use the [Update a Coupon List API](#operation/updateCouponList).\n</Note>\n\n#### Rate Limit\nYou can activate 100 coupon lists per day.\n"
+      parameters:
+      - $ref: '#/components/parameters/AppKeyHeader'
+      - $ref: '#/components/parameters/CouponListIdPath'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - expires_at
+              properties:
+                expires_at:
+                  type: string
+                  format: date
+                  description: 'Add a new expiry date for the coupon list in yyyy-mm-dd format.
+
+
+                    **Note:** Your request could fail if the mandatory attributes are absent from your payload.
+
+                    '
+      responses:
+        '204':
+          description: 'Success (No content)
+
+            Coupon list activation is successful.
+
+            '
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                error:
+                  code: bad-request
+                  message: Possible issues include duplicates, such as coupon list names, invalid data types, or missing mandatory attributes.
+        '401':
+          description: Unauthenticated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                error:
+                  code: request-unauthenticated
+                  message: Your request is unauthorized. Verify your credentials and try again.
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                error:
+                  code: request-forbidden
+                  message: Your account does not have access to the Coupon Management features. Contact the MoEngage team for further assistance.
+        '429':
+          description: 'Too Many Requests - The rate limit for the API has been exceeded.
+
+
+            The following headers are returned in case of rate-limit breach:
+
+            * `x-ratelimit-limit` (integer): The maximum number of requests that the consumer is permitted to make in a given time window.
+
+            * `x-ratelimit-remaining` (integer): The number of requests remaining in the current rate limit window.
+
+            * `x-ratelimit-reset` (integer): The time at which the current rate limit window resets in UTC epoch seconds.
+
+            '
+          headers:
+            x-ratelimit-limit:
+              schema:
+                type: integer
+              description: The maximum number of requests that the consumer is permitted to make in a given time window.
+            x-ratelimit-remaining:
+              schema:
+                type: integer
+              description: The number of requests remaining in the current rate limit window.
+            x-ratelimit-reset:
+              schema:
+                type: integer
+              description: The time at which the current rate limit window resets in UTC epoch seconds.
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                error:
+                  code: unexpected-error
+                  message: Something went wrong with your request. Please contact the MoEngage team for further assistance.
+  /coupon-list/{coupon_list_id}/archive:
+    put:
+      tags:
+      - Coupon Lists
+      summary: Archive a Coupon List
+      operationId: archiveCouponList
+      description: 'This API transitions an active coupon list to an archived status. Upon archival, the coupon codes within the list are deleted. Consequently, any campaigns that were previously dependent on this list will no longer be able to utilize the dynamic coupon allocation.
+
+        '
+      x-mint:
+        content: "<Note>\n  **Information**\n  \n  Verify the usage of a given coupon list in active or planned campaigns before archiving it.\n</Note>\n\n#### Rate Limit\nYou can archive 100 coupon lists per day.\n"
+      parameters:
+      - $ref: '#/components/parameters/AppKeyHeader'
+      - $ref: '#/components/parameters/CouponListIdPath'
+      responses:
+        '204':
+          description: 'Success (No content)
+
+            The request is successful, and the coupon list is archived.
+
+            '
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                error:
+                  code: bad-request
+                  message: Possible issues include duplicates, such as coupon list names, invalid data types, or missing mandatory attributes.
+        '401':
+          description: Unauthenticated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                error:
+                  code: request-unauthenticated
+                  message: Your request is unauthorized. Please verify your credentials and try again.
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                error:
+                  code: request-forbidden
+                  message: Your account does not have access to the Coupon Management features. Contact the MoEngage team for further assistance.
+        '429':
+          description: 'Too Many Requests - The rate limit for the API has been exceeded.
+
+
+            The following headers are returned in case of rate-limit breach:
+
+            * `x-ratelimit-limit` (integer): The maximum number of requests that the consumer is permitted to make in a given time window.
+
+            * `x-ratelimit-remaining` (integer): The number of requests remaining in the current rate limit window.
+
+            * `x-ratelimit-reset` (integer): The time at which the current rate limit window resets in UTC epoch seconds.
+
+            '
+          headers:
+            x-ratelimit-limit:
+              schema:
+                type: integer
+              description: The maximum number of requests that the consumer is permitted to make in a given time window.
+            x-ratelimit-remaining:
+              schema:
+                type: integer
+              description: The number of requests remaining in the current rate limit window.
+            x-ratelimit-reset:
+              schema:
+                type: integer
+              description: The time at which the current rate limit window resets in UTC epoch seconds.
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                error:
+                  code: unexpected-error
+                  message: Something went wrong with your request. Please contact the MoEngage team for further assistance.
+components:
+  schemas:
+    AlertConditions:
+      type: object
+      description: Configuration for various alert triggers.
+      properties:
+        success_alert:
+          type: boolean
+          description: Indicates whether to send an alert on success.
+        failure_alert:
+          type: boolean
+          description: Indicates whether to send an alert on failure.
+        coupon_shortage_alert:
+          type: object
+          description: Configuration for the coupon shortage alert.
+          properties:
+            alert:
+              type: boolean
+              description: Indicates whether to enable the coupon shortage alert.
+            threshold_count:
+              type: integer
+              description: The minimum count of coupons remaining to trigger the alert.
+        expiry_alert:
+          type: object
+          description: Configuration for the expiry alert.
+          properties:
+            alert:
+              type: boolean
+              description: Indicates whether to enable the expiry alert.
+            days_before:
+              type: integer
+              description: Number of days before expiry to trigger the alert.
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          $ref: '#/components/schemas/Error'
+    CreateCouponListRequest:
+      type: object
+      required:
+      - name
+      - label
+      - expires_at
+      - created_by
+      properties:
+        name:
+          type: string
+          description: This field consists of the coupon list's unique name.
+        label:
+          type: string
+          description: This field consists of the label name for the coupon list.
+        expires_at:
+          type: string
+          format: date
+          description: This field consists of the date the coupon list expires in yyyy-mm-dd format.
+        email_alert_subscribers:
+          type: array
+          items:
+            type: string
+            format: email
+          description: This field consists of the email address of the coupon list subscriber. The subscriber will receive all the alerts on the coupon list in the email provided in this field.
+        created_by:
+          type: string
+          description: This field consists of the user name who requests to create the coupon list.
+        alert_conditions:
+          $ref: '#/components/schemas/AlertConditions'
+          description: This object contains the details and types of alert conditions.
+    Error:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Each error codes are unique and serve as a shorthand representation for the type of error, providing a quick reference that can be used to diagnose, troubleshoot, and address the problem based on a predefined set of error conditions.
+        message:
+          type: string
+          description: Along with the error code, a detailed message is also provided in the response, describing the specifics of the request failure and the nature of the error.
+  responses:
+    TooManyRequests:
+      description: 'The following headers are returned in case of rate-limit breach:
+
+        * `x-ratelimit-limit` (integer) - The maximum number of requests that the consumer is permitted to make in a given time window.
+
+        * `x-ratelimit-remaining` (integer) - The number of requests remaining in the current rate limit window.
+
+        * `x-ratelimit-reset` (integer) - The time at which the current rate limit window resets in UTC epoch seconds.
+
+        '
+      headers:
+        x-ratelimit-limit:
+          schema:
+            type: integer
+          description: The maximum number of requests that the consumer is permitted to make in a given time window.
+        x-ratelimit-remaining:
+          schema:
+            type: integer
+          description: The number of requests remaining in the current rate limit window.
+        x-ratelimit-reset:
+          schema:
+            type: integer
+          description: The time at which the current rate limit window resets in UTC epoch seconds.
+  parameters:
+    CouponListIdPath:
+      name: coupon_list_id
+      in: path
+      required: true
+      description: The unique identifier for the coupon list.
+      schema:
+        type: string
+    AppKeyHeader:
+      name: MOE-APPKEY
+      in: header
+      required: true
+      description: 'This is the Workspace ID of your MoEngage account that must be passed with the request. You can find it in the MoEngage dashboard at **Settings** > **Account** > **APIs** > **Workspace ID (earlier app id)**.
+
+        '
+      schema:
+        type: string
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+      description: 'Authentication is done via Basic Auth. This requires a base64-encoded string of your credentials in the format ''username:password''.
+
+
+        - **Username**: Use your MoEngage workspace ID (also known as the App ID). You can find it in the MoEngage dashboard at **Settings** > **Account** > **APIs** > **Workspace ID (earlier app id)**.
+
+        - **Password**: Use your API Key, which you can find within the **Campaign report/Business events/Custom templates/Catalog API/Inform Report** tile.
+
+
+        For more information on authentication and getting your credentials, refer [here](https://www.moengage.com/docs/api/introduction#getting-your-credentials).
+
+        '

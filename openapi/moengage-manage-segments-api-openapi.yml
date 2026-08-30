@@ -1,0 +1,206 @@
+openapi: 3.2.0
+info:
+  title: MoEngage Segments Manage Segments API
+  description: 'Use the MoEngage Segments API to create, update, and manage your file and filter segments.
+
+
+    - **v2 API:** Manage File Segments and segment lifecycle (Archive/Unarchive).
+
+    - **v3 API:** Create, read, update, and list filter-based Segments.
+
+    '
+  version: '3.0'
+servers:
+- url: https://api-{dc}.moengage.com
+  description: MoEngage API Endpoint
+  variables:
+    dc:
+      description: The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.
+      default: '01'
+security:
+- basicAuth: []
+tags:
+- name: Manage Segments
+  description: 'Archiving and unarchiving through APIs makes it easy to retrieve and reuse segments whenever required for purposes such as A/B testing, maintaining regulatory compliance, and improving system performance.
+
+
+    You can access the archived segments and utilize them to analyze and market campaigns without the need to recreate them from scratch.
+
+    '
+  x-mint:
+    content: "\n<Warning>\n  Archived segments will not be shown beyond 180 days.\n</Warning>\n"
+paths:
+  /v2/custom-segments/archive:
+    patch:
+      tags:
+      - Manage Segments
+      summary: Archive Segment
+      description: This API archives an existing segment (File or Filter). Archiving and unarchiving through APIs makes it easy to retrieve and reuse segments whenever required for purposes such as A/B testing, maintaining regulatory compliance, and improving system performance. You can access the archived segments and utilize them to analyze and market campaigns without the need to recreate them from scratch.
+      operationId: archiveCustomSegment
+      x-mint:
+        content: "<Warning>\n  Archived segments will not be shown beyond 180 days.\n</Warning>\n<Note>\n  This API endpoint does not currently support Team-level scoping. All segments generated using this call will be assigned to the Default Team automatically.\n</Note>\n"
+      requestBody:
+        description: The name of the segment to be archived.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SegmentNameRequestV2'
+            example:
+              name: custom_segment_unique_name
+              cs_id: <unique cs id>
+      responses:
+        '202':
+          description: Segment archive request accepted.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponseSuccessV2'
+              example:
+                message: Successfully archived the custom segment
+                success: true
+                cs_name: custom_segment_unique_name
+                cs_id: <unique cs id>
+        '400':
+          $ref: '#/components/responses/400_FileSegmentError'
+        '401':
+          $ref: '#/components/responses/401_FileSegmentError'
+        '404':
+          $ref: '#/components/responses/404_FileSegmentNotFound'
+        '500':
+          $ref: '#/components/responses/5XX_FileSegmentError'
+  /v2/custom-segments/unarchive:
+    patch:
+      tags:
+      - Manage Segments
+      summary: Unarchive Segment
+      description: This API unarchives an existing segment, making it active again.
+      operationId: unarchiveCustomSegment
+      x-mint:
+        content: '<Note>
+
+          This API endpoint does not currently support Team-level scoping. All segments generated using this call will be assigned to the Default Team automatically.
+
+          </Note>
+
+          '
+      requestBody:
+        description: The name of the segment to be unarchived.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SegmentNameRequestV2'
+            example:
+              name: custom_segment_unique_name
+              cs_id: <unique cs id>
+      responses:
+        '202':
+          description: Segment unarchive request accepted.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponseSuccessV2'
+              example:
+                message: Successfully unarchived the custom segment
+                success: true
+                cs_name: custom_segment_unique_name
+                cs_id: <unique cs id>
+        '400':
+          $ref: '#/components/responses/400_FileSegmentError'
+        '401':
+          $ref: '#/components/responses/401_FileSegmentError'
+        '404':
+          $ref: '#/components/responses/404_FileSegmentNotFound'
+        '500':
+          $ref: '#/components/responses/5XX_FileSegmentError'
+components:
+  responses:
+    400_FileSegmentError:
+      description: Bad Request. Invalid payload format.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ApiErrorV2'
+          example:
+            title: Invalid Request
+            description: <message>
+    404_FileSegmentNotFound:
+      description: Entity Not Found. The segment name does not exist.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ApiErrorV2'
+          example:
+            title: Entity Not Found
+            description: 'Segment not found with the given name: <custom_segment_unique_name>'
+    5XX_FileSegmentError:
+      description: Server Errors. Something went wrong on MoEngage.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ApiErrorV2'
+          example:
+            title: Internal Server Error
+    401_FileSegmentError:
+      description: Unauthorized. Authentication or Authorization Failure.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ApiErrorV2'
+          example:
+            title: Authentication required
+            description: <message>
+  schemas:
+    ApiResponseSuccessV2:
+      type: object
+      properties:
+        message:
+          type: string
+          description: The status message of the request.
+        success:
+          type: boolean
+          example: true
+          description: Indicates if the request was accepted.
+        cs_name:
+          type: string
+          description: The unique name of the segment being processed.
+        cs_id:
+          type: string
+          description: The unique identifier of the segment.
+    SegmentNameRequestV2:
+      description: Schema for requests that only require the segment name.
+      type: object
+      properties:
+        name:
+          type: string
+          description: The name of the segment.
+        cs_id:
+          type: string
+          description: 'Unique identifier corresponding to the target segment. When both `cs_id` and `name` are populated, the system prioritizes `cs_id`.
+
+            '
+      required:
+      - name
+    ApiErrorV2:
+      type: object
+      properties:
+        title:
+          type: string
+          description: A short title for the error.
+        description:
+          type: string
+          description: A detailed, human-readable explanation of the error.
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+      description: 'Authentication is done via Basic Auth. This requires a base64-encoded string of your credentials in the format ''username:password''.
+
+
+        - **Username**: Use your MoEngage workspace ID (also known as the App ID). You can find it in the MoEngage dashboard at **Settings** > **Account** > **APIs** > **Workspace ID (earlier app id)**.
+
+        - **Password**: Use your API Key, which you can find within the **Data** tile.
+
+
+        For more information on authentication and getting your credentials, refer [here](https://www.moengage.com/docs/api/introduction#getting-your-credentials).'

@@ -1,0 +1,220 @@
+openapi: 3.2.0
+info:
+  title: Coupon List API 🏷️ Reports API
+  description: 'API for managing coupon lists within the MoEngage system. This includes creating, fetching, updating, activating, archiving lists, uploading coupon files, managing files, and generating usage reports.
+
+    Authentication is via Basic Auth using your **Workspace ID** as username and an **API Key** as password.
+
+    '
+  version: '1.0'
+servers:
+- url: https://api-{dc}.moengage.com/v1
+  description: The MoEngage Coupon Management API endpoint. The **X** in the URL is replaced by the data center number (e.g., 01, 02, 03).
+  variables:
+    dc:
+      default: '01'
+      description: The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.
+security:
+- basicAuth: []
+tags:
+- name: Reports
+  description: Operations related to generating usage reports for coupon lists.
+paths:
+  /coupon-list/{coupon_list_id}/usage-report:
+    post:
+      tags:
+      - Reports
+      summary: Generate Usage Report
+      operationId: generateUsageReport
+      description: 'This API produces a detailed usage report for a specific coupon list, providing details on which user received which coupon from which locale or variation of which campaign at what time. After it is generated, this report is delivered directly to the requested email addresses. Using this API, you can conduct a comprehensive analysis of critical data and coupon usage trends efficiently.
+
+        '
+      x-mint:
+        content: '#### Rate Limit
+
+          You can generate:
+
+          * 5 usage reports of coupon list per minute or
+
+          * 50 usage reports of coupon list per day
+
+          '
+      parameters:
+      - $ref: '#/components/parameters/AppKeyHeader'
+      - $ref: '#/components/parameters/CouponListIdPath'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - start_date
+              - end_date
+              - email_subscribers
+              properties:
+                start_date:
+                  type: string
+                  format: date
+                  description: This field consists of the start date of the coupon list usage report in `yyyy-mm-dd` format.
+                end_date:
+                  type: string
+                  format: date
+                  description: This field consists of the end date of the coupon list usage report in `yyyy-mm-dd` format.
+                email_subscribers:
+                  type: array
+                  items:
+                    type: string
+                    format: email
+                  description: This field consists of the email address of the coupon list subscribers who will receive the report.
+            examples: {}
+      responses:
+        '200':
+          description: 'Success
+
+            Indicates that the request is successful and the coupon list usage report request is accepted.
+
+            '
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: The following is the success message indicating the report is being processed.
+              example:
+                message: The usage report for the {{coupon list name}} coupons is being processed and will be sent to email alert subscribers shortly.
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                start_date_invalid:
+                  summary: Start Date Invalid
+                  value:
+                    error:
+                      code: invalid-request
+                      message: The start date cannot be earlier than the coupon list creation date. Please verify your dates and try again.
+                end_date_invalid:
+                  summary: End Date Invalid
+                  value:
+                    error:
+                      code: invalid-request
+                      message: The end date cannot be set in the future. Please verify the dates and try again.
+        '401':
+          description: Unauthenticated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                error:
+                  code: request-unauthenticated
+                  message: Your request is unauthorized. Please verify your credentials and try again.
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                error:
+                  code: request-forbidden
+                  message: Your account does not have access to the Coupon Management features. Please contact the MoEngage team for further assistance.
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                error:
+                  code: coupon-list-not-found
+                  message: The specified coupon list ID was not found. Please verify the ID and try again.
+        '429':
+          description: 'Too Many Requests - The rate limit for the API has been exceeded.
+
+
+            The following headers are returned in case of rate-limit breach:
+
+            * `x-ratelimit-limit` (integer): The maximum number of requests that the consumer is permitted to make in a given time window.
+
+            * `x-ratelimit-remaining` (integer): The number of requests remaining in the current rate limit window.
+
+            * `x-ratelimit-reset` (integer): The time at which the current rate limit window resets in UTC epoch seconds.
+
+            '
+          headers:
+            x-ratelimit-limit:
+              schema:
+                type: integer
+              description: The maximum number of requests that the consumer is permitted to make in a given time window.
+            x-ratelimit-remaining:
+              schema:
+                type: integer
+              description: The number of requests remaining in the current rate limit window.
+            x-ratelimit-reset:
+              schema:
+                type: integer
+              description: The time at which the current rate limit window resets in UTC epoch seconds.
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                error:
+                  code: unexpected-error
+                  message: Something went wrong with your request. Please contact the MoEngage team for further assistance.
+components:
+  parameters:
+    CouponListIdPath:
+      name: coupon_list_id
+      in: path
+      required: true
+      description: The unique identifier for the coupon list.
+      schema:
+        type: string
+    AppKeyHeader:
+      name: MOE-APPKEY
+      in: header
+      required: true
+      description: 'This is the Workspace ID of your MoEngage account that must be passed with the request. You can find it in the MoEngage dashboard at **Settings** > **Account** > **APIs** > **Workspace ID (earlier app id)**.
+
+        '
+      schema:
+        type: string
+  schemas:
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          $ref: '#/components/schemas/Error'
+    Error:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Each error codes are unique and serve as a shorthand representation for the type of error, providing a quick reference that can be used to diagnose, troubleshoot, and address the problem based on a predefined set of error conditions.
+        message:
+          type: string
+          description: Along with the error code, a detailed message is also provided in the response, describing the specifics of the request failure and the nature of the error.
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+      description: 'Authentication is done via Basic Auth. This requires a base64-encoded string of your credentials in the format ''username:password''.
+
+
+        - **Username**: Use your MoEngage workspace ID (also known as the App ID). You can find it in the MoEngage dashboard at **Settings** > **Account** > **APIs** > **Workspace ID (earlier app id)**.
+
+        - **Password**: Use your API Key, which you can find within the **Campaign report/Business events/Custom templates/Catalog API/Inform Report** tile.
+
+
+        For more information on authentication and getting your credentials, refer [here](https://www.moengage.com/docs/api/introduction#getting-your-credentials).
+
+        '

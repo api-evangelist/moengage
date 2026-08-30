@@ -1,0 +1,367 @@
+openapi: 3.2.0
+info:
+  title: MoEngage Campaigns Personalized Preview API
+  version: '2025-11-20'
+  description: 'The Campaigns V5 API manages the draft campaign lifecycle — draft creation, incremental updates, validation, test sends, and post-publish management.
+
+
+    **Note:** Campaign publishing is not yet supported in V5. To publish campaigns, use the V1 API (`PATCH /core-services/v1/campaigns/{campaign_id}`) in the interim.
+
+
+    **Supported channels:**
+
+    - Push (Android, iOS, Web)
+
+    - Email
+
+
+    **Supported delivery types:**
+
+    - ONE_TIME
+
+    - PERIODIC
+
+    - EVENT_TRIGGERED
+
+    - BUSINESS_EVENT_TRIGGERED
+
+    - DEVICE_TRIGGERED (Push only)
+
+    - LOCATION_TRIGGERED (Push only)
+
+    - BROADCAST_LIVE_ACTIVITY (Push iOS only)
+
+
+    **Campaign lifecycle:**
+
+
+    1. **Create** - Start a draft with only the required fields (`channel`, `campaign_delivery_type`, `created_by`). Add content, audience, and scheduling incrementally across subsequent update calls.
+
+    2. **Update** - Patch individual components as you refine the setup. Each submitted component is validated in full before the draft is updated.
+
+    3. **Validate** - Check whether a draft would pass publish-time validation without committing any changes.
+
+    4. **Test** - Send a test message to specific users from either a saved draft or inline content before going live.
+
+    5. **Manage** - Pause, resume, or stop a live campaign. Search your workspace and retrieve lightweight metadata across all campaigns.
+
+
+    **Campaign versioning** is optional per workspace:
+
+    - When enabled, publishing an update to a live campaign creates a new document with an incremented `version_number`.
+
+    - `campaign_id` is the stable identifier across all versions; each version has its own raw `id` (ObjectId).
+
+
+    **Authentication header:** Pass your Workspace ID in the `MOE-APPKEY` request header, the same as in V1.
+
+    '
+  contact:
+    name: MoEngage Developer Team
+    email: support@moengage.com
+    url: https://developers.moengage.com
+servers:
+- url: https://api-{dc}.moengage.com/
+  description: MoEngage Campaigns API Server
+  variables:
+    dc:
+      default: '01'
+      description: Data center (DC) segment in the hostname. Replace `OX` with your workspace DC (01–06 or 101). See [Data centers](/api/introduction#data-centers).
+security:
+- BasicAuth: []
+tags:
+- name: Personalized Preview
+paths:
+  /v5/personalization/preview:
+    post:
+      operationId: preview_personalized_content_v5
+      summary: Personalized Preview (V5)
+      description: 'Returns a fully resolved preview of personalised campaign content for a specific user - all user attributes, event attributes, content blocks, content APIs, product sets, and custom templates are rendered exactly as they would appear to that user at send time.
+
+        '
+      x-mint:
+        content: '#### Rate Limits
+
+
+          | Rate Limit Name | Rate Limit |
+
+          | :--- | :--- |
+
+          | Personalized preview per minute | 10,000 requests per minute |
+
+          '
+      tags:
+      - Personalized Preview
+      parameters:
+      - $ref: '#/components/parameters/MOE-APPKEY'
+      - $ref: '#/components/parameters/X-MOE-Request-Id'
+      requestBody:
+        description: Personalization preview request. Supply the target user identification and the campaign content to resolve. All Jinja expressions and dynamic sources are evaluated against the specified user's profile.
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - request_id
+              - channel
+              - user_identification
+              - campaign_content
+              properties:
+                request_id:
+                  type: string
+                  description: Unique identifier for this request. Correlates with `response_id`.
+                channel:
+                  type: string
+                  enum:
+                  - PUSH
+                  - EMAIL
+                  - SMS
+                  description: Channel of the content to preview.
+                user_identification:
+                  type: object
+                  description: Identifies the target user whose attributes are used to resolve personalisation.
+                  required:
+                  - type
+                  - value
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - USER_ATTRIBUTE_UNIQUE_ID
+                      - EMAIL
+                      - MOE_GAID
+                      - PUSH_ID
+                      description: Identifier type.
+                    value:
+                      type: string
+                      description: Value of the identifier.
+                event_attributes:
+                  type: object
+                  description: Optional map of event attribute key-value pairs to inject into personalisation resolution. Useful for previewing event-triggered campaigns where the triggering event carries attributes.
+                  additionalProperties:
+                    type: string
+                campaign_content:
+                  type: object
+                  description: The campaign content to resolve. Follows the same `campaign_content` structure as the Create Campaign request. Only the content sent here is evaluated - no saved draft is loaded.
+                  example:
+                    request_id: preview-001
+                    channel: PUSH
+                    user_identification:
+                      type: USER_ATTRIBUTE_UNIQUE_ID
+                      value: user_abc123
+                    event_attributes:
+                      product_name: Running Shoes
+                      product_price: '4999'
+                    campaign_content:
+                      content:
+                        push:
+                          android:
+                            template_type: BASIC
+                            basic_details:
+                              title: Hello, {{ user.first_name }}!
+                              message: '{{ event.product_name }} is waiting for you.'
+            examples:
+              push_preview:
+                summary: Push personalized preview
+                value:
+                  request_id: '{{request_id}}'
+                  channel: PUSH
+                  user_identification:
+                    type: USER_ATTRIBUTE_UNIQUE_ID
+                    value: '{{user_id}}'
+                  campaign_content:
+                    content:
+                      push:
+                        android:
+                          template_type: BASIC
+                          basic_details:
+                            title: Hello, {{ user.first_name }}!
+                            message: '{{ event.product_name }} is waiting for you.'
+                  event_attributes:
+                    product_name: '{{product_name}}'
+              email_preview:
+                summary: Email personalized preview
+                value:
+                  request_id: '{{request_id}}'
+                  channel: EMAIL
+                  user_identification:
+                    type: EMAIL
+                    value: '{{user_email}}'
+                  campaign_content:
+                    content:
+                      email:
+                        subject: Hello, {{ user.first_name }}!
+                        html_content: <p>Your order {{ event.order_id }} has shipped.</p>
+                  event_attributes:
+                    order_id: '{{order_id}}'
+      responses:
+        '200':
+          description: Preview resolved successfully. Returns the fully rendered content for the specified user.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  response_id:
+                    type: string
+                  type:
+                    type: string
+                    example: personalization
+                  data:
+                    type: object
+                    properties:
+                      personalized_content:
+                        type: object
+                        description: The resolved campaign content with all Jinja expressions, user attributes, event attributes, and dynamic sources substituted.
+                        example:
+                          response_id: preview-001
+                          type: personalization
+                          data:
+                            personalized_content:
+                              content:
+                                push:
+                                  android:
+                                    template_type: BASIC
+                                    basic_details:
+                                      title: Hello, Jane!
+                                      message: Running Shoes is waiting for you.
+        '400':
+          $ref: '#/components/responses/V5ValidationError'
+        '401':
+          $ref: '#/components/responses/V5Unauthorized'
+        '429':
+          $ref: '#/components/responses/V5RateLimited'
+        '500':
+          $ref: '#/components/responses/V5InternalError'
+components:
+  responses:
+    V5Unauthorized:
+      description: Authentication failure.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/V5ErrorEnvelope'
+          example:
+            response_id: abc-101
+            error:
+              code: UNAUTHORIZED
+              message: Invalid or missing credentials.
+              details: []
+    V5InternalError:
+      description: Unhandled server-side failure.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/V5ErrorEnvelope'
+          example:
+            response_id: abc-101
+            error:
+              code: INTERNAL_ERROR
+              message: Internal server error.
+              details: []
+    V5ValidationError:
+      description: Request failed schema or component validation.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/V5ErrorEnvelope'
+          example:
+            response_id: abc-101
+            error:
+              code: VALIDATION_FAILED
+              message: One or more fields failed validation.
+              request_id: req-push-001
+              details:
+              - target: campaign_delivery_type
+                message: campaign_delivery_type value is required.
+    V5RateLimited:
+      description: Per-app rate limit exceeded. Retry after the window indicated in `Retry-After` (seconds).
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/V5ErrorEnvelope'
+          example:
+            response_id: abc-101
+            error:
+              code: RATE_LIMITED
+              message: Rate limit exceeded for app key.
+              details: []
+  parameters:
+    X-MOE-Request-Id:
+      name: X-MOE-Request-Id
+      in: header
+      required: true
+      description: 'Correlates with `response_id`. Supply this header or `request_id` in the body; if both are set, they must match.
+
+        '
+      schema:
+        type: string
+    MOE-APPKEY:
+      name: MOE-APPKEY
+      in: header
+      required: true
+      description: 'Your MoEngage Workspace ID (App ID). Find it in the dashboard at **Settings** > **Account** > **APIs** > **Workspace ID**.
+
+        '
+      schema:
+        type: string
+      example: '{{workspace_id}}'
+  schemas:
+    V5ErrorEnvelope:
+      type: object
+      properties:
+        response_id:
+          type: string
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+              enum:
+              - VALIDATION_FAILED
+              - UNPROCESSABLE_ENTITY
+              - BAD_REQUEST
+              - RATE_LIMITED
+              - UNAUTHORIZED
+              - INTERNAL_ERROR
+              - FORBIDDEN
+            message:
+              type: string
+            target:
+              type: string
+            details:
+              type: array
+              items:
+                type: object
+                properties:
+                  target:
+                    type: string
+                  message:
+                    type: string
+            request_id:
+              type: string
+              description: 'The `request_id` from the originating request. Use this to correlate a failed response back to the specific call that triggered it, particularly useful in high-volume or retry scenarios.
+
+
+                In V1, `request_id` appeared inside the `error` object. V5 preserves this field in the same location.
+
+                '
+  securitySchemes:
+    BasicAuth:
+      type: http
+      scheme: basic
+      description: 'Authentication is done via Basic Auth. This requires a base64-encoded string of your credentials in the format ''username:password''.
+
+
+        - **Username**: Use your MoEngage workspace ID (also known as the App ID). You can find it in the MoEngage dashboard at **Settings** > **Account** > **APIs** > **Workspace ID (earlier app id)**.
+
+        - **Password**: On your MoEngage workspace, navigate to **Settings** → **Account** → **API keys** and click **Create new key**. The tab lists every API surface (Data, Segmentation, Push, Email, Campaigns, Templates, and more) and exposes per-resource actions. For Campaigns, ensure the **View**, **Create & Manage**, and **Create, Manage & Publish** checkboxes are selected.
+
+
+        For more information on authentication and getting your credentials, refer to [Getting your credentials](/api/introduction#getting-your-credentials).
+
+
+        Send the value in the `Authorization` header as `Basic` followed by Base64-encoding of `appkey:apisecret` (workspace ID and API key).
+
+        '

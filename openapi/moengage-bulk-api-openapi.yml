@@ -1,0 +1,703 @@
+openapi: 3.2.0
+info:
+  title: MoEngage Data Bulk API
+  version: '1.0'
+  description: 'This is a comprehensive OpenAPI specification for MoEngage''s Data APIs, including User, Event, and Device management.
+
+    It''s designed to power an interactive API playground on your new documentation site.'
+servers:
+- url: https://api-{dc}.moengage.com/v1
+  description: MoEngage Core API Server
+  variables:
+    dc:
+      default: '01'
+      description: 'The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101. '
+security:
+- Authentication: []
+tags:
+- name: Bulk
+  description: Operations for importing users and events in bulk.
+paths:
+  /transition/{Workspace_ID}:
+    post:
+      tags:
+      - Bulk
+      summary: Bulk Import Users and Events
+      description: The Bulk Import API sends multiple user and event requests in batch to MoEngage, using a single API request. You can send a batch request of a maximum of 100 KB in a single API call.
+      x-mint:
+        content: "<Note>\n\nAll bulk API requests return a 200 response code. Debugging should be done on the user profile on the dashboard.\n  \n</Note>\n\n#### User Identity Resolution\n   In MoEngage, data ingestion uses an ID to create or update a user. For workspaces in MoEngage with [Identity Resolution](/user-guide/data/user-data/unified-identity-identity-resolution) enabled, you can use the Bulk Import API to create or update users using a specific identifier, such as a mobile number or email ID. These identifiers must be enabled for the workspace in the Identity Resolution dashboard.\nYou can: \n\n* Create users through Server-to-Server Data APIs even when they do not have an ID (but have other identifiers).\n* Create a user or track events of a user when identifiers other than ID (for example, email ID or phone number) are known.\n\n#### Rate Limit\nA single bulk import API contains users, devices, and events together. Send a maximum of 60,000 users and 60,000 events per minute across all API requests.\n"
+      parameters:
+      - name: Workspace_ID
+        in: path
+        required: true
+        description: This is the Workspace ID of your MoEngage account that must be passed with the request. You can find it in the MoEngage dashboard at **Settings** > **Account** > **APIs** > **Workspace ID (earlier app id)**.
+        schema:
+          type: string
+      - name: X-Forwarded-For
+        in: header
+        required: false
+        description: The 'X-Forwarded-For' header is used to specify the IP address of the client that made the request. This header may be added by proxy servers or load balancers. The header value must contain the IP address of the original client that initiated the request. Multiple IP addresses may be specified in the header value, separated by commas.
+        schema:
+          type: string
+          example: 203.0.113.195
+      requestBody:
+        required: true
+        description: "**Types of Payload in Request Body**\n\nThe sample cURL request for a Bulk Import API consisting of the following payloads: \n* **User payload**:  Attribute parameters must contain at least one of the identifiers you have configured based on which users in MoEngage will be created, updated, or merged.\n* **Event payload**: Identifiers set up in the workspace must be mentioned within the _user_identifiers_ parameter, as shown in the below example where _moe_mobile_ is one of the identifiers in the workspace:\n```json\n\"user_identifiers\":{\n\"moe_mobile\":\"{{Mobile_Number}}\"\n}\n```\n"
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BulkImportRequest'
+            examples:
+              Standard Example:
+                summary: Combined User, Event, and Device Import
+                value:
+                  type: transition
+                  elements:
+                  - type: customer
+                    customer_id: AZ8TM
+                    attributes:
+                      name: qjDKn
+                      first_name: xSEdd
+                      last_name: UWbah
+                      platforms:
+                      - platform: iOS
+                        active: 'true'
+                  - type: customer
+                    customer_id: 9yt8q8
+                    attributes:
+                      name: 5Np
+                      first_name: 2irjN
+                      last_name: CH4Zo
+                      platforms:
+                      - platform: ANDROID
+                        active: 'true'
+                  - type: customer
+                    customer_id: ONfYcF
+                    attributes:
+                      name: U92
+                      first_name: zgI63
+                      last_name: Dle4b
+                      platforms:
+                      - platform: web
+                        active: 'true'
+                  - type: device
+                    customer_id: AZ8TM
+                    device_id: AZ8TM
+                    attributes:
+                      brand: '{{model_bulk1}}'
+                      platform: '{{platform_bulk1}}'
+                      push_id: pushid1991
+                  - type: device
+                    customer_id: 9yt8q8
+                    device_id: 9yt8q8
+                    attributes:
+                      brand: '{{model_bulk1}}'
+                      platform: '{{platform_bulk1}}'
+                      push_id: pushid2744
+                  - type: device
+                    customer_id: ONfYcF
+                    device_id: ONfYcF
+                    attributes:
+                      brand: '{{model_bulk1}}'
+                      platform: '{{platform_bulk1}}'
+                      push_id: pushid3546
+                  - type: event
+                    customer_id: ONfYc
+                    actions:
+                    - action: A6CO5
+                      attributes:
+                        product: Shirt
+                      platform: '{{platform_bulk1}}'
+                      app_version: '839'
+                      user_time: '1712567385726'
+                      current_time: '1712567385726'
+                    - action: wuDX8
+                      attributes:
+                        product: MacBook Air
+                        brand: Apple
+                      platform: iOS
+                      app_version: 1.2.3
+                      user_time: '1712567385726'
+                      current_time: '1712567385726'
+                  - type: event
+                    customer_id: 9yt8q8
+                    actions:
+                    - action: A6CO5
+                      attributes:
+                        product: Shirt
+                      platform: '{{platform_bulk1}}'
+                      app_version: 1.2.3
+                      user_time: '1712567385726'
+                      current_time: '1712567385726'
+                    - action: Purchase
+                      attributes:
+                        product: MacBook Air
+                        brand: Apple
+                      platform: iOS
+                      app_version: 1.2.3
+                      user_time: '1712567385726'
+                      current_time: '1712567385726'
+                  - type: event
+                    customer_id: ONfYcF
+                    actions:
+                    - action: A6CO5
+                      attributes:
+                        product: Shirt
+                      platform: '{{platform_bulk1}}'
+                      app_version: 1.2.3
+                      user_time: '1712567385726'
+                      current_time: '1712567385726'
+                    - action: Purchase
+                      attributes:
+                        product: MacBook Air
+                        brand: Apple
+                      platform: iOS
+                      app_version: 1.2.3
+                      user_time: '1712567385726'
+                      current_time: '1712567385726'
+              Properties as Date/Time:
+                summary: Properties as Date/Time
+                value:
+                  type: transition
+                  elements:
+                  - type: customer
+                    customer_id: john@example.com
+                    attributes:
+                      name: John
+                      platforms:
+                      - platform: ANDROID
+                        active: 'true'
+                  - type: event
+                    customer_id: john@example.com
+                    device_id: 96bd03b6-defc-4203-83d3-dc1c73080232
+                    actions:
+                    - action: Added to Cart
+                      attributes:
+                        product: Mobile
+                        color: white
+                        Brand: Apple
+                      platform: iOS
+                      app_version: 1.2.3
+                      current_time: '2020-05-31T16:33:35Z'
+                      user_timezone_offset: 19800
+                    - action: Purchase
+                      attributes:
+                        product: MacBook Air
+                        Brand: Apple
+                      platform: iOS
+                      app_version: 1.2.3
+                      current_time: 1590404615
+                      user_timezone_offset: 19800
+              Properties as Array:
+                summary: Properties as Array
+                value:
+                  type: transition
+                  elements:
+                  - type: customer
+                    customer_id: OTBoS
+                    attributes:
+                      name: wtmNx
+                      first_name: bt016
+                      last_name: JPCUi
+                      Array_attribute:
+                      - one
+                      - two
+                      platforms:
+                      - platform: iOS
+                        active: 'true'
+                  - type: device
+                    customer_id: OTBoS
+                    device_id: OTBoS
+                    attributes:
+                      brand: Mi
+                      platform: Windows
+                      push_id: pushid1186
+                  - type: event
+                    customer_id: OTBoS
+                    actions:
+                    - action: mOhrP
+                      attributes:
+                        product: Shoe
+                      platform: Windows
+                      app_version: '581'
+                      user_time: '1712568861457'
+                      current_time: '1712568861457'
+              Using User Identifiers:
+                summary: Using User Identifiers
+                value:
+                  type: transition
+                  elements:
+                  - type: customer
+                    attributes:
+                      moe_mobile: '{{Mobile_Number}}'
+                      first_name: John
+                  - type: event
+                    user_identifiers:
+                      moe_mobile: '{{Mobile_Number}}'
+                    actions:
+                    - action: AddToCart
+                      attributes:
+                        product: MacBook Air
+                        Brand: Apple
+      responses:
+        '200':
+          description: This response is returned when the request is processed successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericSuccess'
+              examples:
+                success_response:
+                  summary: Success Response
+                  value:
+                    status: success
+                    message: Your request has been accepted and will be processed soon.
+        '400':
+          description: This response is returned when the required parameters are missing from the request, attributes are not found, and incorrect values are passed.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: fail
+                  error:
+                    type: object
+                    properties:
+                      attribute:
+                        type: string
+                        description: This field denotes the attribute missing in the payload.
+                      message:
+                        type: string
+                        description: A descriptive error message explaining why the request failed.
+                      type:
+                        type: string
+                        description: The type or category of the error ("MissingAttributeError").
+                      request_id:
+                        type: string
+                        description: A unique identifier for the request, useful for debugging.
+              examples:
+                bad_request:
+                  summary: Bad Request
+                  value:
+                    status: fail
+                    error:
+                      message: '''Could not decode the request body. The JSON was incorrect or not encoded as UTF-8.'
+                      type: Malformed JSON
+                      request_id: oWvxnUuo
+                empty_elements:
+                  summary: Empty Body
+                  value:
+                    status: fail
+                    error:
+                      attribute: elements
+                      message: '''elements cannot be empty array'
+                      type: MissingAttributeError
+                      request_id: oWvxnUuo
+                invalid_type:
+                  summary: Invalid Type
+                  value:
+                    status: fail
+                    error:
+                      attribute: type
+                      message: '''type in elements should be customer/event/device'
+                      type: AttributeError
+                      request_id: oWvxnUuo
+                missing_customerid:
+                  summary: Customer ID is Missing
+                  value:
+                    status: fail
+                    error:
+                      attribute: customer_id
+                      message: '''customer_id not found in the payload'
+                      type: MissingAttributeError
+                      request_id: oWvxnUuo
+                empty_action:
+                  summary: Empty Action
+                  value:
+                    status: fail
+                    error:
+                      attribute: action
+                      message: '''action cannot be empty Unicode string'
+                      type: MissingAttributeError
+                      request_id: oWvxnUuo
+                malformed_json:
+                  summary: Element Data Type
+                  value:
+                    status: fail
+                    error:
+                      message: '''Could not decode the request body. The JSON was incorrect or not decoded as UTF-8.'
+                      type: Malformed JSON
+                      request_id: oWvxnUuo
+components:
+  schemas:
+    CreateDeviceRequest:
+      title: Device
+      type: object
+      required:
+      - type
+      - customer_id
+      - device_id
+      - attributes
+      properties:
+        type:
+          type: string
+          enum:
+          - device
+          description: 'This field denotes the type of request. Supported value is: device. This field is case-sensitive. When passing the value in the request, follow the case as in the example.'
+        customer_id:
+          type: string
+          description: This field denotes the unique identifier used to identify a user in MoEngage. Note that devices can be created for existing users only.
+        device_id:
+          type: string
+          description: 'This field denotes the unique identifier used to identify the device associated with a user in MoEngage.
+
+            If your app is integrated with MoEngage SDK, the SDK assigns a unique device_id to the devices of your end-users.
+
+            If your app is not integrated with MoEngage SDK, you can use unique alphanumeric values or other device attributes such as Push token, GAID/IDFV to assign unique device_id values to devices of your user.'
+        attributes:
+          $ref: '#/components/schemas/DeviceAttributes'
+    PlatformObject:
+      type: object
+      properties:
+        platform:
+          type: string
+          enum:
+          - ANDROID
+          - iOS
+          - web
+        active:
+          type: string
+          enum:
+          - 'true'
+          - 'false'
+    CreateEventRequest:
+      title: Event
+      type: object
+      required:
+      - type
+      - customer_id
+      - actions
+      properties:
+        type:
+          type: string
+          description: This is used to identify the type of request. Allowed value is event. This field is case-sensitive. Follow the case as in the example when passing the value in the request.
+          enum:
+          - event
+        customer_id:
+          type: string
+          description: Identifier to identify or create a user in MoEngage. Not mandatory in Identity resolution enabled workspaces.
+        device_id:
+          type: string
+          description: Device_id in event payload is optional. The default value is the customer_id value. The value is used to map events to specific devices.
+        user_identifiers:
+          type: object
+          description: 'Required if Identity Resolution is enabled and customer_id is not provided.
+
+
+            **User Identity Resolution:**
+
+
+            If the [User Identity Resolution](/user-guide/data/user-data/unified-identity-identity-resolution) feature is enabled in your workspace, identifiers set up in the workspace must be mentioned within the user_identifiers parameter.
+
+            '
+          additionalProperties: true
+          example:
+            moe_mobile: +9198765xxxxx
+        actions:
+          type: array
+          description: List of events to be tracked for the user.
+          items:
+            $ref: '#/components/schemas/EventAction'
+    GenericSuccess:
+      type: object
+      properties:
+        status:
+          type: string
+          description: This field contains the status of the request and specifies whether the request was successful.
+          example: success
+        message:
+          type: string
+          example: Your request has been accepted and will be processed soon.
+    DeviceAttributes:
+      type: object
+      description: This field contains the device attributes to add or update in the device profile.
+      required:
+      - platform
+      - push_id
+      properties:
+        model:
+          type: string
+          description: This field denotes the model of the device.
+        platform:
+          type: string
+          enum:
+          - ANDROID
+          - iOS
+          - web
+          - TV
+          description: This field denotes the platforms where the device is supported. Using unsupported values may result in an API response of 400.
+        push_id:
+          type: string
+          description: This field denotes the Push token of the device. When you pass a push token using this API, reachability is only updated if the device is currently marked as _Installed_. If a device is marked as _Uninstalled_, updating the `push_id` or `moe_push_opted` using Track Device API will not affect its reachability (it will remain Unreachable). To change a device's status back to _Installed_, the MoEngage SDK must actively track the device.
+        moe_push_opted:
+          type: string
+          enum:
+          - 'True'
+          - 'False'
+          description: This field denotes the opt-in status of the device of the user.
+        moe_push_provisional_opted:
+          type: string
+          description: This field denotes the provisional push opt-in status of the user. Know more about provisional push [here](/user-guide/campaigns-and-channels/mobile-push/notification-features-and-behavior/ios-push-permission-and-reachability).
+        app_version:
+          type: string
+          description: This field denotes the version of the app on the device.
+        os_version:
+          type: string
+          description: This field denotes the device's operating system version.
+        moe_gaid:
+          type: string
+          description: This field denotes the unique advertising identifier for Android devices to measure user behavior and campaign performance.
+        idfv:
+          type: string
+          description: This field denotes the unique advertising identifier for iOS devices.
+    UserAttributes:
+      type: object
+      description: "A dictionary containing user attributes to add / update in the user profile.\nFor example, to track custom attributes of different data types like string, numeric, boolean, and date, pass the following payload where points are a number, expiry_date is a date type attribute, and super_user is a boolean attribute.\n\n> **Note:**\n> * \"id\", \"_id\", and \"\" keywords are blocked and not to be used as user attribute names.\n> * You can not use \"moe_\" as a prefix while naming user attributes. It is a system prefix and using it might result in periodic blacklisting without prior communication.\n> For other attributes that are not listed below, use the key-value pairs that you intend to use.\n\n**Array Support**\n  If you want to pass an attribute in an array, the appropriate syntax for that is: \n   ```json\n   \"Array_attributeName\":[\"abc\",\"123\"]\n   ```\n"
+      properties:
+        u_n:
+          type: string
+          description: Full name of the user.
+        u_fn:
+          type: string
+          description: First name of the user.
+        u_ln:
+          type: string
+          description: Last name of the user.
+        u_gd:
+          type: string
+          description: Gender of the user.
+        u_em:
+          type: string
+          format: email
+          description: Email Address of the user (Standard).
+        u_mb:
+          type: string
+          description: Mobile Number of the user (Standard). Example `918888444411`.
+        uid:
+          type: string
+          description: A unique ID that the app has set for a user. This is a standard attribute where MoEngage provides the name, and the value is provided by the client.
+        u_bd:
+          type: string
+          format: date-time
+          description: Birthdate of the user in ISO 8601 format (e.g., 2019-05-21T03:47:35Z).
+        moe_wa_subscription:
+          type: boolean
+          description: WhatsApp subscription status of a user.
+        moe_em_unsub_categories:
+          type: string
+          description: Email Unsubscribed Categories. The list of email categories user has unsubscribed.
+        push_preference:
+          type: boolean
+          description: Push Opt In Status (iOS).The push permission status of a user on an iOS device.
+        moe_sub_w:
+          type: boolean
+          description: Web Push Subscription Status. The web push subscription status of a user. Use this to find your aggregate subscribers and users who unsubscribed after subscribing once.
+        moe_spam:
+          type: boolean
+          description: Spam. Email Spam Attribute. The emails are not sent to the user when the set value is true.
+        moe_unsubscribe:
+          type: boolean
+          description: Unsubscribe. Email Unsubscribe Attribute. Emails are not sent to the user when the set value is true.
+        moe_hard_bounce:
+          type: boolean
+          description: Hard Bounce. Email Hard Bounce Attribute. The emails are not sent to the user when the set value is true.
+        moe_sms_subscription:
+          type: string
+          description: SMS Subscription Status. An attribute which stores the SMS subscription status of the user. This will be used to see if a user is reachable based on certain values of the attribute.
+        moe_email_optin_status:
+          type: string
+          enum:
+          - DOUBLE_OPTED_IN
+          - OPTED_OUT
+          - OPT_IN_PENDING
+          description: "Email Opt-in Status. An attribute that stores the opt-in status of the user for the email channel. Supported values are: \n* `DOUBLE_OPTED_IN`\n* `OPTED_OUT`\n* `OPT_IN_PENDING`\n"
+        publisher_name:
+          type: string
+          description: Publisher Name. The name of the campaign publisher. This standard attribute can only be created through the Track User API and cannot be updated later.
+        campaign_name:
+          type: string
+          description: Campaign Name. The name of the campaign. This standard attribute can only be created through the Track User API and cannot be updated later.
+        u_l_a:
+          type: integer
+          format: int64
+          description: Last Seen. Time in epoch format (for example, `1767092989259`). This standard attribute can only be created through the Track User API and cannot be updated later.
+        cr_t:
+          type: integer
+          format: int64
+          description: First Seen. Time in epoch format (for example, `1767092989259`). This standard attribute can only be created through the Track User API and cannot be updated later.
+        geo:
+          type: string
+          description: Geolocation of the user as a string of latitude and longitude (for example, `88.90 89.00`).
+        moe_gaid:
+          type: string
+          description: Google Advertising ID (Android). A unique, resettable identifier provided by Google for ad tracking and attribution on Android devices. This standard attribute can only be created through the Track User API and cannot be updated later.
+        advertising_identifier:
+          type: string
+          description: Advertising Identifier (iOS & Windows). A unique alphanumeric string used for ad tracking on iOS (IDFA) and Windows devices. This standard attribute can only be created through the Track User API and cannot be updated later.
+      additionalProperties: true
+      example:
+        name: John
+        points: 20
+        expiry_date: '2020-05-31T03:47:35Z'
+        super_user: true
+        user_persona: browsers
+    BulkImportRequest:
+      type: object
+      required:
+      - type
+      - elements
+      properties:
+        type:
+          type: string
+          enum:
+          - transition
+          description: This is used to identify the type of request. This field is case-sensitive. Follow the case as in the example when passing the value in the request.
+        elements:
+          type: array
+          enum:
+          - customer
+          - event
+          - device
+          description: List of data points (events and customers) to track. The type field in this list denotes whether the information is for a customer or an event. This field is case-sensitive. Follow the case as in the example when passing the value in the request.
+          items:
+            oneOf:
+            - $ref: '#/components/schemas/CreateUserRequest'
+            - $ref: '#/components/schemas/CreateEventRequest'
+            - $ref: '#/components/schemas/CreateDeviceRequest'
+    CreateUserRequest:
+      title: User
+      type: object
+      required:
+      - type
+      - customer_id
+      properties:
+        type:
+          type: string
+          description: This is used to identify the type of request. This field is case-sensitive. Follow the case as in the example when passing the value in the request.
+          enum:
+          - customer
+        customer_id:
+          type: string
+          description: "The unique identifier is used to identify/create a user in MoEngage. Not mandatory in [Identity Resolution](/user-guide/data/user-data/unified-identity-identity-resolution) enabled workspaces. If the User Identity Resolution feature is enabled in your workspace, the attribute parameters in the payload must contain at least one of the identifiers you have activated in your workspace based on which users in MoEngage will be created, updated, or merged. In the following example, moe_mobile is one of the identifiers in the workspace and is passed in attributes:\n\n```json\n {\n        \"type\": \"customer\",\n        \"attributes\": {\"moe_mobile\": \"{{Mobile_Number}}\",\n        \"first_name\": \"John\" \n      }\n}\n```' \n"
+        update_existing_only:
+          type: boolean
+          default: false
+          description: 'This field should be passed in the request when only existing users in MoEngage should be updated.
+
+
+            **If this value is passed as true:**
+
+            1. Only those users for whom the customer_id from the request payload matches the customer identifier in MoEngage will be updated.
+
+            2. In case of new users (customer_id in the payload does not match any of the existing customer ids in your MoEngage account), they will not be created.
+
+
+            **If this value is passed as false:**
+
+            1. The user attributes will be updated with the values present in the payload for existing customers.
+
+            2. In case of new users (customer_id in the payload does not match any of the existing customer ids in your MoEngage account), a new customer will be created in the system with the details specified in the payload.
+
+            '
+        attributes:
+          $ref: '#/components/schemas/UserAttributes'
+        platforms:
+          type: array
+          description: List of dictionaries with the associated platforms out of ANDROID, iOS, and web and their status.
+          items:
+            $ref: '#/components/schemas/PlatformObject'
+    EventAction:
+      type: object
+      required:
+      - action
+      properties:
+        action:
+          type: string
+          description: The name of the event to be tracked.
+        attributes:
+          type: object
+          additionalProperties: true
+          description: "A dictionary containing event attributes to track with the event.\n**Array Support**\nIf you want to pass an attribute in an array, the appropriate syntax for that is: \n ```json\n \"Array_attributeName\":[\"abc\",\"123\"]\n ```"
+          example:
+            price: 3999
+            departure_date: '2019-05-21T03:47:35Z'
+            premium_seat: true
+        platform:
+          type: string
+          enum:
+          - ANDROID
+          - iOS
+          - web
+          - TV
+          - unknown
+          description: 'Used to identify the platform on which the event happened. Allowed values are ANDROID, iOS, web, or unknown.
+
+            **Note**: Ensure that the platform value sent is Android, iOS, or web. Platform value depends on which platform the event was generated. If you are unsure about the platform on which the event occurred, send the value as unknown or do not send any value. Incorrect platform value leads to inconsistencies in platform level campaigns like Push and In-App.
+
+            '
+        moe_os_type:
+          type: string
+          enum:
+          - ROKU
+          - WebOS
+          - AndroidTV
+          - tvOS
+          - Tizen
+          - FireOS
+          - VizioTV
+          - Xbox
+          description: 'Used to identify the operating system of the TV.
+
+
+            **Note**: Ensure that you pass this parameter only when the platform is TV. Following are the valid moe_os_type accepted in MoEngage:
+
+            * ROKU for RokuTV
+
+            * WebOS for LGTV
+
+            * AndroidTV for AndroidTV
+
+            * tvOS for AppleTV
+
+            * Tizen for SamsungTV
+
+            * FireOS for FireTV
+
+            * VizioTV for VizioTV
+
+            * Xbox for Xbox
+
+            '
+        app_version:
+          type: string
+          description: App Version of the app on which the event originated.
+        user_time:
+          oneOf:
+          - type: number
+          - type: string
+          description: "Local time at which the event happened. This field lets the system identify the local system time for when the event happened. Acceptable formats for user_time:\n          * ISO 8601 (for example - 2020-05-31T16:33:35Z)\n          * Epoch time in seconds (for example - 1590404615)\n"
+        current_time:
+          oneOf:
+          - type: number
+          - type: string
+          description: "UTC time at which the event happened. This field is necessary to specify the UTC time of the event. Acceptable formats for current_time include:\n       * ISO 8601 (for example - 2020-05-31T16:33:35Z)\n       * Epoch time in seconds (for example - 1590404615)\n"
+        user_timezone_offset:
+          type: number
+          description: "The difference in time between UTC and the local system time in a particular time zone. All time zones are defined by their offset from UTC. The offset is expressed as either UTC- or UTC+.\n * user_timezone_offset should have a value in seconds which can be between -54000 to 54000. For example, for IST (UTC+0530), \"user_timezone_offset\" will be 19800.\n* This field is crucial for establishing the `user_time` or `current_time`.\n* If the field is absent, MoEngage gets this information from the internal system in the sequence as follows:\n      * The user profile’s timezone is taken into consideration.\n      * If the user profile’s timezone is not present, the App/account’s timezone is considered.\n      * In cases where neither is present, the UTC timezone is used.\n* Include `user_timezone_offset` in your request only if you have accurate timezone information for each user, as incorrect info could disrupt event timelines in the user profile.\n\n**Note:**\nMoEngage generates current_time and user_time if they are not provided in the request. Use the following information and provide current_time, user_time, and user_timezone_offset accordingly:\n* If you do not provide any of current_time, user_time, and user_timezone_offset, MoEngage automatically uses the UTC time when the request was received by MoEngage as the current_time. MoEngage uses internal data to calculate the user_timezone_offset to generate the user_time.\n* If you provide only the current_time, MoEngage uses internal data to calculate the user_timezone_offset to generate the user_time.\n- If you provide only the user_time, MoEngage uses internal data to calculate the user_timezone_offset to generate the current_time.\n* If you send the current_time and user_time, MoEngage uses them as is.\n* If you provide the current_time and user_timezone_offset, MoEngage generates the user_time.\n* If you provide user_time and user_timezone_offset, MoEngage generates the current_time.\n"
+  securitySchemes:
+    Authentication:
+      type: http
+      scheme: basic
+      description: "Authentication is done via Basic Auth. This requires a base64-encoded string of your credentials in the format 'username:password'.\n\n- **Username**: Use your MoEngage workspace ID (also known as the App ID). You can find it in the MoEngage dashboard at **Settings** > **Account** > **APIs** > **Workspace ID (earlier app id)**.\n- **Password**: Use your API Key, which you can find within the **Data** tile.\n\n**Note**: After you generate and save the Data API Key, DO NOT generate a new key unless there is a security breach. After you generate a different Data API key and save it, the authentication will start failing. You must update your existing data tracking. \n\nFor more information on authentication and getting your credentials, refer [here](https://www.moengage.com/docs/api/introduction#getting-your-credentials).\n"

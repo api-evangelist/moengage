@@ -1,0 +1,182 @@
+openapi: 3.2.0
+info:
+  title: MoEngage Data Tracking API
+  version: '1.0'
+  description: 'This is a comprehensive OpenAPI specification for MoEngage''s Data APIs, including User, Event, and Device management.
+
+    It''s designed to power an interactive API playground on your new documentation site.'
+servers:
+- url: https://api-{dc}.moengage.com/v1
+  description: MoEngage Core API Server
+  variables:
+    dc:
+      default: '01'
+      description: 'The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101. '
+security:
+- Authentication: []
+tags:
+- name: Tracking
+  description: Endpoints for tracking attribution and installs.
+paths:
+  /installInfo:
+    get:
+      tags:
+      - Tracking
+      summary: Track App Install
+      description: 'This API tracks the install attribution data in MoEngage, which you can then use to enhance your marketing automation campaigns on MoEngage.
+
+
+        Install attribution tracking is a great way to improve your initial relationship with your user. Knowing how, where, and even more importantly, why a user installs your app allows you to get a better understanding of who your user is and how you should introduce them to your app.
+
+        '
+      security: []
+      x-code-samples:
+      - lang: Bash
+        label: Android
+        source: 'curl -L -g -X GET ''https://api-0X.moengage.com/v1/installInfo?src=<partner_name>&appAttributionKey=<ENTER_ATTRIBUTION_KEY_HERE>&appId=<ENTER_Workspace_ID_HERE>&campaign_name=<campaign_name_of_install>&publisher_name=<publisher_name_of_install>&advertising_id=<device_GAID>''
+
+          '
+      - lang: Bash
+        label: iOS
+        source: 'curl -L -g -X GET ''https://api-0X.moengage.com/v1/installInfo?src=<partner_name>&appAttributionKey=<ENTER_ATTRIBUTION_KEY_HERE>&appId=<ENTER_Workspace_ID_HERE>&campaign_name=<campaign_name_of_install>&publisher_name=<publisher_name_of_install>&idfv=<device_idfv>''
+
+          '
+      parameters:
+      - name: publisher_name
+        in: query
+        schema:
+          type: string
+        description: Publisher name of the install.
+      - name: campaign_name
+        in: query
+        schema:
+          type: string
+        description: Campaign name of the install.
+      - name: src
+        in: query
+        required: true
+        schema:
+          type: string
+        description: Partner name.
+      - name: appId
+        in: query
+        required: true
+        schema:
+          type: string
+        description: This is the Workspace ID of your MoEngage account that must be passed with the request. You can find it in the MoEngage dashboard at **Settings** > **Account** > **APIs** > **Workspace ID (earlier app id)**.
+      - name: advertising_id
+        in: query
+        schema:
+          type: string
+        description: Google Advertising ID of the device on which the install was detected (for Android only).
+      - name: idfv
+        in: query
+        schema:
+          type: string
+        description: IDFV of the iOS device on which the install was detected (for iOS only).
+      - name: appAttributionKey
+        in: query
+        required: true
+        schema:
+          type: string
+        description: Available on the MoEngage dashboard by navigating to **Settings > Analytics > Acquisition Tracking > Attribution Key**.
+      responses:
+        '200':
+          description: '**Success**
+
+            This response is returned when the request is processed successfully.
+
+            '
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericSuccess'
+        '400':
+          description: '**Bad Request**
+
+            This response is returned when the required parameters are missing from the request, attributes are not found, and incorrect values are passed.
+
+            '
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericError'
+        '401':
+          description: '**Unauthorized**
+
+            This response is returned when the request does not have valid authentication credentials.
+
+            '
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericError'
+        '403':
+          description: '**Account Blocked**
+
+            This response is returned when your MoEngage account is suspended or blocked.
+
+            '
+        '413':
+          description: '**Payload Size Exceeded**
+
+            This response is returned when the payload size exceeds 128 KB.
+
+            '
+        '415':
+          description: '**Unsupported Media Type**
+
+            This response is returned when the content type is not supported.
+
+            '
+        '429':
+          description: '**Rate Limit Breach**
+
+            This response is returned when the number of requests has exceeded the rate limit.
+
+            '
+        '500':
+          description: '**Internal Server Error**
+
+            This response is returned when the system runs into an unexpected error.
+
+            '
+components:
+  schemas:
+    GenericSuccess:
+      type: object
+      properties:
+        status:
+          type: string
+          description: This field contains the status of the request and specifies whether the request was successful.
+          example: success
+        message:
+          type: string
+          example: Your request has been accepted and will be processed soon.
+    GenericError:
+      type: object
+      properties:
+        status:
+          type: string
+          description: This field contains the status of the request and specifies whether the request was a failure.
+          example: fail
+        error:
+          type: object
+          properties:
+            message:
+              type: string
+              description: A descriptive error message explaining why the request failed.
+            type:
+              type: string
+              description: The type or category of the error (e.g., MissingAttributeError).
+            request_id:
+              type: string
+              description: A unique identifier for the request, useful for debugging.
+            attribute:
+              type: string
+              description: The attribute in the payload that caused the error.
+  securitySchemes:
+    Authentication:
+      type: http
+      scheme: basic
+      description: "Authentication is done via Basic Auth. This requires a base64-encoded string of your credentials in the format 'username:password'.\n\n- **Username**: Use your MoEngage workspace ID (also known as the App ID). You can find it in the MoEngage dashboard at **Settings** > **Account** > **APIs** > **Workspace ID (earlier app id)**.\n- **Password**: Use your API Key, which you can find within the **Data** tile.\n\n**Note**: After you generate and save the Data API Key, DO NOT generate a new key unless there is a security breach. After you generate a different Data API key and save it, the authentication will start failing. You must update your existing data tracking. \n\nFor more information on authentication and getting your credentials, refer [here](https://www.moengage.com/docs/api/introduction#getting-your-credentials).\n"

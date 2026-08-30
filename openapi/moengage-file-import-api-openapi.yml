@@ -1,0 +1,991 @@
+openapi: 3.2.0
+info:
+  title: MoEngage Data File Import API
+  version: '1.0'
+  description: 'This is a comprehensive OpenAPI specification for MoEngage''s Data APIs, including User, Event, and Device management.
+
+    It''s designed to power an interactive API playground on your new documentation site.'
+servers:
+- url: https://api-{dc}.moengage.com/v1
+  description: MoEngage Core API Server
+  variables:
+    dc:
+      default: '01'
+      description: 'The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101. '
+security:
+- Authentication: []
+tags:
+- name: File Import
+paths:
+  /fileimports/trigger/{schedule_id}:
+    post:
+      servers:
+      - url: https://fileimports-data-api-{dc}.moengage.com/v1.0/data
+        description: MoEngage File Imports API Server
+        variables:
+          dc:
+            default: '01'
+            description: The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.
+      tags:
+      - File Import
+      summary: Trigger File Imports
+      description: This API triggers scheduled file imports. You can trigger periodic imports to run using this API if the import has not expired and is in any of the following states- Scheduled, Successful, Partially Successful, and Failed.
+      x-mint:
+        content: "#### Rate Limit\n    You can trigger this API once in every five minutes for a specific schedule_id. A Bad request response (400) response will be sent if this is exceeded.\n \n"
+      parameters:
+      - name: schedule_id
+        in: path
+        required: true
+        description: This field specifies the Import ID (the unique identifier for the import) of the import that needs to be triggered. You can find the Import ID in the MoEngage Dashboard on the Imports History page. Click **Actions** > **View import** to view the Import Details. You can also view the Import ID in the email notification received once the import has been set up.
+        schema:
+          type: string
+      - name: MOE-APPKEY
+        in: header
+        required: true
+        description: This is the Workspace ID of your MoEngage account that must be passed with the request. You can find it in the MoEngage dashboard at **Settings** > **Account** > **APIs** > **Workspace ID (earlier app id)**.
+        schema:
+          type: string
+      responses:
+        '200':
+          description: This response is returned when the request is processed successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    description: This field contains the status of the request and specifies whether the request was successful.
+                    example: success, failure
+                  message:
+                    type: string
+                    description: This field contains information about whether the request was successful or not.
+                    example: Trigger Import Successful
+              examples:
+                success_response:
+                  summary: Successful request
+                  value:
+                    status: success
+                    message: Triggered Import Successfully
+        '400':
+          description: This response is returned when the Import ID/Schedule ID is missing from the request or when the provided parameters are invalid. Also, this response is returned when the rate limit (one request in five minutes) is breached.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: fail
+                    description: This field contains the status of the request and specifies whether the request was successful.
+                  error_type:
+                    type: object
+                    description: This field is present in the response when the Import/Schedule ID in the request is not found in the system (either because it is invalid or has been deleted).
+                  message:
+                    type: string
+                    description: 'This field contains information about whether the request was successful or not. '
+              examples:
+                invalid_scheduleid:
+                  summary: The Import ID (Schedule ID) in the Request is Invalid
+                  value:
+                    status: fail
+                    error_type: NOT_FOUND
+                    message: This import is either deleted or expired.
+                exceeded_user_limit:
+                  summary: The Number of Users Exceeds the Allowed Limit in the Request
+                  value:
+                    status: fail
+                    error_type: ALREADY_EXISTS
+                    message: Import has run in the last 5 min.
+        '401':
+          description: This response is returned when the APP Key is invalid or missing, the password is incorrect, or there are other such authorization-related errors in the request.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  title:
+                    type: string
+                    example: fail
+                    description: This field is present in the response in the case of errors and contains the type of error.
+                  description:
+                    type: string
+                    description: This field is present in the response in the case of errors and contains the error description.
+              examples:
+                incorrect_password:
+                  summary: Incorrect Password in the Header
+                  value:
+                    title: AuthenticationInvalid
+                    description: Password (APP_KEY) doesn't match the one available on the dashboard. Kindly ensure the same APP_KEY available on the dashboard is used.
+                missing_authorization_key:
+                  summary: Missing Authorization Key in the Header
+                  value:
+                    title: HeaderMissing
+                    description: MOE-APPKEY is missing in Header
+                header_mismatch:
+                  summary: APP Key Mismatch in the Header
+                  value:
+                    title: HeaderMismatch
+                    description: MOE_APPKEY doesn't match the Username (APP_KEY) used in Basic Auth authorization
+        '403':
+          description: This response is returned when your MoEngage account has been blocked or suspended.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: fail
+                  error:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                        description: This field contains information about whether the request was successful or not.
+                      type:
+                        type: string
+                        description: This field is present in the response in the case of 403 errors and contains the error type.
+                      request_id:
+                        type: string
+                        description: This field is present in the response in the case of 403 errors and contains the request-id.
+              examples:
+                account_blocked:
+                  summary: Your Account is Blocked
+                  value:
+                    status: fail
+                    error:
+                      message: Your account is suspended. Please contact MoEngage team.
+                      type: BlockedClient
+                      request_id: ofHUEaEQ
+        '404':
+          description: This response is returned when the request contains the incorrect URL (when you try to access a resource that is not present).
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: fail
+                    description: This field contains the status of the request and specifies whether the request was successful.
+                  message:
+                    type: string
+                    description: This field contains information about whether the request was successful or not.
+              examples:
+                missing_resource:
+                  summary: Resource Not Found Error
+                  value:
+                    status: fail
+                    message: Resource not found
+        '405':
+          description: This response is returned when the request contains an unsupported method. For example, if you were to use the GET method instead of POST for this request, you would result in a 405 error.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: fail
+                    description: This field contains the status of the request and specifies whether the request was successful.
+                  message:
+                    type: string
+                    description: This field contains information about whether the request was successful or not.
+              examples:
+                missing_resource:
+                  summary: Method Not Allowed Error
+                  value:
+                    status: fail
+                    message: Method not allowed
+        '500':
+          description: This response is returned when the system runs into an unexpected error.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  title:
+                    type: string
+                    example: fail
+                    description: This field is present in the response in the case of errors and contains the type of error.
+                  description:
+                    type: string
+                    description: This field is present in the response in the case of errors and contains the error description.
+                  code:
+                    type: string
+                    description: This field is present in the response in the case of 5xx errors and contains the error code.
+              examples:
+                unknown_error:
+                  summary: Unknown Errors
+                  value:
+                    title: Server Error
+                    description: An unexpected error was encountered while processing this request. Please contact MoEngage Team.
+                    code: GlQhUzvM
+  /fileimports/import/status:
+    post:
+      servers:
+      - url: https://fileimports-data-api-{dc}.moengage.com/v1.0/data
+        description: MoEngage File Imports API Server
+        variables:
+          dc:
+            default: '01'
+            description: The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.
+      tags:
+      - File Import
+      summary: Import Details
+      description: This API fetches the status at an import level. It can fetch the status of multiple imports but not the status of the files within the import.
+      x-mint:
+        content: "#### Rate Limit\n     You can create 50 requests per minute.\n"
+      parameters:
+      - name: MOE-APPKEY
+        in: header
+        required: true
+        description: This is the Workspace ID of your MoEngage account that must be passed with the request. You can find it in the MoEngage dashboard at **Settings** > **Account** > **APIs** > **Workspace ID (earlier app id)**.
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ImportDetailsRequest'
+            examples:
+              all_the_filters_passed:
+                summary: Sample cURL with all the filters passed in the API body.
+                value:
+                  import_name: test_import
+                  import_type:
+                  - USERS
+                  - EVENTS
+                  - AUX_DATA
+                  date:
+                    start_date: 14/11/2024
+                    end_date: 14/11/2024
+                    format: DD/MM/YYYY
+                  schedule_type:
+                  - PERIODIC
+                  - ONETIME
+                  file_source:
+                  - SFTP
+                  - S3
+                  - CSV
+                  schedule_status:
+                  - SUCCESSFUL
+                  - FAILED
+                  - PARTIAL_SUCCESS
+                  - SCHEDULED
+                  - PROCESSING
+                  - QUEUED
+                  - ARCHIVED
+                  offset: '1'
+              no_filters_passed:
+                summary: Sample cURL with no filters passed in the API body.
+                value: {}
+      responses:
+        '200':
+          description: Success.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ImportDetailsResponse'
+              examples:
+                success_response:
+                  summary: Successful request
+                  value:
+                    status: success
+                    total_count: 2
+                    data:
+                    - import_id: 67348ff2e15wwe63bc257d9bf
+                      import_name: Special
+                      last_run_status: FAILED
+                      import_type: AUX_DATA
+                      schedule_type: ONETIME
+                      import_source: S3
+                      custom_segment_config: {}
+                      aux_data_config:
+                        primary_key: Email
+                        retention_period: 15
+                        retention_type: DAYS
+                      total_files: 0
+                      processed_files: 0
+                      total_rows: 0
+                      processed_rows: 0
+                      created_at: '2024-11-13T17:09:30.635000'
+                      last_run_at: '2024-11-13T17:09:32.024000'
+                      next_scheduled_at: '2024-11-13T11:39:30.619000'
+                      created_by_email: abc@moengage.com
+                      status: FAILED
+                      time_zone: Asia/Calcutta
+                    - import_id: 67348f4a55f435b54f109i9
+                      import_name: Duplicate_special
+                      last_run_status: FAILED
+                      import_type: AUX_DATA
+                      schedule_type: ONETIME
+                      import_source: S3
+                      custom_segment_config: {}
+                      aux_data_config:
+                        primary_key: Email
+                        retention_period: 15
+                        retention_type: DAYS
+                      total_files: 0
+                      processed_files: 0
+                      total_rows: 0
+                      processed_rows: 0
+                      created_at: '2024-11-13T17:06:42.722000'
+                      last_run_at: '2024-11-13T17:06:44.182000'
+                      next_scheduled_at: '2024-11-13T11:36:42.697000'
+                      created_by_email: abc@moengage.com
+                      status: FAILED
+                      time_zone: Asia/Calcutta
+                    offset: 1
+                    more_files: false
+        '400':
+          description: This response is returned when the required parameters are missing from the request, attributes are not found, and incorrect values are passed.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: fail
+                    description: This field denotes the status of the request.
+                  error_type:
+                    type: string
+                    description: This field denotes the type of error occured
+                  message:
+                    type: string
+                    description: 'This field denotes the error message. '
+              examples:
+                invalid_date_format:
+                  summary: Invalid or Mismatched date format passed
+                  value:
+                    status: FAILURE
+                    error_type: Invalid Date format
+                    message: The provided date format is either incorrect or doesn't match the entered dates. Please ensure both the dates and the format are valid.
+                case_sensitivity:
+                  summary: Invalid bad request - Case sensitivity in parameter values passed in the API body
+                  value:
+                    success: false
+                    status_code: 400 Bad Request
+                    data: Unable to process the request
+                invalid_offset:
+                  summary: Bad request - Incorrect offset value passed
+                  value:
+                    status: FAILURE
+                    error_type: Invalid Offset Value
+                    message: The offset value you have provided is not valid. Please review and correct the offset.
+                date_range_exceeded:
+                  summary: Date range exceeds 30 days
+                  value:
+                    status: FAILURE
+                    error_type: Difference exceeds 30 days
+                    message: Please note that only imports with a date difference of 30 can be displayed. Kindly adjust the dates accordingly.
+        '401':
+          description: This response is returned when the APP Key is invalid or missing, the password is incorrect, or there are other such authorization-related errors in the request.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  title:
+                    type: string
+                    example: fail
+                    description: This field denotes the error title.
+                  description:
+                    type: string
+                    description: This field denotes error description.
+              examples:
+                missing_header:
+                  summary: MoeAPPkey missing, Invalid username, invalid password
+                  value:
+                    title: HeaderMissing
+                    description: MOE-APPKEY is missing in Header
+        '404':
+          description: This response is returned when the APP Key is invalid or missing, the password is incorrect, or there are other such authorization-related errors in the request.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: fail
+                    description: This field denotes the status of the request.
+                  data:
+                    type: string
+                    description: This field denotes the error description.
+              examples:
+                invalid_endpoint:
+                  summary: Resource not found
+                  value:
+                    status: fail
+                    data: Resource not found.
+        '415':
+          description: This response is returned when the APP Key is invalid or missing, the password is incorrect, or there are other such authorization-related errors in the request.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  title:
+                    type: string
+                    example: fail
+                    description: This field denotes the error title.
+                  description:
+                    type: string
+                    description: This field denotes the error description.
+              examples:
+                unsupported_media_type:
+                  summary: Unsupported media type
+                  value:
+                    title: Unsupported media type
+                    description: Content type is not supported
+        '429':
+          description: This response is returned when the number of requests has exceeded the rate limit.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: fail
+                    description: This field contains the status of the request and specifies whether the request was a failure.
+                  error:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                        description: A descriptive error message explaining why the request failed.
+                      type:
+                        type: string
+                        description: The type or category of the error (e.g., Rate Limits Exceeded).
+                      request_id:
+                        type: string
+                        description: A unique identifier for the request, useful for debugging.
+              examples:
+                rate_limit_exceeded:
+                  summary: Rate limits exceeded
+                  value:
+                    status: fail
+                    error:
+                      message: Rate limits exceeded, please try after some time
+                      type: Rate Limits Exceeded
+                      request_id: '1234'
+  /fileimports/import/run/history:
+    post:
+      servers:
+      - url: https://fileimports-data-api-{dc}.moengage.com/v1.0/data
+        description: MoEngage File Imports API Server
+        variables:
+          dc:
+            default: '01'
+            description: The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.
+      tags:
+      - File Import
+      summary: Import File Run History
+      description: This API fetches the file processing status of each file contained in an import. The API request must contain either the import_name or the import_id. If you are not sure of the import_id or the import_name, you can use the [Import Details API](https://www.moengage.com/docs/api/file-import/import-details) to get the import details, which can be further used in the Import File Run History API.
+      x-mint:
+        content: "#### Rate Limit\n     You can create 50 requests per minute.\n"
+      parameters:
+      - name: MOE-APPKEY
+        in: header
+        required: true
+        description: This is the Workspace ID of your MoEngage account that must be passed with the request. You can find it in the MoEngage dashboard at **Settings** > **Account** > **APIs** > **Workspace ID (earlier app id)**.
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FileRunHistoryRequest'
+      responses:
+        '200':
+          description: Success.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FileRunHistoryResponse'
+              examples:
+                success_response:
+                  summary: Successful request
+                  value:
+                    status: success
+                    total_count: '1'
+                    data: null
+                    type: object
+                    items:
+                      type: object
+                      properties:
+                        id: 672561rr0abd2da34cf7f7df
+                        file_name: filename.csv
+                        scheduled_at: '2024-11-14T12:31:31.713000'
+                        completed_at: '2024-11-14T12:32:09.942000'
+                        type: AUX_DATA
+                        file_size: '1544'
+                        file_status: SUCCESSFUL
+                        status_msg: ''
+                        total_rows: 10
+                        skipped_rows: 0
+                        updated_rows: 0
+                        failed_rows: 0
+                        aux_data_added_count: 10
+                        aux_data_failed_count: 0
+                        added_rows: 10
+                    offset: 1
+                    more_files: 'false'
+        '400':
+          description: This response is returned when the required parameters are missing from the request, attributes are not found, and incorrect values are passed.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: fail
+                    description: This field denotes the status of the request.
+                  error_type:
+                    type: object
+                    description: This field denotes the type of error occured
+                  message:
+                    type: string
+                    description: 'This field denotes the error message. '
+              examples:
+                bad_request:
+                  summary: Bad request
+                  value:
+                    status: FAILURE
+                    error_type: Import Doesn't Exist
+                    message: No import exist in the database with the given query parameters.
+                invalid_date_format:
+                  summary: Date range not in ISO format
+                  value:
+                    status: FAILURE
+                    error_type: Invalid Date format
+                    message: 'The date entered is not in the correct format. Please ensure you are using the ISO 8601 format which should look like this: YYYY-MM-DDTHH:MM:SS.ssssss. Please check this and try again.'
+                incorrect_offset_value:
+                  summary: Incorrect offset value passed
+                  value:
+                    status: FAILURE
+                    error_type: Import Doesn't Exist
+                    message: No import exist in the database with the given query parameters.
+        '401':
+          description: This response is returned when the APP Key is invalid or missing, the password is incorrect, or there are other such authorization-related errors in the request.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  title:
+                    type: string
+                    example: fail
+                    description: The title of the error.
+                  description:
+                    type: string
+                    description: The description of the error.
+              examples:
+                missing_header:
+                  summary: MOE-APPKEY is missing in Header
+                  value:
+                    title: HeaderMissing
+                    description: MOE-APPKEY is missing in Header
+        '404':
+          description: This response is returned when the APP Key is invalid or missing, the password is incorrect, or there are other such authorization-related errors in the request.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: fail
+                    description: This field contains the status of the request and specifies whether the request was a failure.
+                  data:
+                    type: string
+                    description: The description of the data.
+              examples:
+                invalid_endpoint:
+                  summary: Resource not found
+                  value:
+                    status: fail
+                    data: Resource not found.
+        '415':
+          description: This response is returned when the APP Key is invalid or missing, the password is incorrect, or there are other such authorization-related errors in the request.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  title:
+                    type: string
+                    example: fail
+                  error_description:
+                    type: string
+              examples:
+                unsupported_media_type:
+                  summary: Unsupported media type
+                  value:
+                    title: Unsupported media type
+                    error_description: Content type is not supported
+        '429':
+          description: This response is returned when the number of requests has exceeded the rate limit..
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: fail
+                  error:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                        description: A descriptive error message explaining why the request failed.
+                      type:
+                        type: string
+                        description: The type or category of the error (e.g., Rate Limits Exceeded).
+                      request_id:
+                        type: string
+                        description: A unique identifier for the request, useful for debugging.
+              examples:
+                rate_limit_exceeded:
+                  summary: Rate limits exceeded
+                  value:
+                    status: fail
+                    error:
+                      message: Rate limits exceeded, please try after some time
+                      type: Rate Limits Exceeded
+                      request_id: '1234'
+components:
+  schemas:
+    FileRunHistoryResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          description: This field denotes the status of the API response.
+          example: success
+        total_count:
+          type: integer
+          description: This field denotes the total count of the files fetched based on the API request.
+          example: 1
+        data:
+          type: array
+          description: This field contains the file data details.
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+                description: This field denotes the unique ID of the file.
+              file_name:
+                type: string
+                description: This field denotes the name of the file.
+              scheduled_at:
+                type: string
+                description: This field denotes the time at which the file is scheduled.
+                format: date-time
+              completed_at:
+                type: string
+                description: This field denotes the time at which the file is completed.
+                format: date-time
+              type:
+                type: string
+                description: This field denotes the file type.
+                enum:
+                - USERS
+                - EVENTS
+                - AUX_DATA
+              file_size:
+                type: string
+                description: This field denotes the file size in terms of the number of rows in the file.
+              file_status:
+                type: string
+                description: This field denotes the file status.
+                enum:
+                - SUCCESSFUL
+                - FAILED
+                - PARTIAL_FAILURE
+                - QUEUED
+              status_msg:
+                type: string
+                description: This field denotes the error message in case of failure or partial failure.
+              total_rows:
+                type: integer
+                description: This field denotes the total number of rows in the file.
+              skipped_rows:
+                type: integer
+                description: This field denotes the skipped number of rows in the file.
+              updated_rows:
+                type: integer
+                description: This field denotes the updated number of rows in the file.
+              failed_rows:
+                type: integer
+                description: This field denotes the number of rows in the file that failed to process.
+              aux_data_added_count:
+                type: integer
+                description: This field denotes the number of rows added as auxiliary data. This is applicable to auxiliary data.
+              aux_data_failed_count:
+                type: integer
+                description: This field denotes the number of rows that failed to process. This is applicable to auxiliary data.
+              added_rows:
+                type: integer
+                description: This field denotes the total number of rows added from the file.
+        offset:
+          type: integer
+          description: 'This field denotes the pagination value of the imports. For example, if there are 100 imports to be fetched in the response:
+
+            * Offset = 1 will return the first 50 imports
+
+            * Offset = 2 will return the next 50 import details
+
+            '
+        more_files:
+          type: string
+          description: This field indicates if there are more files. For example, if there are 100 imports and offset = 1, 50 imports will be returned with more_file = true to indicate that offset = 2 must be passed to get the next 50 imports.
+    ImportDetailsResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          description: This field denotes the status of the API response.
+          example: success
+        total_count:
+          type: integer
+          description: This field denotes the total count of the imports in the response.
+          example: 1
+        data:
+          type: array
+          description: This field contains the import data details.
+          items:
+            type: object
+            properties:
+              import_id:
+                type: string
+                description: This field denotes the unique ID of the import.
+              import_name:
+                type: string
+                description: This field denotes the unique name of the import.
+              last_run_status:
+                type: string
+                description: This field denotes the latest sync status of the import.
+                format: date-time
+              import_type:
+                type: string
+                description: This field denotes the import type.
+                enum:
+                - USERS
+                - EVENTS
+                - AUX_DATA
+              schedule_type:
+                type: string
+                description: This field denotes the file type.
+                enum:
+                - ONETIME
+                - PERIODIC
+              import_source:
+                type: string
+                description: This field denotes the source of import.
+                enum:
+                - S3
+                - SFTP
+                - CSV
+              custom_segment_config:
+                type: array
+                description: This field contains details about the custom segment.
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                      description: This field denotes the custom segment ID.
+                    name:
+                      type: string
+                      description: This field denotes the unique name of the custom event.
+                    type:
+                      type: string
+                      description: This field denotes the type of custom segment.
+                    user_id_column:
+                      type: string
+                      description: This field denotes the attribute selected as the identifier.
+              aux_data_config:
+                type: array
+                description: This field contains details about the auxiliary data.
+                items:
+                  type: object
+                  properties:
+                    primary_key:
+                      type: string
+                      description: This field denotes the attribute used as the auxiliary data import ID.
+                    retention_period:
+                      type: integer
+                      description: This field denotes the number of days, weeks, and months (to be read with retention_type).
+                    retention_type:
+                      type: string
+                      description: The field denotes retention type.
+                      enum:
+                      - DAYS
+                      - WEEKS
+                      - MONTHS
+              total_files:
+                type: integer
+                description: This field denotes the total number of files in the import.
+              processed_files:
+                type: integer
+                description: This field denotes the total number of processed files in the import.
+              total_rows:
+                type: integer
+                description: This field denotes the total number of rows across all files.
+              processed_rows:
+                type: integer
+                description: This field denotes the total number of processed rows across all files.
+              created_at:
+                type: integer
+                description: This field denotes the date at which the import is created.
+              last_run_at:
+                type: string
+                description: This field denotes the date on which the import was last run.
+                format: date time
+              next_scheduled_at:
+                type: string
+                description: This field denotes the date on which the import is next scheduled.
+                format: date time
+              created_by_email:
+                type: string
+                description: This field denotes the email ID of the team member who created the import.
+              status:
+                type: string
+                description: This field denotes the import status.
+              time_zone:
+                type: string
+                description: This field denotes the timezone of the workspace.
+        offset:
+          type: integer
+          description: 'This field denotes the pagination value of the imports. For example, if there are 100 imports to be fetched in the response:
+
+            * Offset = 1 will return the first 50 imports
+
+            * Offset = 2 will return the next 50 import details
+
+            '
+        more_files:
+          type: string
+          description: This field indicates if there are more files. For example, if there are 100 imports and offset = 1, 50 imports will be returned with more_file = true to indicate that offset = 2 must be passed to get the next 50 imports.
+    FileRunHistoryRequest:
+      type: object
+      required:
+      - import_id
+      - import_name
+      properties:
+        import_id:
+          type: string
+          description: The unique identifier is used to identify the import. You can find this on the Data Imports page of the MoEngage dashboard. Data > Data Imports > Click the ellipsis icon for an import > View. The import_id or the import_name must be passed.
+        import_name:
+          type: string
+          description: This field denotes the name of the import.The import_id or import_name has to be passed. If both are passed, import_id takes precedence.
+        date:
+          type: object
+          description: "This field denotes the file processing date. Supported values are:\n\n* `start_date`\n* `end_date`\n* `format`\n  \nIf this field is not passed, the API will respond with details of all the files corresponding to the import_id / import_name passed and in accordance to the offset and limit values.\n\nSupported date time formats are:\n\n * `\"datetime_format\": \"YYYY-MM-DD\"` (2022-01-22)\n * `\"datetime_format\": \"YYYY/MM/DD\"` (2022/01/22)\n * `\"datetime_format\": \"DD/MM/YYYY\"` (22/01/2022)\n * `\"datetime_format\": \"DD-MM-YYYY\"` (22-01-2022)\n * `\"datetime_format\": \"DD-MM-YYYY hh:mm:ss\"` (31-12-2022 12:10:33)\n * `\"datetime_format\": \"DD/MM/YYYY hh:mm:ss\"` (31/12/2022 12:10:33)\n * `\"datetime_format\": \"YYYY-MM-DD hh:mm:ss\"` (2019-02-22 17:54:14)\n * `\"datetime_format\": \"YYYY/MM/DD hh:mm:ss\"` (2019/02/22 17:54:14)\n"
+          properties:
+            start_date:
+              type: string
+              format: date-time
+              description: The start date of the import.
+            end_date:
+              type: string
+              format: date-time
+              description: The end date of the import.
+            format:
+              type: string
+              description: The format of the date.
+        file_status:
+          type: array
+          description: This field denotes the status of files contained in an import.
+          items:
+            type: string
+            enum:
+            - SUCCESSFUL
+            - FAILED
+            - PARTIAL_SUCCESS
+            - PROCESSING
+            - QUEUED
+            - WAITING
+        offset:
+          type: integer
+          description: "'API responds with a maximum of 50 file details in a single response. For example, if there are a total of 150 files that are part of the API response, then:\n* Offset = 1 will fetch the details of the first 50 files\n* Offset = 2 will fetch the file details of the next 50 imports\n* Offset = 3 will fetch the import details of the last 50 imports\n* If offset is not passed in the request body, the API response will consider offset = 1.\n\nYou can refer to the total_count parameter in the response to understand how many total files are part of the response. \n\nOR\n\n If the API responds with more_files = true, it indicates that there are more files that are not part of the current response for which another API request must be made with offset +1.'\n"
+          default: 1
+    ImportDetailsRequest:
+      type: object
+      properties:
+        import_type:
+          type: string
+          enum:
+          - USERS
+          - EVENTS
+          - AUX_DATA
+          description: This field denotes the type of data to be imported.
+        date:
+          type: object
+          description: "This field denotes the file processing date. Supported values are:\n\n* `start_date`\n* `end_date`\n* `format`\n  \nIf this field is not passed, the API will respond with details of all the files corresponding to the import_id or import_name passed and in accordance to the offset and limit values.\n\nSupported date time formats are:\n\n * `\"datetime_format\": \"YYYY-MM-DD\"` (2022-01-22)\n * `\"datetime_format\": \"YYYY/MM/DD\"` (2022/01/22)\n * `\"datetime_format\": \"DD/MM/YYYY\"` (22/01/2022)\n * `\"datetime_format\": \"DD-MM-YYYY\"` (22-01-2022)\n * `\"datetime_format\": \"DD-MM-YYYY hh:mm:ss\"` (31-12-2022 12:10:33)\n * `\"datetime_format\": \"DD/MM/YYYY hh:mm:ss\"` (31/12/2022 12:10:33)\n * `\"datetime_format\": \"YYYY-MM-DD hh:mm:ss\"` (2019-02-22 17:54:14)\n * `\"datetime_format\": \"YYYY/MM/DD hh:mm:ss\"` (2019/02/22 17:54:14)\n"
+          properties:
+            start_date:
+              type: string
+              format: date-time
+              description: The start date of the import.
+            end_date:
+              type: string
+              format: date-time
+              description: The end date of the import.
+            format:
+              type: string
+              description: The format of the date.
+        schedule_type:
+          type: string
+          enum:
+          - PERIODIC
+          - ONETIME
+          description: This field denotes the type of import schedule.
+        file_source:
+          type: string
+          enum:
+          - SFTP
+          - S3
+          - CSV
+          description: This field denotes the file source of the import.
+        schedule_status:
+          type: string
+          enum:
+          - SUCCESSFUL
+          - FAILED
+          - PARTIAL_SUCCESS
+          - SCHEDULED
+          - PROCESSING
+          - QUEUED
+          - ARCHIVED
+          description: 'This field denotes the import schedule status.
+
+            * PARTIAL_SUCCESS is displayed when all rows in the files are not processed successfully.
+
+            * QUEUED is displayed when the import is queued to be processed next.
+
+            * ARCHIVED is displayed when the import is archived.
+
+            '
+        import_name:
+          type: string
+          description: This field denotes the name of the import.
+        offset:
+          type: integer
+          description: "'API responds with a maximum of 50 file details in a single response. For example, if there are a total of 150 files that are part of the API response, then:\n* Offset = 1 will fetch the details of the first 50 files\n* Offset = 2 will fetch the file details of the next 50 imports\n* Offset = 3 will fetch the import details of the last 50 imports\n* If offset is not passed in the request body, the API response will consider offset = 1.\n\nYou can refer to the total_count parameter in the response to understand how many total files are part of the response. \n\nOR\n\n If the API responds with more_files = true, it indicates that there are more files that are not part of the current response for which another API request must be made with offset +1.'\n"
+          default: 1
+  securitySchemes:
+    Authentication:
+      type: http
+      scheme: basic
+      description: "Authentication is done via Basic Auth. This requires a base64-encoded string of your credentials in the format 'username:password'.\n\n- **Username**: Use your MoEngage workspace ID (also known as the App ID). You can find it in the MoEngage dashboard at **Settings** > **Account** > **APIs** > **Workspace ID (earlier app id)**.\n- **Password**: Use your API Key, which you can find within the **Data** tile.\n\n**Note**: After you generate and save the Data API Key, DO NOT generate a new key unless there is a security breach. After you generate a different Data API key and save it, the authentication will start failing. You must update your existing data tracking. \n\nFor more information on authentication and getting your credentials, refer [here](https://www.moengage.com/docs/api/introduction#getting-your-credentials).\n"

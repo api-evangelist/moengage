@@ -1,0 +1,548 @@
+openapi: 3.2.0
+info:
+  title: MoEngage Data Event API
+  version: '1.0'
+  description: 'This is a comprehensive OpenAPI specification for MoEngage''s Data APIs, including User, Event, and Device management.
+
+    It''s designed to power an interactive API playground on your new documentation site.'
+servers:
+- url: https://api-{dc}.moengage.com/v1
+  description: MoEngage Core API Server
+  variables:
+    dc:
+      default: '01'
+      description: 'The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101. '
+security:
+- Authentication: []
+tags:
+- name: Event
+  description: Operations for tracking user events.
+paths:
+  /event/{Workspace_ID}:
+    post:
+      tags:
+      - Event
+      summary: Track Event
+      x-mint:
+        content: "<Note>\n  * If you have [Portfolio](/user-guide/settings/account/portfolio/portfolio) enabled for your workspace, you need to pass project_code in the API endpoint. This identifies which project a user or event belongs to. For more information, refer to [Portfolio: Data Ingestion and Management](/user-guide/data/key-concepts/portfolio-data-ingestion-and-management).\n  * MoEngage does not accept any future dated events.\n</Note>\n\n#### Rate Limit\nA single API request contains one or more events. Maintain a rate limit of 30,000 events per minute.  \n"
+      description: This API  tracks the actions of a user.
+      parameters:
+      - name: Workspace_ID
+        in: path
+        required: true
+        description: This is the Workspace ID of your MoEngage account that must be passed with the request. You can find it in the MoEngage dashboard at **Settings** > **Account** > **APIs** > **Workspace ID (earlier app id)**.
+        schema:
+          type: string
+          example: OAPQQ2AMD01MJZYZX1YPG
+      - name: X-Forwarded-For
+        in: header
+        required: false
+        description: The 'X-Forwarded-For' header is used to specify the IP address of the client that made the request. This header may be added by proxy servers or load balancers. The header value must contain the IP address of the original client that initiated the request. Multiple IP addresses may be specified in the header value, separated by commas.
+        schema:
+          type: string
+          example: 203.0.113.195
+      requestBody:
+        description: '**Note**: You cannot use “moe_” as a prefix while naming events, event attributes, or user attributes. It is a system prefix and using it might result in periodic blacklisting without prior communication.
+
+          '
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateEventRequest'
+            examples:
+              Standard Example:
+                summary: Sample cURL
+                value:
+                  type: event
+                  customer_id: '123'
+                  actions:
+                  - action: ProductAdded
+                    attributes:
+                      product: Accessories
+                      color: Black
+                      Brand: Adidas
+                    platform: Android
+                    app_version: 1.2.3
+                    user_time: '1708939453396'
+                    current_time: '1708939453396'
+              Event property as Date/Time:
+                summary: Example Payload
+                value:
+                  type: event
+                  customer_id: john@example.com
+                  actions:
+                  - action: Flight Booked
+                    attributes:
+                      price: 3999
+                      departure_date: '2019-05-21T03:47:35Z'
+                      premium_seat: true
+                    platform: iOS
+                    app_version: 1.2.3
+                    current_time: 1433837969
+                    user_timezone_offset: 19800
+              Event property as Array:
+                summary: Array Support
+                value:
+                  type: event
+                  customer_id: John
+                  actions:
+                  - action: product_selected
+                    attributes:
+                      product: Shirt
+                      color: Green
+                      arraySupport:
+                      - abc
+                      - xyz
+                      Brand: Adidas
+                    platform: TV
+                    moe_os_type: Xbox
+                    app_version: 1.2.3
+                    user_time: '1710740192'
+                    current_time: '1710740192'
+              Using User Identifiers:
+                summary: User Identity Resolution
+                value:
+                  type: event
+                  user_identifiers:
+                    moe_mobile: '{{Mobile_Number}}'
+                  actions:
+                  - action: product_selected
+                    attributes:
+                      product: Shirt
+                      color: Green
+                      moe_os_type: Xbox
+                      arraySupport:
+                      - abc
+                      - xyz
+                      Brand: Adidas
+                    platform: TV
+                    app_version: 1.2.3
+                    user_time: '1710740192'
+                    current_time: '1710740192'
+      responses:
+        '200':
+          description: This response is returned when the request is processed successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericSuccess'
+              examples:
+                success_response:
+                  summary: Success Response
+                  value:
+                    status: success
+                    message: Your request has been accepted and will be processed soon.
+        '400':
+          description: This response is returned when the required parameters are missing from the request, attributes are not found, and incorrect values are passed.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: fail
+                  error:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                        description: A descriptive error message explaining why the request failed.
+                      type:
+                        type: string
+                        description: The type or category of the error ("MissingAttributeError").
+                      request_id:
+                        type: string
+                        description: A unique identifier for the request, useful for debugging.
+                      attribute:
+                        type: string
+                        description: The attribute in the payload that caused the error.
+              examples:
+                missing_actions:
+                  summary: The actions are sent as an empty list
+                  value:
+                    status: fail
+                    error:
+                      attribute: actions
+                      message: actions can not be empty Array
+                      type: MissingAttributeError
+                      request_id: izsZuQNw
+                missing_customer_id:
+                  summary: Customer_id or user_alias is missing
+                  value:
+                    status: fail
+                    error:
+                      attribute: customer_id
+                      message: customer_id is not found in the payload
+                      type: MissingAttributeError
+                      request_id: TtnwRNrU
+                incorrect_json:
+                  summary: The elements in actions are not in json format
+                  value:
+                    status: fail
+                    error:
+                      message: Could not decode the request body. The JSON was incorrect or not encoded as UTF-8.
+                      type: Malformed JSON
+                      request_id: USkbHpIK
+                missing_actionkey:
+                  summary: Action key is not present, or if it is not in string or unicode string format
+                  value:
+                    status: fail
+                    error:
+                      attribute: action
+                      message: action is not found in the payload
+                      type: MissingAttributeError
+                      request_id: TgzuJhcj
+                incorrect_action:
+                  summary: Action key is not sent as a string
+                  value:
+                    status: fail
+                    error:
+                      attribute: action
+                      message: Could not decode the request body. The JSON was incorrect or not encoded as UTF-8.
+                      type: Malformed JSON
+                      request_id: TgzuJhcj
+        '401':
+          description: This response is returned when the authentication error occurs.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: fail
+                  error:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                        description: A descriptive error message explaining why the request failed.
+                      type:
+                        type: string
+                        description: The type or category of the error (e.g., Authentication required).
+                      request_id:
+                        type: string
+                        description: A unique identifier for the request, useful for debugging.
+              examples:
+                auth_error:
+                  summary: Authorization errors
+                  value:
+                    status: fail
+                    error:
+                      message: App Secret key mismatch. Please login to the dashboard to verify key
+                      type: Authentication required
+                      request_id: PVUDFisO
+                missing_header:
+                  summary: Missing authentication header
+                  value:
+                    status: fail
+                    error:
+                      message: Authentication Header Required
+                      type: Authentication required
+                      request_id: PisPjGQQ
+        '403':
+          description: This response is returned when your MoEngage account is suspended or blocked.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: fail
+                  error:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                        description: A descriptive error message explaining why the request failed.(e.g., Your account is suspended. Please contact MoEngage team.)
+                      type:
+                        type: string
+                        description: The type or category of the error (e.g., BlockedClient, Account Suspended, Account Temporarily Suspended).
+                      request_id:
+                        type: string
+                        description: A unique identifier for the request, useful for debugging.
+              examples:
+                account_blocked:
+                  summary: Account is blocked
+                  value:
+                    status: fail
+                    error:
+                      message: Your account is suspended. Please contact MoEngage team.
+                      type: BlockedClient
+                      request_id: Block123
+                account_suspended:
+                  summary: Account is suspended
+                  value:
+                    status: fail
+                    error:
+                      message: Your account is suspended. Please contact MoEngage team.
+                      type: Account Suspended
+                      request_id: gqJvCNYu3
+                temp_suspended:
+                  summary: Account is temporarily suspended
+                  value:
+                    status: fail
+                    error:
+                      message: Your account is temporarily suspended. Please contact MoEngage team.
+                      type: Account Temporarily Suspended
+                      request_id: ssSJjoyD
+        '413':
+          description: This response is returned when the payload size exceeds the size limit.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: fail
+                  error:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                        description: A descriptive error message explaining why the request failed.
+                      type:
+                        type: string
+                        description: The type or category of the error (e.g., Payload too large).
+                      request_id:
+                        type: string
+                        description: A unique identifier for the request, useful for debugging.
+              examples:
+                payload_exceeded:
+                  summary: Payloads exceeding the size limit
+                  value:
+                    status: fail
+                    error:
+                      message: Payload size exceeds 128 KB
+                      type: PayloadTooLarge
+                      request_id: VFzDwhwt
+        '415':
+          description: This response is returned when the content type is not supported.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: fail
+                  error:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                        description: A descriptive error message explaining why the request failed.
+                      type:
+                        type: string
+                        description: The type or category of the error (e.g., Unsupported media type).
+                      request_id:
+                        type: string
+                        description: A unique identifier for the request, useful for debugging.
+              examples:
+                unsupported_media_type:
+                  summary: Unsupported media type
+                  value:
+                    status: fail
+                    error:
+                      message: Content type is not supported
+                      type: Unsupported media type
+                      request_id: SgBQfKJh
+        '429':
+          description: This response is returned when the number of requests has exceeded the rate limit.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: fail
+                  error:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                        description: A descriptive error message explaining why the request failed.
+                      type:
+                        type: string
+                        description: The type or category of the error (e.g., Rate Limits Exceeded).
+                      request_id:
+                        type: string
+                        description: A unique identifier for the request, useful for debugging.
+              examples:
+                rate_limit:
+                  summary: Rate limit breach
+                  value:
+                    status: fail
+                    error:
+                      message: Rate limits for customers exceeded. Please Try After Some Time
+                      type: Rate Limits Exceeded
+                      request_id: onqucLYL
+        '500':
+          description: This response is returned when the system runs into an unexpected error.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: fail
+                  error:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                        description: A descriptive error message explaining why the request failed.
+                      type:
+                        type: string
+                        description: The type or category of the error (e.g., Server Error).
+                      request_id:
+                        type: string
+                        description: A unique identifier for the request, useful for debugging.
+              examples:
+                unknown_error:
+                  summary: Unknown errors
+                  value:
+                    status: fail
+                    error:
+                      message: An unexpected error was encountered while processing this request. Please contact MoEngage Team
+                      type: ServerError
+                      request_id: KovrwJiF
+components:
+  schemas:
+    EventAction:
+      type: object
+      required:
+      - action
+      properties:
+        action:
+          type: string
+          description: The name of the event to be tracked.
+        attributes:
+          type: object
+          additionalProperties: true
+          description: "A dictionary containing event attributes to track with the event.\n**Array Support**\nIf you want to pass an attribute in an array, the appropriate syntax for that is: \n ```json\n \"Array_attributeName\":[\"abc\",\"123\"]\n ```"
+          example:
+            price: 3999
+            departure_date: '2019-05-21T03:47:35Z'
+            premium_seat: true
+        platform:
+          type: string
+          enum:
+          - ANDROID
+          - iOS
+          - web
+          - TV
+          - unknown
+          description: 'Used to identify the platform on which the event happened. Allowed values are ANDROID, iOS, web, or unknown.
+
+            **Note**: Ensure that the platform value sent is Android, iOS, or web. Platform value depends on which platform the event was generated. If you are unsure about the platform on which the event occurred, send the value as unknown or do not send any value. Incorrect platform value leads to inconsistencies in platform level campaigns like Push and In-App.
+
+            '
+        moe_os_type:
+          type: string
+          enum:
+          - ROKU
+          - WebOS
+          - AndroidTV
+          - tvOS
+          - Tizen
+          - FireOS
+          - VizioTV
+          - Xbox
+          description: 'Used to identify the operating system of the TV.
+
+
+            **Note**: Ensure that you pass this parameter only when the platform is TV. Following are the valid moe_os_type accepted in MoEngage:
+
+            * ROKU for RokuTV
+
+            * WebOS for LGTV
+
+            * AndroidTV for AndroidTV
+
+            * tvOS for AppleTV
+
+            * Tizen for SamsungTV
+
+            * FireOS for FireTV
+
+            * VizioTV for VizioTV
+
+            * Xbox for Xbox
+
+            '
+        app_version:
+          type: string
+          description: App Version of the app on which the event originated.
+        user_time:
+          oneOf:
+          - type: number
+          - type: string
+          description: "Local time at which the event happened. This field lets the system identify the local system time for when the event happened. Acceptable formats for user_time:\n          * ISO 8601 (for example - 2020-05-31T16:33:35Z)\n          * Epoch time in seconds (for example - 1590404615)\n"
+        current_time:
+          oneOf:
+          - type: number
+          - type: string
+          description: "UTC time at which the event happened. This field is necessary to specify the UTC time of the event. Acceptable formats for current_time include:\n       * ISO 8601 (for example - 2020-05-31T16:33:35Z)\n       * Epoch time in seconds (for example - 1590404615)\n"
+        user_timezone_offset:
+          type: number
+          description: "The difference in time between UTC and the local system time in a particular time zone. All time zones are defined by their offset from UTC. The offset is expressed as either UTC- or UTC+.\n * user_timezone_offset should have a value in seconds which can be between -54000 to 54000. For example, for IST (UTC+0530), \"user_timezone_offset\" will be 19800.\n* This field is crucial for establishing the `user_time` or `current_time`.\n* If the field is absent, MoEngage gets this information from the internal system in the sequence as follows:\n      * The user profile’s timezone is taken into consideration.\n      * If the user profile’s timezone is not present, the App/account’s timezone is considered.\n      * In cases where neither is present, the UTC timezone is used.\n* Include `user_timezone_offset` in your request only if you have accurate timezone information for each user, as incorrect info could disrupt event timelines in the user profile.\n\n**Note:**\nMoEngage generates current_time and user_time if they are not provided in the request. Use the following information and provide current_time, user_time, and user_timezone_offset accordingly:\n* If you do not provide any of current_time, user_time, and user_timezone_offset, MoEngage automatically uses the UTC time when the request was received by MoEngage as the current_time. MoEngage uses internal data to calculate the user_timezone_offset to generate the user_time.\n* If you provide only the current_time, MoEngage uses internal data to calculate the user_timezone_offset to generate the user_time.\n- If you provide only the user_time, MoEngage uses internal data to calculate the user_timezone_offset to generate the current_time.\n* If you send the current_time and user_time, MoEngage uses them as is.\n* If you provide the current_time and user_timezone_offset, MoEngage generates the user_time.\n* If you provide user_time and user_timezone_offset, MoEngage generates the current_time.\n"
+    CreateEventRequest:
+      title: Event
+      type: object
+      required:
+      - type
+      - customer_id
+      - actions
+      properties:
+        type:
+          type: string
+          description: This is used to identify the type of request. Allowed value is event. This field is case-sensitive. Follow the case as in the example when passing the value in the request.
+          enum:
+          - event
+        customer_id:
+          type: string
+          description: Identifier to identify or create a user in MoEngage. Not mandatory in Identity resolution enabled workspaces.
+        device_id:
+          type: string
+          description: Device_id in event payload is optional. The default value is the customer_id value. The value is used to map events to specific devices.
+        user_identifiers:
+          type: object
+          description: 'Required if Identity Resolution is enabled and customer_id is not provided.
+
+
+            **User Identity Resolution:**
+
+
+            If the [User Identity Resolution](/user-guide/data/user-data/unified-identity-identity-resolution) feature is enabled in your workspace, identifiers set up in the workspace must be mentioned within the user_identifiers parameter.
+
+            '
+          additionalProperties: true
+          example:
+            moe_mobile: +9198765xxxxx
+        actions:
+          type: array
+          description: List of events to be tracked for the user.
+          items:
+            $ref: '#/components/schemas/EventAction'
+    GenericSuccess:
+      type: object
+      properties:
+        status:
+          type: string
+          description: This field contains the status of the request and specifies whether the request was successful.
+          example: success
+        message:
+          type: string
+          example: Your request has been accepted and will be processed soon.
+  securitySchemes:
+    Authentication:
+      type: http
+      scheme: basic
+      description: "Authentication is done via Basic Auth. This requires a base64-encoded string of your credentials in the format 'username:password'.\n\n- **Username**: Use your MoEngage workspace ID (also known as the App ID). You can find it in the MoEngage dashboard at **Settings** > **Account** > **APIs** > **Workspace ID (earlier app id)**.\n- **Password**: Use your API Key, which you can find within the **Data** tile.\n\n**Note**: After you generate and save the Data API Key, DO NOT generate a new key unless there is a security breach. After you generate a different Data API key and save it, the authentication will start failing. You must update your existing data tracking. \n\nFor more information on authentication and getting your credentials, refer [here](https://www.moengage.com/docs/api/introduction#getting-your-credentials).\n"
