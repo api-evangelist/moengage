@@ -214,30 +214,9 @@ docs_mcp_tools:
 deployment:
   mode: remote
   endpoint: https://mcp.moengage.com
-  auth: oauth
   verified: probed
-  checked: '2026-08-14'
-  source: >-
-    Live POST tools/list against https://mcp.moengage.com, /mcp and /sse on 2026-08-14. All three
-    return HTTP 401 with
-    www-authenticate: Bearer resource_metadata="https://mcp.moengage.com/.well-known/oauth-protected-resource",
-    which is an RFC 9728 OAuth challenge from a real MCP server, not a 404. There is no npx/stdio
-    package — MoEngage ships a hosted endpoint only, so an agent can reach it with an OAuth token and
-    no local install.
-  install: null
-  package: null
-  additional_endpoints:
-  - endpoint: https://www.moengage.com/docs/mcp
-    label: MoEngage Documentation MCP
-    mode: remote
-    auth: none
-    verified: probed
-    checked: '2026-08-14'
-    tools_list:
-      http_status: 200
-      transport: streamable-http (SSE framed)
-      tool_count: 3
-      file: moengage-docs-tools-list.json
-      note: >-
-        Anonymous tools/list returns the three documentation tools with full inputSchemas. Saved
-        verbatim alongside this manifest.
+  probe: gated
+  checked: '2026-09-11'
+  source: wall re-adjudication 2026-09-11 (RFC 9728 / JSON-RPC envelope)
+  probe_prior: wall
+  probe_why: RFC 9728 challenge (host-wide OAuth-protected resource)
