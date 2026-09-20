@@ -1,0 +1,133 @@
+slug: moengage
+provider: MoEngage
+generated_by: planning/capability-mapping/scripts/classify_capabilities.py
+model: claude-opus-5
+frame:
+- Telecommunications
+min_confidence: 0.7
+capability_model:
+  source: https://github.com/vincentmakes/turbo-ea-capabilities
+  license: CC-BY-4.0
+  attribution: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities,
+    CC BY 4.0
+  notice: NOTICE
+edge_count: 12
+edges:
+- tag: GDPR
+  spec_file: moengage-gdpr-api-openapi.yml
+  capability_id: BC-130.50
+  capability_id_l1: BC-130
+  capability_name: Privacy & Data Protection Management
+  confidence: 0.9
+  evidence: API to create or update user rights for **GDPR** ... or **CCPA** ... compliance, including
+    the right to erase personal data
+  reason: Data subject rights request submission is squarely privacy and data protection management.
+- tag: File Segments
+  spec_file: moengage-file-segments-api-openapi.yml
+  capability_id: BC-420.20
+  capability_id_l1: BC-420
+  capability_name: Customer Segmentation Management
+  confidence: 0.85
+  evidence: POST /v2/custom-segments/file-segment  createFileSegment  Create File Segment; PUT .../add-users  Add
+    Users to File Segment
+  reason: Operations create and maintain customer audience segments by adding/removing users — customer
+    segmentation management within CRM.
+- tag: Filter Segments
+  spec_file: moengage-filter-segments-api-openapi.yml
+  capability_id: BC-420.20
+  capability_id_l1: BC-420
+  capability_name: Customer Segmentation Management
+  confidence: 0.85
+  evidence: POST /v3/custom-segments  createFilterSegment  Create Filter Segment; AttributeFilterV3, FilterGroupV3
+  reason: Attribute/action-filter based audience segment definition and lifecycle — customer segmentation.
+- tag: User
+  spec_file: moengage-user-api-openapi.yml
+  capability_id: BC-420.10
+  capability_id_l1: BC-420
+  capability_name: Customer Data Management
+  confidence: 0.85
+  evidence: POST /customer/{app_id} "Track User", POST /customer/merge "Merge Users", POST /customer/delete
+    "Delete Users"; schemas UserAttributes, IdentifierObject
+  reason: Create/track, export, merge and delete customer profiles with identifier objects and attributes
+    — customer master data and identity resolution, i.e. Customer Data Management.
+- tag: Manage Segments
+  spec_file: moengage-manage-segments-api-openapi.yml
+  capability_id: BC-420.20
+  capability_id_l1: BC-420
+  capability_name: Customer Segmentation Management
+  confidence: 0.8
+  evidence: PATCH /v2/custom-segments/archive  archiveCustomSegment  Archive Segment
+  reason: Lifecycle (archive/unarchive) of customer audience segments — segmentation management, though
+    the operations are administrative.
+- tag: Cohort Sync
+  spec_file: moengage-cohort-sync-api-openapi.yml
+  capability_id: BC-420.20
+  capability_id_l1: BC-420
+  capability_name: Customer Segmentation Management
+  confidence: 0.75
+  evidence: '"allows partners to synchronize cohorts or audiences created in their ecosystem with MoEngage.
+    It can add or remove users from a custom segment"'
+  reason: The single operation syncs cohort/audience membership into MoEngage custom segments — audience
+    segmentation of the customer base, not a technical sync utility per se.
+- tag: Coupon Lists
+  spec_file: moengage-coupon-lists-api-openapi.yml
+  capability_id: BC-440.30
+  capability_id_l1: BC-440
+  capability_name: Discount & Promotion Management
+  confidence: 0.75
+  evidence: '"createCouponList  Create a Coupon List", "activateCouponList  Activate Coupon List", "archiveCouponList  Archive
+    a Coupon List"'
+  reason: Lifecycle management of coupon lists used in campaigns is promotion/discount management.
+- tag: Flows
+  spec_file: moengage-flows-api-openapi.yml
+  capability_id: BC-400.40
+  capability_id_l1: BC-400
+  capability_name: Demand Generation Management
+  confidence: 0.7
+  evidence: Use the Flows endpoints to list your flows, view the details of a single flow (including its
+    versions and stages), and change a flow's status
+  reason: Flows are marketing automation journeys in a cross-channel engagement platform; listing and
+    controlling status of lifecycle campaign flows maps to demand generation / lifecycle marketing. Some
+    ambiguity between demand generation and marketing operations.
+- tag: Get Campaign Details
+  spec_file: moengage-get-campaign-details-api-openapi.yml
+  capability_id: BC-400.40
+  capability_id_l1: BC-400
+  capability_name: Demand Generation Management
+  confidence: 0.7
+  evidence: GET /v5/campaigns/{campaign_id}  Get Campaign (V5); POST /campaigns/{parent_campaign_id}/executions  Get
+    Child Campaigns
+  reason: Retrieval and search of marketing campaigns (push/email) with segmentation and conversion goal
+    details — marketing campaign management; sub-capability between demand generation and marketing operations
+    is somewhat ambiguous.
+- tag: SMS Templates
+  spec_file: moengage-sms-templates-api-openapi.yml
+  capability_id: BC-400.60
+  capability_id_l1: BC-400
+  capability_name: Digital Marketing Management
+  confidence: 0.7
+  evidence: '''API for creating, updating, and searching SMS templates within the MoEngage platform''
+    — Create SMS Template, Update SMS Template'
+  reason: Authoring and lifecycle of SMS marketing message templates is squarely digital/automated marketing
+    content tooling.
+- tag: Templates
+  spec_file: moengage-templates-api-openapi.yml
+  capability_id: BC-400.60
+  capability_id_l1: BC-400
+  capability_name: Digital Marketing Management
+  confidence: 0.7
+  evidence: '''An API for creating, updating, and searching for push notification templates for Android
+    and iOS platforms'' — createPushTemplate'
+  reason: Push notification template authoring for campaigns is digital marketing content/automation tooling.
+- tag: Update Campaigns
+  spec_file: moengage-update-campaigns-api-openapi.yml
+  capability_id: BC-400.60
+  capability_id_l1: BC-400
+  capability_name: Digital Marketing Management
+  confidence: 0.7
+  evidence: PATCH /v5/campaigns/{campaign_id} "Update Campaign (V5)", PATCH /v5/campaigns/{campaign_id}/status
+    "Update Campaign Status"; schemas SegmentationDetails, PushDeliveryControls, ControlGroupDetails,
+    UTMParams
+  reason: Operations edit and activate/deactivate push/email marketing campaigns with segmentation, control
+    groups and UTM tracking — marketing campaign automation. Ambiguity between Digital Marketing Management
+    and Demand Generation keeps confidence moderate.
