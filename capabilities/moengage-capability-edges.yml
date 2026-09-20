@@ -11,7 +11,7 @@ capability_model:
   attribution: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities,
     CC BY 4.0
   notice: NOTICE
-edge_count: 12
+edge_count: 20
 edges:
 - tag: GDPR
   spec_file: moengage-gdpr-api-openapi.yml
@@ -78,6 +78,28 @@ edges:
   evidence: '"createCouponList  Create a Coupon List", "activateCouponList  Activate Coupon List", "archiveCouponList  Archive
     a Coupon List"'
   reason: Lifecycle management of coupon lists used in campaigns is promotion/discount management.
+- tag: Campaign Reports
+  spec_file: moengage-campaign-reports-api-openapi.yml
+  capability_id: BC-400.50
+  capability_id_l1: BC-400
+  capability_name: Marketing Operations Management
+  confidence: 0.72
+  evidence: '"The Campaign Report API allows you to download campaign reports for any specific date range"
+    / GET downloadCampaignReport'
+  reason: Campaign statistics and report retrieval is marketing measurement and reporting, part of Marketing
+    Operations Management. Not analytics-platform BI since it is campaign-specific.
+  recovered_from: sweep-20260829T005356Z-edges.json
+- tag: Content Blocks
+  spec_file: moengage-content-blocks-api-openapi.yml
+  capability_id: BC-400.70
+  capability_id_l1: BC-400
+  capability_name: Content Marketing Management
+  confidence: 0.72
+  evidence: '"Content blocks allow marketers to reuse the same content across multiple campaigns" / "Create
+    Content Block"'
+  reason: Authoring and reuse of marketing content assets (headers, footers, CTAs) is marketing content
+    production and management.
+  recovered_from: sweep-20260829T005356Z-edges.json
 - tag: Flows
   spec_file: moengage-flows-api-openapi.yml
   capability_id: BC-400.40
@@ -100,6 +122,51 @@ edges:
   reason: Retrieval and search of marketing campaigns (push/email) with segmentation and conversion goal
     details — marketing campaign management; sub-capability between demand generation and marketing operations
     is somewhat ambiguous.
+- tag: In-app Templates
+  spec_file: moengage-in-app-templates-api-openapi.yml
+  capability_id: BC-400
+  capability_id_l1: BC-400
+  capability_name: Marketing Management
+  confidence: 0.7
+  evidence: '"Create In-app Template", "Update In-app Template", "Search In-app Templates" for "In-app
+    templates (Self-Handled and HTML)"'
+  reason: Authoring and maintenance of reusable in-app marketing message templates, a marketing content/creative
+    asset function. L2 withheld as the evidence does not distinguish content marketing production from
+    digital marketing operations.
+  recovered_from: sweep-20260829T005356Z-edges.json
+- tag: Live Activities
+  spec_file: moengage-live-activities-api-openapi.yml
+  capability_id: BC-400.60
+  capability_id_l1: BC-400
+  capability_name: Digital Marketing Management
+  confidence: 0.7
+  evidence: '"API for starting, updating, and ending broadcast Live Activities for iOS Push Campaigns"'
+  reason: Runtime control of live push-notification broadcasts within push campaigns — execution of digital/mobile
+    marketing messaging. Not an operations or reliability capability despite the 'Live'/'broadcast' wording.
+  recovered_from: sweep-20260829T005356Z-edges.json
+- tag: OSM Templates
+  spec_file: moengage-osm-templates-api-openapi.yml
+  capability_id: BC-400.60
+  capability_id_l1: BC-400
+  capability_name: Digital Marketing Management
+  confidence: 0.7
+  evidence: '"API for creating, updating, and searching On-Site Messaging (OSM) templates within the MoEngage
+    platform"; schema OsmTemplate'
+  reason: Authoring of on-site messaging templates is content/asset management inside a digital marketing
+    automation platform. Could also be read as content marketing, hence 0.7.
+  recovered_from: sweep-20260829T005356Z-edges.json
+- tag: Personalized Preview
+  spec_file: moengage-personalized-preview-api-openapi.yml
+  capability_id: BC-400.60
+  capability_id_l1: BC-400
+  capability_name: Digital Marketing Management
+  confidence: 0.7
+  evidence: POST /v5/personalization/preview "Personalized Preview (V5)" within "The Campaigns V5 API
+    manages the draft campaign lifecycle — draft creation, incremental updates, validation, test sends"
+  reason: Previewing personalized campaign content for push/email campaigns is part of marketing automation
+    campaign authoring. Sub-capability choice between digital marketing and demand generation is somewhat
+    ambiguous.
+  recovered_from: sweep-20260829T005356Z-edges.json
 - tag: SMS Templates
   spec_file: moengage-sms-templates-api-openapi.yml
   capability_id: BC-400.60
@@ -110,6 +177,17 @@ edges:
     — Create SMS Template, Update SMS Template'
   reason: Authoring and lifecycle of SMS marketing message templates is squarely digital/automated marketing
     content tooling.
+- tag: Stats
+  spec_file: moengage-stats-api-openapi.yml
+  capability_id: BC-400.50
+  capability_id_l1: BC-400
+  capability_name: Marketing Operations Management
+  confidence: 0.7
+  evidence: '"The Stats API allows you to fetch detailed campaign stats synchronized in real time"; schemas
+    DeliveryFunnel, ConversionGoalStats, PerformanceStats'
+  reason: Campaign performance measurement and reporting is marketing operations measurement. Could alternatively
+    be classed under demand generation analytics, hence moderate confidence.
+  recovered_from: sweep-20260829T005356Z-edges.json
 - tag: Templates
   spec_file: moengage-templates-api-openapi.yml
   capability_id: BC-400.60
@@ -119,6 +197,17 @@ edges:
   evidence: '''An API for creating, updating, and searching for push notification templates for Android
     and iOS platforms'' — createPushTemplate'
   reason: Push notification template authoring for campaigns is digital marketing content/automation tooling.
+- tag: Test Campaigns
+  spec_file: moengage-test-campaigns-api-openapi.yml
+  capability_id: BC-400.60
+  capability_id_l1: BC-400
+  capability_name: Digital Marketing Management
+  confidence: 0.7
+  evidence: POST /v5/campaigns/test test_campaign_v5 "Test Campaign (V5)"; POST /personalization/preview
+    "Personalized Preview"
+  reason: Operations test and preview marketing campaign content (push/email/web push schemas), part of
+    marketing-automation campaign execution rather than any technical plumbing.
+  recovered_from: sweep-20260829T005356Z-edges.json
 - tag: Update Campaigns
   spec_file: moengage-update-campaigns-api-openapi.yml
   capability_id: BC-400.60
