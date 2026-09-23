@@ -23,9 +23,7 @@ paths:
       tags:
       - Utilities
       summary: Test Connection API
-      description: 'This API validates if the entered endpoint details are valid. It verifies if the provided endpoint URL, workspace ID, and data key are accessible and responds without any errors.
-
-        '
+      description: This API validates if the entered endpoint details are valid. It verifies if the provided endpoint URL, workspace ID, and data key are accessible and responds without any errors.
       parameters:
       - name: MOE-APPKEY
         in: header
@@ -107,6 +105,8 @@ paths:
                   message: App Secret key mismatch. Please login to the dashboard to verify key
                   type: Authentication required
                   request_id: kKcQUqvo
+      operationId: postIntegrationsAuthentication
+      x-operation-id-source: derived
 components:
   schemas:
     TestConnectionRequest:

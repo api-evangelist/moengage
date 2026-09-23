@@ -3,9 +3,7 @@ info:
   title: Coupon List API 🏷️ Reports API
   description: 'API for managing coupon lists within the MoEngage system. This includes creating, fetching, updating, activating, archiving lists, uploading coupon files, managing files, and generating usage reports.
 
-    Authentication is via Basic Auth using your **Workspace ID** as username and an **API Key** as password.
-
-    '
+    Authentication is via Basic Auth using your **Workspace ID** as username and an **API Key** as password.'
   version: '1.0'
 servers:
 - url: https://api-{dc}.moengage.com/v1
@@ -26,9 +24,7 @@ paths:
       - Reports
       summary: Generate Usage Report
       operationId: generateUsageReport
-      description: 'This API produces a detailed usage report for a specific coupon list, providing details on which user received which coupon from which locale or variation of which campaign at what time. After it is generated, this report is delivered directly to the requested email addresses. Using this API, you can conduct a comprehensive analysis of critical data and coupon usage trends efficiently.
-
-        '
+      description: This API produces a detailed usage report for a specific coupon list, providing details on which user received which coupon from which locale or variation of which campaign at what time. After it is generated, this report is delivered directly to the requested email addresses. Using this API, you can conduct a comprehensive analysis of critical data and coupon usage trends efficiently.
       x-mint:
         content: '#### Rate Limit
 

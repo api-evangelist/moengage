@@ -1,9 +1,7 @@
 openapi: 3.2.0
 info:
   title: MoEngage / CCPA GDPR API
-  description: 'API to create or update user rights for **GDPR** (General Data Protection Regulation) or **CCPA** (California Consumer Privacy Act) compliance, including the right to erase personal data.
-
-    '
+  description: API to create or update user rights for **GDPR** (General Data Protection Regulation) or **CCPA** (California Consumer Privacy Act) compliance, including the right to erase personal data.
   version: '1.0'
 servers:
 - url: https://api-{dc}.moengage.com/v1
@@ -26,9 +24,7 @@ paths:
       description: 'GDPR or CCPA API ensures all the rights of users are created or updated for GDPR or CCPA compliance. You can erase the personal data of specific users as defined under GDPR using the Erase API.
 
 
-        For more details on compliance with MoEngage, refer to [GDPR-Implementation](/user-guide/data/privacy/gdpr) and [CCPA-Implementation](/user-guide/data/privacy/ccpa).
-
-        '
+        For more details on compliance with MoEngage, refer to GDPR-Implementation and CCPA-Implementation.'
       operationId: submitGdprRequest
       x-mint:
         content: '<Warning>
@@ -171,9 +167,9 @@ paths:
                 $ref: '#/components/schemas/GdprError500Response'
 components:
   schemas:
-    GdprError429Response:
+    GdprError415Response:
       type: object
-      description: This response is returned when the number of requests has exceeded the rate limit.
+      description: This response is returned when the content type is not supported.
       properties:
         status:
           type: string
@@ -185,34 +181,13 @@ components:
             message:
               type: string
               description: A human-readable message confirming the request was not accepted.
-              example: Rate limits for customers exceeded. Please Try After Some Time
+              example: Content type is not supported
             type:
               type: string
-              example: Rate Limits Exceeded
+              example: Unsupported media type
             request_id:
               type: string
-              example: onqucLYL
-    GdprError413Response:
-      type: object
-      description: This response is returned when the payload size exceeds 128 KB.
-      properties:
-        status:
-          type: string
-          example: fail
-        error:
-          type: object
-          description: Contains the error details.
-          properties:
-            message:
-              type: string
-              description: A human-readable message confirming the request was not accepted.
-              example: Payload can not exceed 128KB.
-            type:
-              type: string
-              example: Payload too large
-            request_id:
-              type: string
-              example: VFzDwhwt
+              example: SgBQfKJh
     UserIdentity:
       type: object
       description: An object representing a user's identity detail.
@@ -232,9 +207,9 @@ components:
           type: string
           description: This field denotes the value of the identity_type.
           example: johndoe@example.com
-    GdprError400Response:
+    GdprError401Response:
       type: object
-      description: This response is returned when the required parameters are missing from the request, attributes are not found, or incorrect values are passed.
+      description: This response is returned when the request does not have valid authentication credentials.
       properties:
         status:
           type: string
@@ -243,19 +218,16 @@ components:
           type: object
           description: Contains the error details.
           properties:
-            attribute:
-              type: string
-              example: request type
             message:
               type: string
               description: A human-readable message confirming the request was not accepted.
-              example: request_type is not found in the payload.
+              example: No identity information found.
             type:
               type: string
-              example: MissingAttributeError
+              example: Authentication required
             request_id:
               type: string
-              example: zuMJjxAS
+              example: IzbhlLyG
     GdprRequest:
       type: object
       required:
@@ -299,9 +271,9 @@ components:
           format: uuid
           description: A unique ID generated for the submitted request.
           example: a7551968-d5d6-44b2-9831-815ac9017798
-    GdprError401Response:
+    GdprError413Response:
       type: object
-      description: This response is returned when the request does not have valid authentication credentials.
+      description: This response is returned when the payload size exceeds 128 KB.
       properties:
         status:
           type: string
@@ -313,16 +285,16 @@ components:
             message:
               type: string
               description: A human-readable message confirming the request was not accepted.
-              example: No identity information found.
+              example: Payload can not exceed 128KB.
             type:
               type: string
-              example: Authentication required
+              example: Payload too large
             request_id:
               type: string
-              example: IzbhlLyG
-    GdprError415Response:
+              example: VFzDwhwt
+    GdprError429Response:
       type: object
-      description: This response is returned when the content type is not supported.
+      description: This response is returned when the number of requests has exceeded the rate limit.
       properties:
         status:
           type: string
@@ -334,13 +306,13 @@ components:
             message:
               type: string
               description: A human-readable message confirming the request was not accepted.
-              example: Content type is not supported
+              example: Rate limits for customers exceeded. Please Try After Some Time
             type:
               type: string
-              example: Unsupported media type
+              example: Rate Limits Exceeded
             request_id:
               type: string
-              example: SgBQfKJh
+              example: onqucLYL
     GdprError403Response:
       type: object
       description: This response is returned when your MoEngage account is suspended or blocked.
@@ -362,6 +334,30 @@ components:
             request_id:
               type: string
               example: ofHUEaEQ
+    GdprError400Response:
+      type: object
+      description: This response is returned when the required parameters are missing from the request, attributes are not found, or incorrect values are passed.
+      properties:
+        status:
+          type: string
+          example: fail
+        error:
+          type: object
+          description: Contains the error details.
+          properties:
+            attribute:
+              type: string
+              example: request type
+            message:
+              type: string
+              description: A human-readable message confirming the request was not accepted.
+              example: request_type is not found in the payload.
+            type:
+              type: string
+              example: MissingAttributeError
+            request_id:
+              type: string
+              example: zuMJjxAS
     GdprError500Response:
       type: object
       description: This response is returned when the system runs into an unexpected error.

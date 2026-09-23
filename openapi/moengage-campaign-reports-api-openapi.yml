@@ -1,7 +1,9 @@
 openapi: 3.2.0
 info:
   title: MoEngage Campaign Stats and Reports Campaign Reports API
-  description: "The Stats API allows you to fetch detailed campaign stats synchronized in real time. \nThe Campaign Report API allows you to download campaign reports for any specific date range.\n"
+  description: 'The Stats API allows you to fetch detailed campaign stats synchronized in real time.
+
+    The Campaign Report API allows you to download campaign reports for any specific date range.'
   version: '1.0'
 servers:
 - url: https://api-{dc}.moengage.com
@@ -19,9 +21,7 @@ paths:
       tags:
       - Campaign Reports
       summary: Download Campaign Report
-      description: 'This API downloads campaign reports for any specific date range. You can fetch reports for one-time and periodic campaigns.
-
-        '
+      description: This API downloads campaign reports for any specific date range. You can fetch reports for one-time and periodic campaigns.
       x-mint:
         content: "#### Limits\n\n- **Expiry**: The generated reports will expire in **7 days** from the date of creation.\n- **Max Range**: You can generate reports for up to **90 days**.\n\n#### Generating the Signature\nA unique signature must be passed in the headers to verify the caller's authenticity. \n\nThe signature is `SHA256(Api_ID + \"|\" + FILENAME + \"|\" + SECRET_KEY)`.\n\n```python\n# SAMPLE IMPLEMENTATION IN PYTHON\nfrom hashlib import sha256\nApi_ID = \"YOUR-APP-ID\"\nFILENAME = \"Report_-_test_20210217.zip\"\nSECRET_KEY = \"YOUR-SECRET-KEY\"\nSignature_Key = Api_ID + \"|\" + FILENAME + \"|\" + SECRET_KEY\n# Now Signature is hexdigest of sha256 of Signature_Key\nSignature = sha256(Signature_Key.encode('utf-8')).hexdigest()\n```\n"
       operationId: downloadCampaignReport

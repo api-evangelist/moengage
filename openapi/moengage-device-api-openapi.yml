@@ -347,6 +347,8 @@ paths:
                       message: An unexpected error was encountered while processing this request. Please contact MoEngage Team
                       type: ServerError
                       request_id: KovrwJiF
+      operationId: postDeviceByAppId
+      x-operation-id-source: derived
   /devices/manage:
     post:
       tags:
@@ -662,18 +664,10 @@ paths:
                       message: An unexpected error was encountered while processing this request. Please contact MoEngage Team
                       type: Server Error
                       request_id: KovrwJiF
+      operationId: postDevicesManage
+      x-operation-id-source: derived
 components:
   schemas:
-    GenericSuccess:
-      type: object
-      properties:
-        status:
-          type: string
-          description: This field contains the status of the request and specifies whether the request was successful.
-          example: success
-        message:
-          type: string
-          example: Your request has been accepted and will be processed soon.
     DeviceAttributes:
       type: object
       description: This field contains the device attributes to add or update in the device profile.
@@ -716,6 +710,32 @@ components:
         idfv:
           type: string
           description: This field denotes the unique advertising identifier for iOS devices.
+    CreateDeviceRequest:
+      title: Device
+      type: object
+      required:
+      - type
+      - customer_id
+      - device_id
+      - attributes
+      properties:
+        type:
+          type: string
+          enum:
+          - device
+          description: 'This field denotes the type of request. Supported value is: device. This field is case-sensitive. When passing the value in the request, follow the case as in the example.'
+        customer_id:
+          type: string
+          description: This field denotes the unique identifier used to identify a user in MoEngage. Note that devices can be created for existing users only.
+        device_id:
+          type: string
+          description: 'This field denotes the unique identifier used to identify the device associated with a user in MoEngage.
+
+            If your app is integrated with MoEngage SDK, the SDK assigns a unique device_id to the devices of your end-users.
+
+            If your app is not integrated with MoEngage SDK, you can use unique alphanumeric values or other device attributes such as Push token, GAID/IDFV to assign unique device_id values to devices of your user.'
+        attributes:
+          $ref: '#/components/schemas/DeviceAttributes'
     DeviceOptOutRequest:
       type: object
       required:
@@ -781,32 +801,16 @@ components:
               push_id:
                 type: string
                 description: This field denotes the Push token of the device.
-    CreateDeviceRequest:
-      title: Device
+    GenericSuccess:
       type: object
-      required:
-      - type
-      - customer_id
-      - device_id
-      - attributes
       properties:
-        type:
+        status:
           type: string
-          enum:
-          - device
-          description: 'This field denotes the type of request. Supported value is: device. This field is case-sensitive. When passing the value in the request, follow the case as in the example.'
-        customer_id:
+          description: This field contains the status of the request and specifies whether the request was successful.
+          example: success
+        message:
           type: string
-          description: This field denotes the unique identifier used to identify a user in MoEngage. Note that devices can be created for existing users only.
-        device_id:
-          type: string
-          description: 'This field denotes the unique identifier used to identify the device associated with a user in MoEngage.
-
-            If your app is integrated with MoEngage SDK, the SDK assigns a unique device_id to the devices of your end-users.
-
-            If your app is not integrated with MoEngage SDK, you can use unique alphanumeric values or other device attributes such as Push token, GAID/IDFV to assign unique device_id values to devices of your user.'
-        attributes:
-          $ref: '#/components/schemas/DeviceAttributes'
+          example: Your request has been accepted and will be processed soon.
   securitySchemes:
     Authentication:
       type: http

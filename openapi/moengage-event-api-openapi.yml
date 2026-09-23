@@ -25,7 +25,7 @@ paths:
       summary: Track Event
       x-mint:
         content: "<Note>\n  * If you have [Portfolio](/user-guide/settings/account/portfolio/portfolio) enabled for your workspace, you need to pass project_code in the API endpoint. This identifies which project a user or event belongs to. For more information, refer to [Portfolio: Data Ingestion and Management](/user-guide/data/key-concepts/portfolio-data-ingestion-and-management).\n  * MoEngage does not accept any future dated events.\n</Note>\n\n#### Rate Limit\nA single API request contains one or more events. Maintain a rate limit of 30,000 events per minute.  \n"
-      description: This API  tracks the actions of a user.
+      description: This API tracks the actions of a user.
       parameters:
       - name: Workspace_ID
         in: path
@@ -413,8 +413,48 @@ paths:
                       message: An unexpected error was encountered while processing this request. Please contact MoEngage Team
                       type: ServerError
                       request_id: KovrwJiF
+      operationId: postEventByWorkspaceID
+      x-operation-id-source: derived
 components:
   schemas:
+    CreateEventRequest:
+      title: Event
+      type: object
+      required:
+      - type
+      - customer_id
+      - actions
+      properties:
+        type:
+          type: string
+          description: This is used to identify the type of request. Allowed value is event. This field is case-sensitive. Follow the case as in the example when passing the value in the request.
+          enum:
+          - event
+        customer_id:
+          type: string
+          description: Identifier to identify or create a user in MoEngage. Not mandatory in Identity resolution enabled workspaces.
+        device_id:
+          type: string
+          description: Device_id in event payload is optional. The default value is the customer_id value. The value is used to map events to specific devices.
+        user_identifiers:
+          type: object
+          description: 'Required if Identity Resolution is enabled and customer_id is not provided.
+
+
+            **User Identity Resolution:**
+
+
+            If the [User Identity Resolution](/user-guide/data/user-data/unified-identity-identity-resolution) feature is enabled in your workspace, identifiers set up in the workspace must be mentioned within the user_identifiers parameter.
+
+            '
+          additionalProperties: true
+          example:
+            moe_mobile: +9198765xxxxx
+        actions:
+          type: array
+          description: List of events to be tracked for the user.
+          items:
+            $ref: '#/components/schemas/EventAction'
     EventAction:
       type: object
       required:
@@ -493,44 +533,6 @@ components:
         user_timezone_offset:
           type: number
           description: "The difference in time between UTC and the local system time in a particular time zone. All time zones are defined by their offset from UTC. The offset is expressed as either UTC- or UTC+.\n * user_timezone_offset should have a value in seconds which can be between -54000 to 54000. For example, for IST (UTC+0530), \"user_timezone_offset\" will be 19800.\n* This field is crucial for establishing the `user_time` or `current_time`.\n* If the field is absent, MoEngage gets this information from the internal system in the sequence as follows:\n      * The user profile’s timezone is taken into consideration.\n      * If the user profile’s timezone is not present, the App/account’s timezone is considered.\n      * In cases where neither is present, the UTC timezone is used.\n* Include `user_timezone_offset` in your request only if you have accurate timezone information for each user, as incorrect info could disrupt event timelines in the user profile.\n\n**Note:**\nMoEngage generates current_time and user_time if they are not provided in the request. Use the following information and provide current_time, user_time, and user_timezone_offset accordingly:\n* If you do not provide any of current_time, user_time, and user_timezone_offset, MoEngage automatically uses the UTC time when the request was received by MoEngage as the current_time. MoEngage uses internal data to calculate the user_timezone_offset to generate the user_time.\n* If you provide only the current_time, MoEngage uses internal data to calculate the user_timezone_offset to generate the user_time.\n- If you provide only the user_time, MoEngage uses internal data to calculate the user_timezone_offset to generate the current_time.\n* If you send the current_time and user_time, MoEngage uses them as is.\n* If you provide the current_time and user_timezone_offset, MoEngage generates the user_time.\n* If you provide user_time and user_timezone_offset, MoEngage generates the current_time.\n"
-    CreateEventRequest:
-      title: Event
-      type: object
-      required:
-      - type
-      - customer_id
-      - actions
-      properties:
-        type:
-          type: string
-          description: This is used to identify the type of request. Allowed value is event. This field is case-sensitive. Follow the case as in the example when passing the value in the request.
-          enum:
-          - event
-        customer_id:
-          type: string
-          description: Identifier to identify or create a user in MoEngage. Not mandatory in Identity resolution enabled workspaces.
-        device_id:
-          type: string
-          description: Device_id in event payload is optional. The default value is the customer_id value. The value is used to map events to specific devices.
-        user_identifiers:
-          type: object
-          description: 'Required if Identity Resolution is enabled and customer_id is not provided.
-
-
-            **User Identity Resolution:**
-
-
-            If the [User Identity Resolution](/user-guide/data/user-data/unified-identity-identity-resolution) feature is enabled in your workspace, identifiers set up in the workspace must be mentioned within the user_identifiers parameter.
-
-            '
-          additionalProperties: true
-          example:
-            moe_mobile: +9198765xxxxx
-        actions:
-          type: array
-          description: List of events to be tracked for the user.
-          items:
-            $ref: '#/components/schemas/EventAction'
     GenericSuccess:
       type: object
       properties:

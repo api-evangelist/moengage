@@ -7,9 +7,7 @@ info:
     Authentication is handled via **Basic Auth** (using your Workspace ID as username and API Key as password), and all requests additionally require the `MOE-APPKEY` header (Workspace ID).
 
 
-    The API has a platform-wide rate limit of **100 requests/minute OR 1000 requests/hour**, with a maximum payload size of **5MB**.
-
-    '
+    The API has a platform-wide rate limit of **100 requests/minute OR 1000 requests/hour**, with a maximum payload size of **5MB**.'
   x-mint:
     content: '#example 500 max #
 
@@ -33,9 +31,7 @@ paths:
       - Catalog
       summary: Create Catalog
       operationId: createCatalog
-      description: 'This API creates a new catalog with a unique name. You can specify the necessary attributes along with their respective data types.
-
-        '
+      description: This API creates a new catalog with a unique name. You can specify the necessary attributes along with their respective data types.
       x-mint:
         content: '#### Rate Limit
 
@@ -170,9 +166,7 @@ paths:
       - Catalog
       summary: Add Catalog Attributes
       operationId: addCatalogAttributes
-      description: 'This API adds new attributes to the catalog. If the API request contains attributes that already exist, they will not be added again.
-
-        '
+      description: This API adds new attributes to the catalog. If the API request contains attributes that already exist, they will not be added again.
       x-mint:
         content: '#### Rate Limit
 
@@ -277,14 +271,6 @@ paths:
         '429':
           $ref: '#/components/responses/TooManyRequests'
 components:
-  parameters:
-    CatalogIdPath:
-      name: catalog_id
-      in: path
-      required: true
-      description: The unique identifier for the catalog, obtained during catalog creation.
-      schema:
-        type: string
   responses:
     TooManyRequests:
       description: 'Too Many Requests - The rate limit for the API has been exceeded.
@@ -297,24 +283,6 @@ components:
         * **x-ratelimit-remaining (integer)**: The number of requests remaining in the current rate limit window.
 
         * **x-ratelimit-reset (integer)**: The time at which the current rate limit window resets in UTC epoch seconds.'
-    Unauthorized:
-      description: Unauthorized - The request does not have valid authentication credentials.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-          example:
-            error-code: request-unauthenticated
-            message: Your request is unauthorized. Please verify your credentials and try again.
-    Forbidden:
-      description: Forbidden - The client does not have access rights to the Catalog APIs.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-          example:
-            error-code: request-denied
-            message: Your account does not have access to the Catalog APIs.
     NotFound:
       description: Not Found - The specified resource (catalog) could not be found.
       content:
@@ -324,6 +292,24 @@ components:
           example:
             error-code: catalog-not-found
             message: We could not find any API based catalog for the provided catalog id.
+    Forbidden:
+      description: Forbidden - The client does not have access rights to the Catalog APIs.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            error-code: request-denied
+            message: Your account does not have access to the Catalog APIs.
+    Unauthorized:
+      description: Unauthorized - The request does not have valid authentication credentials.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            error-code: request-unauthenticated
+            message: Your request is unauthorized. Please verify your credentials and try again.
   schemas:
     AttributeDefinition:
       type: object
@@ -355,6 +341,15 @@ components:
           - double
           - datetime
           - geopoint
+    Error:
+      type: object
+      properties:
+        error-code:
+          type: string
+          description: A machine-readable error code.
+        message:
+          type: string
+          description: A human-readable description of the error.
     CreateCatalogRequest:
       type: object
       required:
@@ -506,15 +501,14 @@ components:
             '
           items:
             $ref: '#/components/schemas/AttributeDefinition'
-    Error:
-      type: object
-      properties:
-        error-code:
-          type: string
-          description: A machine-readable error code.
-        message:
-          type: string
-          description: A human-readable description of the error.
+  parameters:
+    CatalogIdPath:
+      name: catalog_id
+      in: path
+      required: true
+      description: The unique identifier for the catalog, obtained during catalog creation.
+      schema:
+        type: string
   securitySchemes:
     basicAuth:
       type: http

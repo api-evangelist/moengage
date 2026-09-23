@@ -1,9 +1,7 @@
 openapi: 3.2.0
 info:
   title: Personalize Experiences API
-  description: 'Personalize APIs constitute a set of endpoints that can be accessed from your platform''s code. These APIs offer personalization capabilities and must be invoked from your codebase for MoEngage to provide relevant data. After receiving the data, you can use it within your platform''s code to personalize the content for your users.
-
-    '
+  description: Personalize APIs constitute a set of endpoints that can be accessed from your platform's code. These APIs offer personalization capabilities and must be invoked from your codebase for MoEngage to provide relevant data. After receiving the data, you can use it within your platform's code to personalize the content for your users.
   version: 1.0.0
 servers:
 - url: https://sdk-{dc}.moengage.com/v1
@@ -23,9 +21,7 @@ paths:
       tags:
       - Experiences
       summary: Fetch Experience
-      description: 'This API receives data on active personalization experiences. You can fetch data for one or more server-side experiences by using the **experience_key** field. MoEngage will evaluate targeting rules and in-session attributes automatically and return the correct variation for the user. Typically, you would make this call as part of your larger page and content rendering pipeline.
-
-        '
+      description: This API receives data on active personalization experiences. You can fetch data for one or more server-side experiences by using the **experience_key** field. MoEngage will evaluate targeting rules and in-session attributes automatically and return the correct variation for the user. Typically, you would make this call as part of your larger page and content rendering pipeline.
       operationId: fetchExperience
       x-mint:
         content: '#### Rate Limit
@@ -380,9 +376,7 @@ paths:
       tags:
       - Experiences
       summary: Fetch Experience Metadata
-      description: 'This API fetches a list of currently Active, Scheduled, and Paused experiences within a workspace.
-
-        '
+      description: This API fetches a list of currently Active, Scheduled, and Paused experiences within a workspace.
       x-mint:
         content: "<Tip>\n  **Recommended usage**: Call this endpoint once at application startup and cache the result. Experience keys change infrequently — a daily refresh is usually sufficient. In production rendering paths, filter by `?status=Active` so your [Fetch Experience](/api/experiences/fetch-experience) calls only include keys that are currently live.\n</Tip>\n"
       operationId: getMetadata

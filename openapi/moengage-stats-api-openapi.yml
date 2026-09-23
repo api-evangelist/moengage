@@ -1,7 +1,9 @@
 openapi: 3.2.0
 info:
   title: MoEngage Campaign and Reports Stats API
-  description: "The Stats API allows you to fetch detailed campaign stats synchronized in real time. \nThe Campaign Report API allows you to download campaign reports for any specific date range.\n"
+  description: 'The Stats API allows you to fetch detailed campaign stats synchronized in real time.
+
+    The Campaign Report API allows you to download campaign reports for any specific date range.'
   version: '1.0'
 servers:
 - url: https://api-{dc}.moengage.com
@@ -19,9 +21,7 @@ paths:
       tags:
       - Stats
       summary: Get Campaign Stats
-      description: 'This API fetches data at the platform level and provides data for all types of campaigns.
-
-        '
+      description: This API fetches data at the platform level and provides data for all types of campaigns.
       x-mint:
         content: '#### Rate Limit
 
@@ -176,6 +176,63 @@ paths:
                 code: jDTGSxjd
 components:
   schemas:
+    CampaignStatsDetails:
+      type: object
+      properties:
+        platforms:
+          $ref: '#/components/schemas/Platforms'
+    CampaignStatsRequest:
+      type: object
+      required:
+      - request_id
+      - start_date
+      - end_date
+      - attribution_type
+      - metric_type
+      properties:
+        request_id:
+          type: string
+          description: This field shows the request ID created by a user. Helps to know the API calls made by the client.
+        campaign_ids:
+          type: array
+          items:
+            type: string
+          description: This field shows the campaign IDs created, up to 10 max per call.
+          maxItems: 10
+        start_date:
+          type: string
+          format: date
+          description: This field shows the start date of the campaign in YYYY-MM-DD format.
+          example: '2024-12-22'
+        end_date:
+          type: string
+          format: date
+          description: This field shows the campaign's end date in YYYY-MM-DD format. The days between the start and end dates should not exceed 30 days.
+          example: '2024-12-23'
+        attribution_type:
+          type: string
+          description: This field shows the attribution type that should be picked to show conversion stats.
+          enum:
+          - VIEW_THROUGH
+          - CLICK_THROUGH
+          - IN_SESSION
+          - TOTAL_CONVERSIONS
+          - CLICK_CONVERSIONS
+        offset:
+          type: integer
+          description: "This field shows the position of a record in a dataset. \nThe default value for the number of campaigns to skip is 0. \nFor example, setting the offset to 50 skips the first 50 records. The resulting page number depends on your limit. With a limit of 10, an offset of 50 returns page 6.\n"
+          default: 0
+        limit:
+          type: integer
+          description: This field shows the maximum number of campaigns displayed on a page. The default and max limit is up to 10 campaigns.
+          default: 10
+          maximum: 10
+        metric_type:
+          type: string
+          description: This field shows the total or unique values of all the metrics.
+          enum:
+          - TOTAL
+          - UNIQUE
     CampaignStatsResponse:
       type: object
       properties:
@@ -198,6 +255,68 @@ components:
             type: array
             items:
               $ref: '#/components/schemas/CampaignStatsDetails'
+    ErrorResponseSimple:
+      type: object
+      properties:
+        title:
+          type: string
+        description:
+          type:
+          - string
+          - 'null'
+        code:
+          type: string
+    ConversionGoalStats:
+      type: object
+      description: This object shows the conversion goal stats of your campaign.
+      additionalProperties:
+        $ref: '#/components/schemas/ConversionGoal'
+    PlatformStats:
+      type: object
+      properties:
+        locales:
+          $ref: '#/components/schemas/Locales'
+    Platforms:
+      type: object
+      description: This field indicates the platforms where the user has engaged with your communication (e.g., ANDROID, IOS, WEB, MWEB, UNKNOWN).
+      additionalProperties:
+        $ref: '#/components/schemas/PlatformStats'
+    LocaleStats:
+      type: object
+      properties:
+        variations:
+          $ref: '#/components/schemas/Variations'
+    VariationDetails:
+      type: object
+      properties:
+        performance_stats:
+          $ref: '#/components/schemas/PerformanceStats'
+        conversion_goal_stats:
+          $ref: '#/components/schemas/ConversionGoalStats'
+        delivery_funnel:
+          $ref: '#/components/schemas/DeliveryFunnel'
+        failure_breakdown:
+          $ref: '#/components/schemas/FailureBreakdown'
+    Locales:
+      type: object
+      description: This field indicates the details of the locales configured.
+      additionalProperties:
+        $ref: '#/components/schemas/LocaleStats'
+    Variations:
+      type: object
+      description: This object contains details of the variations of your locale.
+      properties:
+        all_variations:
+          $ref: '#/components/schemas/VariationDetails'
+        campaign_control_group:
+          $ref: '#/components/schemas/VariationDetails'
+        global_control_group:
+          $ref: '#/components/schemas/VariationDetails'
+    FailureBreakdown:
+      type: object
+      description: This object shows the failure breakdown of your campaign.
+      additionalProperties:
+        type: integer
     PerformanceStats:
       type: object
       description: This object shows your campaign's performance metrics.
@@ -283,68 +402,6 @@ components:
         complaints_rate:
           type: number
           format: double
-    CampaignStatsRequest:
-      type: object
-      required:
-      - request_id
-      - start_date
-      - end_date
-      - attribution_type
-      - metric_type
-      properties:
-        request_id:
-          type: string
-          description: This field shows the request ID created by a user. Helps to know the API calls made by the client.
-        campaign_ids:
-          type: array
-          items:
-            type: string
-          description: This field shows the campaign IDs created, up to 10 max per call.
-          maxItems: 10
-        start_date:
-          type: string
-          format: date
-          description: This field shows the start date of the campaign in YYYY-MM-DD format.
-          example: '2024-12-22'
-        end_date:
-          type: string
-          format: date
-          description: This field shows the campaign's end date in YYYY-MM-DD format. The days between the start and end dates should not exceed 30 days.
-          example: '2024-12-23'
-        attribution_type:
-          type: string
-          description: This field shows the attribution type that should be picked to show conversion stats.
-          enum:
-          - VIEW_THROUGH
-          - CLICK_THROUGH
-          - IN_SESSION
-          - TOTAL_CONVERSIONS
-          - CLICK_CONVERSIONS
-        offset:
-          type: integer
-          description: "This field shows the position of a record in a dataset. \nThe default value for the number of campaigns to skip is 0. \nFor example, setting the offset to 50 skips the first 50 records. The resulting page number depends on your limit. With a limit of 10, an offset of 50 returns page 6.\n"
-          default: 0
-        limit:
-          type: integer
-          description: This field shows the maximum number of campaigns displayed on a page. The default and max limit is up to 10 campaigns.
-          default: 10
-          maximum: 10
-        metric_type:
-          type: string
-          description: This field shows the total or unique values of all the metrics.
-          enum:
-          - TOTAL
-          - UNIQUE
-    PlatformStats:
-      type: object
-      properties:
-        locales:
-          $ref: '#/components/schemas/Locales'
-    LocaleStats:
-      type: object
-      properties:
-        variations:
-          $ref: '#/components/schemas/Variations'
     DeliveryFunnel:
       type: object
       description: This object shows the delivery stats of your campaign.
@@ -379,58 +436,6 @@ components:
           type: integer
         delivered:
           type: integer
-    VariationDetails:
-      type: object
-      properties:
-        performance_stats:
-          $ref: '#/components/schemas/PerformanceStats'
-        conversion_goal_stats:
-          $ref: '#/components/schemas/ConversionGoalStats'
-        delivery_funnel:
-          $ref: '#/components/schemas/DeliveryFunnel'
-        failure_breakdown:
-          $ref: '#/components/schemas/FailureBreakdown'
-    Platforms:
-      type: object
-      description: This field indicates the platforms where the user has engaged with your communication (e.g., ANDROID, IOS, WEB, MWEB, UNKNOWN).
-      additionalProperties:
-        $ref: '#/components/schemas/PlatformStats'
-    FailureBreakdown:
-      type: object
-      description: This object shows the failure breakdown of your campaign.
-      additionalProperties:
-        type: integer
-    ConversionGoalStats:
-      type: object
-      description: This object shows the conversion goal stats of your campaign.
-      additionalProperties:
-        $ref: '#/components/schemas/ConversionGoal'
-    ErrorResponseSimple:
-      type: object
-      properties:
-        title:
-          type: string
-        description:
-          type:
-          - string
-          - 'null'
-        code:
-          type: string
-    Variations:
-      type: object
-      description: This object contains details of the variations of your locale.
-      properties:
-        all_variations:
-          $ref: '#/components/schemas/VariationDetails'
-        campaign_control_group:
-          $ref: '#/components/schemas/VariationDetails'
-        global_control_group:
-          $ref: '#/components/schemas/VariationDetails'
-    Locales:
-      type: object
-      description: This field indicates the details of the locales configured.
-      additionalProperties:
-        $ref: '#/components/schemas/LocaleStats'
     ConversionGoal:
       type: object
       properties:
@@ -459,11 +464,6 @@ components:
           type: number
         gcg_uplift:
           type: number
-    CampaignStatsDetails:
-      type: object
-      properties:
-        platforms:
-          $ref: '#/components/schemas/Platforms'
   requestBodies:
     CampaignStatsRequest:
       description: Request body to fetch campaign stats.

@@ -45,9 +45,7 @@ paths:
         #### Migrating to v2.1
 
 
-        This version does not use a separate query-type header — MoEngage resolves the request category directly from the `targetAudience` field in the request body. The [v2.1 endpoint](/api/push/push-api) introduces the `X-MOE-Query-Type` header as an explicit equivalent, sent alongside `targetAudience` rather than in place of it. No action is required if you continue using this version.
-
-        '
+        This version does not use a separate query-type header — MoEngage resolves the request category directly from the `targetAudience` field in the request body. The v2.1 endpoint introduces the `X-MOE-Query-Type` header as an explicit equivalent, sent alongside `targetAudience` rather than in place of it. No action is required if you continue using this version.'
       x-mint:
         content: "\n#### Authentication\n\nA signature is required to verify whether the client is authorized to make the API call. It is generated from a hash of the campaign name, app ID, and API key. MoEngage uses the SHA 256 method to generate this hash. Python code is used to generate the signature for your test account, and use your account's app_id.\n\n1. On the left navigation menu in the MoEngage dashboard, go to **Settings** > **Account** > **APIs**.\n2. Copy the following details:\n* **app_id**: Under **Workspace ID (earlier app_id)**, click the copy icon to copy the app-id.\n* **api_key**: In the **API keys** section, click the copy icon in the **Push** tile to copy the API key.\n* **campaign_name**: Ensure the campaign name matches the one used in the request body. \n\n### Generating Signature\n\nPython code to generate the signature for your test account, use the app_id that is appropriate for your account.\n\n <Tabs>\n <Tab title=\"Python 3.XX\">\n ```python\n from hashlib import sha256\n app_id = \"{{Your Workspace ID}}\"\n campaign_name = \"{{your campaign name}}\"\n api_key = \"{{your push api key}}\"\n signature_key = app_id+'|'+ campaign_name+'|'+ api_key\n signature = sha256(signature_key.encode('utf-8')).hexdigest()\n print(signature)\n ```\n </Tab>\n <Tab title=\"Python 2.XX\">\n ```python\n from hashlib import sha256 \n app_id = \"{{Your Workspace ID}}\" \n campaign_name = \"{{your campaign name}}\" \n api_key = \"{{your push api key}}\" \n signature_key = app_id+'|'+ campaign_name+'|'+ api_key \n signature = sha256(signature_key).hexdigest() \n print(signature)\n ```\n </Tab>\n </Tabs>   \n \n"
       requestBody:
@@ -699,6 +697,8 @@ paths:
                 status: error
                 reason: There seems to be an error. We are working to fix this.
                 reference: reference
+      operationId: postTransactionSendpush
+      x-operation-id-source: derived
     servers:
     - url: https://pushapi-{dc}.moengage.com/v2
       description: MoEngage Push API Server
@@ -721,9 +721,7 @@ paths:
         #### Rate Limit
 
 
-        The rate limit is 10,000 requests per minute.
-
-        '
+        The rate limit is 10,000 requests per minute.'
       parameters:
       - $ref: '#/components/parameters/XMoeAppKey'
       - $ref: '#/components/parameters/XMoePushSignature'
@@ -1452,24 +1450,211 @@ components:
         autoDismiss:
           type: boolean
           description: This field specifies whether to dismiss the notification automatically after 8 seconds.
-    PushSuccessResponse:
+    DefaultAction:
       type: object
-      title: Success Response
       properties:
-        status:
+        type:
           type: string
           enum:
-          - Success
-          description: This field indicates the campaign status.
-        requestId:
+          - richlanding
+          - navigation
+          - deeplinking
+        value:
           type: string
-          description: This field indicates the request ID.
-        responseId:
+          description: The URL or deep link path.
+        kvPairs:
+          type: object
+          additionalProperties:
+            type: string
+          description: Additional key-value pairs to pass with the action.
+    AndroidPayload:
+      type: object
+      required:
+      - message
+      - title
+      properties:
+        groupKey:
           type: string
-          description: This field indicates the response ID.
-        cid:
+          description: 'This field denotes the group key used to identify and categorize related push notifications.
+
+            Note:
+
+            * Ensure you use the same group key for all push notifications you want to group.
+
+            * MoEngage automatically modifies the group key to ensure it does not exceed the 45-character limit. MoEngage removes non-Latin scripts, special characters, and spaces to restrict the key composition to ASCII characters exclusively.
+
+            '
+        collapseReplaceKey:
           type: string
-          description: This field indicates the campaign ID.
+          description: This field denotes the update key used to identify and update related push notifications. Ensure you use the same update key for all push notifications intended to update each other.
+        message:
+          type: string
+          description: This field denotes the main content or text to be displayed in the notification/message.
+        title:
+          type: string
+          description: This field denotes the headline or subject of the notification/message.
+        channel_id:
+          type: string
+          description: This field denotes the channel identifier for the campaign.
+        summary:
+          type: string
+          description: This field denotes the brief summary or condensed version of the content. Typically displayed in collapsed notifications.
+        richContent:
+          type: array
+          items:
+            type: object
+            properties:
+              type:
+                type: string
+                enum:
+                - image
+                - coupon
+                - sound
+              value:
+                type: string
+          description: 'An object or HTML string containing rich text, images, or other multimedia to enhance the message. Supported values are:
+
+            * Coupon
+
+            * Image
+
+            * Sound
+
+            '
+        defaultAction:
+          $ref: '#/components/schemas/DefaultAction'
+          description: This helps you define the default action triggered when the user interacts with the notification.
+        additionalActions:
+          type: array
+          maxItems: 2
+          items:
+            type: object
+            properties:
+              type:
+                type: string
+                enum:
+                - call
+                - snooze
+                - copy
+                - share
+              value:
+                type: string
+              name:
+                type: string
+              iconURL:
+                type: string
+          description: 'This object contains a list of extra actions or buttons that the user can perform, providing more functionality for the notification. Supported actions are:
+
+            * Call
+
+            * Snooze
+
+            * Copy
+
+            * Share
+
+            A maximum of two additional action buttons can be used at a time.
+
+            '
+        fallback:
+          type: object
+          description: This JSON object contains the fallback values for the values mentioned above.
+    CampaignDelivery:
+      type: object
+      required:
+      - type
+      properties:
+        type:
+          type: string
+          enum:
+          - soon
+          - later
+          - periodic
+        date:
+          type: string
+          description: 'Required for ''later'' type. Format: MM/DD/YYYY'
+        time:
+          type: string
+          description: 'Required for ''later'' and ''periodic'' types. Format: HH:MM AM/PM'
+        endDate:
+          type: string
+          description: 'Required for ''periodic'' type. Format: MM/DD/YYYY'
+        repeatAfter:
+          type: string
+          description: Repeat interval in days for 'periodic' type.
+        timezone:
+          type: string
+          description: Timezone for scheduling, e.g., 'Asia/Kolkata'. Defaults to IST if not provided. For more information on allowed timezone values, refer [here](https://gist.github.com/mjrulesamrat/0c1f7de951d3c508fb3a20b4b0b33a98).
+    NotFoundResponse:
+      type: object
+      title: Not Found Response
+      properties:
+        code:
+          type: integer
+          description: This field indicates the HTTP status code of the response.
+          example: 404
+        status:
+          type: string
+          description: This field indicates the outcome category of the request.
+          example: error
+        reason:
+          type: string
+          description: This field indicates why the request was not found. For this endpoint, it means the request path does not match a valid MoEngage API endpoint.
+          example: Page not found. Please recheck the URL
+    TargetUserAttributes:
+      type: object
+      properties:
+        attribute:
+          type: string
+          description: 'This field denotes a unique identifier or characteristic of an entity or object used to specify the target users. This value is required when the targetAudience value is User. Other fields used are:
+
+            * for unique ID: USER_ATTRIBUTE_UNIQUE_ID
+
+            * for email:  USER_ATTRIBUTE_USER_EMAIL
+
+            * For mobile number: USER_ATTRIBUTE_USER_MOBILE
+
+            * for Google Advertising identifier: MOE_GAID
+
+            * for iOS Identifier for advertising: ADVERTISING_IDENTIFIER
+
+            * for device push token: PUSH_ID (the same key is used for Android GCM ID, iOS push token)
+
+            For more information, refer to [Target User Attributes](/hc/en-us/articles/32986034181268#h_01JGZQ07FC9P3RHKXYJ67AJ9QV).
+
+            '
+          enum:
+          - USER_ATTRIBUTE_UNIQUE_ID
+          - USER_ATTRIBUTE_USER_EMAIL
+          - USER_ATTRIBUTE_USER_MOBILE
+          - MOE_GAID
+          - ADVERTISING_IDENTIFIER
+          - PUSH_ID
+        comparisonParameter:
+          type: string
+          description: 'This field denotes a condition or operator that compares the user attributes against a specific value. Supported values are:
+
+            * The "is" query type
+
+            * The "in" query type
+
+            * Note: The maximum number of parameters that can be added while using the "in" comparisonParameter is 50. This value is required when the targetAudience value is User.
+
+            '
+          enum:
+          - is
+          - in
+        attributeValue:
+          oneOf:
+          - type: string
+          - type: array
+            items:
+              type: string
+          description: This field denotes the actual value assigned to an attribute, which is used for comparison or filtering. This value is required when the targetAudience value is User.
+        isCustom:
+          type: boolean
+          description: This field denotes whether a custom attribute has been added. For custom attributes, targeting is done on any custom attribute with the available fields. Set the key "isCustom" to true.
+          default: false
     AdvancedSettings:
       type: object
       description: This object contains information about advanced settings. For more information, refer to [Advanced Settings](/hc/en-us/articles/32986034181268#h_01JGZRM6BSGJ9VS3YWKB21DYFW).
@@ -1647,98 +1832,24 @@ components:
             - 'false'
           - type: boolean
           description: Send at high priority (legacy flag).
-    AndroidPayload:
+    PushSuccessResponse:
       type: object
-      required:
-      - message
-      - title
+      title: Success Response
       properties:
-        groupKey:
+        status:
           type: string
-          description: 'This field denotes the group key used to identify and categorize related push notifications.
-
-            Note:
-
-            * Ensure you use the same group key for all push notifications you want to group.
-
-            * MoEngage automatically modifies the group key to ensure it does not exceed the 45-character limit. MoEngage removes non-Latin scripts, special characters, and spaces to restrict the key composition to ASCII characters exclusively.
-
-            '
-        collapseReplaceKey:
+          enum:
+          - Success
+          description: This field indicates the campaign status.
+        requestId:
           type: string
-          description: This field denotes the update key used to identify and update related push notifications. Ensure you use the same update key for all push notifications intended to update each other.
-        message:
+          description: This field indicates the request ID.
+        responseId:
           type: string
-          description: This field denotes the main content or text to be displayed in the notification/message.
-        title:
+          description: This field indicates the response ID.
+        cid:
           type: string
-          description: This field denotes the headline or subject of the notification/message.
-        channel_id:
-          type: string
-          description: This field denotes the channel identifier for the campaign.
-        summary:
-          type: string
-          description: This field denotes the brief summary or condensed version of the content. Typically displayed in collapsed notifications.
-        richContent:
-          type: array
-          items:
-            type: object
-            properties:
-              type:
-                type: string
-                enum:
-                - image
-                - coupon
-                - sound
-              value:
-                type: string
-          description: 'An object or HTML string containing rich text, images, or other multimedia to enhance the message. Supported values are:
-
-            * Coupon
-
-            * Image
-
-            * Sound
-
-            '
-        defaultAction:
-          $ref: '#/components/schemas/DefaultAction'
-          description: This helps you define the default action triggered when the user interacts with the notification.
-        additionalActions:
-          type: array
-          maxItems: 2
-          items:
-            type: object
-            properties:
-              type:
-                type: string
-                enum:
-                - call
-                - snooze
-                - copy
-                - share
-              value:
-                type: string
-              name:
-                type: string
-              iconURL:
-                type: string
-          description: 'This object contains a list of extra actions or buttons that the user can perform, providing more functionality for the notification. Supported actions are:
-
-            * Call
-
-            * Snooze
-
-            * Copy
-
-            * Share
-
-            A maximum of two additional action buttons can be used at a time.
-
-            '
-        fallback:
-          type: object
-          description: This JSON object contains the fallback values for the values mentioned above.
+          description: This field indicates the campaign ID.
     PushRequest:
       type: object
       required:
@@ -1853,32 +1964,6 @@ components:
         advancedSettings:
           $ref: '#/components/schemas/AdvancedSettings'
           description: This object contains information about advanced settings. For more information, refer to [Advanced Settings](/hc/en-us/articles/32986034181268#h_01JGZRM6BSGJ9VS3YWKB21DYFW).
-    CampaignDelivery:
-      type: object
-      required:
-      - type
-      properties:
-        type:
-          type: string
-          enum:
-          - soon
-          - later
-          - periodic
-        date:
-          type: string
-          description: 'Required for ''later'' type. Format: MM/DD/YYYY'
-        time:
-          type: string
-          description: 'Required for ''later'' and ''periodic'' types. Format: HH:MM AM/PM'
-        endDate:
-          type: string
-          description: 'Required for ''periodic'' type. Format: MM/DD/YYYY'
-        repeatAfter:
-          type: string
-          description: Repeat interval in days for 'periodic' type.
-        timezone:
-          type: string
-          description: Timezone for scheduling, e.g., 'Asia/Kolkata'. Defaults to IST if not provided. For more information on allowed timezone values, refer [here](https://gist.github.com/mjrulesamrat/0c1f7de951d3c508fb3a20b4b0b33a98).
     IOSPayload:
       type: object
       required:
@@ -1970,6 +2055,24 @@ components:
         fallback:
           type: object
           description: This JSON object contains the fallback values for the values mentioned above.
+    Payload:
+      type: object
+      description: 'This object contains the payload details. Supported values are:
+
+        * Android. For more information, refer to [Android](/hc/en-us/articles/32986034181268#h_01JGZQJ15BBPB56MCAPZTNKASC).
+
+        * iOS. For more information, refer to [IOS](/hc/en-us/articles/32986034181268#01JGZQRNMF624JYWRH4T882JPR).
+
+        * Web. For more information, refer to [Web](/hc/en-us/articles/32986034181268#01JGZQRQTMXFC01DWTJZJAT2TQ).
+
+        '
+      properties:
+        ANDROID:
+          $ref: '#/components/schemas/AndroidPayload'
+        IOS:
+          $ref: '#/components/schemas/IOSPayload'
+        WEB:
+          $ref: '#/components/schemas/WebPayload'
     PushFailureResponse:
       type: object
       title: Failure Response
@@ -1989,95 +2092,6 @@ components:
         requestId:
           type: string
           description: This field indicates the request ID.
-    TargetUserAttributes:
-      type: object
-      properties:
-        attribute:
-          type: string
-          description: 'This field denotes a unique identifier or characteristic of an entity or object used to specify the target users. This value is required when the targetAudience value is User. Other fields used are:
-
-            * for unique ID: USER_ATTRIBUTE_UNIQUE_ID
-
-            * for email:  USER_ATTRIBUTE_USER_EMAIL
-
-            * For mobile number: USER_ATTRIBUTE_USER_MOBILE
-
-            * for Google Advertising identifier: MOE_GAID
-
-            * for iOS Identifier for advertising: ADVERTISING_IDENTIFIER
-
-            * for device push token: PUSH_ID (the same key is used for Android GCM ID, iOS push token)
-
-            For more information, refer to [Target User Attributes](/hc/en-us/articles/32986034181268#h_01JGZQ07FC9P3RHKXYJ67AJ9QV).
-
-            '
-          enum:
-          - USER_ATTRIBUTE_UNIQUE_ID
-          - USER_ATTRIBUTE_USER_EMAIL
-          - USER_ATTRIBUTE_USER_MOBILE
-          - MOE_GAID
-          - ADVERTISING_IDENTIFIER
-          - PUSH_ID
-        comparisonParameter:
-          type: string
-          description: 'This field denotes a condition or operator that compares the user attributes against a specific value. Supported values are:
-
-            * The "is" query type
-
-            * The "in" query type
-
-            * Note: The maximum number of parameters that can be added while using the "in" comparisonParameter is 50. This value is required when the targetAudience value is User.
-
-            '
-          enum:
-          - is
-          - in
-        attributeValue:
-          oneOf:
-          - type: string
-          - type: array
-            items:
-              type: string
-          description: This field denotes the actual value assigned to an attribute, which is used for comparison or filtering. This value is required when the targetAudience value is User.
-        isCustom:
-          type: boolean
-          description: This field denotes whether a custom attribute has been added. For custom attributes, targeting is done on any custom attribute with the available fields. Set the key "isCustom" to true.
-          default: false
-    Payload:
-      type: object
-      description: 'This object contains the payload details. Supported values are:
-
-        * Android. For more information, refer to [Android](/hc/en-us/articles/32986034181268#h_01JGZQJ15BBPB56MCAPZTNKASC).
-
-        * iOS. For more information, refer to [IOS](/hc/en-us/articles/32986034181268#01JGZQRNMF624JYWRH4T882JPR).
-
-        * Web. For more information, refer to [Web](/hc/en-us/articles/32986034181268#01JGZQRQTMXFC01DWTJZJAT2TQ).
-
-        '
-      properties:
-        ANDROID:
-          $ref: '#/components/schemas/AndroidPayload'
-        IOS:
-          $ref: '#/components/schemas/IOSPayload'
-        WEB:
-          $ref: '#/components/schemas/WebPayload'
-    DefaultAction:
-      type: object
-      properties:
-        type:
-          type: string
-          enum:
-          - richlanding
-          - navigation
-          - deeplinking
-        value:
-          type: string
-          description: The URL or deep link path.
-        kvPairs:
-          type: object
-          additionalProperties:
-            type: string
-          description: Additional key-value pairs to pass with the action.
     ConversionGoal:
       type: object
       required:
@@ -2141,22 +2155,6 @@ components:
               enum:
               - string
               - numeric
-    NotFoundResponse:
-      type: object
-      title: Not Found Response
-      properties:
-        code:
-          type: integer
-          description: This field indicates the HTTP status code of the response.
-          example: 404
-        status:
-          type: string
-          description: This field indicates the outcome category of the request.
-          example: error
-        reason:
-          type: string
-          description: This field indicates why the request was not found. For this endpoint, it means the request path does not match a valid MoEngage API endpoint.
-          example: Page not found. Please recheck the URL
     AdvancedSettings_2:
       type: object
       description: This object contains information about advanced settings. For more information, refer to [Advanced Settings](/hc/en-us/articles/32986034181268#h_01JGZRM6BSGJ9VS3YWKB21DYFW).
@@ -2491,13 +2489,6 @@ components:
           $ref: '#/components/schemas/AdvancedSettings_2'
           description: This object contains information about advanced settings. For more information, refer to [Advanced Settings](/hc/en-us/articles/32986034181268#h_01JGZRM6BSGJ9VS3YWKB21DYFW).
   parameters:
-    XMoeAppKey:
-      name: X-MOE-APPKEY
-      in: header
-      required: true
-      description: This is the Workspace ID of your MoEngage account that must be passed with the request. You can find it in the MoEngage dashboard at **Settings** > **Account** > **APIs** > **Workspace ID (earlier app id)**. MoEngage recommends that you test API integration in the Test Environment. The App ID for TEST ACCOUNT is suffixed with _DEBUG.
-      schema:
-        type: string
     XMoeQueryType:
       name: X-MOE-Query-Type
       in: header
@@ -2511,6 +2502,13 @@ components:
         - all users
         - user
         - custom segment
+    XMoeAppKey:
+      name: X-MOE-APPKEY
+      in: header
+      required: true
+      description: This is the Workspace ID of your MoEngage account that must be passed with the request. You can find it in the MoEngage dashboard at **Settings** > **Account** > **APIs** > **Workspace ID (earlier app id)**. MoEngage recommends that you test API integration in the Test Environment. The App ID for TEST ACCOUNT is suffixed with _DEBUG.
+      schema:
+        type: string
     XMoePushSignature:
       name: X-MOE-PushAPI-Signature
       in: header

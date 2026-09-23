@@ -3,9 +3,7 @@ info:
   title: MoEngage Email Subscription Management Resubscribe API
   description: 'APIs for managing user email resubscription and opt-in status.
 
-    This suite of APIs allows you to update the email subscription and opt-in preferences for your users directly within the MoEngage platform, and optionally synchronize resubscription status with an external Email Service Provider (ESP).
-
-    '
+    This suite of APIs allows you to update the email subscription and opt-in preferences for your users directly within the MoEngage platform, and optionally synchronize resubscription status with an external Email Service Provider (ESP).'
   version: '1.0'
 servers:
 - url: https://api-{dc}.moengage.com
@@ -25,9 +23,7 @@ paths:
       tags:
       - Resubscribe
       summary: Bulk Resubscribe Users
-      description: 'This API resubscribes users who have previously unsubscribed on the MoEngage platform and an external email vendor platform simultaneously. This API resets the unsubscribe flag to “false” for users on MoEngage and makes a call to an External Service Provider (ESP) like SendGrid to remove the email addresses (associated with the unsubscribed users) from their suppression list.
-
-        '
+      description: This API resubscribes users who have previously unsubscribed on the MoEngage platform and an external email vendor platform simultaneously. This API resets the unsubscribe flag to “false” for users on MoEngage and makes a call to an External Service Provider (ESP) like SendGrid to remove the email addresses (associated with the unsubscribed users) from their suppression list.
       operationId: bulkResubscribeUsers
       x-mint:
         content: '
@@ -198,9 +194,9 @@ paths:
                   err_code: INTERNAL_SERVER_ERROR
 components:
   schemas:
-    ResubscribeError405Response:
+    ResubscribeError500Response:
       type: object
-      description: This response is returned when the wrong HTTP method is used for the API (405 Method Not Allowed).
+      description: This response is returned when the system runs into an unexpected error (500 Internal Server Error).
       properties:
         response_id:
           type: string
@@ -218,6 +214,69 @@ components:
     ResubscribeError401Response:
       type: object
       description: This response is returned when the authorization fails due to invalid credentials or setup (401 Authorization Failure).
+      properties:
+        response_id:
+          type: string
+          description: Unique identifier for the response.
+        error:
+          type: object
+          description: Contains the error details.
+          properties:
+            message:
+              type: string
+              description: A brief description of the error.
+            err_code:
+              type: string
+              description: The error code for the unsuccessful request.
+    ResubscribeError405Response:
+      type: object
+      description: This response is returned when the wrong HTTP method is used for the API (405 Method Not Allowed).
+      properties:
+        response_id:
+          type: string
+          description: Unique identifier for the response.
+        error:
+          type: object
+          description: Contains the error details.
+          properties:
+            message:
+              type: string
+              description: A brief description of the error.
+            err_code:
+              type: string
+              description: The error code for the unsuccessful request.
+    ResubscribeSuccessResponse:
+      type: object
+      description: Success response body for the Bulk Resubscribe API (202 Accepted).
+      properties:
+        message:
+          type: string
+          description: This field contains a brief description of the request status.
+          example: The request is submitted successfully.
+        response_id:
+          type: string
+          description: This field contains the unique identifier for the response and is present in the response only when the request is successful.
+          example: SrTuWVlPsq
+    ResubscribeError429Response:
+      type: object
+      description: This response is returned when the number of requests has exceeded the rate limit (429 Rate Limit Breach).
+      properties:
+        response_id:
+          type: string
+          description: Unique identifier for the response.
+        error:
+          type: object
+          description: Contains the error details.
+          properties:
+            message:
+              type: string
+              description: A brief description of the error.
+            err_code:
+              type: string
+              description: The error code for the unsuccessful request.
+    ResubscribeError415Response:
+      type: object
+      description: This response is returned when the Content-Type header is missing or unsupported (415 Unsupported Media Type).
       properties:
         response_id:
           type: string
@@ -259,72 +318,9 @@ components:
         request_id:
           type: string
           description: This field contains the value of the identifier for the request.
-    ResubscribeError500Response:
-      type: object
-      description: This response is returned when the system runs into an unexpected error (500 Internal Server Error).
-      properties:
-        response_id:
-          type: string
-          description: Unique identifier for the response.
-        error:
-          type: object
-          description: Contains the error details.
-          properties:
-            message:
-              type: string
-              description: A brief description of the error.
-            err_code:
-              type: string
-              description: The error code for the unsuccessful request.
     ResubscribeError400Response:
       type: object
       description: This response is returned when the `recipients` field is not present in the request body (400 Bad Request).
-      properties:
-        response_id:
-          type: string
-          description: Unique identifier for the response.
-        error:
-          type: object
-          description: Contains the error details.
-          properties:
-            message:
-              type: string
-              description: A brief description of the error.
-            err_code:
-              type: string
-              description: The error code for the unsuccessful request.
-    ResubscribeError429Response:
-      type: object
-      description: This response is returned when the number of requests has exceeded the rate limit (429 Rate Limit Breach).
-      properties:
-        response_id:
-          type: string
-          description: Unique identifier for the response.
-        error:
-          type: object
-          description: Contains the error details.
-          properties:
-            message:
-              type: string
-              description: A brief description of the error.
-            err_code:
-              type: string
-              description: The error code for the unsuccessful request.
-    ResubscribeSuccessResponse:
-      type: object
-      description: Success response body for the Bulk Resubscribe API (202 Accepted).
-      properties:
-        message:
-          type: string
-          description: This field contains a brief description of the request status.
-          example: The request is submitted successfully.
-        response_id:
-          type: string
-          description: This field contains the unique identifier for the response and is present in the response only when the request is successful.
-          example: SrTuWVlPsq
-    ResubscribeError415Response:
-      type: object
-      description: This response is returned when the Content-Type header is missing or unsupported (415 Unsupported Media Type).
       properties:
         response_id:
           type: string

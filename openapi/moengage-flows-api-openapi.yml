@@ -2,7 +2,9 @@ openapi: 3.2.0
 info:
   title: Flows API
   version: '5.0'
-  description: "Use the Flows endpoints to list your flows, view the details of a single flow (including its\nversions and stages), and change a flow's status. These\nendpoints read and control existing flows; they do not create them.\n\n<Note>\n  The Flows endpoints are in early access. MoEngage enhances these endpoints based on feedback during this period, but does not make breaking changes.\n</Note>\n\nThe API exposes the following endpoints:\n\n- `POST /v5/flows/search` — paginated listing with filters (status, delivery type, tags,\n  teams, name, creator, creation-date range).\n- `GET /v5/flows/{flow_id}` — single flow detail. Use the optional `version_no` query\n  parameter to view a specific version; the default is the last published version, or\n  the draft if none is published.\n- `GET /v5/flows/{flow_id}/versions/{version_id}` — the details of a flow as it was in a\n  specific version, identified by its ID.\n- `PATCH /v5/flows/{flow_id}/status` — lifecycle transition (`pause`, `resume`, `stop`,\n  `retire`) or the flow-level `archive` / `unarchive` toggle.\n\n**Conventions**\n\n- IDs are 24-character identifiers. `flow_id` identifies the flow; `version_id` identifies one\n  of its versions.\n- Every successful response uses the format `{response_id, type, data}`. The `response_id`\n  echoes the `request_id` you send; if you omit it, the server uses the first 12 characters\n  of a system-generated UUID.\n- Dates and times are in ISO 8601 UTC format (`YYYY-MM-DDThh:mm:ssZ`).\n- The search endpoint returns results one page at a time. To fetch the next page, send the\n  `next_cursor` from the previous response back as the `cursor` value.\n\n**Permissions**\n\nFlows reuse the `campaigns` permission for scope checks. Read endpoints require the\n`campaigns:view` permission; the status endpoint requires `campaigns:create_manage`.\n\n**Status Model**\n\nPublic flow statuses: `DRAFT`, `ACTIVE`, `SCHEDULED`, `PAUSED`, `STOPPED`, `COMPLETED`,\n`RETIRED`, `UNDER_REVIEW`, `REJECTED`. `archived` is a separate boolean flag\n(it spans every version of the flow), not a status.\n\n**Rate Limits**: The rate limits are at the workspace level. A maximum of 10 requests per second,\n100 requests per minute, and 6,000 requests per hour are allowed per workspace for the search,\nget, and status endpoints.\n\n <Note>\n   Breaching any limit rejects the request with a `429` response.\n </Note>\n"
+  description: 'Use the Flows endpoints to list your flows, view the details of a single flow (including its
+
+    versions and stages), and change a flow''s status.'
 servers:
 - url: https://api-{dc}.moengage.com
   variables:
@@ -42,9 +44,7 @@ paths:
 
         returned most recent first. Your API key must have the `campaigns:view` permission (see
 
-        [Authentication](/api/flows/flows-overview#authentication)).
-
-        '
+        Authentication).'
       x-mint:
         content: '#### Rate Limits
 
@@ -153,9 +153,7 @@ paths:
 
         key must have the `campaigns:view` permission (see the
 
-        [Authentication](/api/flows/flows-overview#authentication) section).
-
-        '
+        Authentication section).'
       x-mint:
         content: '#### Rate Limits
 
@@ -288,9 +286,7 @@ paths:
 
         `campaigns:view` permission (see the
 
-        [Authentication](/api/flows/flows-overview#authentication) section).
-
-        '
+        Authentication section).'
       x-mint:
         content: '#### Rate Limits
 
@@ -413,9 +409,7 @@ paths:
 
         current state before applying it; an invalid transition returns `409`. Your API key must have the
 
-        `campaigns:create_manage` permission (see the [Authentication](/api/flows/flows-overview#authentication) section).
-
-        '
+        `campaigns:create_manage` permission (see the Authentication section).'
       x-mint:
         content: 'Lifecycle actions (`pause`, `resume`, `stop`, `retire`) accept an optional `version_no` and act on that
 
@@ -519,175 +513,37 @@ paths:
         '500':
           $ref: '#/components/responses/InternalServerError'
 components:
-  responses:
-    NotFound:
-      description: The flow (or the requested version) does not exist in this workspace.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-          example:
-            response_id: abc-100
-            error:
-              code: NOT_FOUND
-              target: flow
-              message: Flow not found.
-              details:
-              - target: flow_id
-                message: Flow not found.
-    RateLimited:
-      description: Per-app rate limit exceeded. Retry after the interval indicated in the `Retry-After` header.
-      headers:
-        Retry-After:
-          schema:
-            type: integer
-          description: Seconds until the rate-limit window resets.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-          example:
-            response_id: abc-101
-            error:
-              code: RATE_LIMITED
-              message: Rate limit exceeded for app key.
-              details: []
-    InternalServerError:
-      description: Unhandled server-side failure.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-          example:
-            response_id: abc-101
-            error:
-              code: INTERNAL_ERROR
-              message: Internal server error.
-              details: []
-    Unauthorized:
-      description: Authentication failed (missing or invalid credentials).
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-          example:
-            response_id: abc-101
-            error:
-              code: UNAUTHORIZED
-              message: Invalid or missing credentials.
-              details: []
-    Forbidden:
-      description: You do not have the required permission for this operation.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-          example:
-            response_id: abc-450
-            error:
-              code: FORBIDDEN
-              target: permission
-              message: You do not have the required permission for this operation.
-              details:
-              - target: permission
-                message: 'Required permission: campaigns:view'
-    ForbiddenStatusWrite:
-      description: You do not have the required permission for this operation.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-          example:
-            response_id: abc-450
-            error:
-              code: FORBIDDEN
-              target: permission
-              message: You do not have the required permission for this operation.
-              details:
-              - target: permission
-                message: 'Required permission: campaigns:create_manage'
-    BadRequest:
-      description: 'The request failed validation — for example, a bad filter value, a malformed cursor, a non-integer `version_no`, an invalid date range, or a `flow_id` that is actually a version ID.
+  parameters:
+    XMoeTenantId:
+      name: X-MOE-Tenant-ID
+      in: header
+      required: false
+      description: 'Identifies the tenant/workspace making the request. Optional — when omitted, the workspace is resolved from the Basic Auth credentials in the `Authorization` header.
 
         '
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-          example:
-            response_id: abc-101
-            error:
-              code: VALIDATION_FAILED
-              target: request
-              message: One or more request parameters failed validation.
-              details:
-              - target: request
-                message: Check the request parameters and try again.
+      schema:
+        type: string
+    XMoeRequestIdHeader:
+      name: X-MOE-Request-Id
+      in: header
+      required: false
+      description: 'Client-supplied trace ID. The server echoes it in the `X-MOE-Request-Id` response header and in `response_id`. If you omit it, the server generates one.
+
+        '
+      schema:
+        type: string
+    FlowId:
+      name: flow_id
+      in: path
+      required: true
+      description: 'The 24-character ID of the flow. This must be the flow''s own ID, not a version ID; passing a version ID returns `400`.
+
+        '
+      schema:
+        type: string
+        pattern: ^[a-f0-9]{24}$
+        example: 6a3b09c938da57c8f5838880
   schemas:
-    ConversionGoalDetails:
-      type:
-      - object
-      - 'null'
-      description: Conversion-goal configuration from the entry node. Null when the flow has no conversion goal.
-      properties:
-        primary_goal:
-          type: object
-          properties:
-            event:
-              type:
-              - string
-              - 'null'
-              description: The name of the conversion-goal event.
-            goal_name:
-              type:
-              - string
-              - 'null'
-        secondary_goals:
-          type: array
-          items:
-            type: object
-            properties:
-              event:
-                type:
-                - string
-                - 'null'
-              goal_name:
-                type:
-                - string
-                - 'null'
-        revenue_tracking:
-          type: boolean
-          description: Whether revenue is attributed for the primary goal.
-        revenue_attribute:
-          type:
-          - string
-          - 'null'
-          description: Event attribute carrying the revenue amount. Present only when `revenue_tracking` is true.
-        revenue_currency:
-          type:
-          - string
-          - 'null'
-          description: Currency of the revenue attribute. Present only when `revenue_tracking` is true.
-        exit_on_conversion:
-          type:
-          - boolean
-          - 'null'
-          description: Whether a user exits the flow once they convert.
-    FlowStatusEnum:
-      type: string
-      description: 'Public lifecycle status of a flow (or of a specific version), independent of the `archived` flag.
-
-        '
-      enum:
-      - DRAFT
-      - ACTIVE
-      - SCHEDULED
-      - PAUSED
-      - STOPPED
-      - COMPLETED
-      - RETIRED
-      - UNDER_REVIEW
-      - REJECTED
     FlowSearchRequest:
       type: object
       description: 'Filters for listing flows. All filters are optional and combine with AND. Enum filters (`status`, `delivery_type`) are case-insensitive.
@@ -749,56 +605,6 @@ components:
         cursor:
           type: string
           description: The cursor from a previous page's `next_cursor`. Omit for the first page.
-    FlowSettings:
-      type: object
-      description: Flow-level settings. Null-valued fields may be omitted.
-      properties:
-        control_group:
-          type: object
-          properties:
-            enabled:
-              type:
-              - boolean
-              - 'null'
-              description: Whether a control group (holdout) is enabled for this flow.
-            percentage:
-              type:
-              - number
-              - 'null'
-              description: The percentage of users held out as a control group.
-            stickiness:
-              type:
-              - boolean
-              - 'null'
-              description: Keeps a user in the same control or treatment assignment across re-entry.
-        frequency_capping:
-          type: object
-          properties:
-            ignore:
-              type:
-              - boolean
-              - 'null'
-              description: Ignores frequency capping for this flow.
-            ignore_and_count:
-              type:
-              - boolean
-              - 'null'
-              description: Ignores capping but still counts sends toward it.
-        inactive_eviction_days:
-          type:
-          - integer
-          - 'null'
-          description: The number of days of user inactivity after which a user is evicted from the flow.
-        on_failure:
-          type:
-          - string
-          - 'null'
-          description: Defines the behavior when a stage fails.
-        bypass_dnd:
-          type:
-          - boolean
-          - 'null'
-          description: Sends messages even during the workspace Do-Not-Disturb window.
     FlowNode:
       type: object
       description: One stage of the flow, such as a trigger, an action, a wait, a condition, or a split.
@@ -861,6 +667,104 @@ components:
               duration: 5
               unit: mins
             evaluation_timing: SINCE_PREVIOUS_STAGE
+    FlowStatusRequest:
+      type: object
+      required:
+      - action
+      - updated_by
+      properties:
+        action:
+          type: string
+          description: The lifecycle operation to apply. `publish` is not available in this phase.
+          enum:
+          - pause
+          - resume
+          - stop
+          - retire
+          - archive
+          - unarchive
+        version_no:
+          type: integer
+          minimum: 1
+          description: 'Optional. For lifecycle actions (`pause`, `resume`, `stop`, `retire`), acts on this version (default: the active version). Rejected for `archive` / `unarchive`.
+
+            '
+        updated_by:
+          type: string
+          format: email
+          description: Email of the user performing the action. Recorded in the audit log.
+        request_id:
+          type: string
+          description: Optional if supplied via the `X-MOE-Request-Id` header; echoed in `response_id`.
+    FlowSettings:
+      type: object
+      description: Flow-level settings. Null-valued fields may be omitted.
+      properties:
+        control_group:
+          type: object
+          properties:
+            enabled:
+              type:
+              - boolean
+              - 'null'
+              description: Whether a control group (holdout) is enabled for this flow.
+            percentage:
+              type:
+              - number
+              - 'null'
+              description: The percentage of users held out as a control group.
+            stickiness:
+              type:
+              - boolean
+              - 'null'
+              description: Keeps a user in the same control or treatment assignment across re-entry.
+        frequency_capping:
+          type: object
+          properties:
+            ignore:
+              type:
+              - boolean
+              - 'null'
+              description: Ignores frequency capping for this flow.
+            ignore_and_count:
+              type:
+              - boolean
+              - 'null'
+              description: Ignores capping but still counts sends toward it.
+        inactive_eviction_days:
+          type:
+          - integer
+          - 'null'
+          description: The number of days of user inactivity after which a user is evicted from the flow.
+        on_failure:
+          type:
+          - string
+          - 'null'
+          description: Defines the behavior when a stage fails.
+        bypass_dnd:
+          type:
+          - boolean
+          - 'null'
+          description: Sends messages even during the workspace Do-Not-Disturb window.
+    FlowVersion:
+      type: object
+      description: One version of a flow, as listed in a detail response's `versions`.
+      properties:
+        version_id:
+          type: string
+          pattern: ^[a-f0-9]{24}$
+        version_name:
+          type: string
+          description: Display name, such as `Version 2`.
+        version_no:
+          type:
+          - integer
+          - 'null'
+          description: The numeric version, parsed from the trailing integer of `version_name`.
+        status:
+          allOf:
+          - $ref: '#/components/schemas/FlowStatusEnum'
+          description: This version's own lifecycle status.
     FlowSummary:
       type: object
       description: One flow as it appears in a search or list result.
@@ -914,57 +818,6 @@ components:
           - string
           - 'null'
           description: Email of the flow's creator.
-    FlowVersion:
-      type: object
-      description: One version of a flow, as listed in a detail response's `versions`.
-      properties:
-        version_id:
-          type: string
-          pattern: ^[a-f0-9]{24}$
-        version_name:
-          type: string
-          description: Display name, such as `Version 2`.
-        version_no:
-          type:
-          - integer
-          - 'null'
-          description: The numeric version, parsed from the trailing integer of `version_name`.
-        status:
-          allOf:
-          - $ref: '#/components/schemas/FlowStatusEnum'
-          description: This version's own lifecycle status.
-    FlowSearchResponse:
-      type: object
-      required:
-      - response_id
-      - type
-      - data
-      properties:
-        response_id:
-          type: string
-          description: Echo of the `request_id` that you supplied, or a generated ID when absent.
-        type:
-          type: string
-          enum:
-          - flow
-        data:
-          type: object
-          required:
-          - flows
-          - has_more
-          properties:
-            flows:
-              type: array
-              items:
-                $ref: '#/components/schemas/FlowSummary'
-            has_more:
-              type: boolean
-              description: Whether another page exists after this one.
-            next_cursor:
-              type:
-              - string
-              - 'null'
-              description: Cursor to pass as `cursor` for the next page. Null on the last page.
     FlowDetailData:
       allOf:
       - $ref: '#/components/schemas/FlowSummary'
@@ -1015,44 +868,79 @@ components:
                 type: array
                 items:
                   $ref: '#/components/schemas/FlowNode'
-    FlowStatusRequest:
+    FlowStatusResponse:
       type: object
       required:
-      - action
-      - updated_by
+      - response_id
+      - type
+      - data
       properties:
-        action:
+        response_id:
           type: string
-          description: The lifecycle operation to apply. `publish` is not available in this phase.
+        type:
+          type: string
           enum:
-          - pause
-          - resume
-          - stop
-          - retire
-          - archive
-          - unarchive
-        version_no:
-          type: integer
-          minimum: 1
-          description: 'Optional. For lifecycle actions (`pause`, `resume`, `stop`, `retire`), acts on this version (default: the active version). Rejected for `archive` / `unarchive`.
-
-            '
-        updated_by:
-          type: string
-          format: email
-          description: Email of the user performing the action. Recorded in the audit log.
-        request_id:
-          type: string
-          description: Optional if supplied via the `X-MOE-Request-Id` header; echoed in `response_id`.
-    DeliveryTypeEnum:
-      type: string
-      description: Indicates how users enter the flow.
-      enum:
-      - ONE_TIME
-      - PERIODIC
-      - ON_FLOW_EXIT
-      - EVENT_TRIGGERED
-      - BUSINESS_EVENT_TRIGGERED
+          - flow
+        data:
+          type: object
+          required:
+          - flow_id
+          - status
+          properties:
+            flow_id:
+              type: string
+              description: The flow acted on.
+            status:
+              $ref: '#/components/schemas/FlowStatusEnum'
+    ConversionGoalDetails:
+      type:
+      - object
+      - 'null'
+      description: Conversion-goal configuration from the entry node. Null when the flow has no conversion goal.
+      properties:
+        primary_goal:
+          type: object
+          properties:
+            event:
+              type:
+              - string
+              - 'null'
+              description: The name of the conversion-goal event.
+            goal_name:
+              type:
+              - string
+              - 'null'
+        secondary_goals:
+          type: array
+          items:
+            type: object
+            properties:
+              event:
+                type:
+                - string
+                - 'null'
+              goal_name:
+                type:
+                - string
+                - 'null'
+        revenue_tracking:
+          type: boolean
+          description: Whether revenue is attributed for the primary goal.
+        revenue_attribute:
+          type:
+          - string
+          - 'null'
+          description: Event attribute carrying the revenue amount. Present only when `revenue_tracking` is true.
+        revenue_currency:
+          type:
+          - string
+          - 'null'
+          description: Currency of the revenue attribute. Present only when `revenue_tracking` is true.
+        exit_on_conversion:
+          type:
+          - boolean
+          - 'null'
+          description: Whether a user exits the flow once they convert.
     FlowAttribution:
       type:
       - object
@@ -1069,21 +957,6 @@ components:
           type:
           - integer
           - 'null'
-    FlowDetailResponse:
-      type: object
-      required:
-      - response_id
-      - type
-      - data
-      properties:
-        response_id:
-          type: string
-        type:
-          type: string
-          enum:
-          - flow
-        data:
-          $ref: '#/components/schemas/FlowDetailData'
     ErrorResponse:
       type: object
       required:
@@ -1123,7 +996,7 @@ components:
                     type: string
                   message:
                     type: string
-    FlowStatusResponse:
+    FlowDetailResponse:
       type: object
       required:
       - response_id
@@ -1137,46 +1010,167 @@ components:
           enum:
           - flow
         data:
+          $ref: '#/components/schemas/FlowDetailData'
+    FlowSearchResponse:
+      type: object
+      required:
+      - response_id
+      - type
+      - data
+      properties:
+        response_id:
+          type: string
+          description: Echo of the `request_id` that you supplied, or a generated ID when absent.
+        type:
+          type: string
+          enum:
+          - flow
+        data:
           type: object
           required:
-          - flow_id
-          - status
+          - flows
+          - has_more
           properties:
-            flow_id:
-              type: string
-              description: The flow acted on.
-            status:
-              $ref: '#/components/schemas/FlowStatusEnum'
-  parameters:
-    FlowId:
-      name: flow_id
-      in: path
-      required: true
-      description: 'The 24-character ID of the flow. This must be the flow''s own ID, not a version ID; passing a version ID returns `400`.
+            flows:
+              type: array
+              items:
+                $ref: '#/components/schemas/FlowSummary'
+            has_more:
+              type: boolean
+              description: Whether another page exists after this one.
+            next_cursor:
+              type:
+              - string
+              - 'null'
+              description: Cursor to pass as `cursor` for the next page. Null on the last page.
+    FlowStatusEnum:
+      type: string
+      description: 'Public lifecycle status of a flow (or of a specific version), independent of the `archived` flag.
 
         '
-      schema:
-        type: string
-        pattern: ^[a-f0-9]{24}$
-        example: 6a3b09c938da57c8f5838880
-    XMoeTenantId:
-      name: X-MOE-Tenant-ID
-      in: header
-      required: false
-      description: 'Identifies the tenant/workspace making the request. Optional — when omitted, the workspace is resolved from the Basic Auth credentials in the `Authorization` header.
+      enum:
+      - DRAFT
+      - ACTIVE
+      - SCHEDULED
+      - PAUSED
+      - STOPPED
+      - COMPLETED
+      - RETIRED
+      - UNDER_REVIEW
+      - REJECTED
+    DeliveryTypeEnum:
+      type: string
+      description: Indicates how users enter the flow.
+      enum:
+      - ONE_TIME
+      - PERIODIC
+      - ON_FLOW_EXIT
+      - EVENT_TRIGGERED
+      - BUSINESS_EVENT_TRIGGERED
+  responses:
+    RateLimited:
+      description: Per-app rate limit exceeded. Retry after the interval indicated in the `Retry-After` header.
+      headers:
+        Retry-After:
+          schema:
+            type: integer
+          description: Seconds until the rate-limit window resets.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            response_id: abc-101
+            error:
+              code: RATE_LIMITED
+              message: Rate limit exceeded for app key.
+              details: []
+    InternalServerError:
+      description: Unhandled server-side failure.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            response_id: abc-101
+            error:
+              code: INTERNAL_ERROR
+              message: Internal server error.
+              details: []
+    Forbidden:
+      description: You do not have the required permission for this operation.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            response_id: abc-450
+            error:
+              code: FORBIDDEN
+              target: permission
+              message: You do not have the required permission for this operation.
+              details:
+              - target: permission
+                message: 'Required permission: campaigns:view'
+    NotFound:
+      description: The flow (or the requested version) does not exist in this workspace.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            response_id: abc-100
+            error:
+              code: NOT_FOUND
+              target: flow
+              message: Flow not found.
+              details:
+              - target: flow_id
+                message: Flow not found.
+    Unauthorized:
+      description: Authentication failed (missing or invalid credentials).
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            response_id: abc-101
+            error:
+              code: UNAUTHORIZED
+              message: Invalid or missing credentials.
+              details: []
+    ForbiddenStatusWrite:
+      description: You do not have the required permission for this operation.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            response_id: abc-450
+            error:
+              code: FORBIDDEN
+              target: permission
+              message: You do not have the required permission for this operation.
+              details:
+              - target: permission
+                message: 'Required permission: campaigns:create_manage'
+    BadRequest:
+      description: 'The request failed validation — for example, a bad filter value, a malformed cursor, a non-integer `version_no`, an invalid date range, or a `flow_id` that is actually a version ID.
 
         '
-      schema:
-        type: string
-    XMoeRequestIdHeader:
-      name: X-MOE-Request-Id
-      in: header
-      required: false
-      description: 'Client-supplied trace ID. The server echoes it in the `X-MOE-Request-Id` response header and in `response_id`. If you omit it, the server generates one.
-
-        '
-      schema:
-        type: string
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            response_id: abc-101
+            error:
+              code: VALIDATION_FAILED
+              target: request
+              message: One or more request parameters failed validation.
+              details:
+              - target: request
+                message: Check the request parameters and try again.
   headers:
     XMoeRequestId:
       description: Echoed request ID. If you do not provide one, the server generates it.

@@ -181,6 +181,8 @@ paths:
                 message: Unexpected error occurred
                 err_code: Internal Server Error
                 status_code: 140109
+      operationId: postAlertsSend
+      x-operation-id-source: derived
 components:
   schemas:
     PayloadChannel:
@@ -240,15 +242,6 @@ components:
               type: object
               additionalProperties: true
               description: JSON object containing the dynamic data that updates in real-time (for example, Delivery Status or ETA). Values can be set as key-value pairs using personalization tags to fetch values from the event.
-    ChannelStatus:
-      type: object
-      properties:
-        message:
-          type: string
-        err_code:
-          type: string
-        status_code:
-          type: integer
     InformSuccessResponse:
       type: object
       properties:
@@ -297,6 +290,15 @@ components:
             PUSH:
               $ref: '#/components/schemas/PayloadChannel'
     InformErrorResponse:
+      type: object
+      properties:
+        message:
+          type: string
+        err_code:
+          type: string
+        status_code:
+          type: integer
+    ChannelStatus:
       type: object
       properties:
         message:

@@ -4,9 +4,7 @@ info:
   description: 'This API lets you fetch/retrieve the metadata associated with a recommendation using the recommendation ID. The metadata can include the recommendation name, model type, status, creation and update time, and so on.
 
 
-    Authentication is via Basic Auth.
-
-    '
+    Authentication is via Basic Auth.'
   version: '1.0'
 servers:
 - url: https://api-{dc}.moengage.com/v1
@@ -26,9 +24,7 @@ paths:
       - Recommendations
       summary: Fetch Recommendation Details
       operationId: fetchRecommendationMetadata
-      description: 'This API retrieves the metadata associated with a specific recommendation setup using its unique ID. The metadata can include the recommendation name, model type, status, creation and update time, and so on.
-
-        '
+      description: This API retrieves the metadata associated with a specific recommendation setup using its unique ID. The metadata can include the recommendation name, model type, status, creation and update time, and so on.
       x-mint:
         content: '#### Rate Limit
 
@@ -97,9 +93,7 @@ paths:
       - Recommendations
       summary: Fetch Recommendation Results
       operationId: fetchRecommendationResults
-      description: 'This API fetches/retrieves the metadata results of any recommendations for a user based on their user ID and item ID.
-
-        '
+      description: This API fetches/retrieves the metadata results of any recommendations for a user based on their user ID and item ID.
       x-mint:
         content: '#### Rate Limit
 
@@ -188,83 +182,23 @@ paths:
                 error-code: unexpected-error
                 message: Something went wrong with your request. Please contact the MoEngage team for further assistance.
 components:
+  responses:
+    TooManyRequests:
+      description: Too Many Requests. There won't be any response body for this request.
+      headers:
+        x-ratelimit-limit:
+          schema:
+            type: integer
+          description: The maximum number of requests that the consumer is permitted to make in a given time window.
+        x-ratelimit-remaining:
+          schema:
+            type: integer
+          description: The number of requests remaining in the current rate limit window.
+        x-ratelimit-reset:
+          schema:
+            type: integer
+          description: The time at which the current rate limit window resets in UTC epoch seconds.
   schemas:
-    ErrorResponse:
-      type: object
-      properties:
-        error-code:
-          type: string
-          description: Each error code is unique and serves as a shorthand representation for the type of error.
-        message:
-          type: string
-          description: With the error code, a detailed message is also provided in the response describing the specifics of the request failure and the nature of the error.
-    Filter:
-      type: object
-      properties:
-        executed:
-          type: boolean
-        filter_type:
-          type: string
-          example: product_filter
-        operator_fe:
-          type: string
-          example: exists
-        name:
-          type: string
-          example: product_id
-        data_type:
-          type: string
-          example: string
-        operator:
-          type: string
-          example: exists
-        value:
-          type:
-          - string
-          - 'null'
-        negate:
-          type: boolean
-        case_sensitive:
-          type: boolean
-        hasError:
-          type: boolean
-    IncludeExcludeFilters:
-      type: object
-      properties:
-        filters:
-          type: array
-          items:
-            $ref: '#/components/schemas/Filter'
-        filter_operator:
-          type: string
-          enum:
-          - and
-          - or
-    TrendSettings:
-      type: object
-      description: Defines the trend type and duration (Specific fields depend on implementation).
-      properties: {}
-      example:
-        trend_type: most_viewed
-        duration_days: 7
-    SortCriteria:
-      type: object
-      properties:
-        data_type:
-          type: string
-          example: double
-        param_type:
-          type: string
-          example: product_attribute
-        param:
-          type: string
-          example: price
-        direction:
-          type: string
-          enum:
-          - '1'
-          - '-1'
-          description: 1 for ascending, -1 for descending
     CustomSettings:
       type: object
       properties:
@@ -274,51 +208,13 @@ components:
             user_actions:
               type: object
       description: Defines custom filters applied to recommendations.
-    RecommendationResultItem:
+    TrendSettings:
       type: object
-      description: The items JSON object contains the key-value pairs of all the requested attributes.
-      properties:
-        item_id:
-          type: string
-          description: This field shows the ID of the item.
-        title:
-          type: string
-          description: This field shows the title of the item.
-        link:
-          type: string
-          format: uri
-          description: This field shows a link to the item.
-        image_link:
-          type: string
-          format: uri
-          description: This field shows a link to the image.
-        catalog_id:
-          type: string
-        feed_id:
-          type: string
-        description:
-          type: string
-        price_currency:
-          type: string
-        creation_date:
-          type: string
-          format: date-time
-        last_updated:
-          type: string
-          format: date-time
-        price:
-          type: number
-          format: double
-        date:
-          type: string
-          format: date
-      additionalProperties: true
+      description: Defines the trend type and duration (Specific fields depend on implementation).
+      properties: {}
       example:
-        item_id: prod_xyz
-        title: Stylish Red Scarf
-        link: https://example.com/products/prod_xyz
-        image_link: https://example.com/images/prod_xyz.jpg
-        price: 19.99
+        trend_type: most_viewed
+        duration_days: 7
     FetchResultsRequest:
       type: object
       required:
@@ -361,6 +257,63 @@ components:
           - title
           - price
           - image_link
+    Filter:
+      type: object
+      properties:
+        executed:
+          type: boolean
+        filter_type:
+          type: string
+          example: product_filter
+        operator_fe:
+          type: string
+          example: exists
+        name:
+          type: string
+          example: product_id
+        data_type:
+          type: string
+          example: string
+        operator:
+          type: string
+          example: exists
+        value:
+          type:
+          - string
+          - 'null'
+        negate:
+          type: boolean
+        case_sensitive:
+          type: boolean
+        hasError:
+          type: boolean
+    ErrorResponse:
+      type: object
+      properties:
+        error-code:
+          type: string
+          description: Each error code is unique and serves as a shorthand representation for the type of error.
+        message:
+          type: string
+          description: With the error code, a detailed message is also provided in the response describing the specifics of the request failure and the nature of the error.
+    SortCriteria:
+      type: object
+      properties:
+        data_type:
+          type: string
+          example: double
+        param_type:
+          type: string
+          example: product_attribute
+        param:
+          type: string
+          example: price
+        direction:
+          type: string
+          enum:
+          - '1'
+          - '-1'
+          description: 1 for ascending, -1 for descending
     RecommendationMetadata:
       type: object
       properties:
@@ -432,22 +385,63 @@ components:
             **Note**: This key is available with the `trending_item` recommendation type.
 
             '
-  responses:
-    TooManyRequests:
-      description: Too Many Requests. There won't be any response body for this request.
-      headers:
-        x-ratelimit-limit:
-          schema:
-            type: integer
-          description: The maximum number of requests that the consumer is permitted to make in a given time window.
-        x-ratelimit-remaining:
-          schema:
-            type: integer
-          description: The number of requests remaining in the current rate limit window.
-        x-ratelimit-reset:
-          schema:
-            type: integer
-          description: The time at which the current rate limit window resets in UTC epoch seconds.
+    IncludeExcludeFilters:
+      type: object
+      properties:
+        filters:
+          type: array
+          items:
+            $ref: '#/components/schemas/Filter'
+        filter_operator:
+          type: string
+          enum:
+          - and
+          - or
+    RecommendationResultItem:
+      type: object
+      description: The items JSON object contains the key-value pairs of all the requested attributes.
+      properties:
+        item_id:
+          type: string
+          description: This field shows the ID of the item.
+        title:
+          type: string
+          description: This field shows the title of the item.
+        link:
+          type: string
+          format: uri
+          description: This field shows a link to the item.
+        image_link:
+          type: string
+          format: uri
+          description: This field shows a link to the image.
+        catalog_id:
+          type: string
+        feed_id:
+          type: string
+        description:
+          type: string
+        price_currency:
+          type: string
+        creation_date:
+          type: string
+          format: date-time
+        last_updated:
+          type: string
+          format: date-time
+        price:
+          type: number
+          format: double
+        date:
+          type: string
+          format: date
+      additionalProperties: true
+      example:
+        item_id: prod_xyz
+        title: Stylish Red Scarf
+        link: https://example.com/products/prod_xyz
+        image_link: https://example.com/images/prod_xyz.jpg
+        price: 19.99
   parameters:
     AppKeyHeader:
       name: MOE-APPKEY

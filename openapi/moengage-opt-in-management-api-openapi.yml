@@ -3,9 +3,7 @@ info:
   title: MoEngage Email Subscription Management Opt-in Management API
   description: 'APIs for managing user email resubscription and opt-in status.
 
-    This suite of APIs allows you to update the email subscription and opt-in preferences for your users directly within the MoEngage platform, and optionally synchronize resubscription status with an external Email Service Provider (ESP).
-
-    '
+    This suite of APIs allows you to update the email subscription and opt-in preferences for your users directly within the MoEngage platform, and optionally synchronize resubscription status with an external Email Service Provider (ESP).'
   version: '1.0'
 servers:
 - url: https://api-{dc}.moengage.com
@@ -25,9 +23,7 @@ paths:
       tags:
       - Opt-in Management
       summary: Update User Email Opt-in Preferences
-      description: 'This API updates a user''s overall email opt-in status and/or category-level subscription preferences within MoEngage. This API is typically used after a user submits the second confirmation through MoEngage consent-seeking emails (Double Opt-in).
-
-        '
+      description: This API updates a user's overall email opt-in status and/or category-level subscription preferences within MoEngage. This API is typically used after a user submits the second confirmation through MoEngage consent-seeking emails (Double Opt-in).
       operationId: updateEmailOptinPreferences
       x-mint:
         content: '#### Rate Limit
@@ -237,6 +233,110 @@ paths:
                   message: Something went wrong, Please contact MoEngage Team.
 components:
   schemas:
+    OptinRequest:
+      type: object
+      description: The main wrapper object for the user preferences payload.
+      required:
+      - user_preferences
+      properties:
+        user_preferences:
+          $ref: '#/components/schemas/UserPreferences'
+    OptinError403Response:
+      type: object
+      description: This response is returned when the Email Opt-in Management feature is not enabled for the workspace.
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+              description: The HTTP status code and text (e.g., '403 Forbidden').
+              example: 403 Forbidden
+            message:
+              type: string
+              description: A brief message denoting the type of error.
+              example: Feature not enabled for workspace.
+            details:
+              type: object
+              description: Contains granular error information including the target field and a detailed error message.
+              properties:
+                target:
+                  type: string
+                  description: The resource or feature that is forbidden.
+                  example: Email Opt-in Management
+                message:
+                  type: string
+                  description: The details of the error message.
+                  example: Access to the Email Opt-in Management API is forbidden. Please enable the feature in your workspace settings.
+    OptinError401Response:
+      type: object
+      description: This response is returned when the request does not have valid authentication credentials.
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+              description: The HTTP status code and text (e.g., '401 Unauthorized').
+              example: 401 Unauthorized
+            message:
+              type: string
+              description: A brief message denoting the type of error.
+              example: Invalid API Key provided.
+            details:
+              type: object
+              description: Contains granular error information including the target field and a detailed error message.
+              properties:
+                target:
+                  type: string
+                  description: The authentication scheme or header.
+                  example: Authorization Header
+                message:
+                  type: string
+                  description: The details of the error message.
+                  example: Authentication failed due to missing or invalid credentials.
+    OptinError429Response:
+      description: There is no response body for this error.
+    OptinError500Response:
+      type: object
+      description: Error response body for Internal Server Error (500).
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+              example: 500 Internal Server Error
+            message:
+              type: string
+              example: Something went wrong, Please contact MoEngage Team.
+    OptinError400Response:
+      type: object
+      description: This response is returned when the required parameters are missing from the request, attributes are not found, or incorrect values are passed.
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+              description: The HTTP status code and text (e.g., '400 Bad Request').
+              example: 400 Bad Request
+            message:
+              type: string
+              description: A brief message denoting the type of error.
+              example: Request Data is invalid.
+            details:
+              type: object
+              description: Contains granular error information including the target field and a detailed error message.
+              properties:
+                target:
+                  type: string
+                  description: The field where the error occurred (e.g., `customer_id`).
+                  example: customer_id
+                message:
+                  type: string
+                  description: The details of the error message.
+                  example: Wrong data type was used for <customer_id>...
     UserPreferences:
       type: object
       description: 'Contains the user''s opt-in preferences. Must contain either `customer_id` or `email_id`.
@@ -310,48 +410,6 @@ components:
           enum:
           - email
           example: email
-    OptinError429Response:
-      description: There is no response body for this error.
-    OptinError400Response:
-      type: object
-      description: This response is returned when the required parameters are missing from the request, attributes are not found, or incorrect values are passed.
-      properties:
-        error:
-          type: object
-          properties:
-            code:
-              type: string
-              description: The HTTP status code and text (e.g., '400 Bad Request').
-              example: 400 Bad Request
-            message:
-              type: string
-              description: A brief message denoting the type of error.
-              example: Request Data is invalid.
-            details:
-              type: object
-              description: Contains granular error information including the target field and a detailed error message.
-              properties:
-                target:
-                  type: string
-                  description: The field where the error occurred (e.g., `customer_id`).
-                  example: customer_id
-                message:
-                  type: string
-                  description: The details of the error message.
-                  example: Wrong data type was used for <customer_id>...
-    OptinError500Response:
-      type: object
-      description: Error response body for Internal Server Error (500).
-      properties:
-        error:
-          type: object
-          properties:
-            code:
-              type: string
-              example: 500 Internal Server Error
-            message:
-              type: string
-              example: Something went wrong, Please contact MoEngage Team.
     OptinSuccessResponse:
       type: object
       description: Success response body for the Opt-in Management API (200 OK).
@@ -360,68 +418,6 @@ components:
           type: string
           description: The success message denoting the request was processed successfully.
           example: Your request has been processed successfully
-    OptinRequest:
-      type: object
-      description: The main wrapper object for the user preferences payload.
-      required:
-      - user_preferences
-      properties:
-        user_preferences:
-          $ref: '#/components/schemas/UserPreferences'
-    OptinError403Response:
-      type: object
-      description: This response is returned when the Email Opt-in Management feature is not enabled for the workspace.
-      properties:
-        error:
-          type: object
-          properties:
-            code:
-              type: string
-              description: The HTTP status code and text (e.g., '403 Forbidden').
-              example: 403 Forbidden
-            message:
-              type: string
-              description: A brief message denoting the type of error.
-              example: Feature not enabled for workspace.
-            details:
-              type: object
-              description: Contains granular error information including the target field and a detailed error message.
-              properties:
-                target:
-                  type: string
-                  description: The resource or feature that is forbidden.
-                  example: Email Opt-in Management
-                message:
-                  type: string
-                  description: The details of the error message.
-                  example: Access to the Email Opt-in Management API is forbidden. Please enable the feature in your workspace settings.
-    OptinError401Response:
-      type: object
-      description: This response is returned when the request does not have valid authentication credentials.
-      properties:
-        error:
-          type: object
-          properties:
-            code:
-              type: string
-              description: The HTTP status code and text (e.g., '401 Unauthorized').
-              example: 401 Unauthorized
-            message:
-              type: string
-              description: A brief message denoting the type of error.
-              example: Invalid API Key provided.
-            details:
-              type: object
-              description: Contains granular error information including the target field and a detailed error message.
-              properties:
-                target:
-                  type: string
-                  description: The authentication scheme or header.
-                  example: Authorization Header
-                message:
-                  type: string
-                  description: The details of the error message.
-                  example: Authentication failed due to missing or invalid credentials.
   securitySchemes:
     basicAuth:
       type: http

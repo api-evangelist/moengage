@@ -3,9 +3,7 @@ info:
   title: Coupon List API 🏷️ Coupon Lists API
   description: 'API for managing coupon lists within the MoEngage system. This includes creating, fetching, updating, activating, archiving lists, uploading coupon files, managing files, and generating usage reports.
 
-    Authentication is via Basic Auth using your **Workspace ID** as username and an **API Key** as password.
-
-    '
+    Authentication is via Basic Auth using your **Workspace ID** as username and an **API Key** as password.'
   version: '1.0'
 servers:
 - url: https://api-{dc}.moengage.com/v1
@@ -26,9 +24,7 @@ paths:
       - Coupon Lists
       summary: Create a Coupon List
       operationId: createCouponList
-      description: 'This API creates single-use coupon codes. You can use this API to create and organize distinct lists for different coupon code categories.
-
-        '
+      description: This API creates single-use coupon codes. You can use this API to create and organize distinct lists for different coupon code categories.
       x-mint:
         content: "<Note>\n  **Information**\n  \n  This API creates the coupon list with basic specifications only. The coupons should be added using [Upload the Coupons](https://www.moengage.com/docs/api/coupon-files/upload-a-coupon-file-to-the-coupon-list) API to this coupon list before utilizing it in campaigns.\n</Note>\n\n#### Rate Limit\nYou can create 100 coupon lists per day.\n"
       requestBody:
@@ -185,9 +181,7 @@ paths:
       - Coupon Lists
       summary: Fetch All Coupon Lists
       operationId: fetchAllCouponLists
-      description: 'This API fetches all created coupon lists in a specific workspace. By default, this API returns the coupon lists marked with an *ACTIVE* status. In return, it offers detailed specifications of the active coupon lists, respective configurations, statuses, expiry dates, and alert conditions, including on-time data on the total coupons added and those that are currently available.
-
-        '
+      description: This API fetches all created coupon lists in a specific workspace. By default, this API returns the coupon lists marked with an *ACTIVE* status. In return, it offers detailed specifications of the active coupon lists, respective configurations, statuses, expiry dates, and alert conditions, including on-time data on the total coupons added and those that are currently available.
       x-mint:
         content: "<Note>\n  **Information**\n  \n  There is no request body or content to send for this request except for the headers and parameters.\n</Note>\n\n#### Rate Limit\nYou can fetch 10,000 coupon lists per day.\n"
       parameters:
@@ -326,9 +320,7 @@ paths:
       - Coupon Lists
       summary: Fetch Coupon List Details
       operationId: fetchCouponList
-      description: 'This API retrieves the specifications of a particular coupon list. It includes information such as configurations, statuses, expiry dates, and alert conditions with real-time counts of added and currently available coupons. Using this API, you can easily access and manage critical data about individual coupon lists.
-
-        '
+      description: This API retrieves the specifications of a particular coupon list. It includes information such as configurations, statuses, expiry dates, and alert conditions with real-time counts of added and currently available coupons. Using this API, you can easily access and manage critical data about individual coupon lists.
       x-mint:
         content: "<Note>\n  **Information**\n  \n  There is no request body or content to send for this request except for headers and parameters.\n</Note>\n\n#### Rate Limit\nYou can fetch 10000 coupon lists per day.\n"
       parameters:
@@ -465,9 +457,7 @@ paths:
       - Coupon Lists
       summary: Update a Coupon List
       operationId: updateCouponList
-      description: 'This API modifies existing coupon lists within a defined workspace. It facilitates changes to specifications like list name, expiry date, and alert settings, thereby promoting efficient coupon operations management.
-
-        '
+      description: This API modifies existing coupon lists within a defined workspace. It facilitates changes to specifications like list name, expiry date, and alert settings, thereby promoting efficient coupon operations management.
       x-mint:
         content: "<Note>\n  **Information**\n  \n  This API reactivates the *ARCHIVED* or *EXPIRED* coupon list upon modification, provided the list has a future expiration date.\n</Note>\n\n#### Rate Limit\nYou can update 100 coupon lists per day.\n"
       parameters:
@@ -642,9 +632,7 @@ paths:
       - Coupon Lists
       summary: Activate Coupon List
       operationId: activateCouponList
-      description: 'This API reactivates archived coupon lists, provided the expiry date is in the future.
-
-        '
+      description: This API reactivates archived coupon lists, provided the expiry date is in the future.
       x-mint:
         content: "<Note>\n  **Information**\n  \n  * Only active coupon lists can be utilized in campaigns.\n  * If you need to modify the expiry date and activate a coupon list, you must use the [Update a Coupon List API](#operation/updateCouponList).\n</Note>\n\n#### Rate Limit\nYou can activate 100 coupon lists per day.\n"
       parameters:
@@ -747,9 +735,7 @@ paths:
       - Coupon Lists
       summary: Archive a Coupon List
       operationId: archiveCouponList
-      description: 'This API transitions an active coupon list to an archived status. Upon archival, the coupon codes within the list are deleted. Consequently, any campaigns that were previously dependent on this list will no longer be able to utilize the dynamic coupon allocation.
-
-        '
+      description: This API transitions an active coupon list to an archived status. Upon archival, the coupon codes within the list are deleted. Consequently, any campaigns that were previously dependent on this list will no longer be able to utilize the dynamic coupon allocation.
       x-mint:
         content: "<Note>\n  **Information**\n  \n  Verify the usage of a given coupon list in active or planned campaigns before archiving it.\n</Note>\n\n#### Rate Limit\nYou can archive 100 coupon lists per day.\n"
       parameters:
@@ -829,6 +815,30 @@ paths:
                   code: unexpected-error
                   message: Something went wrong with your request. Please contact the MoEngage team for further assistance.
 components:
+  responses:
+    TooManyRequests:
+      description: 'The following headers are returned in case of rate-limit breach:
+
+        * `x-ratelimit-limit` (integer) - The maximum number of requests that the consumer is permitted to make in a given time window.
+
+        * `x-ratelimit-remaining` (integer) - The number of requests remaining in the current rate limit window.
+
+        * `x-ratelimit-reset` (integer) - The time at which the current rate limit window resets in UTC epoch seconds.
+
+        '
+      headers:
+        x-ratelimit-limit:
+          schema:
+            type: integer
+          description: The maximum number of requests that the consumer is permitted to make in a given time window.
+        x-ratelimit-remaining:
+          schema:
+            type: integer
+          description: The number of requests remaining in the current rate limit window.
+        x-ratelimit-reset:
+          schema:
+            type: integer
+          description: The time at which the current rate limit window resets in UTC epoch seconds.
   schemas:
     AlertConditions:
       type: object
@@ -860,11 +870,6 @@ components:
             days_before:
               type: integer
               description: Number of days before expiry to trigger the alert.
-    ErrorResponse:
-      type: object
-      properties:
-        error:
-          $ref: '#/components/schemas/Error'
     CreateCouponListRequest:
       type: object
       required:
@@ -895,6 +900,11 @@ components:
         alert_conditions:
           $ref: '#/components/schemas/AlertConditions'
           description: This object contains the details and types of alert conditions.
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          $ref: '#/components/schemas/Error'
     Error:
       type: object
       properties:
@@ -904,38 +914,7 @@ components:
         message:
           type: string
           description: Along with the error code, a detailed message is also provided in the response, describing the specifics of the request failure and the nature of the error.
-  responses:
-    TooManyRequests:
-      description: 'The following headers are returned in case of rate-limit breach:
-
-        * `x-ratelimit-limit` (integer) - The maximum number of requests that the consumer is permitted to make in a given time window.
-
-        * `x-ratelimit-remaining` (integer) - The number of requests remaining in the current rate limit window.
-
-        * `x-ratelimit-reset` (integer) - The time at which the current rate limit window resets in UTC epoch seconds.
-
-        '
-      headers:
-        x-ratelimit-limit:
-          schema:
-            type: integer
-          description: The maximum number of requests that the consumer is permitted to make in a given time window.
-        x-ratelimit-remaining:
-          schema:
-            type: integer
-          description: The number of requests remaining in the current rate limit window.
-        x-ratelimit-reset:
-          schema:
-            type: integer
-          description: The time at which the current rate limit window resets in UTC epoch seconds.
   parameters:
-    CouponListIdPath:
-      name: coupon_list_id
-      in: path
-      required: true
-      description: The unique identifier for the coupon list.
-      schema:
-        type: string
     AppKeyHeader:
       name: MOE-APPKEY
       in: header
@@ -943,6 +922,13 @@ components:
       description: 'This is the Workspace ID of your MoEngage account that must be passed with the request. You can find it in the MoEngage dashboard at **Settings** > **Account** > **APIs** > **Workspace ID (earlier app id)**.
 
         '
+      schema:
+        type: string
+    CouponListIdPath:
+      name: coupon_list_id
+      in: path
+      required: true
+      description: The unique identifier for the coupon list.
       schema:
         type: string
   securitySchemes:

@@ -372,6 +372,8 @@ paths:
                       message: Internal Server Error
                       type: ServerError
                       request_id: KovrwJiF
+      operationId: postCustomerByAppId
+      x-operation-id-source: derived
   /customers/export:
     post:
       tags:
@@ -748,6 +750,8 @@ paths:
                       message: Internal Server Error
                       type: ServerError
                       request_id: KovrwJiF
+      operationId: postCustomersExport
+      x-operation-id-source: derived
   /customer/merge:
     post:
       tags:
@@ -1184,6 +1188,8 @@ paths:
                       message: An unexpected error was encountered while processing this request. Please contact MoEngage Team
                       type: ServerError
                       request_id: KovrwJiF
+      operationId: postCustomerMerge
+      x-operation-id-source: derived
   /customer/delete:
     post:
       tags:
@@ -1191,9 +1197,7 @@ paths:
       summary: Delete Users
       x-mint:
         content: "#### Rate Limit\n\n     The rate limit is 1 user per payload per request. You can run 5000 requests per minute.\n"
-      description: 'This API deletes users in MoEngage. You cannot retrieve users once deleted. Users deleted (hard delete) using this API will be deleted after a default buffer of 24 hours. During this buffer period, the user will still be active in MoEngage and will be visible in Segments, Analytics, and Campaigns. You can update users in the buffer period. After the buffer elapses, the user is hard-deleted from MoEngage. If you create a user with the same unique identifiers as the deleted one in MoEngage (through APIs or imports), they will be created again in MoEngage.
-
-        '
+      description: This API deletes users in MoEngage. You cannot retrieve users once deleted. Users deleted (hard delete) using this API will be deleted after a default buffer of 24 hours. During this buffer period, the user will still be active in MoEngage and will be visible in Segments, Analytics, and Campaigns. You can update users in the buffer period. After the buffer elapses, the user is hard-deleted from MoEngage. If you create a user with the same unique identifiers as the deleted one in MoEngage (through APIs or imports), they will be created again in MoEngage.
       parameters:
       - name: app_id
         in: query
@@ -1384,22 +1388,10 @@ paths:
                     status: fail
                     title: Internal Error
                     description: Please contact the MoEngage team.
+      operationId: postCustomerDelete
+      x-operation-id-source: derived
 components:
   schemas:
-    PlatformObject:
-      type: object
-      properties:
-        platform:
-          type: string
-          enum:
-          - ANDROID
-          - iOS
-          - web
-        active:
-          type: string
-          enum:
-          - 'true'
-          - 'false'
     IdentifierObject:
       type: object
       properties:
@@ -1414,6 +1406,116 @@ components:
           type: string
           description: This field specifies the unique identifier that identifies the user.
           example: 6416d1a318r98264512c0f89
+    CreateUserRequest:
+      title: User
+      type: object
+      required:
+      - type
+      - customer_id
+      properties:
+        type:
+          type: string
+          description: This is used to identify the type of request. This field is case-sensitive. Follow the case as in the example when passing the value in the request.
+          enum:
+          - customer
+        customer_id:
+          type: string
+          description: "The unique identifier is used to identify/create a user in MoEngage. Not mandatory in [Identity Resolution](/user-guide/data/user-data/unified-identity-identity-resolution) enabled workspaces. If the User Identity Resolution feature is enabled in your workspace, the attribute parameters in the payload must contain at least one of the identifiers you have activated in your workspace based on which users in MoEngage will be created, updated, or merged. In the following example, moe_mobile is one of the identifiers in the workspace and is passed in attributes:\n\n```json\n {\n        \"type\": \"customer\",\n        \"attributes\": {\"moe_mobile\": \"{{Mobile_Number}}\",\n        \"first_name\": \"John\" \n      }\n}\n```' \n"
+        update_existing_only:
+          type: boolean
+          default: false
+          description: 'This field should be passed in the request when only existing users in MoEngage should be updated.
+
+
+            **If this value is passed as true:**
+
+            1. Only those users for whom the customer_id from the request payload matches the customer identifier in MoEngage will be updated.
+
+            2. In case of new users (customer_id in the payload does not match any of the existing customer ids in your MoEngage account), they will not be created.
+
+
+            **If this value is passed as false:**
+
+            1. The user attributes will be updated with the values present in the payload for existing customers.
+
+            2. In case of new users (customer_id in the payload does not match any of the existing customer ids in your MoEngage account), a new customer will be created in the system with the details specified in the payload.
+
+            '
+        attributes:
+          $ref: '#/components/schemas/UserAttributes'
+        platforms:
+          type: array
+          description: List of dictionaries with the associated platforms out of ANDROID, iOS, and web and their status.
+          items:
+            $ref: '#/components/schemas/PlatformObject'
+    GenericSuccess:
+      type: object
+      properties:
+        status:
+          type: string
+          description: This field contains the status of the request and specifies whether the request was successful.
+          example: success
+        message:
+          type: string
+          example: Your request has been accepted and will be processed soon.
+    MergeUserRequest:
+      type: object
+      properties:
+        merge_data:
+          type: array
+          description: "This field contains the list of UID pairs of the users who are to be merged.\n\nExample:\n```json\n{\n  \"merge_data\": [    // All the different pairs of users to merge\n    {\n      \"merged_user\": \"<sample_uid>\", // This user will merge into below user\n      \"retained_user\": \"<sample_uid>\"   // Above user will merge into this user\n    },\n    {\n      \"merged_user\": \"<sample_uid>\", // This user will merge into below user\n      \"retained_user\": \"<sample_uid>\"   // Above user will merge into this user\n    }\n  ]\n}\n```\n\n\n\n* Every object in the Array contains a pair of UID strings - the ‘merged_user’ and the ‘retained_user’.\n* UID is the unique identifier for a user maintained by you. MoEngage stores this identifier in the ID attribute in the user profile.\n* If the merging of any user fails in the array, it will skip that object and continue with others.\n"
+          items:
+            type: object
+            properties:
+              merged_user:
+                type: string
+                description: "The user ID to be merged and then deleted. All the data of this user will merge into the retained user. Merged users will be deleted after 30 days of inactivity. If MoEngage receives any event or user property for the merged user after the merging activity, the merged user will not be deleted. The following happens in MoEngage post-user merging:\n  * In the user profile, all events of the last 30 days are moved from the merged user to the retained user.\n  * Segmentation and campaign move all data from merged user to retained user.\n"
+              retained_user:
+                type: string
+                description: 'The user ID that will remain and absorb the merged user''s data. The merged user’s attributes and associated devices are mapped to the retained user post-merge. Reachability calculation is done for the retained user based on the devices. All of the user attributes of the merged user are moved to the retained user. If an attribute is present for the retained user and the same attribute is not for the merged user, the attribute is retained for the retained user.
+
+                  '
+    GetUserRequest:
+      type: object
+      required:
+      - data
+      properties:
+        data:
+          type: object
+          description: 'Wrapper object that contains the user identifiers to look up. The API expects `identifiers` inside this object, not at the root of the JSON body.
+
+            '
+          required:
+          - identifiers
+          properties:
+            identifiers:
+              type: array
+              description: "This field is used to specify the identifiers for the users for whom the data needs to be fetched.\nStructure:\n\n   ```json\n \"data\": {\n   \"identifiers\": [\n     {\n       \"identifier_type\": \"customer_id\",\n       \"identifier\": \"<customer_id>\"\n     },\n     {\n       \"identifier_type\": \"id\",\n       \"identifier\": \"<MoEngageID>\"\n     },\n     ...{}\n   ]\n }\n ```\n"
+              items:
+                $ref: '#/components/schemas/IdentifierObject'
+            user_fields_to_export:
+              type: array
+              items:
+                type: string
+              description: This field is used to specify the fields that need to be fetched for the user specified in Identifiers. Tracked standard user attributes and custom attributes can be fetched using this API. For the list of tracked standard attributes in MoEngage, refer to [User Attributes](#user-attributes).
+              example:
+              - last_name
+              - customer_id
+              - name
+    PlatformObject:
+      type: object
+      properties:
+        platform:
+          type: string
+          enum:
+          - ANDROID
+          - iOS
+          - web
+        active:
+          type: string
+          enum:
+          - 'true'
+          - 'false'
     UserAttributes:
       type: object
       description: "A dictionary containing user attributes to add / update in the user profile.\nFor example, to track custom attributes of different data types like string, numeric, boolean, and date, pass the following payload where points are a number, expiry_date is a date type attribute, and super_user is a boolean attribute.\n\n> **Note:**\n> * \"id\", \"_id\", and \"\" keywords are blocked and not to be used as user attribute names.\n> * You can not use \"moe_\" as a prefix while naming user attributes. It is a system prefix and using it might result in periodic blacklisting without prior communication.\n> For other attributes that are not listed below, use the key-value pairs that you intend to use.\n\n**Array Support**\n  If you want to pass an attribute in an array, the appropriate syntax for that is: \n   ```json\n   \"Array_attributeName\":[\"abc\",\"123\"]\n   ```\n"
@@ -1505,102 +1607,6 @@ components:
         expiry_date: '2020-05-31T03:47:35Z'
         super_user: true
         user_persona: browsers
-    GetUserRequest:
-      type: object
-      required:
-      - data
-      properties:
-        data:
-          type: object
-          description: 'Wrapper object that contains the user identifiers to look up. The API expects `identifiers` inside this object, not at the root of the JSON body.
-
-            '
-          required:
-          - identifiers
-          properties:
-            identifiers:
-              type: array
-              description: "This field is used to specify the identifiers for the users for whom the data needs to be fetched.\nStructure:\n\n   ```json\n \"data\": {\n   \"identifiers\": [\n     {\n       \"identifier_type\": \"customer_id\",\n       \"identifier\": \"<customer_id>\"\n     },\n     {\n       \"identifier_type\": \"id\",\n       \"identifier\": \"<MoEngageID>\"\n     },\n     ...{}\n   ]\n }\n ```\n"
-              items:
-                $ref: '#/components/schemas/IdentifierObject'
-            user_fields_to_export:
-              type: array
-              items:
-                type: string
-              description: This field is used to specify the fields that need to be fetched for the user specified in Identifiers. Tracked standard user attributes and custom attributes can be fetched using this API. For the list of tracked standard attributes in MoEngage, refer to [User Attributes](#user-attributes).
-              example:
-              - last_name
-              - customer_id
-              - name
-    CreateUserRequest:
-      title: User
-      type: object
-      required:
-      - type
-      - customer_id
-      properties:
-        type:
-          type: string
-          description: This is used to identify the type of request. This field is case-sensitive. Follow the case as in the example when passing the value in the request.
-          enum:
-          - customer
-        customer_id:
-          type: string
-          description: "The unique identifier is used to identify/create a user in MoEngage. Not mandatory in [Identity Resolution](/user-guide/data/user-data/unified-identity-identity-resolution) enabled workspaces. If the User Identity Resolution feature is enabled in your workspace, the attribute parameters in the payload must contain at least one of the identifiers you have activated in your workspace based on which users in MoEngage will be created, updated, or merged. In the following example, moe_mobile is one of the identifiers in the workspace and is passed in attributes:\n\n```json\n {\n        \"type\": \"customer\",\n        \"attributes\": {\"moe_mobile\": \"{{Mobile_Number}}\",\n        \"first_name\": \"John\" \n      }\n}\n```' \n"
-        update_existing_only:
-          type: boolean
-          default: false
-          description: 'This field should be passed in the request when only existing users in MoEngage should be updated.
-
-
-            **If this value is passed as true:**
-
-            1. Only those users for whom the customer_id from the request payload matches the customer identifier in MoEngage will be updated.
-
-            2. In case of new users (customer_id in the payload does not match any of the existing customer ids in your MoEngage account), they will not be created.
-
-
-            **If this value is passed as false:**
-
-            1. The user attributes will be updated with the values present in the payload for existing customers.
-
-            2. In case of new users (customer_id in the payload does not match any of the existing customer ids in your MoEngage account), a new customer will be created in the system with the details specified in the payload.
-
-            '
-        attributes:
-          $ref: '#/components/schemas/UserAttributes'
-        platforms:
-          type: array
-          description: List of dictionaries with the associated platforms out of ANDROID, iOS, and web and their status.
-          items:
-            $ref: '#/components/schemas/PlatformObject'
-    GenericSuccess:
-      type: object
-      properties:
-        status:
-          type: string
-          description: This field contains the status of the request and specifies whether the request was successful.
-          example: success
-        message:
-          type: string
-          example: Your request has been accepted and will be processed soon.
-    MergeUserRequest:
-      type: object
-      properties:
-        merge_data:
-          type: array
-          description: "This field contains the list of UID pairs of the users who are to be merged.\n\nExample:\n```json\n{\n  \"merge_data\": [    // All the different pairs of users to merge\n    {\n      \"merged_user\": \"<sample_uid>\", // This user will merge into below user\n      \"retained_user\": \"<sample_uid>\"   // Above user will merge into this user\n    },\n    {\n      \"merged_user\": \"<sample_uid>\", // This user will merge into below user\n      \"retained_user\": \"<sample_uid>\"   // Above user will merge into this user\n    }\n  ]\n}\n```\n\n\n\n* Every object in the Array contains a pair of UID strings - the ‘merged_user’ and the ‘retained_user’.\n* UID is the unique identifier for a user maintained by you. MoEngage stores this identifier in the ID attribute in the user profile.\n* If the merging of any user fails in the array, it will skip that object and continue with others.\n"
-          items:
-            type: object
-            properties:
-              merged_user:
-                type: string
-                description: "The user ID to be merged and then deleted. All the data of this user will merge into the retained user. Merged users will be deleted after 30 days of inactivity. If MoEngage receives any event or user property for the merged user after the merging activity, the merged user will not be deleted. The following happens in MoEngage post-user merging:\n  * In the user profile, all events of the last 30 days are moved from the merged user to the retained user.\n  * Segmentation and campaign move all data from merged user to retained user.\n"
-              retained_user:
-                type: string
-                description: 'The user ID that will remain and absorb the merged user''s data. The merged user’s attributes and associated devices are mapped to the retained user post-merge. Reachability calculation is done for the retained user based on the devices. All of the user attributes of the merged user are moved to the retained user. If an attribute is present for the retained user and the same attribute is not for the merged user, the attribute is retained for the retained user.
-
-                  '
   securitySchemes:
     Authentication:
       type: http

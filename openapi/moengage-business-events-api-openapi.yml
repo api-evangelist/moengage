@@ -9,9 +9,7 @@ info:
 
     **Postman Collections**
 
-    We have made it easy for you to test the APIs. [View in Postman](https://www.postman.com/moengage-dev/workspace/api-docs/collection/3182294-38587f83-f039-46f3-b86e-10af2c918053).
-
-    '
+    We have made it easy for you to test the APIs. View in Postman.'
   version: '1.0'
 servers:
 - url: https://api-{dc}.moengage.com/v1.0
@@ -31,9 +29,7 @@ paths:
       tags:
       - Business Events
       summary: Create Business Event
-      description: 'This API creates business events in MoEngage. You can use these events to trigger campaigns whenever they occur. In MoEngage, you can set up event-triggered campaigns to notify users about new episodes, flight delays, or price reductions on items they have viewed, wished for, or added to their carts.
-
-        '
+      description: This API creates business events in MoEngage. You can use these events to trigger campaigns whenever they occur. In MoEngage, you can set up event-triggered campaigns to notify users about new episodes, flight delays, or price reductions on items they have viewed, wished for, or added to their carts.
       x-mint:
         content: '#### Rate Limit
 
@@ -230,9 +226,7 @@ paths:
       tags:
       - Business Events
       summary: Trigger Business Event
-      description: 'This API triggers a business event in MoEngage. You can set up campaigns to be executed when these events are triggered.
-
-        '
+      description: This API triggers a business event in MoEngage. You can set up campaigns to be executed when these events are triggered.
       x-mint:
         content: '#### Rate Limit
 

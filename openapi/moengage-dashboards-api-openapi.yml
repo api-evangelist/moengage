@@ -1,9 +1,7 @@
 openapi: 3.2.0
 info:
   title: MoEngage Analytics Dashboard and Chart Dashboards API
-  description: 'Read-only REST APIs to access your MoEngage Custom Dashboards and the analytics data behind their charts. All endpoints are `GET` requests and do not modify any data.
-
-    '
+  description: Read-only REST APIs to access your MoEngage Custom Dashboards and the analytics data behind their charts. All endpoints are `GET` requests and do not modify any data.
   version: '5.0'
 servers:
 - url: https://api-{dc}.moengage.com
@@ -23,9 +21,7 @@ paths:
       tags:
       - Dashboards
       summary: List Dashboards
-      description: 'Returns the custom dashboards available to the authenticated workspace. Archived dashboards are excluded.
-
-        '
+      description: Returns the custom dashboards available to the authenticated workspace. Archived dashboards are excluded.
       x-mint:
         content: "<Note>\n  Only workspace-level (public) dashboards are returned. Private dashboards are not available through this API.\n</Note>\n"
       operationId: listDashboards
@@ -70,9 +66,7 @@ paths:
       tags:
       - Dashboards
       summary: Get Dashboard Charts
-      description: 'Returns the details of a single dashboard, including its name, creator, and owner. It also returns the list of charts on the dashboard, in layout order. Each chart entry contains the chart''s ID and name.
-
-        '
+      description: Returns the details of a single dashboard, including its name, creator, and owner. It also returns the list of charts on the dashboard, in layout order. Each chart entry contains the chart's ID and name.
       x-mint:
         content: "<Note>\n  Chart data is not returned here. To fetch the data for a chart, use [Get Chart Data](/api/dashboards/get-chart-data) with the dashboard ID and chart ID.\n</Note>\n"
       operationId: getDashboardCharts
@@ -121,9 +115,7 @@ paths:
       tags:
       - Dashboards
       summary: Get Chart Data
-      description: 'Returns the data behind a single chart, as an array of rows. Each call runs the chart''s analytics query and returns the result.
-
-        '
+      description: Returns the data behind a single chart, as an array of rows. Each call runs the chart's analytics query and returns the result.
       x-mint:
         content: "<Note>\n  **About the chart data:**\n\n  - The data matches what the chart shows in the MoEngage dashboard. It uses the chart's saved settings, such as its date range, segment, filters, and breakdowns. You can't change these settings through the API, because the endpoint accepts no date-range or segment parameters.\n  - By default, the response is served from a server-side cache. To recompute the chart with the latest data, set the `cache` query parameter to `false`.\n  - The fields in each row depend on the chart's analysis type: Behavior, Funnels, Retention, User, or Session and Source. To learn more about these analysis types, see [MoEngage Analytics](/user-guide/analyze/moengage-analytics/overview).\n</Note>\n"
       operationId: getChartData
@@ -254,6 +246,18 @@ paths:
           $ref: '#/components/responses/InternalError'
 components:
   schemas:
+    DashboardSummary:
+      type: object
+      description: A dashboard accessible to the workspace.
+      properties:
+        _id:
+          type: string
+          description: The unique identifier of the dashboard.
+          example: 63ede292b4c6a68b18c2c93f
+        name:
+          type: string
+          description: The name of the dashboard.
+          example: Acquisition Overview
     DashboardData:
       type: object
       description: A dashboard's details and the charts laid out on it.
@@ -318,6 +322,10 @@ components:
           description: The category-sequence index of this data point within the series.
           example: 0
       additionalProperties: true
+    ResponseId:
+      type: string
+      description: A unique identifier for this response. Include it when reporting issues to MoEngage Support to help trace the request.
+      example: b3f1c0d2-2a4e-4f9b-9c1a-6d2e8f0a1b23
     ChartSummary:
       type: object
       description: A chart laid out on the dashboard.
@@ -330,70 +338,32 @@ components:
           type: string
           description: The name of the chart.
           example: New Users by Day
-    ResponseId:
-      type: string
-      description: A unique identifier for this response. Include it when reporting issues to MoEngage Support to help trace the request.
-      example: b3f1c0d2-2a4e-4f9b-9c1a-6d2e8f0a1b23
-    DashboardSummary:
-      type: object
-      description: A dashboard accessible to the workspace.
-      properties:
-        _id:
-          type: string
-          description: The unique identifier of the dashboard.
-          example: 63ede292b4c6a68b18c2c93f
-        name:
-          type: string
-          description: The name of the dashboard.
-          example: Acquisition Overview
+  parameters:
+    DashboardId:
+      name: dashboard_id
+      in: path
+      required: true
+      description: The unique identifier of the dashboard. You can retrieve dashboard IDs from the [List Dashboards](/api/dashboards/list-dashboards) response.
+      schema:
+        type: string
+        example: 6a10ae88f3a1896d59d5bf8f
+    Cache:
+      name: cache
+      in: query
+      required: false
+      description: Controls whether the chart data is served from the server-side cache. Set to `false` to bypass the cache and recompute the chart. Defaults to `true`.
+      schema:
+        type: boolean
+        default: true
+    ChartId:
+      name: chart_id
+      in: path
+      required: true
+      description: The unique identifier of the chart on the dashboard. You can retrieve chart IDs from the [Get Dashboard Charts](/api/dashboards/get-dashboard-charts) response.
+      schema:
+        type: string
+        example: 6a10af49f3a1896d59d5bfbd
   responses:
-    QuotaExceeded:
-      description: This response is returned when the workspace has reached its monthly Fair Usage Policy limit for analytics usage.
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              error:
-                type: object
-                properties:
-                  code:
-                    type: string
-                    description: A machine-readable error code.
-                    example: QUOTA_EXCEEDED
-                  message:
-                    type: string
-                    description: A human-readable description of the error.
-                    example: Your workspace has reached its monthly Fair Usage Policy limit for analytics usage. Please contact your Customer Success Manager to expand your quota.
-                  doc_url:
-                    type: string
-                    description: A link to documentation about this error, when available.
-                    example: https://www.moengage.com/docs/api/dashboards/get-chart-data
-              response_id:
-                $ref: '#/components/schemas/ResponseId'
-    Unauthorized:
-      description: This response is returned when the authentication credentials are missing or invalid.
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              error:
-                type: object
-                properties:
-                  code:
-                    type: string
-                    description: A machine-readable error code.
-                    example: UNAUTHORIZED
-                  message:
-                    type: string
-                    description: A human-readable description of the error.
-                    example: Missing or invalid credentials.
-                  doc_url:
-                    type: string
-                    description: A link to documentation about this error, when available.
-              response_id:
-                $ref: '#/components/schemas/ResponseId'
     InternalError:
       description: This response is returned when the system runs into an unexpected error.
       content:
@@ -412,52 +382,6 @@ components:
                     type: string
                     description: A human-readable description of the error.
                     example: An unexpected error occurred while processing the request.
-                  doc_url:
-                    type: string
-                    description: A link to documentation about this error, when available.
-              response_id:
-                $ref: '#/components/schemas/ResponseId'
-    BadRequest:
-      description: This response is returned when the dashboard ID or chart ID is invalid, or the request is malformed.
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              error:
-                type: object
-                properties:
-                  code:
-                    type: string
-                    description: A machine-readable error code.
-                    example: VALIDATION_FAILED
-                  message:
-                    type: string
-                    description: A human-readable description of the error.
-                    example: Invalid dashboard_id.
-                  doc_url:
-                    type: string
-                    description: A link to documentation about this error, when available.
-              response_id:
-                $ref: '#/components/schemas/ResponseId'
-    Forbidden:
-      description: This response is returned when the caller does not have access to the requested dashboard or chart.
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              error:
-                type: object
-                properties:
-                  code:
-                    type: string
-                    description: A machine-readable error code.
-                    example: FORBIDDEN
-                  message:
-                    type: string
-                    description: A human-readable description of the error.
-                    example: You do not have access to this dashboard.
                   doc_url:
                     type: string
                     description: A link to documentation about this error, when available.
@@ -486,31 +410,99 @@ components:
                     description: A link to documentation about this error, when available.
               response_id:
                 $ref: '#/components/schemas/ResponseId'
-  parameters:
-    Cache:
-      name: cache
-      in: query
-      required: false
-      description: Controls whether the chart data is served from the server-side cache. Set to `false` to bypass the cache and recompute the chart. Defaults to `true`.
-      schema:
-        type: boolean
-        default: true
-    ChartId:
-      name: chart_id
-      in: path
-      required: true
-      description: The unique identifier of the chart on the dashboard. You can retrieve chart IDs from the [Get Dashboard Charts](/api/dashboards/get-dashboard-charts) response.
-      schema:
-        type: string
-        example: 6a10af49f3a1896d59d5bfbd
-    DashboardId:
-      name: dashboard_id
-      in: path
-      required: true
-      description: The unique identifier of the dashboard. You can retrieve dashboard IDs from the [List Dashboards](/api/dashboards/list-dashboards) response.
-      schema:
-        type: string
-        example: 6a10ae88f3a1896d59d5bf8f
+    QuotaExceeded:
+      description: This response is returned when the workspace has reached its monthly Fair Usage Policy limit for analytics usage.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    description: A machine-readable error code.
+                    example: QUOTA_EXCEEDED
+                  message:
+                    type: string
+                    description: A human-readable description of the error.
+                    example: Your workspace has reached its monthly Fair Usage Policy limit for analytics usage. Please contact your Customer Success Manager to expand your quota.
+                  doc_url:
+                    type: string
+                    description: A link to documentation about this error, when available.
+                    example: https://www.moengage.com/docs/api/dashboards/get-chart-data
+              response_id:
+                $ref: '#/components/schemas/ResponseId'
+    Forbidden:
+      description: This response is returned when the caller does not have access to the requested dashboard or chart.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    description: A machine-readable error code.
+                    example: FORBIDDEN
+                  message:
+                    type: string
+                    description: A human-readable description of the error.
+                    example: You do not have access to this dashboard.
+                  doc_url:
+                    type: string
+                    description: A link to documentation about this error, when available.
+              response_id:
+                $ref: '#/components/schemas/ResponseId'
+    Unauthorized:
+      description: This response is returned when the authentication credentials are missing or invalid.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    description: A machine-readable error code.
+                    example: UNAUTHORIZED
+                  message:
+                    type: string
+                    description: A human-readable description of the error.
+                    example: Missing or invalid credentials.
+                  doc_url:
+                    type: string
+                    description: A link to documentation about this error, when available.
+              response_id:
+                $ref: '#/components/schemas/ResponseId'
+    BadRequest:
+      description: This response is returned when the dashboard ID or chart ID is invalid, or the request is malformed.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    description: A machine-readable error code.
+                    example: VALIDATION_FAILED
+                  message:
+                    type: string
+                    description: A human-readable description of the error.
+                    example: Invalid dashboard_id.
+                  doc_url:
+                    type: string
+                    description: A link to documentation about this error, when available.
+              response_id:
+                $ref: '#/components/schemas/ResponseId'
   securitySchemes:
     basicAuth:
       type: http

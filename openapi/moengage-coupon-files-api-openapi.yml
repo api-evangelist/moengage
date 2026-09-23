@@ -3,9 +3,7 @@ info:
   title: Coupon List API 🏷️ Coupon Files API
   description: 'API for managing coupon lists within the MoEngage system. This includes creating, fetching, updating, activating, archiving lists, uploading coupon files, managing files, and generating usage reports.
 
-    Authentication is via Basic Auth using your **Workspace ID** as username and an **API Key** as password.
-
-    '
+    Authentication is via Basic Auth using your **Workspace ID** as username and an **API Key** as password.'
   version: '1.0'
 servers:
 - url: https://api-{dc}.moengage.com/v1
@@ -29,9 +27,7 @@ paths:
       description: 'After you create a coupon list, you must add coupons to the list to be distributed through campaigns. If a coupon list has been running for some time, it may be running low after serving several campaigns.
 
 
-        Using this API, you can replenish an older list or populate a new list by providing the URL of a file containing the coupons, thereby enabling their distribution through various campaigns. These coupons can be provided through a file, and the API requires the URL where your coupon file is hosted.
-
-        '
+        Using this API, you can replenish an older list or populate a new list by providing the URL of a file containing the coupons, thereby enabling their distribution through various campaigns. These coupons can be provided through a file, and the API requires the URL where your coupon file is hosted.'
       x-mint:
         content: "<Note>\n  **Information**\n  \n  Upon API request, file processing begins, and the file status will be **PENDING** by default.\n  * For convenience, you can set up a callback URL to trigger when the file's processing is completed.\n  * You can check the processing status using the [Fetch a Coupon File API](https://www.moengage.com/docs/api/coupon-files/fetch-a-coupon-file-from-coupon-list) to get the status separately.\n</Note>\n\n#### Rate Limit\nYou can upload:\n* 5 coupon files to a coupon list per minute or\n* 50 coupon files to a coupon list per day\n\n**Note:**\n* **Payload size limit**: 64 MB for manual uploads or 100 MB for URL uploads.\n* **Additional limits**: The maximum number of coupons per coupon list is 100 million.\n"
       parameters:
@@ -185,9 +181,7 @@ paths:
       - Coupon Files
       summary: Fetch All Coupon Files From Coupon List
       operationId: fetchAllCouponFiles
-      description: 'This API retrieves the details of each file in the given coupon list that is added and not deleted. The information retrieved will include the file''s status, the number of coupons added from each file, and the respective file''s addition date, thereby providing a comprehensive breakdown of each file''s information for improved management and tracking.
-
-        '
+      description: This API retrieves the details of each file in the given coupon list that is added and not deleted. The information retrieved will include the file's status, the number of coupons added from each file, and the respective file's addition date, thereby providing a comprehensive breakdown of each file's information for improved management and tracking.
       x-mint:
         content: "<Note>\n  There is no request body or content to send for this request except for headers.\n</Note>\n\n#### Rate Limit\nYou can fetch 10,000 coupon files from coupon lists per day.\n"
       parameters:
@@ -305,9 +299,7 @@ paths:
       - Coupon Files
       summary: Fetch a Coupon File from Coupon List
       operationId: fetchCouponFile
-      description: 'This API retrieves the details of a particular coupon file added to a given coupon list. This includes information such as file status, the number of added coupons, and the file addition date.
-
-        '
+      description: This API retrieves the details of a particular coupon file added to a given coupon list. This includes information such as file status, the number of added coupons, and the file addition date.
       x-mint:
         content: "<Note>\n  **Information**\n  \n  There is no request body or content to send for this request except for headers.\n</Note>\n\n#### Rate Limit\nYou can fetch 10,000 coupon files from a coupon list per day.\n"
       parameters:
@@ -428,9 +420,7 @@ paths:
       - Coupon Files
       summary: Delete a Coupon File from the Coupon List
       operationId: deleteCouponFile
-      description: 'This API removes a specific coupon file from a coupon list. It is useful in scenarios where a test file or incorrect file is inadvertently uploaded, thereby ensuring the accuracy and effectiveness of your coupon list management.
-
-        '
+      description: This API removes a specific coupon file from a coupon list. It is useful in scenarios where a test file or incorrect file is inadvertently uploaded, thereby ensuring the accuracy and effectiveness of your coupon list management.
       x-mint:
         content: "<Note>\n  **Information**\n  \n  There is no request body or content to send for this request except for headers.\n</Note>\n\n#### Rate Limit\nYou can delete:\n* 5 coupon files per minute or\n* 50 coupon files per day\n"
       parameters:
@@ -511,12 +501,45 @@ paths:
                   code: unexpected-error
                   message: Something went wrong with your request. Please contact the MoEngage team for further assistance.
 components:
+  parameters:
+    CouponFileIdPath:
+      name: coupon_file_id
+      in: path
+      required: true
+      description: The unique identifier for the coupon file.
+      schema:
+        type: string
+    AppKeyHeader:
+      name: MOE-APPKEY
+      in: header
+      required: true
+      description: 'This is the Workspace ID of your MoEngage account that must be passed with the request. You can find it in the MoEngage dashboard at **Settings** > **Account** > **APIs** > **Workspace ID (earlier app id)**.
+
+        '
+      schema:
+        type: string
+    CouponListIdPath:
+      name: coupon_list_id
+      in: path
+      required: true
+      description: The unique identifier for the coupon list.
+      schema:
+        type: string
   schemas:
     ErrorResponse:
       type: object
       properties:
         error:
           $ref: '#/components/schemas/Error'
+    Error:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Each error codes are unique and serve as a shorthand representation for the type of error, providing a quick reference that can be used to diagnose, troubleshoot, and address the problem based on a predefined set of error conditions.
+        message:
+          type: string
+          description: Along with the error code, a detailed message is also provided in the response, describing the specifics of the request failure and the nature of the error.
     UploadCouponFileRequest:
       type: object
       required:
@@ -536,39 +559,6 @@ components:
         callback_url:
           type: string
           format: url
-    Error:
-      type: object
-      properties:
-        code:
-          type: string
-          description: Each error codes are unique and serve as a shorthand representation for the type of error, providing a quick reference that can be used to diagnose, troubleshoot, and address the problem based on a predefined set of error conditions.
-        message:
-          type: string
-          description: Along with the error code, a detailed message is also provided in the response, describing the specifics of the request failure and the nature of the error.
-  parameters:
-    CouponFileIdPath:
-      name: coupon_file_id
-      in: path
-      required: true
-      description: The unique identifier for the coupon file.
-      schema:
-        type: string
-    CouponListIdPath:
-      name: coupon_list_id
-      in: path
-      required: true
-      description: The unique identifier for the coupon list.
-      schema:
-        type: string
-    AppKeyHeader:
-      name: MOE-APPKEY
-      in: header
-      required: true
-      description: 'This is the Workspace ID of your MoEngage account that must be passed with the request. You can find it in the MoEngage dashboard at **Settings** > **Account** > **APIs** > **Workspace ID (earlier app id)**.
-
-        '
-      schema:
-        type: string
   securitySchemes:
     basicAuth:
       type: http

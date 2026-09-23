@@ -26,9 +26,7 @@ paths:
       description: 'This API tracks the install attribution data in MoEngage, which you can then use to enhance your marketing automation campaigns on MoEngage.
 
 
-        Install attribution tracking is a great way to improve your initial relationship with your user. Knowing how, where, and even more importantly, why a user installs your app allows you to get a better understanding of who your user is and how you should introduce them to your app.
-
-        '
+        Install attribution tracking is a great way to improve your initial relationship with your user. Knowing how, where, and even more importantly, why a user installs your app allows you to get a better understanding of who your user is and how you should introduce them to your app.'
       security: []
       x-code-samples:
       - lang: Bash
@@ -141,18 +139,10 @@ paths:
             This response is returned when the system runs into an unexpected error.
 
             '
+      operationId: getInstallInfo
+      x-operation-id-source: derived
 components:
   schemas:
-    GenericSuccess:
-      type: object
-      properties:
-        status:
-          type: string
-          description: This field contains the status of the request and specifies whether the request was successful.
-          example: success
-        message:
-          type: string
-          example: Your request has been accepted and will be processed soon.
     GenericError:
       type: object
       properties:
@@ -175,6 +165,16 @@ components:
             attribute:
               type: string
               description: The attribute in the payload that caused the error.
+    GenericSuccess:
+      type: object
+      properties:
+        status:
+          type: string
+          description: This field contains the status of the request and specifies whether the request was successful.
+          example: success
+        message:
+          type: string
+          example: Your request has been accepted and will be processed soon.
   securitySchemes:
     Authentication:
       type: http

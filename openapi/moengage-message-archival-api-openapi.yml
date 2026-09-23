@@ -1,7 +1,10 @@
 openapi: 3.2.0
 info:
   title: MoEngage Message Archival API
-  description: "This API allows you to store and access any communication sent to customers for later access. \n\nFor more information, refer to [Message Archival](/user-guide/campaigns-and-channels/campaign-management-and-reports/message-archival/message-archival).\n"
+  description: 'This API allows you to store and access any communication sent to customers for later access.
+
+
+    For more information, refer to Message Archival.'
   version: '1.0'
 servers:
 - url: https://api-{dc}.moengage.com/v1
@@ -22,9 +25,7 @@ paths:
       - Message Archival
       summary: View Archived Message
       operationId: viewArchivedMessage
-      description: 'You can use this API to store any communication sent to customers for later access.
-
-        '
+      description: You can use this API to store any communication sent to customers for later access.
       x-mint:
         content: '#### Rate Limit
 
@@ -119,78 +120,18 @@ paths:
         '502':
           $ref: '#/components/responses/Error502'
 components:
-  responses:
-    Success200:
-      description: Success. The server successfully processed the request, but is not returning any content.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ArchivalResponseSuccess'
-          example:
-            status: true
-            data:
-              message_details:
-                message_type: campaign
-                message_id: 66560c2d2880326031c474a6
-                channel: push
-                platform: android
-                delivery_type: ONE_TIME
-                sent_time: Tue, 28 May 2024 22:24:22 IST
-                message_to: cZug38RqRd2-cF30bd2vda:APA91bGEG-OHMiWV3eHd_ohLs8V-yTgDJuQXNV32jO13or-R118OAC65MXdSx5ozYsIiL-RFan_iflQ62XVX7T2BiNqqQQfKd3FitlpbLR7nVBdkFF1yv_s8pqZux-HfThn-ojhpBIWd
-                moe_event_id: null
-                service:
-                  type: FCM
-                template_info:
-                  type: Native
-                  version: null
-                  id: stylizedbasic
-              message_content:
-                title: expiry in 1 hour
-                summary: expiry in 1 hour
-                message: expiry in 1 hour
-                related_urls:
-                - https://image-staging-ap1.moengage.com/checkfcsgainmoengage/20240527083246095196HE4ELHScreenshotofUploadyourAppDiawiDevelopmentandInhouseAppsWirelessInstallationjpgcheckfcsgainmoengage.jpg
-              backup_content:
-                title: Stylized Android Template
-                summary: null
-                message: Sample Stylized Android Template
-                related_urls: []
-              file_info:
-                version: v2
-                file_name: 66560c2d2880326031c474a6_pramodseg_1716915262_push_android.json
-    Error429:
-      description: Too Many Requests. A number of headers are returned in case of a rate-limit breach.
-    Error500:
-      description: Internal Server Error. This response is returned when the system runs into an unexpected error.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse500'
-          example:
-            title: Server Error
-            description: An unexpected error was encountered while processing this request. Please contact MoEngage Team
-            code: BiaFuAzn-aefa0b0e-2c88-4106-8d07-0f0c53513e48
-    Error502:
-      description: Server Error. Something went wrong on MoEngage.
-    Error400:
-      description: Bad Request. This response is returned when the required parameters are missing from the request, or when the provided parameters are invalid, or when a template already exists with the same version, name, or id.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse400'
-          example:
-            status: false
-            error_message: This event is unsupported to view message copy. The supported events are ['Email Sent', 'SMS Sent', 'Notification Sent iOS', 'Notification Received Android', 'Notification Received Web']
-    Error401:
-      description: Authentication Failure. This response is returned when the authorization parameters are missing in the HTTP Auth Header.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse401'
-          example:
-            status: false
-            error: Invalid data key
   schemas:
+    ArchivalData:
+      type: object
+      properties:
+        message_details:
+          $ref: '#/components/schemas/MessageDetails'
+        message_content:
+          $ref: '#/components/schemas/MessageContent'
+        backup_content:
+          $ref: '#/components/schemas/MessageContent'
+        file_info:
+          $ref: '#/components/schemas/FileInfo'
     MessageDetails:
       type: object
       properties:
@@ -240,25 +181,6 @@ components:
             id:
               type: string
               example: stylizedbasic
-    ArchivalResponseSuccess:
-      type: object
-      properties:
-        status:
-          type: boolean
-          example: true
-        data:
-          $ref: '#/components/schemas/ArchivalData'
-    ArchivalData:
-      type: object
-      properties:
-        message_details:
-          $ref: '#/components/schemas/MessageDetails'
-        message_content:
-          $ref: '#/components/schemas/MessageContent'
-        backup_content:
-          $ref: '#/components/schemas/MessageContent'
-        file_info:
-          $ref: '#/components/schemas/FileInfo'
     ErrorResponse400:
       type: object
       properties:
@@ -268,18 +190,30 @@ components:
         error_message:
           type: string
           example: This event is unsupported to view message copy. The supported events are [...]
-    ErrorResponse500:
+    MessageContent:
       type: object
       properties:
         title:
           type: string
-          example: Server Error
-        description:
+        summary:
+          type:
+          - string
+          - 'null'
+        message:
           type: string
-          example: An unexpected error was encountered while processing this request. Please contact MoEngage Team
-        code:
-          type: string
-          example: BiaFuAzn-aefa0b0e-2c88-4106-8d07-0f0c53513e48
+        related_urls:
+          type: array
+          items:
+            type: string
+            format: uri
+    ArchivalResponseSuccess:
+      type: object
+      properties:
+        status:
+          type: boolean
+          example: true
+        data:
+          $ref: '#/components/schemas/ArchivalData'
     ArchivalRequest:
       type: object
       required:
@@ -384,31 +318,6 @@ components:
             * You must pass `moe_transaction_id` for alerts.
 
             '
-    MessageContent:
-      type: object
-      properties:
-        title:
-          type: string
-        summary:
-          type:
-          - string
-          - 'null'
-        message:
-          type: string
-        related_urls:
-          type: array
-          items:
-            type: string
-            format: uri
-    FileInfo:
-      type: object
-      properties:
-        version:
-          type: string
-          example: v2
-        file_name:
-          type: string
-          example: 66560c2d2880326031c474a6_pramodseg_1716915262_push_android.json
     ErrorResponse401:
       type: object
       properties:
@@ -418,6 +327,98 @@ components:
         error:
           type: string
           example: Invalid data key
+    ErrorResponse500:
+      type: object
+      properties:
+        title:
+          type: string
+          example: Server Error
+        description:
+          type: string
+          example: An unexpected error was encountered while processing this request. Please contact MoEngage Team
+        code:
+          type: string
+          example: BiaFuAzn-aefa0b0e-2c88-4106-8d07-0f0c53513e48
+    FileInfo:
+      type: object
+      properties:
+        version:
+          type: string
+          example: v2
+        file_name:
+          type: string
+          example: 66560c2d2880326031c474a6_pramodseg_1716915262_push_android.json
+  responses:
+    Success200:
+      description: Success. The server successfully processed the request, but is not returning any content.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ArchivalResponseSuccess'
+          example:
+            status: true
+            data:
+              message_details:
+                message_type: campaign
+                message_id: 66560c2d2880326031c474a6
+                channel: push
+                platform: android
+                delivery_type: ONE_TIME
+                sent_time: Tue, 28 May 2024 22:24:22 IST
+                message_to: cZug38RqRd2-cF30bd2vda:APA91bGEG-OHMiWV3eHd_ohLs8V-yTgDJuQXNV32jO13or-R118OAC65MXdSx5ozYsIiL-RFan_iflQ62XVX7T2BiNqqQQfKd3FitlpbLR7nVBdkFF1yv_s8pqZux-HfThn-ojhpBIWd
+                moe_event_id: null
+                service:
+                  type: FCM
+                template_info:
+                  type: Native
+                  version: null
+                  id: stylizedbasic
+              message_content:
+                title: expiry in 1 hour
+                summary: expiry in 1 hour
+                message: expiry in 1 hour
+                related_urls:
+                - https://image-staging-ap1.moengage.com/checkfcsgainmoengage/20240527083246095196HE4ELHScreenshotofUploadyourAppDiawiDevelopmentandInhouseAppsWirelessInstallationjpgcheckfcsgainmoengage.jpg
+              backup_content:
+                title: Stylized Android Template
+                summary: null
+                message: Sample Stylized Android Template
+                related_urls: []
+              file_info:
+                version: v2
+                file_name: 66560c2d2880326031c474a6_pramodseg_1716915262_push_android.json
+    Error400:
+      description: Bad Request. This response is returned when the required parameters are missing from the request, or when the provided parameters are invalid, or when a template already exists with the same version, name, or id.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse400'
+          example:
+            status: false
+            error_message: This event is unsupported to view message copy. The supported events are ['Email Sent', 'SMS Sent', 'Notification Sent iOS', 'Notification Received Android', 'Notification Received Web']
+    Error429:
+      description: Too Many Requests. A number of headers are returned in case of a rate-limit breach.
+    Error500:
+      description: Internal Server Error. This response is returned when the system runs into an unexpected error.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse500'
+          example:
+            title: Server Error
+            description: An unexpected error was encountered while processing this request. Please contact MoEngage Team
+            code: BiaFuAzn-aefa0b0e-2c88-4106-8d07-0f0c53513e48
+    Error502:
+      description: Server Error. Something went wrong on MoEngage.
+    Error401:
+      description: Authentication Failure. This response is returned when the authorization parameters are missing in the HTTP Auth Header.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse401'
+          example:
+            status: false
+            error: Invalid data key
   securitySchemes:
     basicAuth:
       type: http

@@ -1,9 +1,7 @@
 openapi: 3.2.0
 info:
   title: Personalize Events API
-  description: 'Personalize APIs constitute a set of endpoints that can be accessed from your platform''s code. These APIs offer personalization capabilities and must be invoked from your codebase for MoEngage to provide relevant data. After receiving the data, you can use it within your platform''s code to personalize the content for your users.
-
-    '
+  description: Personalize APIs constitute a set of endpoints that can be accessed from your platform's code. These APIs offer personalization capabilities and must be invoked from your codebase for MoEngage to provide relevant data. After receiving the data, you can use it within your platform's code to personalize the content for your users.
   version: 1.0.0
 servers:
 - url: https://sdk-{dc}.moengage.com/v1
@@ -23,9 +21,7 @@ paths:
       tags:
       - Events
       summary: Track Experience Events
-      description: 'This API tracks impressions (shown) and user interactions (clicked) for accurate experience reporting. To report an impression or click for your experience via API, use the following endpoint.
-
-        '
+      description: This API tracks impressions (shown) and user interactions (clicked) for accurate experience reporting. To report an impression or click for your experience via API, use the following endpoint.
       x-mint:
         content: "<Warning>\n  If you do not call this endpoint, your MoEngage analytics dashboard will show zero impressions and zero clicks, and campaign reporting will be empty.\n</Warning>\n"
       operationId: reportExperienceEvents

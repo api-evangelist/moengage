@@ -222,6 +222,8 @@ paths:
                     title: Server Error
                     description: An unexpected error was encountered while processing this request. Please contact MoEngage Team.
                     code: GlQhUzvM
+      operationId: postFileimportsTriggerByScheduleId
+      x-operation-id-source: derived
   /fileimports/import/status:
     post:
       servers:
@@ -474,6 +476,8 @@ paths:
                       message: Rate limits exceeded, please try after some time
                       type: Rate Limits Exceeded
                       request_id: '1234'
+      operationId: postFileimportsImportStatus
+      x-operation-id-source: derived
   /fileimports/import/run/history:
     post:
       servers:
@@ -486,7 +490,7 @@ paths:
       tags:
       - File Import
       summary: Import File Run History
-      description: This API fetches the file processing status of each file contained in an import. The API request must contain either the import_name or the import_id. If you are not sure of the import_id or the import_name, you can use the [Import Details API](https://www.moengage.com/docs/api/file-import/import-details) to get the import details, which can be further used in the Import File Run History API.
+      description: This API fetches the file processing status of each file contained in an import. The API request must contain either the import_name or the import_id. If you are not sure of the import_id or the import_name, you can use the Import Details API to get the import details, which can be further used in the Import File Run History API.
       x-mint:
         content: "#### Rate Limit\n     You can create 50 requests per minute.\n"
       parameters:
@@ -662,6 +666,8 @@ paths:
                       message: Rate limits exceeded, please try after some time
                       type: Rate Limits Exceeded
                       request_id: '1234'
+      operationId: postFileimportsImportRunHistory
+      x-operation-id-source: derived
 components:
   schemas:
     FileRunHistoryResponse:
@@ -749,6 +755,49 @@ components:
         more_files:
           type: string
           description: This field indicates if there are more files. For example, if there are 100 imports and offset = 1, 50 imports will be returned with more_file = true to indicate that offset = 2 must be passed to get the next 50 imports.
+    FileRunHistoryRequest:
+      type: object
+      required:
+      - import_id
+      - import_name
+      properties:
+        import_id:
+          type: string
+          description: The unique identifier is used to identify the import. You can find this on the Data Imports page of the MoEngage dashboard. Data > Data Imports > Click the ellipsis icon for an import > View. The import_id or the import_name must be passed.
+        import_name:
+          type: string
+          description: This field denotes the name of the import.The import_id or import_name has to be passed. If both are passed, import_id takes precedence.
+        date:
+          type: object
+          description: "This field denotes the file processing date. Supported values are:\n\n* `start_date`\n* `end_date`\n* `format`\n  \nIf this field is not passed, the API will respond with details of all the files corresponding to the import_id / import_name passed and in accordance to the offset and limit values.\n\nSupported date time formats are:\n\n * `\"datetime_format\": \"YYYY-MM-DD\"` (2022-01-22)\n * `\"datetime_format\": \"YYYY/MM/DD\"` (2022/01/22)\n * `\"datetime_format\": \"DD/MM/YYYY\"` (22/01/2022)\n * `\"datetime_format\": \"DD-MM-YYYY\"` (22-01-2022)\n * `\"datetime_format\": \"DD-MM-YYYY hh:mm:ss\"` (31-12-2022 12:10:33)\n * `\"datetime_format\": \"DD/MM/YYYY hh:mm:ss\"` (31/12/2022 12:10:33)\n * `\"datetime_format\": \"YYYY-MM-DD hh:mm:ss\"` (2019-02-22 17:54:14)\n * `\"datetime_format\": \"YYYY/MM/DD hh:mm:ss\"` (2019/02/22 17:54:14)\n"
+          properties:
+            start_date:
+              type: string
+              format: date-time
+              description: The start date of the import.
+            end_date:
+              type: string
+              format: date-time
+              description: The end date of the import.
+            format:
+              type: string
+              description: The format of the date.
+        file_status:
+          type: array
+          description: This field denotes the status of files contained in an import.
+          items:
+            type: string
+            enum:
+            - SUCCESSFUL
+            - FAILED
+            - PARTIAL_SUCCESS
+            - PROCESSING
+            - QUEUED
+            - WAITING
+        offset:
+          type: integer
+          description: "'API responds with a maximum of 50 file details in a single response. For example, if there are a total of 150 files that are part of the API response, then:\n* Offset = 1 will fetch the details of the first 50 files\n* Offset = 2 will fetch the file details of the next 50 imports\n* Offset = 3 will fetch the import details of the last 50 imports\n* If offset is not passed in the request body, the API response will consider offset = 1.\n\nYou can refer to the total_count parameter in the response to understand how many total files are part of the response. \n\nOR\n\n If the API responds with more_files = true, it indicates that there are more files that are not part of the current response for which another API request must be made with offset +1.'\n"
+          default: 1
     ImportDetailsResponse:
       type: object
       properties:
@@ -877,49 +926,6 @@ components:
         more_files:
           type: string
           description: This field indicates if there are more files. For example, if there are 100 imports and offset = 1, 50 imports will be returned with more_file = true to indicate that offset = 2 must be passed to get the next 50 imports.
-    FileRunHistoryRequest:
-      type: object
-      required:
-      - import_id
-      - import_name
-      properties:
-        import_id:
-          type: string
-          description: The unique identifier is used to identify the import. You can find this on the Data Imports page of the MoEngage dashboard. Data > Data Imports > Click the ellipsis icon for an import > View. The import_id or the import_name must be passed.
-        import_name:
-          type: string
-          description: This field denotes the name of the import.The import_id or import_name has to be passed. If both are passed, import_id takes precedence.
-        date:
-          type: object
-          description: "This field denotes the file processing date. Supported values are:\n\n* `start_date`\n* `end_date`\n* `format`\n  \nIf this field is not passed, the API will respond with details of all the files corresponding to the import_id / import_name passed and in accordance to the offset and limit values.\n\nSupported date time formats are:\n\n * `\"datetime_format\": \"YYYY-MM-DD\"` (2022-01-22)\n * `\"datetime_format\": \"YYYY/MM/DD\"` (2022/01/22)\n * `\"datetime_format\": \"DD/MM/YYYY\"` (22/01/2022)\n * `\"datetime_format\": \"DD-MM-YYYY\"` (22-01-2022)\n * `\"datetime_format\": \"DD-MM-YYYY hh:mm:ss\"` (31-12-2022 12:10:33)\n * `\"datetime_format\": \"DD/MM/YYYY hh:mm:ss\"` (31/12/2022 12:10:33)\n * `\"datetime_format\": \"YYYY-MM-DD hh:mm:ss\"` (2019-02-22 17:54:14)\n * `\"datetime_format\": \"YYYY/MM/DD hh:mm:ss\"` (2019/02/22 17:54:14)\n"
-          properties:
-            start_date:
-              type: string
-              format: date-time
-              description: The start date of the import.
-            end_date:
-              type: string
-              format: date-time
-              description: The end date of the import.
-            format:
-              type: string
-              description: The format of the date.
-        file_status:
-          type: array
-          description: This field denotes the status of files contained in an import.
-          items:
-            type: string
-            enum:
-            - SUCCESSFUL
-            - FAILED
-            - PARTIAL_SUCCESS
-            - PROCESSING
-            - QUEUED
-            - WAITING
-        offset:
-          type: integer
-          description: "'API responds with a maximum of 50 file details in a single response. For example, if there are a total of 150 files that are part of the API response, then:\n* Offset = 1 will fetch the details of the first 50 files\n* Offset = 2 will fetch the file details of the next 50 imports\n* Offset = 3 will fetch the import details of the last 50 imports\n* If offset is not passed in the request body, the API response will consider offset = 1.\n\nYou can refer to the total_count parameter in the response to understand how many total files are part of the response. \n\nOR\n\n If the API responds with more_files = true, it indicates that there are more files that are not part of the current response for which another API request must be made with offset +1.'\n"
-          default: 1
     ImportDetailsRequest:
       type: object
       properties:

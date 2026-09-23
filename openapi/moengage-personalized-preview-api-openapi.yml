@@ -2,60 +2,7 @@ openapi: 3.2.0
 info:
   title: MoEngage Campaigns Personalized Preview API
   version: '2025-11-20'
-  description: 'The Campaigns V5 API manages the draft campaign lifecycle — draft creation, incremental updates, validation, test sends, and post-publish management.
-
-
-    **Note:** Campaign publishing is not yet supported in V5. To publish campaigns, use the V1 API (`PATCH /core-services/v1/campaigns/{campaign_id}`) in the interim.
-
-
-    **Supported channels:**
-
-    - Push (Android, iOS, Web)
-
-    - Email
-
-
-    **Supported delivery types:**
-
-    - ONE_TIME
-
-    - PERIODIC
-
-    - EVENT_TRIGGERED
-
-    - BUSINESS_EVENT_TRIGGERED
-
-    - DEVICE_TRIGGERED (Push only)
-
-    - LOCATION_TRIGGERED (Push only)
-
-    - BROADCAST_LIVE_ACTIVITY (Push iOS only)
-
-
-    **Campaign lifecycle:**
-
-
-    1. **Create** - Start a draft with only the required fields (`channel`, `campaign_delivery_type`, `created_by`). Add content, audience, and scheduling incrementally across subsequent update calls.
-
-    2. **Update** - Patch individual components as you refine the setup. Each submitted component is validated in full before the draft is updated.
-
-    3. **Validate** - Check whether a draft would pass publish-time validation without committing any changes.
-
-    4. **Test** - Send a test message to specific users from either a saved draft or inline content before going live.
-
-    5. **Manage** - Pause, resume, or stop a live campaign. Search your workspace and retrieve lightweight metadata across all campaigns.
-
-
-    **Campaign versioning** is optional per workspace:
-
-    - When enabled, publishing an update to a live campaign creates a new document with an incremented `version_number`.
-
-    - `campaign_id` is the stable identifier across all versions; each version has its own raw `id` (ObjectId).
-
-
-    **Authentication header:** Pass your Workspace ID in the `MOE-APPKEY` request header, the same as in V1.
-
-    '
+  description: The Campaigns V5 API manages the draft campaign lifecycle — draft creation, incremental updates, validation, test sends, and post-publish management.
   contact:
     name: MoEngage Developer Team
     email: support@moengage.com
@@ -76,9 +23,7 @@ paths:
     post:
       operationId: preview_personalized_content_v5
       summary: Personalized Preview (V5)
-      description: 'Returns a fully resolved preview of personalised campaign content for a specific user - all user attributes, event attributes, content blocks, content APIs, product sets, and custom templates are rendered exactly as they would appear to that user at send time.
-
-        '
+      description: Returns a fully resolved preview of personalised campaign content for a specific user - all user attributes, event attributes, content blocks, content APIs, product sets, and custom templates are rendered exactly as they would appear to that user at send time.
       x-mint:
         content: '#### Rate Limits
 
@@ -235,78 +180,6 @@ paths:
         '500':
           $ref: '#/components/responses/V5InternalError'
 components:
-  responses:
-    V5Unauthorized:
-      description: Authentication failure.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/V5ErrorEnvelope'
-          example:
-            response_id: abc-101
-            error:
-              code: UNAUTHORIZED
-              message: Invalid or missing credentials.
-              details: []
-    V5InternalError:
-      description: Unhandled server-side failure.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/V5ErrorEnvelope'
-          example:
-            response_id: abc-101
-            error:
-              code: INTERNAL_ERROR
-              message: Internal server error.
-              details: []
-    V5ValidationError:
-      description: Request failed schema or component validation.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/V5ErrorEnvelope'
-          example:
-            response_id: abc-101
-            error:
-              code: VALIDATION_FAILED
-              message: One or more fields failed validation.
-              request_id: req-push-001
-              details:
-              - target: campaign_delivery_type
-                message: campaign_delivery_type value is required.
-    V5RateLimited:
-      description: Per-app rate limit exceeded. Retry after the window indicated in `Retry-After` (seconds).
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/V5ErrorEnvelope'
-          example:
-            response_id: abc-101
-            error:
-              code: RATE_LIMITED
-              message: Rate limit exceeded for app key.
-              details: []
-  parameters:
-    X-MOE-Request-Id:
-      name: X-MOE-Request-Id
-      in: header
-      required: true
-      description: 'Correlates with `response_id`. Supply this header or `request_id` in the body; if both are set, they must match.
-
-        '
-      schema:
-        type: string
-    MOE-APPKEY:
-      name: MOE-APPKEY
-      in: header
-      required: true
-      description: 'Your MoEngage Workspace ID (App ID). Find it in the dashboard at **Settings** > **Account** > **APIs** > **Workspace ID**.
-
-        '
-      schema:
-        type: string
-      example: '{{workspace_id}}'
   schemas:
     V5ErrorEnvelope:
       type: object
@@ -347,6 +220,78 @@ components:
                 In V1, `request_id` appeared inside the `error` object. V5 preserves this field in the same location.
 
                 '
+  responses:
+    V5InternalError:
+      description: Unhandled server-side failure.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/V5ErrorEnvelope'
+          example:
+            response_id: abc-101
+            error:
+              code: INTERNAL_ERROR
+              message: Internal server error.
+              details: []
+    V5ValidationError:
+      description: Request failed schema or component validation.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/V5ErrorEnvelope'
+          example:
+            response_id: abc-101
+            error:
+              code: VALIDATION_FAILED
+              message: One or more fields failed validation.
+              request_id: req-push-001
+              details:
+              - target: campaign_delivery_type
+                message: campaign_delivery_type value is required.
+    V5Unauthorized:
+      description: Authentication failure.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/V5ErrorEnvelope'
+          example:
+            response_id: abc-101
+            error:
+              code: UNAUTHORIZED
+              message: Invalid or missing credentials.
+              details: []
+    V5RateLimited:
+      description: Per-app rate limit exceeded. Retry after the window indicated in `Retry-After` (seconds).
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/V5ErrorEnvelope'
+          example:
+            response_id: abc-101
+            error:
+              code: RATE_LIMITED
+              message: Rate limit exceeded for app key.
+              details: []
+  parameters:
+    X-MOE-Request-Id:
+      name: X-MOE-Request-Id
+      in: header
+      required: true
+      description: 'Correlates with `response_id`. Supply this header or `request_id` in the body; if both are set, they must match.
+
+        '
+      schema:
+        type: string
+    MOE-APPKEY:
+      name: MOE-APPKEY
+      in: header
+      required: true
+      description: 'Your MoEngage Workspace ID (App ID). Find it in the dashboard at **Settings** > **Account** > **APIs** > **Workspace ID**.
+
+        '
+      schema:
+        type: string
+      example: '{{workspace_id}}'
   securitySchemes:
     BasicAuth:
       type: http

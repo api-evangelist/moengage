@@ -256,8 +256,39 @@ paths:
                   message: An unexpected error was encountered while processing this request. Please contact MoEngage Team
                   type: Server Error
                   request_id: KovrwJiF
+      operationId: postV1IntegrationsCohortsync
+      x-operation-id-source: derived
 components:
   schemas:
+    CohortSyncRequest:
+      type: object
+      required:
+      - action
+      - partner
+      - parameters
+      properties:
+        action:
+          type: string
+          description: This field indicates whether users need to be added to the cohort or removed from it.
+          enum:
+          - add_members
+          - remove_members
+        partner:
+          type: string
+          description: This field indicates the name of the partner whose cohort is being synced to MoEngage.
+          example: 6HNBXFm7ZS
+        parameters:
+          $ref: '#/components/schemas/CohortParameters'
+    ErrorResponse:
+      type: object
+      description: Generic error response schema.
+      properties:
+        status:
+          type: string
+          description: The status of the request.
+          example: fail
+        error:
+          $ref: '#/components/schemas/ErrorDetails'
     CohortParameters:
       type: object
       description: Contains the information about the cohort to be synced.
@@ -283,35 +314,6 @@ components:
           description: Contains the unique identifiers of the customers being added to or removed from a Cohort in MoEngage.
           items:
             $ref: '#/components/schemas/CohortMember'
-    ErrorResponse:
-      type: object
-      description: Generic error response schema.
-      properties:
-        status:
-          type: string
-          description: The status of the request.
-          example: fail
-        error:
-          $ref: '#/components/schemas/ErrorDetails'
-    CohortSyncRequest:
-      type: object
-      required:
-      - action
-      - partner
-      - parameters
-      properties:
-        action:
-          type: string
-          description: This field indicates whether users need to be added to the cohort or removed from it.
-          enum:
-          - add_members
-          - remove_members
-        partner:
-          type: string
-          description: This field indicates the name of the partner whose cohort is being synced to MoEngage.
-          example: 6HNBXFm7ZS
-        parameters:
-          $ref: '#/components/schemas/CohortParameters'
     ErrorDetails:
       type: object
       description: Details of the error that occurred.

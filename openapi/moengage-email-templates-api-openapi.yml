@@ -23,9 +23,7 @@ paths:
   /email-templates:
     post:
       summary: Create Email Template (V1)
-      description: 'This API creates an email template in MoEngage. You can use this API to upload templates created outside the MoEngage ecosystem to MoEngage and use them for campaign creation on the MoEngage dashboard.
-
-        '
+      description: This API creates an email template in MoEngage. You can use this API to upload templates created outside the MoEngage ecosystem to MoEngage and use them for campaign creation on the MoEngage dashboard.
       operationId: createEmailTemplate
       tags:
       - Email Templates
@@ -157,9 +155,7 @@ paths:
         appKey: []
     get:
       summary: Get All Templates
-      description: 'This API fetches the list of all the email templates available in your MoEngage account.
-
-        '
+      description: This API fetches the list of all the email templates available in your MoEngage account.
       operationId: getAllTemplates
       tags:
       - Email Templates
@@ -300,9 +296,7 @@ paths:
   /email-templates/{id}:
     get:
       summary: Get Specific Template
-      description: 'This API fetches an email template using its template ID.
-
-        '
+      description: This API fetches an email template using its template ID.
       operationId: getTemplateById
       tags:
       - Email Templates
@@ -510,9 +504,7 @@ paths:
   /bulk/email-templates:
     put:
       summary: Bulk Create/Update Templates
-      description: 'This API creates or updates email templates in bulk. You can create or update up to 50 templates in a single request.
-
-        '
+      description: This API creates or updates email templates in bulk. You can create or update up to 50 templates in a single request.
       operationId: bulkCreateUpdateTemplates
       tags:
       - Email Templates
@@ -658,9 +650,7 @@ paths:
   /custom-templates/email:
     post:
       summary: Create Email Template (V2)
-      description: 'This API creates an email template in MoEngage. You can use this API to upload templates created outside the MoEngage ecosystem to MoEngage and use them for campaign creation. The uploaded templates can be edited in the Froala editor (custom HTML editor) on the MoEngage dashboard.
-
-        '
+      description: This API creates an email template in MoEngage. You can use this API to upload templates created outside the MoEngage ecosystem to MoEngage and use them for campaign creation. The uploaded templates can be edited in the Froala editor (custom HTML editor) on the MoEngage dashboard.
       operationId: createEmailTemplate
       tags:
       - Email Templates
@@ -837,9 +827,7 @@ paths:
       - basicAuth: []
     put:
       summary: Update Email Template
-      description: 'This API updates an email template by specifying its external template ID. You can specify whether the updated version of the template can be used in active campaigns in the request.
-
-        '
+      description: This API updates an email template by specifying its external template ID. You can specify whether the updated version of the template can be used in active campaigns in the request.
       operationId: updateEmailTemplate
       tags:
       - Email Templates
@@ -994,9 +982,7 @@ paths:
   /custom-templates/email/search:
     post:
       summary: Search Email Template
-      description: 'This API searches the email templates created in your MoEngage account.
-
-        '
+      description: This API searches the email templates created in your MoEngage account.
       operationId: searchEmailTemplate
       tags:
       - Email Templates
@@ -1292,75 +1278,6 @@ paths:
           description: The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.
 components:
   schemas:
-    ErrorResponse:
-      type: object
-      properties:
-        status:
-          type: string
-          example: error
-        data:
-          $ref: '#/components/schemas/ErrorData'
-    TemplateCreateRequest:
-      allOf:
-      - $ref: '#/components/schemas/TemplateBase'
-    TemplateDetailsFlat:
-      type: object
-      properties:
-        status:
-          type: string
-          example: success
-          description: 'This field contains the status of the request and denotes whether it was successful or not.
-
-            '
-        template_id:
-          type: string
-          example: 645a0cec10e0307e6d7f7716
-          description: 'This field contains the id of the created template when the request is successful and the error details in case of an unsuccessful request.
-
-            '
-        template_name:
-          type: string
-          example: End_of_season_sale_template
-        subject:
-          type: string
-          description: subject of the template being fetched
-        template_content:
-          type: string
-          description: html content of the template
-        attachments:
-          type: array
-          description: 'The attachments field is a list of JSON Objects that contain the details about an attachment, such as its type, url, name, id, and so on.
-
-            '
-          items:
-            type: object
-            properties:
-              id:
-                type: string
-              name:
-                type: string
-              type:
-                type: string
-              fileType:
-                type: string
-              url:
-                type: string
-        source:
-          type: string
-          description: source of the template being fetched
-        sender_name:
-          type: string
-        editor:
-          type: string
-        created_date:
-          type: string
-          description: timestamp of template creation
-        updated_at:
-          type: string
-          description: timestamp of when the template was last updated
-        updated_by:
-          type: string
-          description: details about who created or updated the template
     TemplateUpdateRequest:
       allOf:
       - $ref: '#/components/schemas/TemplateBase'
@@ -1375,6 +1292,73 @@ components:
 
               '
             example: 63f30792c66ddcaac2ef9109
+    ErrorResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          example: error
+        data:
+          $ref: '#/components/schemas/ErrorData'
+    TemplateCreateRequest:
+      allOf:
+      - $ref: '#/components/schemas/TemplateBase'
+    ErrorData:
+      type: object
+      properties:
+        code:
+          type: integer
+          description: 'This field contains the error code and is a String. Example: 400 (for a Bad Request), 401( for Authentication failures), and so on. This field is present in the response only in the case of errors.
+
+            '
+          example: 400
+        title:
+          type: string
+          description: 'This field contains the type of error encountered. Example: Bad Request, Authentication Required, and so on. This field is present in the response only in the case of errors.
+
+            '
+          example: Invalid request body
+        description:
+          type: string
+          description: 'This field describes why the request has failed and is a String.
+
+            '
+          example: MOE-APPKEY header is invalid or empty
+    TemplateDetails:
+      type: object
+      properties:
+        template_id:
+          type: string
+          description: Template id - the unique identifier that is created at the time of template creation
+          example: 645a2bd910e0307e6d7f7717
+        template_name:
+          type: string
+          description: name of the template being fetched
+          example: Coupon_code_template
+        is_archived:
+          type: boolean
+          example: false
+        builder_supported:
+          type: boolean
+          description: 'For the Froala editor, the builder_supported value is false. Thus, for all the templates created using APIs, this would be false.
+
+            '
+          example: false
+        editor:
+          type: string
+          example: Froala Editor
+        created_date:
+          type: string
+          description: timestamp of template creation
+          example: '2023-05-09 11:17:43.112000'
+        updated_at:
+          type: string
+          description: timestamp of when the template was last updated
+          example: '2023-05-09 11:18:37.692000'
+        updated_by:
+          type: string
+          description: details about who created or updated the template
+          example: jane.doe@example.com
     TemplateBase:
       type: object
       required:
@@ -1453,62 +1437,64 @@ components:
 
             '
           example: john.doe@example.com
-    ErrorData:
+    TemplateDetailsFlat:
       type: object
       properties:
-        code:
-          type: integer
-          description: 'This field contains the error code and is a String. Example: 400 (for a Bad Request), 401( for Authentication failures), and so on. This field is present in the response only in the case of errors.
-
-            '
-          example: 400
-        title:
+        status:
           type: string
-          description: 'This field contains the type of error encountered. Example: Bad Request, Authentication Required, and so on. This field is present in the response only in the case of errors.
+          example: success
+          description: 'This field contains the status of the request and denotes whether it was successful or not.
 
             '
-          example: Invalid request body
-        description:
-          type: string
-          description: 'This field describes why the request has failed and is a String.
-
-            '
-          example: MOE-APPKEY header is invalid or empty
-    TemplateDetails:
-      type: object
-      properties:
         template_id:
           type: string
-          description: Template id - the unique identifier that is created at the time of template creation
-          example: 645a2bd910e0307e6d7f7717
-        template_name:
-          type: string
-          description: name of the template being fetched
-          example: Coupon_code_template
-        is_archived:
-          type: boolean
-          example: false
-        builder_supported:
-          type: boolean
-          description: 'For the Froala editor, the builder_supported value is false. Thus, for all the templates created using APIs, this would be false.
+          example: 645a0cec10e0307e6d7f7716
+          description: 'This field contains the id of the created template when the request is successful and the error details in case of an unsuccessful request.
 
             '
-          example: false
+        template_name:
+          type: string
+          example: End_of_season_sale_template
+        subject:
+          type: string
+          description: subject of the template being fetched
+        template_content:
+          type: string
+          description: html content of the template
+        attachments:
+          type: array
+          description: 'The attachments field is a list of JSON Objects that contain the details about an attachment, such as its type, url, name, id, and so on.
+
+            '
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+              name:
+                type: string
+              type:
+                type: string
+              fileType:
+                type: string
+              url:
+                type: string
+        source:
+          type: string
+          description: source of the template being fetched
+        sender_name:
+          type: string
         editor:
           type: string
-          example: Froala Editor
         created_date:
           type: string
           description: timestamp of template creation
-          example: '2023-05-09 11:17:43.112000'
         updated_at:
           type: string
           description: timestamp of when the template was last updated
-          example: '2023-05-09 11:18:37.692000'
         updated_by:
           type: string
           description: details about who created or updated the template
-          example: jane.doe@example.com
     BasicDetails:
       type: object
       description: 'This field contains the email content. This is where you define the email template being created.
