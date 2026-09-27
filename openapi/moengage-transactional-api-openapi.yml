@@ -1421,6 +1421,24 @@ paths:
           description: The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.
 components:
   schemas:
+    PushSuccessResponse:
+      type: object
+      title: Success Response
+      properties:
+        status:
+          type: string
+          enum:
+          - Success
+          description: This field indicates the campaign status.
+        requestId:
+          type: string
+          description: This field indicates the request ID.
+        responseId:
+          type: string
+          description: This field indicates the response ID.
+        cid:
+          type: string
+          description: This field indicates the campaign ID.
     WebPayload:
       type: object
       required:
@@ -1450,6 +1468,25 @@ components:
         autoDismiss:
           type: boolean
           description: This field specifies whether to dismiss the notification automatically after 8 seconds.
+    PushFailureResponse:
+      type: object
+      title: Failure Response
+      properties:
+        status:
+          type: string
+          enum:
+          - Fail
+          description: This field indicates the campaign status.
+        Error_Message:
+          type: string
+          description: This field indicates why the request failed.
+          example: Campaign Name not found
+        responseId:
+          type: string
+          description: This field indicates the response ID.
+        requestId:
+          type: string
+          description: This field indicates the request ID.
     DefaultAction:
       type: object
       properties:
@@ -1559,6 +1596,201 @@ components:
         fallback:
           type: object
           description: This JSON object contains the fallback values for the values mentioned above.
+    PushRequest:
+      type: object
+      required:
+      - appId
+      - campaignName
+      - signature
+      - targetPlatform
+      - targetAudience
+      - payload
+      - campaignDelivery
+      properties:
+        appId:
+          type: string
+          description: This is the Workspace ID of your MoEngage account that must be passed with the request. You can find it in the MoEngage dashboard at **Settings** > **Account** > **APIs** > **Workspace ID (earlier app id)**. MoEngage recommends that you test API integration in the Test Environment. The App ID for TEST ACCOUNT is suffixed with _DEBUG. In the [v2.1 endpoint](/api/push/push-api), this same value is sent as the `X-MOE-APPKEY` request header instead of a request body field.
+        campaignName:
+          type: string
+          minLength: 5
+          description: 'This field denotes the campaign name. The campaign name should be unique for All Users and Custom Segment campaigns.
+
+            Note:
+
+            * API automatically creates a campaign with the given name. You need not create a campaign from the dashboard to use the name.
+
+            * For User type targetAudience API requests, reuse this campaign name for requests that should be clubbed in the same campaign.
+
+            '
+        campaignTags:
+          type: array
+          items:
+            type: string
+          description: 'Used to add more context to campaigns. Context can be descriptive names or campaign themes such as onboarding, retention, country, and all users. Tags can also be used to filter campaigns or identify the behaviors of users who received these campaigns. The list of tags should be passed in this field.
+
+
+            For example,
+
+            ```json
+
+            “campaignTags“ : [“Transactional“, “Accounts“]
+
+            ```
+
+            '
+        signature:
+          type: string
+          description: This field denotes the signature that is required to verify whether the client is authorized to make the API call. For more information, refer to Generate Authentication Signature.
+        requestType:
+          type: string
+          default: push
+          description: The value of this key is used to indicate the intention of an API request. The default value is push.
+        targetPlatform:
+          type: array
+          items:
+            type: string
+            enum:
+            - ANDROID
+            - IOS
+            - WEB
+          description: This field denotes the platform devices that are targeted by your campaign. The Push API allows you to target users on Android, iOS, and Web platforms. You can target one or more platforms. If you want to send Web (Chrome) push notifications through the API, you should choose Web as the platform.
+        targetAudience:
+          type: string
+          enum:
+          - All Users
+          - Custom Segment
+          - User
+          description: 'This field denotes the target segment for the campaign. Supported values are:
+
+            * All Users: Pass this value to target all users of your App/Website.
+
+            * Custom Segment: Pass this value to target pre-created user segments. Custom segments can be created using the MoEngage dashboard or [custom segment API](/api/filter-segments/create-filter-segment). Note that the custom segment name should exactly match the name of the target segment.
+
+            * User: Pass this value to target a user with an attribute. It will target a maximum of 100 users of the associated targetUserAttributes definition.
+
+            '
+        customSegmentName:
+          type: string
+          description: Required if targetAudience is 'Custom Segment'.
+        targetUserAttributes:
+          $ref: '#/components/schemas/TargetUserAttributes'
+          description: 'This object contains the target user attribute details.
+
+            Note:
+
+            * This value is required when the targetAudience value is User.
+
+            * For API requests where the target audience is a specific user, if a campaign with the given name already exists, existing campaign data corresponding to the given name will be used to send notifications.
+
+            * Any edits in other parts of campaign data except payload within the API request parameters will be ignored.
+
+            * If any changes are required in the campaign data, change the campaign name in the API request to create a new campaign.
+
+            '
+        payload:
+          $ref: '#/components/schemas/Payload'
+          description: 'This object contains the payload details. Supported values are:
+
+            * Android. For more information, refer to [Android](/hc/en-us/articles/32986034181268#h_01JGZQJ15BBPB56MCAPZTNKASC).
+
+            * iOS. For more information, refer to [IOS](/hc/en-us/articles/32986034181268#01JGZQRNMF624JYWRH4T882JPR).
+
+            * Web. For more information, refer to [Web](/hc/en-us/articles/32986034181268#01JGZQRQTMXFC01DWTJZJAT2TQ).
+
+            '
+        campaignDelivery:
+          $ref: '#/components/schemas/CampaignDelivery'
+          description: "This field helps decide when the campaign should be sent.\n\n**ASAP**\n\n```json\n// send campaign asap\n\"campaignDelivery\": {\n    \"type\": \"soon\"\n  }\n```\n\n**Schedule Later**\n\n```json\n\"campaignDelivery\": {\n    \"type\": \"later\",\n    \"date\": \"11/07/2016\",\n    \"time\": \"04:33 PM\"\n  }\n```\n\n**Recurring Campaigns**\n\n```json\n\"campaignDelivery\": {\n    \"type\": \"periodic\",\n    \"endDate\": \"11/07/2016\",\n    \"time\": \"04:55 PM\",\n    \"timezone\": \"Asia/Calcutta\",\n    \"repeatAfter\": \"1\" // campaign will be recurring sent after every 1 day.\n  }\n```\n"
+        conversionGoals:
+          type: array
+          maxItems: 5
+          items:
+            $ref: '#/components/schemas/ConversionGoal'
+          description: "This object contains the conversion goals details.\nThis field denotes the event attribute filters. It contains the following elements:\n* name: Event attribute name. This is mandatory.\n* filter: Event attribute filter operator. This is mandatory.\n* value: Event attribute filter value.\n* type: Event attribute data type. This is mandatory.\n\n**Single Conversion Goal**\n\n```json\n\"conversionGoals\": [\n  {\n    \"name\": \"Added To Cart\",\n    \"eventName\": \"AddedTocart\",\n    \"attrs\": {\n        \"name\": \"product_sku\",\n        \"filter\": \"is\",\n        \"value\": \"10089712\",\n        \"type\": \"string\"\n        }\n  }\n]\n```\n\n**Multiple Conversion Goals**\n\n```json\n\"conversionGoals\": [\n  {\n    \"name\": \"Added To Cart\",\n    \"eventName\": \"AddedTocart\",\n    \"attrs\": {\n        \"name\": \"product_sku\",\n        \"filter\": \"is\",\n        \"value\": \"10089712\",\n        \"type\": \"string\"\n        }\n  },\n  {\n    \"name\": \"Order Placed\",\n    \"eventName\": \"OrderSuccess\",\n    \"attrs\": {\n        \"name\": \"product_price\",\n        \"filter\": \"is equal to\",\n        \"value\": 999,\n        \"type\": \"numeric\"\n        }\n  }\n]\n```\n\n**Without Event Attribute Filter**\n\n```json\n{\n  \"name\": \"Added To Cart\",\n  \"eventName\": \"AddedTocart\"\n}\n```\n\n**With String Event Attribute Filter**\n\nWith \"is\" operator:\n\n```json\n{\n  \"name\": \"Added To Cart\",\n  \"eventName\": \"AddedTocart\",\n  \"attrs\": {\n      \"name\": \"product_sku\",\n      \"filter\": \"is\",\n      \"value\": \"10089712\",\n      \"type\": \"string\"\n      }\n}\n```\n\nWith \"is not\" operator:\n\n```json\n{\n  \"name\": \"Added To Cart\",\n  \"eventName\": \"AddedTocart\",\n  \"attrs\": {\n      \"name\": \"product_sku\",\n      \"filter\": \"is not\",\n      \"value\": \"10089712\",\n      \"type\": \"string\"\n      }\n}\n```\n\nWith \"contains\" operator:\n\n```json\n{\n  \"name\": \"Added To Cart\",\n  \"eventName\": \"AddedTocart\",\n  \"attrs\": {\n      \"name\": \"product_sku\",\n      \"filter\": \"contains\",\n      \"value\": \"10089712\",\n      \"type\": \"string\"\n      }\n}\n```\n\nWith \"does not contain\" operator:\n\n```json\n{\n  \"name\": \"Added To Cart\",\n  \"eventName\": \"AddedTocart\",\n  \"attrs\": {\n      \"name\": \"product_sku\",\n      \"filter\": \"does not contain\",\n      \"value\": \"10089712\",\n      \"type\": \"string\"\n      }\n}\n```\n\nWith \"starts with\" operator:\n\n```json\n{\n  \"name\": \"Added To Cart\",    \n  \"eventName\": \"AddedTocart\", \n  \"attrs\": {                  \n      \"name\": \"product_sku\",  \n      \"filter\": \"starts with\",         \n      \"value\": \"10089712\",    \n      \"type\": \"string\"        \n      }\n}\n```\n\nWith \"does not start with\" operator:\n\n```json\n{\n  \"name\": \"Added To Cart\",    \n  \"eventName\": \"AddedTocart\", \n  \"attrs\": {                  \n      \"name\": \"product_sku\",  \n      \"filter\": \"does not start with\",\n      \"value\": \"10089712\",    \n      \"type\": \"string\"        \n      }\n}\n```\n\nWith \"ends with\" operator:\n\n```json\n{\n  \"name\": \"Added To Cart\",    \n  \"eventName\": \"AddedTocart\", \n  \"attrs\": {                  \n      \"name\": \"product_sku\",  \n      \"filter\": \"ends with\",         \n      \"value\": \"10089712\",    \n      \"type\": \"string\"        \n      }\n}\n```\n\nWith \"does not end with\" operator:\n\n```json\n{\n  \"name\": \"Added To Cart\",    \n  \"eventName\": \"AddedTocart\", \n  \"attrs\": {                  \n      \"name\": \"product_sku\",  \n      \"filter\": \"does not end with\",\n      \"value\": \"10089712\",    \n      \"type\": \"string\"        \n      }\n}\n```\n\nWith \"in the following\" operator:\n\n```json\n{\n  \"name\": \"Added To Cart\",    \n  \"eventName\": \"AddedTocart\", \n  \"attrs\": {                  \n      \"name\": \"product_sku\",  \n      \"filter\": \"in the following\",\n      \"value\": [\"10089711\", \"10089712\", \"10089713\"],\n      \"type\": \"string\"        \n      }\n}\n```\n\nWith \"not in the following\" operator:\n\n```json\n{\n  \"name\": \"Added To Cart\",   \n  \"eventName\": \"AddedTocart\",\n  \"attrs\": {                 \n      \"name\": \"product_sku\",\n      \"filter\": \"not in the following\",\n      \"value\": [\"10089711\", \"10089712\", \"10089713\"],\n      \"type\": \"string\"        \n      }\n}\n```\n\nWith \"exists\" operator:\n\n```json\n{\n  \"name\": \"Added To Cart\",\n  \"eventName\": \"AddedTocart\",\n  \"attrs\": {                 \n      \"name\": \"product_sku\", \n      \"filter\": \"exists\",    \n      \"type\": \"string\"       \n      }\n}\n```\n\nWith \"does not exist\" operator:\n\n```json\n{\n  \"name\": \"Added To Cart\",\n  \"eventName\": \"AddedTocart\",\n  \"attrs\": {                 \n      \"name\": \"product_sku\", \n      \"filter\": \"does not exist\",\n      \"type\": \"string\"        \n      }\n}\n```\n\n**With Numeric/Double Event Attribute Filter**\n\nWith \"is equal to\" operator:\n\n```json\n{\n  \"name\": \"Added To Cart\",\n  \"eventName\": \"AddedTocart\",\n  \"attrs\": {\n      \"name\": \"product_price\",\n      \"filter\": \"is equal to\",\n      \"value\": 999,\n      \"type\": \"numeric\"\n      }\n}\n```\n\nWith \"is not equal to\" operator:\n\n```json\n{\n  \"name\": \"Added To Cart\",\n  \"eventName\": \"AddedTocart\",\n  \"attrs\": {                  \n      \"name\": \"product_price\",\n      \"filter\": \"is not equal to\",      \n      \"value\": 999,\n      \"type\": \"numeric\"       \n      }\n}\n```\n\nWith \"is between\" operator:\n\n```json\n{\n  \"name\": \"Added To Cart\",    \n  \"eventName\": \"AddedTocart\", \n  \"attrs\": {                  \n      \"name\": \"product_price\",\n      \"filter\": \"is between\",    \n      \"value\": \"899,999\",\n      \"type\": \"numeric\"\n      }\n}\n```\n\nWith \"is not between\" operator:\n\n```json\n{\n  \"name\": \"Added To Cart\",            \n  \"eventName\": \"AddedTocart\",         \n  \"attrs\": {                          \n      \"name\": \"product_price\",        \n      \"filter\": \"is not between\",\n      \"value\": \"899,999\",\n      \"type\": \"numeric\"\n      }\n}\n```\n\nWith \"is greater than\" operator:\n\n```json\n{\n  \"name\": \"Added To Cart\",    \n  \"eventName\": \"AddedTocart\", \n  \"attrs\": {                  \n      \"name\": \"product_price\",  \n      \"filter\": \"is greater than\",         \n      \"value\": 999,\n      \"type\": \"numeric\"\n      }\n}\n```\n\nWith \"is less than\" operator:\n\n```json\n{\n  \"name\": \"Added To Cart\",    \n  \"eventName\": \"AddedTocart\", \n  \"attrs\": {                  \n      \"name\": \"product_price\",  \n      \"filter\": \"is less than\",\n      \"value\": 999,\n      \"type\": \"numeric\"\n      }\n}\n```\n\nWith \"exists\" operator:\n\n```json\n{\n  \"name\": \"Added To Cart\",\n  \"eventName\": \"AddedTocart\",\n  \"attrs\": {                 \n      \"name\": \"product_price\", \n      \"filter\": \"exists\",    \n      \"type\": \"numeric\"       \n      }\n}\n```\n\nWith \"does not exist\" operator:\n\n```json\n{\n  \"name\": \"Added To Cart\",\n  \"eventName\": \"AddedTocart\",\n  \"attrs\": {                 \n      \"name\": \"product_price\", \n      \"filter\": \"does not exist\",\n      \"type\": \"numeric\"        \n      }\n}\n```\n"
+        advancedSettings:
+          $ref: '#/components/schemas/AdvancedSettings'
+          description: This object contains information about advanced settings. For more information, refer to [Advanced Settings](/hc/en-us/articles/32986034181268#h_01JGZRM6BSGJ9VS3YWKB21DYFW).
+    Payload:
+      type: object
+      description: 'This object contains the payload details. Supported values are:
+
+        * Android. For more information, refer to [Android](/hc/en-us/articles/32986034181268#h_01JGZQJ15BBPB56MCAPZTNKASC).
+
+        * iOS. For more information, refer to [IOS](/hc/en-us/articles/32986034181268#01JGZQRNMF624JYWRH4T882JPR).
+
+        * Web. For more information, refer to [Web](/hc/en-us/articles/32986034181268#01JGZQRQTMXFC01DWTJZJAT2TQ).
+
+        '
+      properties:
+        ANDROID:
+          $ref: '#/components/schemas/AndroidPayload'
+        IOS:
+          $ref: '#/components/schemas/IOSPayload'
+        WEB:
+          $ref: '#/components/schemas/WebPayload'
+    ConversionGoal:
+      type: object
+      required:
+      - name
+      - eventName
+      properties:
+        name:
+          type: string
+          description: This field denotes the readable name of the conversion goal for the Campaign Info.
+        eventName:
+          type: string
+          description: This field denotes the actual event name.
+        attrs:
+          type: object
+          description: 'This object contains the conversion goals details.
+
+            This field denotes the event attribute filters. It contains the following elements:
+
+            * name: Event attribute name. This is mandatory.
+
+            * filter: Event attribute filter operator. This is mandatory.
+
+            * value: Event attribute filter value.
+
+            * type: Event attribute data type. This is mandatory.
+
+            '
+          properties:
+            name:
+              type: string
+            filter:
+              type: string
+              enum:
+              - is
+              - is not
+              - contains
+              - does not contain
+              - starts with
+              - does not start with
+              - ends with
+              - does not end with
+              - in the following
+              - not in the following
+              - exists
+              - does not exist
+              - is equal to
+              - is not equal to
+              - is between
+              - is not between
+              - is less than
+              - is greater than
+            value:
+              oneOf:
+              - type: string
+              - type: number
+              - type: array
+                items:
+                  type: string
+            type:
+              type: string
+              enum:
+              - string
+              - numeric
     CampaignDelivery:
       type: object
       required:
@@ -1832,138 +2064,6 @@ components:
             - 'false'
           - type: boolean
           description: Send at high priority (legacy flag).
-    PushSuccessResponse:
-      type: object
-      title: Success Response
-      properties:
-        status:
-          type: string
-          enum:
-          - Success
-          description: This field indicates the campaign status.
-        requestId:
-          type: string
-          description: This field indicates the request ID.
-        responseId:
-          type: string
-          description: This field indicates the response ID.
-        cid:
-          type: string
-          description: This field indicates the campaign ID.
-    PushRequest:
-      type: object
-      required:
-      - appId
-      - campaignName
-      - signature
-      - targetPlatform
-      - targetAudience
-      - payload
-      - campaignDelivery
-      properties:
-        appId:
-          type: string
-          description: This is the Workspace ID of your MoEngage account that must be passed with the request. You can find it in the MoEngage dashboard at **Settings** > **Account** > **APIs** > **Workspace ID (earlier app id)**. MoEngage recommends that you test API integration in the Test Environment. The App ID for TEST ACCOUNT is suffixed with _DEBUG. In the [v2.1 endpoint](/api/push/push-api), this same value is sent as the `X-MOE-APPKEY` request header instead of a request body field.
-        campaignName:
-          type: string
-          minLength: 5
-          description: 'This field denotes the campaign name. The campaign name should be unique for All Users and Custom Segment campaigns.
-
-            Note:
-
-            * API automatically creates a campaign with the given name. You need not create a campaign from the dashboard to use the name.
-
-            * For User type targetAudience API requests, reuse this campaign name for requests that should be clubbed in the same campaign.
-
-            '
-        campaignTags:
-          type: array
-          items:
-            type: string
-          description: 'Used to add more context to campaigns. Context can be descriptive names or campaign themes such as onboarding, retention, country, and all users. Tags can also be used to filter campaigns or identify the behaviors of users who received these campaigns. The list of tags should be passed in this field.
-
-
-            For example,
-
-            ```json
-
-            “campaignTags“ : [“Transactional“, “Accounts“]
-
-            ```
-
-            '
-        signature:
-          type: string
-          description: This field denotes the signature that is required to verify whether the client is authorized to make the API call. For more information, refer to Generate Authentication Signature.
-        requestType:
-          type: string
-          default: push
-          description: The value of this key is used to indicate the intention of an API request. The default value is push.
-        targetPlatform:
-          type: array
-          items:
-            type: string
-            enum:
-            - ANDROID
-            - IOS
-            - WEB
-          description: This field denotes the platform devices that are targeted by your campaign. The Push API allows you to target users on Android, iOS, and Web platforms. You can target one or more platforms. If you want to send Web (Chrome) push notifications through the API, you should choose Web as the platform.
-        targetAudience:
-          type: string
-          enum:
-          - All Users
-          - Custom Segment
-          - User
-          description: 'This field denotes the target segment for the campaign. Supported values are:
-
-            * All Users: Pass this value to target all users of your App/Website.
-
-            * Custom Segment: Pass this value to target pre-created user segments. Custom segments can be created using the MoEngage dashboard or [custom segment API](/api/filter-segments/create-filter-segment). Note that the custom segment name should exactly match the name of the target segment.
-
-            * User: Pass this value to target a user with an attribute. It will target a maximum of 100 users of the associated targetUserAttributes definition.
-
-            '
-        customSegmentName:
-          type: string
-          description: Required if targetAudience is 'Custom Segment'.
-        targetUserAttributes:
-          $ref: '#/components/schemas/TargetUserAttributes'
-          description: 'This object contains the target user attribute details.
-
-            Note:
-
-            * This value is required when the targetAudience value is User.
-
-            * For API requests where the target audience is a specific user, if a campaign with the given name already exists, existing campaign data corresponding to the given name will be used to send notifications.
-
-            * Any edits in other parts of campaign data except payload within the API request parameters will be ignored.
-
-            * If any changes are required in the campaign data, change the campaign name in the API request to create a new campaign.
-
-            '
-        payload:
-          $ref: '#/components/schemas/Payload'
-          description: 'This object contains the payload details. Supported values are:
-
-            * Android. For more information, refer to [Android](/hc/en-us/articles/32986034181268#h_01JGZQJ15BBPB56MCAPZTNKASC).
-
-            * iOS. For more information, refer to [IOS](/hc/en-us/articles/32986034181268#01JGZQRNMF624JYWRH4T882JPR).
-
-            * Web. For more information, refer to [Web](/hc/en-us/articles/32986034181268#01JGZQRQTMXFC01DWTJZJAT2TQ).
-
-            '
-        campaignDelivery:
-          $ref: '#/components/schemas/CampaignDelivery'
-          description: "This field helps decide when the campaign should be sent.\n\n**ASAP**\n\n```json\n// send campaign asap\n\"campaignDelivery\": {\n    \"type\": \"soon\"\n  }\n```\n\n**Schedule Later**\n\n```json\n\"campaignDelivery\": {\n    \"type\": \"later\",\n    \"date\": \"11/07/2016\",\n    \"time\": \"04:33 PM\"\n  }\n```\n\n**Recurring Campaigns**\n\n```json\n\"campaignDelivery\": {\n    \"type\": \"periodic\",\n    \"endDate\": \"11/07/2016\",\n    \"time\": \"04:55 PM\",\n    \"timezone\": \"Asia/Calcutta\",\n    \"repeatAfter\": \"1\" // campaign will be recurring sent after every 1 day.\n  }\n```\n"
-        conversionGoals:
-          type: array
-          maxItems: 5
-          items:
-            $ref: '#/components/schemas/ConversionGoal'
-          description: "This object contains the conversion goals details.\nThis field denotes the event attribute filters. It contains the following elements:\n* name: Event attribute name. This is mandatory.\n* filter: Event attribute filter operator. This is mandatory.\n* value: Event attribute filter value.\n* type: Event attribute data type. This is mandatory.\n\n**Single Conversion Goal**\n\n```json\n\"conversionGoals\": [\n  {\n    \"name\": \"Added To Cart\",\n    \"eventName\": \"AddedTocart\",\n    \"attrs\": {\n        \"name\": \"product_sku\",\n        \"filter\": \"is\",\n        \"value\": \"10089712\",\n        \"type\": \"string\"\n        }\n  }\n]\n```\n\n**Multiple Conversion Goals**\n\n```json\n\"conversionGoals\": [\n  {\n    \"name\": \"Added To Cart\",\n    \"eventName\": \"AddedTocart\",\n    \"attrs\": {\n        \"name\": \"product_sku\",\n        \"filter\": \"is\",\n        \"value\": \"10089712\",\n        \"type\": \"string\"\n        }\n  },\n  {\n    \"name\": \"Order Placed\",\n    \"eventName\": \"OrderSuccess\",\n    \"attrs\": {\n        \"name\": \"product_price\",\n        \"filter\": \"is equal to\",\n        \"value\": 999,\n        \"type\": \"numeric\"\n        }\n  }\n]\n```\n\n**Without Event Attribute Filter**\n\n```json\n{\n  \"name\": \"Added To Cart\",\n  \"eventName\": \"AddedTocart\"\n}\n```\n\n**With String Event Attribute Filter**\n\nWith \"is\" operator:\n\n```json\n{\n  \"name\": \"Added To Cart\",\n  \"eventName\": \"AddedTocart\",\n  \"attrs\": {\n      \"name\": \"product_sku\",\n      \"filter\": \"is\",\n      \"value\": \"10089712\",\n      \"type\": \"string\"\n      }\n}\n```\n\nWith \"is not\" operator:\n\n```json\n{\n  \"name\": \"Added To Cart\",\n  \"eventName\": \"AddedTocart\",\n  \"attrs\": {\n      \"name\": \"product_sku\",\n      \"filter\": \"is not\",\n      \"value\": \"10089712\",\n      \"type\": \"string\"\n      }\n}\n```\n\nWith \"contains\" operator:\n\n```json\n{\n  \"name\": \"Added To Cart\",\n  \"eventName\": \"AddedTocart\",\n  \"attrs\": {\n      \"name\": \"product_sku\",\n      \"filter\": \"contains\",\n      \"value\": \"10089712\",\n      \"type\": \"string\"\n      }\n}\n```\n\nWith \"does not contain\" operator:\n\n```json\n{\n  \"name\": \"Added To Cart\",\n  \"eventName\": \"AddedTocart\",\n  \"attrs\": {\n      \"name\": \"product_sku\",\n      \"filter\": \"does not contain\",\n      \"value\": \"10089712\",\n      \"type\": \"string\"\n      }\n}\n```\n\nWith \"starts with\" operator:\n\n```json\n{\n  \"name\": \"Added To Cart\",    \n  \"eventName\": \"AddedTocart\", \n  \"attrs\": {                  \n      \"name\": \"product_sku\",  \n      \"filter\": \"starts with\",         \n      \"value\": \"10089712\",    \n      \"type\": \"string\"        \n      }\n}\n```\n\nWith \"does not start with\" operator:\n\n```json\n{\n  \"name\": \"Added To Cart\",    \n  \"eventName\": \"AddedTocart\", \n  \"attrs\": {                  \n      \"name\": \"product_sku\",  \n      \"filter\": \"does not start with\",\n      \"value\": \"10089712\",    \n      \"type\": \"string\"        \n      }\n}\n```\n\nWith \"ends with\" operator:\n\n```json\n{\n  \"name\": \"Added To Cart\",    \n  \"eventName\": \"AddedTocart\", \n  \"attrs\": {                  \n      \"name\": \"product_sku\",  \n      \"filter\": \"ends with\",         \n      \"value\": \"10089712\",    \n      \"type\": \"string\"        \n      }\n}\n```\n\nWith \"does not end with\" operator:\n\n```json\n{\n  \"name\": \"Added To Cart\",    \n  \"eventName\": \"AddedTocart\", \n  \"attrs\": {                  \n      \"name\": \"product_sku\",  \n      \"filter\": \"does not end with\",\n      \"value\": \"10089712\",    \n      \"type\": \"string\"        \n      }\n}\n```\n\nWith \"in the following\" operator:\n\n```json\n{\n  \"name\": \"Added To Cart\",    \n  \"eventName\": \"AddedTocart\", \n  \"attrs\": {                  \n      \"name\": \"product_sku\",  \n      \"filter\": \"in the following\",\n      \"value\": [\"10089711\", \"10089712\", \"10089713\"],\n      \"type\": \"string\"        \n      }\n}\n```\n\nWith \"not in the following\" operator:\n\n```json\n{\n  \"name\": \"Added To Cart\",   \n  \"eventName\": \"AddedTocart\",\n  \"attrs\": {                 \n      \"name\": \"product_sku\",\n      \"filter\": \"not in the following\",\n      \"value\": [\"10089711\", \"10089712\", \"10089713\"],\n      \"type\": \"string\"        \n      }\n}\n```\n\nWith \"exists\" operator:\n\n```json\n{\n  \"name\": \"Added To Cart\",\n  \"eventName\": \"AddedTocart\",\n  \"attrs\": {                 \n      \"name\": \"product_sku\", \n      \"filter\": \"exists\",    \n      \"type\": \"string\"       \n      }\n}\n```\n\nWith \"does not exist\" operator:\n\n```json\n{\n  \"name\": \"Added To Cart\",\n  \"eventName\": \"AddedTocart\",\n  \"attrs\": {                 \n      \"name\": \"product_sku\", \n      \"filter\": \"does not exist\",\n      \"type\": \"string\"        \n      }\n}\n```\n\n**With Numeric/Double Event Attribute Filter**\n\nWith \"is equal to\" operator:\n\n```json\n{\n  \"name\": \"Added To Cart\",\n  \"eventName\": \"AddedTocart\",\n  \"attrs\": {\n      \"name\": \"product_price\",\n      \"filter\": \"is equal to\",\n      \"value\": 999,\n      \"type\": \"numeric\"\n      }\n}\n```\n\nWith \"is not equal to\" operator:\n\n```json\n{\n  \"name\": \"Added To Cart\",\n  \"eventName\": \"AddedTocart\",\n  \"attrs\": {                  \n      \"name\": \"product_price\",\n      \"filter\": \"is not equal to\",      \n      \"value\": 999,\n      \"type\": \"numeric\"       \n      }\n}\n```\n\nWith \"is between\" operator:\n\n```json\n{\n  \"name\": \"Added To Cart\",    \n  \"eventName\": \"AddedTocart\", \n  \"attrs\": {                  \n      \"name\": \"product_price\",\n      \"filter\": \"is between\",    \n      \"value\": \"899,999\",\n      \"type\": \"numeric\"\n      }\n}\n```\n\nWith \"is not between\" operator:\n\n```json\n{\n  \"name\": \"Added To Cart\",            \n  \"eventName\": \"AddedTocart\",         \n  \"attrs\": {                          \n      \"name\": \"product_price\",        \n      \"filter\": \"is not between\",\n      \"value\": \"899,999\",\n      \"type\": \"numeric\"\n      }\n}\n```\n\nWith \"is greater than\" operator:\n\n```json\n{\n  \"name\": \"Added To Cart\",    \n  \"eventName\": \"AddedTocart\", \n  \"attrs\": {                  \n      \"name\": \"product_price\",  \n      \"filter\": \"is greater than\",         \n      \"value\": 999,\n      \"type\": \"numeric\"\n      }\n}\n```\n\nWith \"is less than\" operator:\n\n```json\n{\n  \"name\": \"Added To Cart\",    \n  \"eventName\": \"AddedTocart\", \n  \"attrs\": {                  \n      \"name\": \"product_price\",  \n      \"filter\": \"is less than\",\n      \"value\": 999,\n      \"type\": \"numeric\"\n      }\n}\n```\n\nWith \"exists\" operator:\n\n```json\n{\n  \"name\": \"Added To Cart\",\n  \"eventName\": \"AddedTocart\",\n  \"attrs\": {                 \n      \"name\": \"product_price\", \n      \"filter\": \"exists\",    \n      \"type\": \"numeric\"       \n      }\n}\n```\n\nWith \"does not exist\" operator:\n\n```json\n{\n  \"name\": \"Added To Cart\",\n  \"eventName\": \"AddedTocart\",\n  \"attrs\": {                 \n      \"name\": \"product_price\", \n      \"filter\": \"does not exist\",\n      \"type\": \"numeric\"        \n      }\n}\n```\n"
-        advancedSettings:
-          $ref: '#/components/schemas/AdvancedSettings'
-          description: This object contains information about advanced settings. For more information, refer to [Advanced Settings](/hc/en-us/articles/32986034181268#h_01JGZRM6BSGJ9VS3YWKB21DYFW).
     IOSPayload:
       type: object
       required:
@@ -2055,106 +2155,112 @@ components:
         fallback:
           type: object
           description: This JSON object contains the fallback values for the values mentioned above.
-    Payload:
-      type: object
-      description: 'This object contains the payload details. Supported values are:
-
-        * Android. For more information, refer to [Android](/hc/en-us/articles/32986034181268#h_01JGZQJ15BBPB56MCAPZTNKASC).
-
-        * iOS. For more information, refer to [IOS](/hc/en-us/articles/32986034181268#01JGZQRNMF624JYWRH4T882JPR).
-
-        * Web. For more information, refer to [Web](/hc/en-us/articles/32986034181268#01JGZQRQTMXFC01DWTJZJAT2TQ).
-
-        '
-      properties:
-        ANDROID:
-          $ref: '#/components/schemas/AndroidPayload'
-        IOS:
-          $ref: '#/components/schemas/IOSPayload'
-        WEB:
-          $ref: '#/components/schemas/WebPayload'
-    PushFailureResponse:
-      type: object
-      title: Failure Response
-      properties:
-        status:
-          type: string
-          enum:
-          - Fail
-          description: This field indicates the campaign status.
-        Error_Message:
-          type: string
-          description: This field indicates why the request failed.
-          example: Campaign Name not found
-        responseId:
-          type: string
-          description: This field indicates the response ID.
-        requestId:
-          type: string
-          description: This field indicates the request ID.
-    ConversionGoal:
+    PushRequest_2:
       type: object
       required:
-      - name
-      - eventName
+      - campaignName
+      - targetPlatform
+      - targetAudience
+      - payload
+      - campaignDelivery
       properties:
-        name:
+        campaignName:
           type: string
-          description: This field denotes the readable name of the conversion goal for the Campaign Info.
-        eventName:
-          type: string
-          description: This field denotes the actual event name.
-        attrs:
-          type: object
-          description: 'This object contains the conversion goals details.
+          minLength: 5
+          description: 'This field denotes the campaign name. The campaign name should be unique for All Users and Custom Segment campaigns.
 
-            This field denotes the event attribute filters. It contains the following elements:
+            Note:
 
-            * name: Event attribute name. This is mandatory.
+            * API automatically creates a campaign with the given name. You need not create a campaign from the dashboard to use the name.
 
-            * filter: Event attribute filter operator. This is mandatory.
-
-            * value: Event attribute filter value.
-
-            * type: Event attribute data type. This is mandatory.
+            * For User type targetAudience API requests, reuse this campaign name for requests that should be clubbed in the same campaign.
 
             '
-          properties:
-            name:
-              type: string
-            filter:
-              type: string
-              enum:
-              - is
-              - is not
-              - contains
-              - does not contain
-              - starts with
-              - does not start with
-              - ends with
-              - does not end with
-              - in the following
-              - not in the following
-              - exists
-              - does not exist
-              - is equal to
-              - is not equal to
-              - is between
-              - is not between
-              - is less than
-              - is greater than
-            value:
-              oneOf:
-              - type: string
-              - type: number
-              - type: array
-                items:
-                  type: string
-            type:
-              type: string
-              enum:
-              - string
-              - numeric
+        campaignTags:
+          type: array
+          items:
+            type: string
+          description: 'Used to add more context to campaigns. Context can be descriptive names or campaign themes such as onboarding, retention, country, and all users. Tags can also be used to filter campaigns or identify the behaviors of users who received these campaigns. The list of tags should be passed in this field.
+
+
+            For example,
+
+            ```json
+
+            “campaignTags“ : [“Transactional“, “Accounts“]
+
+            ```
+
+            '
+        requestType:
+          type: string
+          default: push
+          description: The value of this key is used to indicate the intention of an API request. The default value is push.
+        targetPlatform:
+          type: array
+          items:
+            type: string
+            enum:
+            - ANDROID
+            - IOS
+            - WEB
+          description: This field denotes the platform devices that are targeted by your campaign. The Push API allows you to target users on Android, iOS, and Web platforms. You can target one or more platforms. If you want to send Web (Chrome) push notifications through the API, you should choose Web as the platform.
+        targetAudience:
+          type: string
+          enum:
+          - All Users
+          - Custom Segment
+          - User
+          description: 'This field denotes the target segment for the campaign. Supported values are:
+
+            * All Users: Pass this value to target all users of your App/Website.
+
+            * Custom Segment: Pass this value to target pre-created user segments. Custom segments can be created using the MoEngage dashboard or [custom segment API](/api/filter-segments/create-filter-segment). Note that the custom segment name should exactly match the name of the target segment.
+
+            * User: Pass this value to target a user with an attribute. It will target a maximum of 100 users of the associated targetUserAttributes definition.
+
+            '
+        customSegmentName:
+          type: string
+          description: Required if targetAudience is 'Custom Segment'.
+        targetUserAttributes:
+          $ref: '#/components/schemas/TargetUserAttributes'
+          description: 'This object contains the target user attribute details.
+
+            Note:
+
+            * This value is required when the targetAudience value is User.
+
+            * For API requests where the target audience is a specific user, if a campaign with the given name already exists, existing campaign data corresponding to the given name will be used to send notifications.
+
+            * Any edits in other parts of campaign data except payload within the API request parameters will be ignored.
+
+            * If any changes are required in the campaign data, change the campaign name in the API request to create a new campaign.
+
+            '
+        payload:
+          $ref: '#/components/schemas/Payload'
+          description: 'This object contains the payload details. Supported values are:
+
+            * Android. For more information, refer to [Android](/hc/en-us/articles/32986034181268#h_01JGZQJ15BBPB56MCAPZTNKASC).
+
+            * iOS. For more information, refer to [IOS](/hc/en-us/articles/32986034181268#01JGZQRNMF624JYWRH4T882JPR).
+
+            * Web. For more information, refer to [Web](/hc/en-us/articles/32986034181268#01JGZQRQTMXFC01DWTJZJAT2TQ).
+
+            '
+        campaignDelivery:
+          $ref: '#/components/schemas/CampaignDelivery'
+          description: "This field helps decide when the campaign should be sent.\n\n**ASAP**\n\n```json\n// send campaign asap\n\"campaignDelivery\": {\n    \"type\": \"soon\"\n  }\n```\n\n**Schedule Later**\n\n```json\n\"campaignDelivery\": {\n    \"type\": \"later\",\n    \"date\": \"11/07/2016\",\n    \"time\": \"04:33 PM\"\n  }\n```\n\n**Recurring Campaigns**\n\n```json\n\"campaignDelivery\": {\n    \"type\": \"periodic\",\n    \"endDate\": \"11/07/2016\",\n    \"time\": \"04:55 PM\",\n    \"timezone\": \"Asia/Calcutta\",\n    \"repeatAfter\": \"1\" // campaign will be recurring sent after every 1 day.\n  }\n```\n"
+        conversionGoals:
+          type: array
+          maxItems: 5
+          items:
+            $ref: '#/components/schemas/ConversionGoal'
+          description: "This object contains the conversion goals details.\nThis field denotes the event attribute filters. It contains the following elements:\n* name: Event attribute name. This is mandatory.\n* filter: Event attribute filter operator. This is mandatory.\n* value: Event attribute filter value.\n* type: Event attribute data type. This is mandatory.\n\n**Single Conversion Goal**\n\n```json\n\"conversionGoals\": [\n  {\n    \"name\": \"Added To Cart\",\n    \"eventName\": \"AddedTocart\",\n    \"attrs\": {\n        \"name\": \"product_sku\",\n        \"filter\": \"is\",\n        \"value\": \"10089712\",\n        \"type\": \"string\"\n        }\n  }\n]\n```\n\n**Multiple Conversion Goals**\n\n```json\n\"conversionGoals\": [\n  {\n    \"name\": \"Added To Cart\",\n    \"eventName\": \"AddedTocart\",\n    \"attrs\": {\n        \"name\": \"product_sku\",\n        \"filter\": \"is\",\n        \"value\": \"10089712\",\n        \"type\": \"string\"\n        }\n  },\n  {\n    \"name\": \"Order Placed\",\n    \"eventName\": \"OrderSuccess\",\n    \"attrs\": {\n        \"name\": \"product_price\",\n        \"filter\": \"is equal to\",\n        \"value\": 999,\n        \"type\": \"numeric\"\n        }\n  }\n]\n```\n\n**Without Event Attribute Filter**\n\n```json\n{\n  \"name\": \"Added To Cart\",\n  \"eventName\": \"AddedTocart\"\n}\n```\n\n**With String Event Attribute Filter**\n\nWith \"is\" operator:\n\n```json\n{\n  \"name\": \"Added To Cart\",\n  \"eventName\": \"AddedTocart\",\n  \"attrs\": {\n      \"name\": \"product_sku\",\n      \"filter\": \"is\",\n      \"value\": \"10089712\",\n      \"type\": \"string\"\n      }\n}\n```\n\nWith \"is not\" operator:\n\n```json\n{\n  \"name\": \"Added To Cart\",\n  \"eventName\": \"AddedTocart\",\n  \"attrs\": {\n      \"name\": \"product_sku\",\n      \"filter\": \"is not\",\n      \"value\": \"10089712\",\n      \"type\": \"string\"\n      }\n}\n```\n\nWith \"contains\" operator:\n\n```json\n{\n  \"name\": \"Added To Cart\",\n  \"eventName\": \"AddedTocart\",\n  \"attrs\": {\n      \"name\": \"product_sku\",\n      \"filter\": \"contains\",\n      \"value\": \"10089712\",\n      \"type\": \"string\"\n      }\n}\n```\n\nWith \"does not contain\" operator:\n\n```json\n{\n  \"name\": \"Added To Cart\",\n  \"eventName\": \"AddedTocart\",\n  \"attrs\": {\n      \"name\": \"product_sku\",\n      \"filter\": \"does not contain\",\n      \"value\": \"10089712\",\n      \"type\": \"string\"\n      }\n}\n```\n\nWith \"starts with\" operator:\n\n```json\n{\n  \"name\": \"Added To Cart\",    \n  \"eventName\": \"AddedTocart\", \n  \"attrs\": {                  \n      \"name\": \"product_sku\",  \n      \"filter\": \"starts with\",         \n      \"value\": \"10089712\",    \n      \"type\": \"string\"        \n      }\n}\n```\n\nWith \"does not start with\" operator:\n\n```json\n{\n  \"name\": \"Added To Cart\",    \n  \"eventName\": \"AddedTocart\", \n  \"attrs\": {                  \n      \"name\": \"product_sku\",  \n      \"filter\": \"does not start with\",\n      \"value\": \"10089712\",    \n      \"type\": \"string\"        \n      }\n}\n```\n\nWith \"ends with\" operator:\n\n```json\n{\n  \"name\": \"Added To Cart\",    \n  \"eventName\": \"AddedTocart\", \n  \"attrs\": {                  \n      \"name\": \"product_sku\",  \n      \"filter\": \"ends with\",         \n      \"value\": \"10089712\",    \n      \"type\": \"string\"        \n      }\n}\n```\n\nWith \"does not end with\" operator:\n\n```json\n{\n  \"name\": \"Added To Cart\",    \n  \"eventName\": \"AddedTocart\", \n  \"attrs\": {                  \n      \"name\": \"product_sku\",  \n      \"filter\": \"does not end with\",\n      \"value\": \"10089712\",    \n      \"type\": \"string\"        \n      }\n}\n```\n\nWith \"in the following\" operator:\n\n```json\n{\n  \"name\": \"Added To Cart\",    \n  \"eventName\": \"AddedTocart\", \n  \"attrs\": {                  \n      \"name\": \"product_sku\",  \n      \"filter\": \"in the following\",\n      \"value\": [\"10089711\", \"10089712\", \"10089713\"],\n      \"type\": \"string\"        \n      }\n}\n```\n\nWith \"not in the following\" operator:\n\n```json\n{\n  \"name\": \"Added To Cart\",   \n  \"eventName\": \"AddedTocart\",\n  \"attrs\": {                 \n      \"name\": \"product_sku\",\n      \"filter\": \"not in the following\",\n      \"value\": [\"10089711\", \"10089712\", \"10089713\"],\n      \"type\": \"string\"        \n      }\n}\n```\n\nWith \"exists\" operator:\n\n```json\n{\n  \"name\": \"Added To Cart\",\n  \"eventName\": \"AddedTocart\",\n  \"attrs\": {                 \n      \"name\": \"product_sku\", \n      \"filter\": \"exists\",    \n      \"type\": \"string\"       \n      }\n}\n```\n\nWith \"does not exist\" operator:\n\n```json\n{\n  \"name\": \"Added To Cart\",\n  \"eventName\": \"AddedTocart\",\n  \"attrs\": {                 \n      \"name\": \"product_sku\", \n      \"filter\": \"does not exist\",\n      \"type\": \"string\"        \n      }\n}\n```\n\n**With Numeric/Double Event Attribute Filter**\n\nWith \"is equal to\" operator:\n\n```json\n{\n  \"name\": \"Added To Cart\",\n  \"eventName\": \"AddedTocart\",\n  \"attrs\": {\n      \"name\": \"product_price\",\n      \"filter\": \"is equal to\",\n      \"value\": 999,\n      \"type\": \"numeric\"\n      }\n}\n```\n\nWith \"is not equal to\" operator:\n\n```json\n{\n  \"name\": \"Added To Cart\",\n  \"eventName\": \"AddedTocart\",\n  \"attrs\": {                  \n      \"name\": \"product_price\",\n      \"filter\": \"is not equal to\",      \n      \"value\": 999,\n      \"type\": \"numeric\"       \n      }\n}\n```\n\nWith \"is between\" operator:\n\n```json\n{\n  \"name\": \"Added To Cart\",    \n  \"eventName\": \"AddedTocart\", \n  \"attrs\": {                  \n      \"name\": \"product_price\",\n      \"filter\": \"is between\",    \n      \"value\": \"899,999\",\n      \"type\": \"numeric\"\n      }\n}\n```\n\nWith \"is not between\" operator:\n\n```json\n{\n  \"name\": \"Added To Cart\",            \n  \"eventName\": \"AddedTocart\",         \n  \"attrs\": {                          \n      \"name\": \"product_price\",        \n      \"filter\": \"is not between\",\n      \"value\": \"899,999\",\n      \"type\": \"numeric\"\n      }\n}\n```\n\nWith \"is greater than\" operator:\n\n```json\n{\n  \"name\": \"Added To Cart\",    \n  \"eventName\": \"AddedTocart\", \n  \"attrs\": {                  \n      \"name\": \"product_price\",  \n      \"filter\": \"is greater than\",         \n      \"value\": 999,\n      \"type\": \"numeric\"\n      }\n}\n```\n\nWith \"is less than\" operator:\n\n```json\n{\n  \"name\": \"Added To Cart\",    \n  \"eventName\": \"AddedTocart\", \n  \"attrs\": {                  \n      \"name\": \"product_price\",  \n      \"filter\": \"is less than\",\n      \"value\": 999,\n      \"type\": \"numeric\"\n      }\n}\n```\n\nWith \"exists\" operator:\n\n```json\n{\n  \"name\": \"Added To Cart\",\n  \"eventName\": \"AddedTocart\",\n  \"attrs\": {                 \n      \"name\": \"product_price\", \n      \"filter\": \"exists\",    \n      \"type\": \"numeric\"       \n      }\n}\n```\n\nWith \"does not exist\" operator:\n\n```json\n{\n  \"name\": \"Added To Cart\",\n  \"eventName\": \"AddedTocart\",\n  \"attrs\": {                 \n      \"name\": \"product_price\", \n      \"filter\": \"does not exist\",\n      \"type\": \"numeric\"        \n      }\n}\n```\n"
+        advancedSettings:
+          $ref: '#/components/schemas/AdvancedSettings_2'
+          description: This object contains information about advanced settings. For more information, refer to [Advanced Settings](/hc/en-us/articles/32986034181268#h_01JGZRM6BSGJ9VS3YWKB21DYFW).
     AdvancedSettings_2:
       type: object
       description: This object contains information about advanced settings. For more information, refer to [Advanced Settings](/hc/en-us/articles/32986034181268#h_01JGZRM6BSGJ9VS3YWKB21DYFW).
@@ -2382,126 +2488,7 @@ components:
             - 'false'
           - type: boolean
           description: Send at high priority (legacy flag).
-    PushRequest_2:
-      type: object
-      required:
-      - campaignName
-      - targetPlatform
-      - targetAudience
-      - payload
-      - campaignDelivery
-      properties:
-        campaignName:
-          type: string
-          minLength: 5
-          description: 'This field denotes the campaign name. The campaign name should be unique for All Users and Custom Segment campaigns.
-
-            Note:
-
-            * API automatically creates a campaign with the given name. You need not create a campaign from the dashboard to use the name.
-
-            * For User type targetAudience API requests, reuse this campaign name for requests that should be clubbed in the same campaign.
-
-            '
-        campaignTags:
-          type: array
-          items:
-            type: string
-          description: 'Used to add more context to campaigns. Context can be descriptive names or campaign themes such as onboarding, retention, country, and all users. Tags can also be used to filter campaigns or identify the behaviors of users who received these campaigns. The list of tags should be passed in this field.
-
-
-            For example,
-
-            ```json
-
-            “campaignTags“ : [“Transactional“, “Accounts“]
-
-            ```
-
-            '
-        requestType:
-          type: string
-          default: push
-          description: The value of this key is used to indicate the intention of an API request. The default value is push.
-        targetPlatform:
-          type: array
-          items:
-            type: string
-            enum:
-            - ANDROID
-            - IOS
-            - WEB
-          description: This field denotes the platform devices that are targeted by your campaign. The Push API allows you to target users on Android, iOS, and Web platforms. You can target one or more platforms. If you want to send Web (Chrome) push notifications through the API, you should choose Web as the platform.
-        targetAudience:
-          type: string
-          enum:
-          - All Users
-          - Custom Segment
-          - User
-          description: 'This field denotes the target segment for the campaign. Supported values are:
-
-            * All Users: Pass this value to target all users of your App/Website.
-
-            * Custom Segment: Pass this value to target pre-created user segments. Custom segments can be created using the MoEngage dashboard or [custom segment API](/api/filter-segments/create-filter-segment). Note that the custom segment name should exactly match the name of the target segment.
-
-            * User: Pass this value to target a user with an attribute. It will target a maximum of 100 users of the associated targetUserAttributes definition.
-
-            '
-        customSegmentName:
-          type: string
-          description: Required if targetAudience is 'Custom Segment'.
-        targetUserAttributes:
-          $ref: '#/components/schemas/TargetUserAttributes'
-          description: 'This object contains the target user attribute details.
-
-            Note:
-
-            * This value is required when the targetAudience value is User.
-
-            * For API requests where the target audience is a specific user, if a campaign with the given name already exists, existing campaign data corresponding to the given name will be used to send notifications.
-
-            * Any edits in other parts of campaign data except payload within the API request parameters will be ignored.
-
-            * If any changes are required in the campaign data, change the campaign name in the API request to create a new campaign.
-
-            '
-        payload:
-          $ref: '#/components/schemas/Payload'
-          description: 'This object contains the payload details. Supported values are:
-
-            * Android. For more information, refer to [Android](/hc/en-us/articles/32986034181268#h_01JGZQJ15BBPB56MCAPZTNKASC).
-
-            * iOS. For more information, refer to [IOS](/hc/en-us/articles/32986034181268#01JGZQRNMF624JYWRH4T882JPR).
-
-            * Web. For more information, refer to [Web](/hc/en-us/articles/32986034181268#01JGZQRQTMXFC01DWTJZJAT2TQ).
-
-            '
-        campaignDelivery:
-          $ref: '#/components/schemas/CampaignDelivery'
-          description: "This field helps decide when the campaign should be sent.\n\n**ASAP**\n\n```json\n// send campaign asap\n\"campaignDelivery\": {\n    \"type\": \"soon\"\n  }\n```\n\n**Schedule Later**\n\n```json\n\"campaignDelivery\": {\n    \"type\": \"later\",\n    \"date\": \"11/07/2016\",\n    \"time\": \"04:33 PM\"\n  }\n```\n\n**Recurring Campaigns**\n\n```json\n\"campaignDelivery\": {\n    \"type\": \"periodic\",\n    \"endDate\": \"11/07/2016\",\n    \"time\": \"04:55 PM\",\n    \"timezone\": \"Asia/Calcutta\",\n    \"repeatAfter\": \"1\" // campaign will be recurring sent after every 1 day.\n  }\n```\n"
-        conversionGoals:
-          type: array
-          maxItems: 5
-          items:
-            $ref: '#/components/schemas/ConversionGoal'
-          description: "This object contains the conversion goals details.\nThis field denotes the event attribute filters. It contains the following elements:\n* name: Event attribute name. This is mandatory.\n* filter: Event attribute filter operator. This is mandatory.\n* value: Event attribute filter value.\n* type: Event attribute data type. This is mandatory.\n\n**Single Conversion Goal**\n\n```json\n\"conversionGoals\": [\n  {\n    \"name\": \"Added To Cart\",\n    \"eventName\": \"AddedTocart\",\n    \"attrs\": {\n        \"name\": \"product_sku\",\n        \"filter\": \"is\",\n        \"value\": \"10089712\",\n        \"type\": \"string\"\n        }\n  }\n]\n```\n\n**Multiple Conversion Goals**\n\n```json\n\"conversionGoals\": [\n  {\n    \"name\": \"Added To Cart\",\n    \"eventName\": \"AddedTocart\",\n    \"attrs\": {\n        \"name\": \"product_sku\",\n        \"filter\": \"is\",\n        \"value\": \"10089712\",\n        \"type\": \"string\"\n        }\n  },\n  {\n    \"name\": \"Order Placed\",\n    \"eventName\": \"OrderSuccess\",\n    \"attrs\": {\n        \"name\": \"product_price\",\n        \"filter\": \"is equal to\",\n        \"value\": 999,\n        \"type\": \"numeric\"\n        }\n  }\n]\n```\n\n**Without Event Attribute Filter**\n\n```json\n{\n  \"name\": \"Added To Cart\",\n  \"eventName\": \"AddedTocart\"\n}\n```\n\n**With String Event Attribute Filter**\n\nWith \"is\" operator:\n\n```json\n{\n  \"name\": \"Added To Cart\",\n  \"eventName\": \"AddedTocart\",\n  \"attrs\": {\n      \"name\": \"product_sku\",\n      \"filter\": \"is\",\n      \"value\": \"10089712\",\n      \"type\": \"string\"\n      }\n}\n```\n\nWith \"is not\" operator:\n\n```json\n{\n  \"name\": \"Added To Cart\",\n  \"eventName\": \"AddedTocart\",\n  \"attrs\": {\n      \"name\": \"product_sku\",\n      \"filter\": \"is not\",\n      \"value\": \"10089712\",\n      \"type\": \"string\"\n      }\n}\n```\n\nWith \"contains\" operator:\n\n```json\n{\n  \"name\": \"Added To Cart\",\n  \"eventName\": \"AddedTocart\",\n  \"attrs\": {\n      \"name\": \"product_sku\",\n      \"filter\": \"contains\",\n      \"value\": \"10089712\",\n      \"type\": \"string\"\n      }\n}\n```\n\nWith \"does not contain\" operator:\n\n```json\n{\n  \"name\": \"Added To Cart\",\n  \"eventName\": \"AddedTocart\",\n  \"attrs\": {\n      \"name\": \"product_sku\",\n      \"filter\": \"does not contain\",\n      \"value\": \"10089712\",\n      \"type\": \"string\"\n      }\n}\n```\n\nWith \"starts with\" operator:\n\n```json\n{\n  \"name\": \"Added To Cart\",    \n  \"eventName\": \"AddedTocart\", \n  \"attrs\": {                  \n      \"name\": \"product_sku\",  \n      \"filter\": \"starts with\",         \n      \"value\": \"10089712\",    \n      \"type\": \"string\"        \n      }\n}\n```\n\nWith \"does not start with\" operator:\n\n```json\n{\n  \"name\": \"Added To Cart\",    \n  \"eventName\": \"AddedTocart\", \n  \"attrs\": {                  \n      \"name\": \"product_sku\",  \n      \"filter\": \"does not start with\",\n      \"value\": \"10089712\",    \n      \"type\": \"string\"        \n      }\n}\n```\n\nWith \"ends with\" operator:\n\n```json\n{\n  \"name\": \"Added To Cart\",    \n  \"eventName\": \"AddedTocart\", \n  \"attrs\": {                  \n      \"name\": \"product_sku\",  \n      \"filter\": \"ends with\",         \n      \"value\": \"10089712\",    \n      \"type\": \"string\"        \n      }\n}\n```\n\nWith \"does not end with\" operator:\n\n```json\n{\n  \"name\": \"Added To Cart\",    \n  \"eventName\": \"AddedTocart\", \n  \"attrs\": {                  \n      \"name\": \"product_sku\",  \n      \"filter\": \"does not end with\",\n      \"value\": \"10089712\",    \n      \"type\": \"string\"        \n      }\n}\n```\n\nWith \"in the following\" operator:\n\n```json\n{\n  \"name\": \"Added To Cart\",    \n  \"eventName\": \"AddedTocart\", \n  \"attrs\": {                  \n      \"name\": \"product_sku\",  \n      \"filter\": \"in the following\",\n      \"value\": [\"10089711\", \"10089712\", \"10089713\"],\n      \"type\": \"string\"        \n      }\n}\n```\n\nWith \"not in the following\" operator:\n\n```json\n{\n  \"name\": \"Added To Cart\",   \n  \"eventName\": \"AddedTocart\",\n  \"attrs\": {                 \n      \"name\": \"product_sku\",\n      \"filter\": \"not in the following\",\n      \"value\": [\"10089711\", \"10089712\", \"10089713\"],\n      \"type\": \"string\"        \n      }\n}\n```\n\nWith \"exists\" operator:\n\n```json\n{\n  \"name\": \"Added To Cart\",\n  \"eventName\": \"AddedTocart\",\n  \"attrs\": {                 \n      \"name\": \"product_sku\", \n      \"filter\": \"exists\",    \n      \"type\": \"string\"       \n      }\n}\n```\n\nWith \"does not exist\" operator:\n\n```json\n{\n  \"name\": \"Added To Cart\",\n  \"eventName\": \"AddedTocart\",\n  \"attrs\": {                 \n      \"name\": \"product_sku\", \n      \"filter\": \"does not exist\",\n      \"type\": \"string\"        \n      }\n}\n```\n\n**With Numeric/Double Event Attribute Filter**\n\nWith \"is equal to\" operator:\n\n```json\n{\n  \"name\": \"Added To Cart\",\n  \"eventName\": \"AddedTocart\",\n  \"attrs\": {\n      \"name\": \"product_price\",\n      \"filter\": \"is equal to\",\n      \"value\": 999,\n      \"type\": \"numeric\"\n      }\n}\n```\n\nWith \"is not equal to\" operator:\n\n```json\n{\n  \"name\": \"Added To Cart\",\n  \"eventName\": \"AddedTocart\",\n  \"attrs\": {                  \n      \"name\": \"product_price\",\n      \"filter\": \"is not equal to\",      \n      \"value\": 999,\n      \"type\": \"numeric\"       \n      }\n}\n```\n\nWith \"is between\" operator:\n\n```json\n{\n  \"name\": \"Added To Cart\",    \n  \"eventName\": \"AddedTocart\", \n  \"attrs\": {                  \n      \"name\": \"product_price\",\n      \"filter\": \"is between\",    \n      \"value\": \"899,999\",\n      \"type\": \"numeric\"\n      }\n}\n```\n\nWith \"is not between\" operator:\n\n```json\n{\n  \"name\": \"Added To Cart\",            \n  \"eventName\": \"AddedTocart\",         \n  \"attrs\": {                          \n      \"name\": \"product_price\",        \n      \"filter\": \"is not between\",\n      \"value\": \"899,999\",\n      \"type\": \"numeric\"\n      }\n}\n```\n\nWith \"is greater than\" operator:\n\n```json\n{\n  \"name\": \"Added To Cart\",    \n  \"eventName\": \"AddedTocart\", \n  \"attrs\": {                  \n      \"name\": \"product_price\",  \n      \"filter\": \"is greater than\",         \n      \"value\": 999,\n      \"type\": \"numeric\"\n      }\n}\n```\n\nWith \"is less than\" operator:\n\n```json\n{\n  \"name\": \"Added To Cart\",    \n  \"eventName\": \"AddedTocart\", \n  \"attrs\": {                  \n      \"name\": \"product_price\",  \n      \"filter\": \"is less than\",\n      \"value\": 999,\n      \"type\": \"numeric\"\n      }\n}\n```\n\nWith \"exists\" operator:\n\n```json\n{\n  \"name\": \"Added To Cart\",\n  \"eventName\": \"AddedTocart\",\n  \"attrs\": {                 \n      \"name\": \"product_price\", \n      \"filter\": \"exists\",    \n      \"type\": \"numeric\"       \n      }\n}\n```\n\nWith \"does not exist\" operator:\n\n```json\n{\n  \"name\": \"Added To Cart\",\n  \"eventName\": \"AddedTocart\",\n  \"attrs\": {                 \n      \"name\": \"product_price\", \n      \"filter\": \"does not exist\",\n      \"type\": \"numeric\"        \n      }\n}\n```\n"
-        advancedSettings:
-          $ref: '#/components/schemas/AdvancedSettings_2'
-          description: This object contains information about advanced settings. For more information, refer to [Advanced Settings](/hc/en-us/articles/32986034181268#h_01JGZRM6BSGJ9VS3YWKB21DYFW).
   parameters:
-    XMoeQueryType:
-      name: X-MOE-Query-Type
-      in: header
-      required: true
-      description: 'This field mirrors the `targetAudience` field in the request body, but uses lowercase values. For example, when `targetAudience` is "User", send `X-MOE-Query-Type: user`.
-
-        '
-      schema:
-        type: string
-        enum:
-        - all users
-        - user
-        - custom segment
     XMoeAppKey:
       name: X-MOE-APPKEY
       in: header
@@ -2580,6 +2567,19 @@ components:
         '
       schema:
         type: string
+    XMoeQueryType:
+      name: X-MOE-Query-Type
+      in: header
+      required: true
+      description: 'This field mirrors the `targetAudience` field in the request body, but uses lowercase values. For example, when `targetAudience` is "User", send `X-MOE-Query-Type: user`.
+
+        '
+      schema:
+        type: string
+        enum:
+        - all users
+        - user
+        - custom segment
   securitySchemes:
     basicAuth:
       type: http

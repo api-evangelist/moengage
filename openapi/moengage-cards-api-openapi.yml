@@ -222,37 +222,95 @@ paths:
                 message: An unexpected error was encountered while processing this request. Please contact MoEngage Team
 components:
   schemas:
-    DeleteCardsResponseData:
+    CardAction:
       type: object
       properties:
-        android:
-          $ref: '#/components/schemas/DeleteCardsPlatformResult'
-        ios:
-          $ref: '#/components/schemas/DeleteCardsPlatformResult'
-        web:
-          $ref: '#/components/schemas/DeleteCardsPlatformResult'
-    CardMetaData:
-      type: object
-      description: This field contains identifiers for the card campaign, such as the campaign id, card id, and so on. For more information, refer to [Meta Data](/hc/en-us/articles/18920335915284#h_01H9HSZYQB4T7P812D93BJQE8K).
-      properties:
-        cid:
-          type: string
-          description: This field contains the unique identifier that denotes the Card.
-        moe_card_id:
-          type: string
-          description: This field is a combination of the `cid` and the `platform`.
-        moe_campaign_name:
-          type: string
-          description: This field contains the name of the Card campaign.
-        moe_delivery_type:
+        type:
           type: string
           enum:
-          - One Time
-          - Event Triggered
-          description: This field contains the campaign's delivery type.
-        moe_campaign_id:
+          - screenName
+          - deepLink
+          - richLanding
+          description: 'This field contains information about the different action types returned within the `cards` object. Supported Values: `screenName`, `deepLink`, and `richLanding`.
+
+            '
+        name:
           type: string
-          description: This field contains the unique identifier that denotes the campaign associated with the Card.
+          enum:
+          - navigate
+          description: This field contains the name assigned to the action.
+        value:
+          type: string
+          description: 'This field contains the URL or screen to which the user would be redirected upon tapping the card.
+
+            '
+        kvPairs:
+          type: object
+          additionalProperties: true
+          description: This field contains the parameters for the URL to which the user would be redirected.
+      description: 'Actions define what happens when the user taps on the card. For more information, refer to [Card Actions](/user-guide/campaigns-and-channels/cards/create/create-a-card-campaign).
+
+        '
+    Card:
+      type: object
+      properties:
+        id:
+          type: string
+          description: This field contains information about the Card ID and the platform.
+        platform:
+          type: string
+          enum:
+          - android
+          - ios
+          - web
+          description: This field contains the platforms on which the Card is supported.
+        created_at:
+          type: integer
+          format: int64
+          description: This field contains the Unix epoch that represents when the Card campaign was created.
+        updated_at:
+          type: integer
+          format: int64
+          description: This field contains the Unix epoch that represents when the Card campaign was updated last.
+        meta_data:
+          $ref: '#/components/schemas/CardMetaData'
+          description: This field contains identifiers for the card campaign, such as the campaign id, card id, and so on.
+        template_data:
+          $ref: '#/components/schemas/CardTemplateData'
+          description: This field contains information about the Card Template.
+        user_activity:
+          $ref: '#/components/schemas/CardUserActivity'
+          description: This field contains information about whether the user has clicked on the card.
+        display_controls:
+          $ref: '#/components/schemas/CardDisplayControls'
+          description: This field contains information about the display controls set in the card campaign.
+        category:
+          type: string
+          description: 'This field contains information about the card category. For more information, refer to [Card Categories](/user-guide/campaigns-and-channels/cards/create/create-a-card-campaign).
+
+            '
+    CardUserActivity:
+      type: object
+      properties:
+        is_clicked:
+          type: boolean
+          description: This field contains a Boolean value and indicates whether the card was clicked.
+        first_seen:
+          type: integer
+          format: int64
+          description: This field contains an Integer and indicates the first time the card was seen by the user (time is represented as Epoch timestamp in seconds).
+        first_delivered:
+          type: integer
+          format: int64
+          description: This field contains an Integer and indicates when the first card was delivered (time is represented as Epoch timestamp in seconds).
+        show_count:
+          type: object
+          additionalProperties:
+            type: integer
+          description: 'This field contains a JSON Object where the unique_id/uid (that is used when making the fetch call) is present as the key and the number of times the unique_id/uid has been used for the fetch is present as the value.
+
+            '
+      description: This field contains information about the user's interaction with the card.
     CardDisplayControls:
       type: object
       description: This field contains information about the display controls set in the card campaign. For more information, refer to [Display Controls](/user-guide/campaigns-and-channels/cards/create/create-a-card-campaign).
@@ -309,117 +367,23 @@ components:
           - string
           - 'null'
           description: Error message if status is false.
-    CardAction:
+    CardWidget:
       type: object
+      description: Widgets refer to the UI properties defined for self-handled cards. For more information, refer to [Widgets](/hc/en-us/articles/18920335915284#h_01H9JD2ZKP6ESH6DGV7Y71GX8B).
       properties:
+        id:
+          type: integer
+          description: This field refers to the unique identifier for the widget within its container.
         type:
           type: string
           enum:
-          - screenName
-          - deepLink
-          - richLanding
-          description: 'This field contains information about the different action types returned within the `cards` object. Supported Values: `screenName`, `deepLink`, and `richLanding`.
-
-            '
-        name:
+          - text
+          - image
+          - button
+          description: This field refers to the content type (such as `text`, `image`, and `button`).
+        content:
           type: string
-          enum:
-          - navigate
-          description: This field contains the name assigned to the action.
-        value:
-          type: string
-          description: 'This field contains the URL or screen to which the user would be redirected upon tapping the card.
-
-            '
-        kvPairs:
-          type: object
-          additionalProperties: true
-          description: This field contains the parameters for the URL to which the user would be redirected.
-      description: 'Actions define what happens when the user taps on the card. For more information, refer to [Card Actions](/user-guide/campaigns-and-channels/cards/create/create-a-card-campaign).
-
-        '
-    CardTemplateData:
-      type: object
-      description: This field contains information about the Card Template. For more information, refer to [Template Data](/hc/en-us/articles/18920335915284#h_01H9JCXGM63ZVSPWDZZDPY9MV4).
-      properties:
-        type:
-          type: string
-          enum:
-          - basic
-          - illustration
-          description: This field refers to the template type.
-        containers:
-          type: array
-          items:
-            $ref: '#/components/schemas/CardContainer'
-          description: This field contains information about individual UI elements used in the Card.
-    CardUserActivity:
-      type: object
-      properties:
-        is_clicked:
-          type: boolean
-          description: This field contains a Boolean value and indicates whether the card was clicked.
-        first_seen:
-          type: integer
-          format: int64
-          description: This field contains an Integer and indicates the first time the card was seen by the user (time is represented as Epoch timestamp in seconds).
-        first_delivered:
-          type: integer
-          format: int64
-          description: This field contains an Integer and indicates when the first card was delivered (time is represented as Epoch timestamp in seconds).
-        show_count:
-          type: object
-          additionalProperties:
-            type: integer
-          description: 'This field contains a JSON Object where the unique_id/uid (that is used when making the fetch call) is present as the key and the number of times the unique_id/uid has been used for the fetch is present as the value.
-
-            '
-      description: This field contains information about the user's interaction with the card.
-    FetchCardsResponse:
-      type: object
-      properties:
-        status:
-          type: boolean
-          description: Indicates if the request was successful (`true`) or unsuccessful (`false`).
-        request_id:
-          type: string
-          description: Unique identifier for this API request.
-        data:
-          $ref: '#/components/schemas/FetchCardsResponseData'
-          description: This field contains the list of cards that satisfy the search criteria.
-        error:
-          type:
-          - string
-          - 'null'
-          description: Error message if status is false.
-        title:
-          type:
-          - string
-          - 'null'
-          description: Error title if status is false.
-        description:
-          type:
-          - string
-          - 'null'
-          description: Error description if status is false.
-        code:
-          type:
-          - string
-          - 'null'
-          description: Error code if status is false.
-    FetchCardsResponseData:
-      type: object
-      properties:
-        deleted_card_ids:
-          type: array
-          items:
-            type: string
-          description: List of card IDs that have been deleted for this user since the last sync.
-        cards:
-          type: array
-          items:
-            $ref: '#/components/schemas/Card'
-          description: List of active and updated cards matching the criteria.
+          description: This field refers to the content that would be displayed in the widget.
     CardContainer:
       type: object
       description: Containers contain information about the individual UI elements and their properties for self-handled cards.
@@ -451,6 +415,37 @@ components:
           items:
             $ref: '#/components/schemas/CardAction'
           description: This field contains information about what should happen when the card is tapped (for the container itself).
+    FetchCardsResponseData:
+      type: object
+      properties:
+        deleted_card_ids:
+          type: array
+          items:
+            type: string
+          description: List of card IDs that have been deleted for this user since the last sync.
+        cards:
+          type: array
+          items:
+            $ref: '#/components/schemas/Card'
+          description: List of active and updated cards matching the criteria.
+    DeleteCardsPlatformResult:
+      type: object
+      properties:
+        success:
+          type: array
+          items:
+            type: string
+          description: List of campaign IDs successfully deleted for this platform.
+        failed:
+          type: array
+          items:
+            type: string
+          description: List of campaign IDs that failed to delete for this platform.
+        invalid:
+          type: array
+          items:
+            type: string
+          description: List of campaign IDs that do not exist for this platform for the user.
     FetchCardsRequest:
       type: object
       x-mint:
@@ -499,6 +494,69 @@ components:
 
             '
       description: "You must provide either 'uid' or 'unique_id'.\n\n#### Generating unique_id\n  The `unique_id` refers to the device identifier and is platform-specific. \n  * [Android](https://moengage.github.io/android-api-reference/core/com.moengage.core/[android-jvm]-mo-e-core-helper/get-mo-engage-device-id.html)\n  * **iOS**: `MoEngageSDKCore.getMoEngageDeviceId(completionHandler: @escaping UserInfoHandler)`\n"
+    FetchCardsResponse:
+      type: object
+      properties:
+        status:
+          type: boolean
+          description: Indicates if the request was successful (`true`) or unsuccessful (`false`).
+        request_id:
+          type: string
+          description: Unique identifier for this API request.
+        data:
+          $ref: '#/components/schemas/FetchCardsResponseData'
+          description: This field contains the list of cards that satisfy the search criteria.
+        error:
+          type:
+          - string
+          - 'null'
+          description: Error message if status is false.
+        title:
+          type:
+          - string
+          - 'null'
+          description: Error title if status is false.
+        description:
+          type:
+          - string
+          - 'null'
+          description: Error description if status is false.
+        code:
+          type:
+          - string
+          - 'null'
+          description: Error code if status is false.
+    CardMetaData:
+      type: object
+      description: This field contains identifiers for the card campaign, such as the campaign id, card id, and so on. For more information, refer to [Meta Data](/hc/en-us/articles/18920335915284#h_01H9HSZYQB4T7P812D93BJQE8K).
+      properties:
+        cid:
+          type: string
+          description: This field contains the unique identifier that denotes the Card.
+        moe_card_id:
+          type: string
+          description: This field is a combination of the `cid` and the `platform`.
+        moe_campaign_name:
+          type: string
+          description: This field contains the name of the Card campaign.
+        moe_delivery_type:
+          type: string
+          enum:
+          - One Time
+          - Event Triggered
+          description: This field contains the campaign's delivery type.
+        moe_campaign_id:
+          type: string
+          description: This field contains the unique identifier that denotes the campaign associated with the Card.
+    DeleteCardsResponseData:
+      type: object
+      properties:
+        android:
+          $ref: '#/components/schemas/DeleteCardsPlatformResult'
+        ios:
+          $ref: '#/components/schemas/DeleteCardsPlatformResult'
+        web:
+          $ref: '#/components/schemas/DeleteCardsPlatformResult'
     ErrorResponse:
       type: object
       properties:
@@ -525,79 +583,6 @@ components:
           type:
           - string
           - 'null'
-    CardWidget:
-      type: object
-      description: Widgets refer to the UI properties defined for self-handled cards. For more information, refer to [Widgets](/hc/en-us/articles/18920335915284#h_01H9JD2ZKP6ESH6DGV7Y71GX8B).
-      properties:
-        id:
-          type: integer
-          description: This field refers to the unique identifier for the widget within its container.
-        type:
-          type: string
-          enum:
-          - text
-          - image
-          - button
-          description: This field refers to the content type (such as `text`, `image`, and `button`).
-        content:
-          type: string
-          description: This field refers to the content that would be displayed in the widget.
-    Card:
-      type: object
-      properties:
-        id:
-          type: string
-          description: This field contains information about the Card ID and the platform.
-        platform:
-          type: string
-          enum:
-          - android
-          - ios
-          - web
-          description: This field contains the platforms on which the Card is supported.
-        created_at:
-          type: integer
-          format: int64
-          description: This field contains the Unix epoch that represents when the Card campaign was created.
-        updated_at:
-          type: integer
-          format: int64
-          description: This field contains the Unix epoch that represents when the Card campaign was updated last.
-        meta_data:
-          $ref: '#/components/schemas/CardMetaData'
-          description: This field contains identifiers for the card campaign, such as the campaign id, card id, and so on.
-        template_data:
-          $ref: '#/components/schemas/CardTemplateData'
-          description: This field contains information about the Card Template.
-        user_activity:
-          $ref: '#/components/schemas/CardUserActivity'
-          description: This field contains information about whether the user has clicked on the card.
-        display_controls:
-          $ref: '#/components/schemas/CardDisplayControls'
-          description: This field contains information about the display controls set in the card campaign.
-        category:
-          type: string
-          description: 'This field contains information about the card category. For more information, refer to [Card Categories](/user-guide/campaigns-and-channels/cards/create/create-a-card-campaign).
-
-            '
-    DeleteCardsPlatformResult:
-      type: object
-      properties:
-        success:
-          type: array
-          items:
-            type: string
-          description: List of campaign IDs successfully deleted for this platform.
-        failed:
-          type: array
-          items:
-            type: string
-          description: List of campaign IDs that failed to delete for this platform.
-        invalid:
-          type: array
-          items:
-            type: string
-          description: List of campaign IDs that do not exist for this platform for the user.
     DeleteCardsRequest:
       type: object
       required:
@@ -643,6 +628,21 @@ components:
 
             '
       description: "You must provide either 'uid' or 'unique_id'.\n\n#### Generating unique_id\n  The `unique_id` refers to the device identifier and is platform-specific. \n  * [Android](https://moengage.github.io/android-api-reference/core/com.moengage.core/[android-jvm]-mo-e-core-helper/get-mo-engage-device-id.html)\n  * **iOS**: `MoEngageSDKCore.getMoEngageDeviceId(completionHandler: @escaping UserInfoHandler)`\n"
+    CardTemplateData:
+      type: object
+      description: This field contains information about the Card Template. For more information, refer to [Template Data](/hc/en-us/articles/18920335915284#h_01H9JCXGM63ZVSPWDZZDPY9MV4).
+      properties:
+        type:
+          type: string
+          enum:
+          - basic
+          - illustration
+          description: This field refers to the template type.
+        containers:
+          type: array
+          items:
+            $ref: '#/components/schemas/CardContainer'
+          description: This field contains information about individual UI elements used in the Card.
   parameters:
     AppKeyHeader:
       name: MOE-APPKEY
@@ -651,16 +651,6 @@ components:
       description: This is the Workspace ID of your MoEngage account that must be passed with the request. You can find it in the MoEngage dashboard at **Settings** > **Account** > **APIs** > **Workspace ID (earlier app id)**.
       schema:
         type: string
-    LimitQuery:
-      name: limit
-      in: query
-      required: false
-      description: 'This field contains the number of cards returned in the search result. When this value is not passed in the request, all the cards are fetched and returned in the search result. The value should be a number greater than zero.
-
-        '
-      schema:
-        type: integer
-        minimum: 1
     PageQuery:
       name: page
       in: query
@@ -672,6 +662,16 @@ components:
         type: integer
         minimum: 1
         default: 1
+    LimitQuery:
+      name: limit
+      in: query
+      required: false
+      description: 'This field contains the number of cards returned in the search result. When this value is not passed in the request, all the cards are fetched and returned in the search result. The value should be a number greater than zero.
+
+        '
+      schema:
+        type: integer
+        minimum: 1
   securitySchemes:
     basicAuth:
       type: http

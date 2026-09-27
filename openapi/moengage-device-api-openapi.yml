@@ -668,6 +668,16 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
+    GenericSuccess:
+      type: object
+      properties:
+        status:
+          type: string
+          description: This field contains the status of the request and specifies whether the request was successful.
+          example: success
+        message:
+          type: string
+          example: Your request has been accepted and will be processed soon.
     DeviceAttributes:
       type: object
       description: This field contains the device attributes to add or update in the device profile.
@@ -801,16 +811,6 @@ components:
               push_id:
                 type: string
                 description: This field denotes the Push token of the device.
-    GenericSuccess:
-      type: object
-      properties:
-        status:
-          type: string
-          description: This field contains the status of the request and specifies whether the request was successful.
-          example: success
-        message:
-          type: string
-          example: Your request has been accepted and will be processed soon.
   securitySchemes:
     Authentication:
       type: http

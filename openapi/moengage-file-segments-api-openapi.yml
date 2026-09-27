@@ -439,24 +439,6 @@ paths:
                 title: Internal Server Error
 components:
   responses:
-    404_FileSegmentNotFound:
-      description: Entity Not Found. The segment name does not exist.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ApiErrorV2'
-          example:
-            title: Entity Not Found
-            description: 'Segment not found with the given name: <custom_segment_unique_name>'
-    409_FileSegmentConflict:
-      description: Conflict. File-segment creation attempt with duplicate name.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ApiErrorV2'
-          example:
-            title: Resource not created
-            description: 'Name already exists : <segment_name>'
     429_FileSegmentRateLimit:
       description: Too Many Requests. The number or rate of requests exceeds the allowed limit.
       content:
@@ -466,6 +448,15 @@ components:
           example:
             title: Too Many Requests
             description: <appropriate message>
+    404_FileSegmentNotFound:
+      description: Entity Not Found. The segment name does not exist.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ApiErrorV2'
+          example:
+            title: Entity Not Found
+            description: 'Segment not found with the given name: <custom_segment_unique_name>'
     401_FileSegmentError:
       description: Unauthorized. Authentication or Authorization Failure.
       content:
@@ -475,7 +466,36 @@ components:
           example:
             title: Authentication required
             description: <message>
+    409_FileSegmentConflict:
+      description: Conflict. File-segment creation attempt with duplicate name.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ApiErrorV2'
+          example:
+            title: Resource not created
+            description: 'Name already exists : <segment_name>'
   schemas:
+    UpdateSegmentRequestV2:
+      description: Schema for updating an existing file segment (add, remove, replace users).
+      allOf:
+      - $ref: '#/components/schemas/BaseSegmentRequestV2'
+      - type: object
+        properties:
+          cs_id:
+            type: string
+            description: 'Unique identifier corresponding to the target segment. When both `cs_id` and `name` are populated, the system prioritizes `cs_id`.
+
+              '
+    ApiErrorV2:
+      type: object
+      properties:
+        title:
+          type: string
+          description: A short title for the error.
+        description:
+          type: string
+          description: A detailed, human-readable explanation of the error.
     CreateSegmentRequestV2:
       description: Schema for creating a new file segment.
       allOf:
@@ -488,15 +508,22 @@ components:
             description: Segment expiry time in days. The segment is archived after this time.
         required:
         - expiry_time
-    ApiErrorV2:
+    ApiResponseSuccessV2:
       type: object
       properties:
-        title:
+        message:
           type: string
-          description: A short title for the error.
-        description:
+          description: The status message of the request.
+        success:
+          type: boolean
+          example: true
+          description: Indicates if the request was accepted.
+        cs_name:
           type: string
-          description: A detailed, human-readable explanation of the error.
+          description: The unique name of the segment being processed.
+        cs_id:
+          type: string
+          description: The unique identifier of the segment.
     BaseSegmentRequestV2:
       type: object
       properties:
@@ -568,33 +595,6 @@ components:
       - segment_name
       - request_id
       - status
-    UpdateSegmentRequestV2:
-      description: Schema for updating an existing file segment (add, remove, replace users).
-      allOf:
-      - $ref: '#/components/schemas/BaseSegmentRequestV2'
-      - type: object
-        properties:
-          cs_id:
-            type: string
-            description: 'Unique identifier corresponding to the target segment. When both `cs_id` and `name` are populated, the system prioritizes `cs_id`.
-
-              '
-    ApiResponseSuccessV2:
-      type: object
-      properties:
-        message:
-          type: string
-          description: The status message of the request.
-        success:
-          type: boolean
-          example: true
-          description: Indicates if the request was accepted.
-        cs_name:
-          type: string
-          description: The unique name of the segment being processed.
-        cs_id:
-          type: string
-          description: The unique identifier of the segment.
   callbacks:
     segmentProcessingCallback:
       '{$request.body#/callback_url}':

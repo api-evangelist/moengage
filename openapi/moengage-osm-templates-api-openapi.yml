@@ -307,59 +307,6 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    StandardErrorResponse:
-      type: object
-      description: Standard error structure used for 400 and 429 responses.
-      properties:
-        error:
-          type: object
-          properties:
-            code:
-              type: string
-              description: A brief explanation of the error.
-              example: 4XX Bad Request
-            message:
-              type: string
-              description: Describes why the request failed (e.g., Duplicate - template_id).
-              example: Duplicate - template_id and template_version
-            details:
-              type: array
-              description: A list of error detail objects containing code, target, and specific messages.
-              items:
-                type: object
-                properties:
-                  code:
-                    type: string
-                    description: Descriptive Error Code.
-                    example: InvalidValue
-                  target:
-                    type: string
-                    description: Denotes the field causing the issue.
-                    example: Duplicate - template_id and template_version
-                  message:
-                    type: string
-                    description: Descriptive Error Message.
-                    example: template_id:BasicTemplate1 template_version:1 is already present.
-            request_id:
-              type: string
-              description: Unique identifier for the request.
-              example: cLCcgLQj
-    SimpleErrorResponse:
-      type: object
-      description: Simplified error structure used for 401, 415, and 5xx responses.
-      properties:
-        title:
-          type: string
-          description: The title of the error.
-          example: Authentication required
-        description:
-          type: string
-          description: A description of the error (used in 401/415).
-          example: MOE-APPKEY missing in Authentication Header
-        message:
-          type: string
-          description: A message describing the error (used in 5xx).
-          example: An unexpected error was encountered.
     CreateOsmTemplateRequest:
       type: object
       required:
@@ -410,6 +357,14 @@ components:
             template_version:
               type: string
               description: The version of the template.
+    SearchOsmTemplateResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          description: A list containing the details of the templates found.
+          items:
+            $ref: '#/components/schemas/OsmTemplate'
     SearchOsmTemplateRequest:
       type: object
       description: '
@@ -496,14 +451,116 @@ components:
                 format: uuid
               version:
                 type: integer
-    SearchOsmTemplateResponse:
+    StandardErrorResponse:
       type: object
+      description: Standard error structure used for 400 and 429 responses.
       properties:
-        data:
-          type: array
-          description: A list containing the details of the templates found.
-          items:
-            $ref: '#/components/schemas/OsmTemplate'
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+              description: A brief explanation of the error.
+              example: 4XX Bad Request
+            message:
+              type: string
+              description: Describes why the request failed (e.g., Duplicate - template_id).
+              example: Duplicate - template_id and template_version
+            details:
+              type: array
+              description: A list of error detail objects containing code, target, and specific messages.
+              items:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    description: Descriptive Error Code.
+                    example: InvalidValue
+                  target:
+                    type: string
+                    description: Denotes the field causing the issue.
+                    example: Duplicate - template_id and template_version
+                  message:
+                    type: string
+                    description: Descriptive Error Message.
+                    example: template_id:BasicTemplate1 template_version:1 is already present.
+            request_id:
+              type: string
+              description: Unique identifier for the request.
+              example: cLCcgLQj
+    SimpleErrorResponse:
+      type: object
+      description: Simplified error structure used for 401, 415, and 5xx responses.
+      properties:
+        title:
+          type: string
+          description: The title of the error.
+          example: Authentication required
+        description:
+          type: string
+          description: A description of the error (used in 401/415).
+          example: MOE-APPKEY missing in Authentication Header
+        message:
+          type: string
+          description: A message describing the error (used in 5xx).
+          example: An unexpected error was encountered.
+    UpdateOsmTemplateRequest:
+      type: object
+      required:
+      - external_template_id
+      - basic_details
+      - meta_info
+      properties:
+        external_template_id:
+          type: string
+          format: uuid
+          description: The unique identifier generated by MoEngage during template creation.
+        update_campaigns:
+          type: boolean
+          default: false
+          description: 'Flag to update all campaigns currently using this template to the newer version.
+
+            * **`true`**: All campaigns running with this template will be updated.
+
+            * **`false`**: A new version of the template is created; existing campaigns remain unchanged.
+
+            '
+        basic_details:
+          type: object
+          description: Details about the template payload.
+          required:
+          - payload
+          properties:
+            payload:
+              type: string
+              description: 'The updated HTML content.
+
+                * Payload type must be HTML.
+
+                * No limit restriction on field length.
+
+                '
+        meta_info:
+          type: object
+          description: Updates template information such as name, version, and updater details.
+          required:
+          - template_name
+          - template_id
+          - updated_by
+          properties:
+            template_name:
+              type: string
+              description: The name of the template being updated.
+            template_id:
+              type: string
+              description: A unique ID for the template provided by you.
+            template_version:
+              type: string
+              description: Optional new version for the template. The version will be increased by 1 automatically after every update.
+            updated_by:
+              type: string
+              format: email
+              description: The email ID of the person updating the template.
     OsmTemplate:
       type: object
       properties:
@@ -569,63 +626,6 @@ components:
           type: string
           format: date-time
           description: The timestamp when the template was last updated.
-    UpdateOsmTemplateRequest:
-      type: object
-      required:
-      - external_template_id
-      - basic_details
-      - meta_info
-      properties:
-        external_template_id:
-          type: string
-          format: uuid
-          description: The unique identifier generated by MoEngage during template creation.
-        update_campaigns:
-          type: boolean
-          default: false
-          description: 'Flag to update all campaigns currently using this template to the newer version.
-
-            * **`true`**: All campaigns running with this template will be updated.
-
-            * **`false`**: A new version of the template is created; existing campaigns remain unchanged.
-
-            '
-        basic_details:
-          type: object
-          description: Details about the template payload.
-          required:
-          - payload
-          properties:
-            payload:
-              type: string
-              description: 'The updated HTML content.
-
-                * Payload type must be HTML.
-
-                * No limit restriction on field length.
-
-                '
-        meta_info:
-          type: object
-          description: Updates template information such as name, version, and updater details.
-          required:
-          - template_name
-          - template_id
-          - updated_by
-          properties:
-            template_name:
-              type: string
-              description: The name of the template being updated.
-            template_id:
-              type: string
-              description: A unique ID for the template provided by you.
-            template_version:
-              type: string
-              description: Optional new version for the template. The version will be increased by 1 automatically after every update.
-            updated_by:
-              type: string
-              format: email
-              description: The email ID of the person updating the template.
   securitySchemes:
     basicAuth:
       type: http

@@ -185,6 +185,62 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
+    InformRequest:
+      type: object
+      required:
+      - transaction_id
+      - payloads
+      properties:
+        alert_id:
+          type: string
+          description: This field uniquely identifies the Alert to be sent to the user. For the staging endpoint, use the test alert id and for the live endpoint, use the alert id. For more information, refer to [Live and Test Alerts](#live-vs-test-environments).
+        alert_reference_name:
+          type: string
+          description: This field is used to identify the Alert using your reference Name and can be used to identify the alert as an alternative to Alert ID.
+        user_id:
+          type: string
+          description: This is the unique user identifier information you maintain. This information should be passed in the request to facilitate the mapping of the channel events back to the user profile to which this user_id is associated in MoEngage.
+        transaction_id:
+          type: string
+          description: 'This is the unique identifier denoting the transaction for which the Alert is being sent to the user. This information is maintained by the brand and is passed in the request. The maximum length allowed for this field is 50 characters.
+
+
+            The Inform API supports idempotency using this parameter. If a request contains a `transaction_id` and is successful and another request with the same `transaction_id` is received within 5 minutes of the successful request, the new request would be deemed a duplicate one.
+
+            '
+        payloads:
+          type: object
+          description: The payload contains the following channel-level information for all the configured channels.
+          properties:
+            SMS:
+              $ref: '#/components/schemas/PayloadChannel'
+            EMAIL:
+              $ref: '#/components/schemas/PayloadChannel'
+            PUSH:
+              $ref: '#/components/schemas/PayloadChannel'
+    ChannelStatus:
+      type: object
+      properties:
+        message:
+          type: string
+        err_code:
+          type: string
+        status_code:
+          type: integer
+    InformSuccessResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          example: Successfully Received
+        request_id:
+          type: string
+        SMS:
+          $ref: '#/components/schemas/ChannelStatus'
+        EMAIL:
+          $ref: '#/components/schemas/ChannelStatus'
+        PUSH:
+          $ref: '#/components/schemas/ChannelStatus'
     PayloadChannel:
       type: object
       required:
@@ -242,63 +298,7 @@ components:
               type: object
               additionalProperties: true
               description: JSON object containing the dynamic data that updates in real-time (for example, Delivery Status or ETA). Values can be set as key-value pairs using personalization tags to fetch values from the event.
-    InformSuccessResponse:
-      type: object
-      properties:
-        message:
-          type: string
-          example: Successfully Received
-        request_id:
-          type: string
-        SMS:
-          $ref: '#/components/schemas/ChannelStatus'
-        EMAIL:
-          $ref: '#/components/schemas/ChannelStatus'
-        PUSH:
-          $ref: '#/components/schemas/ChannelStatus'
-    InformRequest:
-      type: object
-      required:
-      - transaction_id
-      - payloads
-      properties:
-        alert_id:
-          type: string
-          description: This field uniquely identifies the Alert to be sent to the user. For the staging endpoint, use the test alert id and for the live endpoint, use the alert id. For more information, refer to [Live and Test Alerts](#live-vs-test-environments).
-        alert_reference_name:
-          type: string
-          description: This field is used to identify the Alert using your reference Name and can be used to identify the alert as an alternative to Alert ID.
-        user_id:
-          type: string
-          description: This is the unique user identifier information you maintain. This information should be passed in the request to facilitate the mapping of the channel events back to the user profile to which this user_id is associated in MoEngage.
-        transaction_id:
-          type: string
-          description: 'This is the unique identifier denoting the transaction for which the Alert is being sent to the user. This information is maintained by the brand and is passed in the request. The maximum length allowed for this field is 50 characters.
-
-
-            The Inform API supports idempotency using this parameter. If a request contains a `transaction_id` and is successful and another request with the same `transaction_id` is received within 5 minutes of the successful request, the new request would be deemed a duplicate one.
-
-            '
-        payloads:
-          type: object
-          description: The payload contains the following channel-level information for all the configured channels.
-          properties:
-            SMS:
-              $ref: '#/components/schemas/PayloadChannel'
-            EMAIL:
-              $ref: '#/components/schemas/PayloadChannel'
-            PUSH:
-              $ref: '#/components/schemas/PayloadChannel'
     InformErrorResponse:
-      type: object
-      properties:
-        message:
-          type: string
-        err_code:
-          type: string
-        status_code:
-          type: integer
-    ChannelStatus:
       type: object
       properties:
         message:

@@ -112,15 +112,6 @@ paths:
           $ref: '#/components/responses/5XX_FileSegmentError'
 components:
   responses:
-    404_FileSegmentNotFound:
-      description: Entity Not Found. The segment name does not exist.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ApiErrorV2'
-          example:
-            title: Entity Not Found
-            description: 'Segment not found with the given name: <custom_segment_unique_name>'
     400_FileSegmentError:
       description: Bad Request. Invalid payload format.
       content:
@@ -130,6 +121,23 @@ components:
           example:
             title: Invalid Request
             description: <message>
+    404_FileSegmentNotFound:
+      description: Entity Not Found. The segment name does not exist.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ApiErrorV2'
+          example:
+            title: Entity Not Found
+            description: 'Segment not found with the given name: <custom_segment_unique_name>'
+    5XX_FileSegmentError:
+      description: Server Errors. Something went wrong on MoEngage.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ApiErrorV2'
+          example:
+            title: Internal Server Error
     401_FileSegmentError:
       description: Unauthorized. Authentication or Authorization Failure.
       content:
@@ -139,29 +147,7 @@ components:
           example:
             title: Authentication required
             description: <message>
-    5XX_FileSegmentError:
-      description: Server Errors. Something went wrong on MoEngage.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ApiErrorV2'
-          example:
-            title: Internal Server Error
   schemas:
-    SegmentNameRequestV2:
-      description: Schema for requests that only require the segment name.
-      type: object
-      properties:
-        name:
-          type: string
-          description: The name of the segment.
-        cs_id:
-          type: string
-          description: 'Unique identifier corresponding to the target segment. When both `cs_id` and `name` are populated, the system prioritizes `cs_id`.
-
-            '
-      required:
-      - name
     ApiErrorV2:
       type: object
       properties:
@@ -187,6 +173,20 @@ components:
         cs_id:
           type: string
           description: The unique identifier of the segment.
+    SegmentNameRequestV2:
+      description: Schema for requests that only require the segment name.
+      type: object
+      properties:
+        name:
+          type: string
+          description: The name of the segment.
+        cs_id:
+          type: string
+          description: 'Unique identifier corresponding to the target segment. When both `cs_id` and `name` are populated, the system prioritizes `cs_id`.
+
+            '
+      required:
+      - name
   securitySchemes:
     basicAuth:
       type: http

@@ -651,7 +651,7 @@ paths:
     post:
       summary: Create Email Template (V2)
       description: This API creates an email template in MoEngage. You can use this API to upload templates created outside the MoEngage ecosystem to MoEngage and use them for campaign creation. The uploaded templates can be edited in the Froala editor (custom HTML editor) on the MoEngage dashboard.
-      operationId: createEmailTemplate
+      operationId: postCustomTemplatesEmail
       tags:
       - Email Templates
       x-mint:
@@ -825,6 +825,8 @@ paths:
                     message: An unexpected error was encountered while processing this request. Please contact MoEngage Team
       security:
       - basicAuth: []
+      x-operation-id-source: normalized
+      x-operation-id-original: createEmailTemplate
     put:
       summary: Update Email Template
       description: This API updates an email template by specifying its external template ID. You can specify whether the updated version of the template can be used in active campaigns in the request.
@@ -1278,20 +1280,6 @@ paths:
           description: The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.
 components:
   schemas:
-    TemplateUpdateRequest:
-      allOf:
-      - $ref: '#/components/schemas/TemplateBase'
-    TemplateBulkUpdateRequest:
-      allOf:
-      - $ref: '#/components/schemas/TemplateBase'
-      - type: object
-        properties:
-          id:
-            type: string
-            description: 'This is the Template id of the template being updated. It is mandatory to add this field when updating a template. The template id is a unique identifier that is generated at the time of template creation using the Create Email Template API.
-
-              '
-            example: 63f30792c66ddcaac2ef9109
     ErrorResponse:
       type: object
       properties:
@@ -1300,30 +1288,12 @@ components:
           example: error
         data:
           $ref: '#/components/schemas/ErrorData'
+    TemplateUpdateRequest:
+      allOf:
+      - $ref: '#/components/schemas/TemplateBase'
     TemplateCreateRequest:
       allOf:
       - $ref: '#/components/schemas/TemplateBase'
-    ErrorData:
-      type: object
-      properties:
-        code:
-          type: integer
-          description: 'This field contains the error code and is a String. Example: 400 (for a Bad Request), 401( for Authentication failures), and so on. This field is present in the response only in the case of errors.
-
-            '
-          example: 400
-        title:
-          type: string
-          description: 'This field contains the type of error encountered. Example: Bad Request, Authentication Required, and so on. This field is present in the response only in the case of errors.
-
-            '
-          example: Invalid request body
-        description:
-          type: string
-          description: 'This field describes why the request has failed and is a String.
-
-            '
-          example: MOE-APPKEY header is invalid or empty
     TemplateDetails:
       type: object
       properties:
@@ -1359,6 +1329,85 @@ components:
           type: string
           description: details about who created or updated the template
           example: jane.doe@example.com
+    TemplateDetailsFlat:
+      type: object
+      properties:
+        status:
+          type: string
+          example: success
+          description: 'This field contains the status of the request and denotes whether it was successful or not.
+
+            '
+        template_id:
+          type: string
+          example: 645a0cec10e0307e6d7f7716
+          description: 'This field contains the id of the created template when the request is successful and the error details in case of an unsuccessful request.
+
+            '
+        template_name:
+          type: string
+          example: End_of_season_sale_template
+        subject:
+          type: string
+          description: subject of the template being fetched
+        template_content:
+          type: string
+          description: html content of the template
+        attachments:
+          type: array
+          description: 'The attachments field is a list of JSON Objects that contain the details about an attachment, such as its type, url, name, id, and so on.
+
+            '
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+              name:
+                type: string
+              type:
+                type: string
+              fileType:
+                type: string
+              url:
+                type: string
+        source:
+          type: string
+          description: source of the template being fetched
+        sender_name:
+          type: string
+        editor:
+          type: string
+        created_date:
+          type: string
+          description: timestamp of template creation
+        updated_at:
+          type: string
+          description: timestamp of when the template was last updated
+        updated_by:
+          type: string
+          description: details about who created or updated the template
+    ErrorData:
+      type: object
+      properties:
+        code:
+          type: integer
+          description: 'This field contains the error code and is a String. Example: 400 (for a Bad Request), 401( for Authentication failures), and so on. This field is present in the response only in the case of errors.
+
+            '
+          example: 400
+        title:
+          type: string
+          description: 'This field contains the type of error encountered. Example: Bad Request, Authentication Required, and so on. This field is present in the response only in the case of errors.
+
+            '
+          example: Invalid request body
+        description:
+          type: string
+          description: 'This field describes why the request has failed and is a String.
+
+            '
+          example: MOE-APPKEY header is invalid or empty
     TemplateBase:
       type: object
       required:
@@ -1437,64 +1486,47 @@ components:
 
             '
           example: john.doe@example.com
-    TemplateDetailsFlat:
+    TemplateBulkUpdateRequest:
+      allOf:
+      - $ref: '#/components/schemas/TemplateBase'
+      - type: object
+        properties:
+          id:
+            type: string
+            description: 'This is the Template id of the template being updated. It is mandatory to add this field when updating a template. The template id is a unique identifier that is generated at the time of template creation using the Create Email Template API.
+
+              '
+            example: 63f30792c66ddcaac2ef9109
+    ErrorResponse_2:
       type: object
       properties:
-        status:
-          type: string
-          example: success
-          description: 'This field contains the status of the request and denotes whether it was successful or not.
-
-            '
-        template_id:
-          type: string
-          example: 645a0cec10e0307e6d7f7716
-          description: 'This field contains the id of the created template when the request is successful and the error details in case of an unsuccessful request.
-
-            '
-        template_name:
-          type: string
-          example: End_of_season_sale_template
-        subject:
-          type: string
-          description: subject of the template being fetched
-        template_content:
-          type: string
-          description: html content of the template
-        attachments:
-          type: array
-          description: 'The attachments field is a list of JSON Objects that contain the details about an attachment, such as its type, url, name, id, and so on.
-
-            '
-          items:
-            type: object
-            properties:
-              id:
-                type: string
-              name:
-                type: string
-              type:
-                type: string
-              fileType:
-                type: string
-              url:
-                type: string
-        source:
-          type: string
-          description: source of the template being fetched
-        sender_name:
-          type: string
-        editor:
-          type: string
-        created_date:
-          type: string
-          description: timestamp of template creation
-        updated_at:
-          type: string
-          description: timestamp of when the template was last updated
-        updated_by:
-          type: string
-          description: details about who created or updated the template
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+              description: This field contains the error code that provides a brief explanation of the error and is a String. For example, 400 - Bad Request, 401- Authentication required, and so on.
+            message:
+              type: string
+              description: This field describes why the request has failed and is a String.
+            details:
+              type: array
+              description: This is a List of the error details objects.
+              items:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    description: Descriptive Error Code
+                  target:
+                    type: string
+                    description: Denotes the field causing the issue or a brief description of the error message in some cases
+                  message:
+                    type: string
+                    description: Descriptive Error Message
+            request_id:
+              type: string
+              description: This field contains the unique id pertaining to the request.
     BasicDetails:
       type: object
       description: 'This field contains the email content. This is where you define the email template being created.
@@ -1553,36 +1585,6 @@ components:
             Example: "preview_text": "Let Your Summer Look Shine"
 
             '
-    ErrorResponse_2:
-      type: object
-      properties:
-        error:
-          type: object
-          properties:
-            code:
-              type: string
-              description: This field contains the error code that provides a brief explanation of the error and is a String. For example, 400 - Bad Request, 401- Authentication required, and so on.
-            message:
-              type: string
-              description: This field describes why the request has failed and is a String.
-            details:
-              type: array
-              description: This is a List of the error details objects.
-              items:
-                type: object
-                properties:
-                  code:
-                    type: string
-                    description: Descriptive Error Code
-                  target:
-                    type: string
-                    description: Denotes the field causing the issue or a brief description of the error message in some cases
-                  message:
-                    type: string
-                    description: Descriptive Error Message
-            request_id:
-              type: string
-              description: This field contains the unique id pertaining to the request.
     MetaInfo:
       type: object
       description: 'This field contains information about the template being created, such as the name, version, and ID of the template and the creator''s details.

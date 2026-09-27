@@ -815,31 +815,12 @@ paths:
                   code: unexpected-error
                   message: Something went wrong with your request. Please contact the MoEngage team for further assistance.
 components:
-  responses:
-    TooManyRequests:
-      description: 'The following headers are returned in case of rate-limit breach:
-
-        * `x-ratelimit-limit` (integer) - The maximum number of requests that the consumer is permitted to make in a given time window.
-
-        * `x-ratelimit-remaining` (integer) - The number of requests remaining in the current rate limit window.
-
-        * `x-ratelimit-reset` (integer) - The time at which the current rate limit window resets in UTC epoch seconds.
-
-        '
-      headers:
-        x-ratelimit-limit:
-          schema:
-            type: integer
-          description: The maximum number of requests that the consumer is permitted to make in a given time window.
-        x-ratelimit-remaining:
-          schema:
-            type: integer
-          description: The number of requests remaining in the current rate limit window.
-        x-ratelimit-reset:
-          schema:
-            type: integer
-          description: The time at which the current rate limit window resets in UTC epoch seconds.
   schemas:
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          $ref: '#/components/schemas/Error'
     AlertConditions:
       type: object
       description: Configuration for various alert triggers.
@@ -900,11 +881,6 @@ components:
         alert_conditions:
           $ref: '#/components/schemas/AlertConditions'
           description: This object contains the details and types of alert conditions.
-    ErrorResponse:
-      type: object
-      properties:
-        error:
-          $ref: '#/components/schemas/Error'
     Error:
       type: object
       properties:
@@ -931,6 +907,30 @@ components:
       description: The unique identifier for the coupon list.
       schema:
         type: string
+  responses:
+    TooManyRequests:
+      description: 'The following headers are returned in case of rate-limit breach:
+
+        * `x-ratelimit-limit` (integer) - The maximum number of requests that the consumer is permitted to make in a given time window.
+
+        * `x-ratelimit-remaining` (integer) - The number of requests remaining in the current rate limit window.
+
+        * `x-ratelimit-reset` (integer) - The time at which the current rate limit window resets in UTC epoch seconds.
+
+        '
+      headers:
+        x-ratelimit-limit:
+          schema:
+            type: integer
+          description: The maximum number of requests that the consumer is permitted to make in a given time window.
+        x-ratelimit-remaining:
+          schema:
+            type: integer
+          description: The number of requests remaining in the current rate limit window.
+        x-ratelimit-reset:
+          schema:
+            type: integer
+          description: The time at which the current rate limit window resets in UTC epoch seconds.
   securitySchemes:
     basicAuth:
       type: http

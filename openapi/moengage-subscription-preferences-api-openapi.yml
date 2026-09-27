@@ -227,52 +227,13 @@ paths:
         '500':
           $ref: '#/components/responses/InternalServerError'
 components:
-  responses:
-    TooManyRequests:
-      description: Rate Limit Breach. The number of requests per minute has exceeded the limit.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-          example:
-            title: Rate-Limit Reached
-            description: Exceeded rate limit for this url
-    InternalServerError:
-      description: Internal Server Error. Returned when the system runs into an unexpected error.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-          example:
-            title: Internal Error
-            description: Please Contact Moengage Team
-    Unauthorized:
-      description: Authorization Failure. Returned when authorization fails due to incorrect APP KEY/HTTP Auth Header.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-          examples:
-            auth_required:
-              summary: Auth Failure
-              value:
-                title: Authentication required
-                description: No identity information found.
-            missing_header:
-              summary: Missing Header
-              value:
-                title: Header required
-                description: MOE-APPKEY missing in Header
-    Conflict:
-      description: API SECRET not configured. Returned when the authorization fails due to the APP SECRET key not being set on the Dashboard.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-          example:
-            title: API SECRET not configured
-            description: This response is returned when the authorization fails due to the APP SECRET key not being set on the Dashboard.
   schemas:
+    SuccessResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          description: A brief description of the request status in the case of success.
     ErrorResponse:
       type: object
       properties:
@@ -282,20 +243,6 @@ components:
         description:
           type: string
           description: The error description.
-    SubscriptionCategories:
-      type: object
-      description: 'A JSON Object that contains the subscription preferences of the customer.
-
-        `category_name` is the unique category name in MoEngage.
-
-        '
-      additionalProperties:
-        type: boolean
-      example:
-        Promotions: true
-        Updates: false
-        Recommendations: true
-        Newsletter: false
     UpdatePreferencesRequest:
       type: object
       required:
@@ -318,12 +265,36 @@ components:
           New arrivals: false
           Recommendations: true
           Newsletter: true
-    SuccessResponse:
+    UserPreferenceEntry:
       type: object
+      required:
+      - customer_id
+      - categories
+      - unsubscribe_all
       properties:
-        message:
+        customer_id:
           type: string
-          description: A brief description of the request status in the case of success.
+          description: The unique identifier denoting the customer (ID on the user profile page) for whom you are updating the subscription preferences.
+          example: john@example.com
+        categories:
+          $ref: '#/components/schemas/SubscriptionCategories'
+        unsubscribe_all:
+          type: boolean
+          description: Set to **true** to unsubscribe the user from all categories.
+    SubscriptionCategories:
+      type: object
+      description: 'A JSON Object that contains the subscription preferences of the customer.
+
+        `category_name` is the unique category name in MoEngage.
+
+        '
+      additionalProperties:
+        type: boolean
+      example:
+        Promotions: true
+        Updates: false
+        Recommendations: true
+        Newsletter: false
     BulkUpdatePreferencesRequest:
       type: object
       required:
@@ -363,22 +334,6 @@ components:
             New arrivals: false
             Recommendations: true
           unsubscribe_all: false
-    UserPreferenceEntry:
-      type: object
-      required:
-      - customer_id
-      - categories
-      - unsubscribe_all
-      properties:
-        customer_id:
-          type: string
-          description: The unique identifier denoting the customer (ID on the user profile page) for whom you are updating the subscription preferences.
-          example: john@example.com
-        categories:
-          $ref: '#/components/schemas/SubscriptionCategories'
-        unsubscribe_all:
-          type: boolean
-          description: Set to **true** to unsubscribe the user from all categories.
   parameters:
     AppKeyHeader:
       name: MOE-APPKEY
@@ -389,6 +344,51 @@ components:
         '
       schema:
         type: string
+  responses:
+    Unauthorized:
+      description: Authorization Failure. Returned when authorization fails due to incorrect APP KEY/HTTP Auth Header.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          examples:
+            auth_required:
+              summary: Auth Failure
+              value:
+                title: Authentication required
+                description: No identity information found.
+            missing_header:
+              summary: Missing Header
+              value:
+                title: Header required
+                description: MOE-APPKEY missing in Header
+    Conflict:
+      description: API SECRET not configured. Returned when the authorization fails due to the APP SECRET key not being set on the Dashboard.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            title: API SECRET not configured
+            description: This response is returned when the authorization fails due to the APP SECRET key not being set on the Dashboard.
+    TooManyRequests:
+      description: Rate Limit Breach. The number of requests per minute has exceeded the limit.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            title: Rate-Limit Reached
+            description: Exceeded rate limit for this url
+    InternalServerError:
+      description: Internal Server Error. Returned when the system runs into an unexpected error.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            title: Internal Error
+            description: Please Contact Moengage Team
   securitySchemes:
     basicAuth:
       type: http

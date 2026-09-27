@@ -271,85 +271,7 @@ paths:
         '429':
           $ref: '#/components/responses/TooManyRequests'
 components:
-  responses:
-    TooManyRequests:
-      description: 'Too Many Requests - The rate limit for the API has been exceeded.
-
-
-        The following headers are returned in case of rate-limit breach:
-
-        * **x-ratelimit-limit (integer)**: The maximum number of requests that the consumer is permitted to make in a given time window.
-
-        * **x-ratelimit-remaining (integer)**: The number of requests remaining in the current rate limit window.
-
-        * **x-ratelimit-reset (integer)**: The time at which the current rate limit window resets in UTC epoch seconds.'
-    NotFound:
-      description: Not Found - The specified resource (catalog) could not be found.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-          example:
-            error-code: catalog-not-found
-            message: We could not find any API based catalog for the provided catalog id.
-    Forbidden:
-      description: Forbidden - The client does not have access rights to the Catalog APIs.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-          example:
-            error-code: request-denied
-            message: Your account does not have access to the Catalog APIs.
-    Unauthorized:
-      description: Unauthorized - The request does not have valid authentication credentials.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-          example:
-            error-code: request-unauthenticated
-            message: Your request is unauthorized. Please verify your credentials and try again.
   schemas:
-    AttributeDefinition:
-      type: object
-      required:
-      - name
-      - type
-      properties:
-        name:
-          type: string
-          description: The name of the attribute (e.g., 'color', 'price').
-        type:
-          type: string
-          description: 'The data type of the attribute. Supported values:
-
-            - `string` — text values.
-
-            - `bool` — boolean values (`true` or `false`).
-
-            - `double` — numeric values, including decimals.
-
-            - `datetime` — ISO 8601 timestamp with milliseconds and a UTC offset (`Z` or `±HH:mm`). Example: `2025-08-27T19:26:38.00Z`.
-
-            - `geopoint` — a geographic coordinate as `"latitude,longitude"`. Example: `"12.9716,77.5946"`.
-
-            '
-          enum:
-          - string
-          - bool
-          - double
-          - datetime
-          - geopoint
-    Error:
-      type: object
-      properties:
-        error-code:
-          type: string
-          description: A machine-readable error code.
-        message:
-          type: string
-          description: A human-readable description of the error.
     CreateCatalogRequest:
       type: object
       required:
@@ -501,6 +423,84 @@ components:
             '
           items:
             $ref: '#/components/schemas/AttributeDefinition'
+    AttributeDefinition:
+      type: object
+      required:
+      - name
+      - type
+      properties:
+        name:
+          type: string
+          description: The name of the attribute (e.g., 'color', 'price').
+        type:
+          type: string
+          description: 'The data type of the attribute. Supported values:
+
+            - `string` — text values.
+
+            - `bool` — boolean values (`true` or `false`).
+
+            - `double` — numeric values, including decimals.
+
+            - `datetime` — ISO 8601 timestamp with milliseconds and a UTC offset (`Z` or `±HH:mm`). Example: `2025-08-27T19:26:38.00Z`.
+
+            - `geopoint` — a geographic coordinate as `"latitude,longitude"`. Example: `"12.9716,77.5946"`.
+
+            '
+          enum:
+          - string
+          - bool
+          - double
+          - datetime
+          - geopoint
+    Error:
+      type: object
+      properties:
+        error-code:
+          type: string
+          description: A machine-readable error code.
+        message:
+          type: string
+          description: A human-readable description of the error.
+  responses:
+    NotFound:
+      description: Not Found - The specified resource (catalog) could not be found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            error-code: catalog-not-found
+            message: We could not find any API based catalog for the provided catalog id.
+    Unauthorized:
+      description: Unauthorized - The request does not have valid authentication credentials.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            error-code: request-unauthenticated
+            message: Your request is unauthorized. Please verify your credentials and try again.
+    TooManyRequests:
+      description: 'Too Many Requests - The rate limit for the API has been exceeded.
+
+
+        The following headers are returned in case of rate-limit breach:
+
+        * **x-ratelimit-limit (integer)**: The maximum number of requests that the consumer is permitted to make in a given time window.
+
+        * **x-ratelimit-remaining (integer)**: The number of requests remaining in the current rate limit window.
+
+        * **x-ratelimit-reset (integer)**: The time at which the current rate limit window resets in UTC epoch seconds.'
+    Forbidden:
+      description: Forbidden - The client does not have access rights to the Catalog APIs.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            error-code: request-denied
+            message: Your account does not have access to the Catalog APIs.
   parameters:
     CatalogIdPath:
       name: catalog_id

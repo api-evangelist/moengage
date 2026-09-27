@@ -182,111 +182,7 @@ paths:
                 error-code: unexpected-error
                 message: Something went wrong with your request. Please contact the MoEngage team for further assistance.
 components:
-  responses:
-    TooManyRequests:
-      description: Too Many Requests. There won't be any response body for this request.
-      headers:
-        x-ratelimit-limit:
-          schema:
-            type: integer
-          description: The maximum number of requests that the consumer is permitted to make in a given time window.
-        x-ratelimit-remaining:
-          schema:
-            type: integer
-          description: The number of requests remaining in the current rate limit window.
-        x-ratelimit-reset:
-          schema:
-            type: integer
-          description: The time at which the current rate limit window resets in UTC epoch seconds.
   schemas:
-    CustomSettings:
-      type: object
-      properties:
-        item_filters:
-          type: object
-          properties:
-            user_actions:
-              type: object
-      description: Defines custom filters applied to recommendations.
-    TrendSettings:
-      type: object
-      description: Defines the trend type and duration (Specific fields depend on implementation).
-      properties: {}
-      example:
-        trend_type: most_viewed
-        duration_days: 7
-    FetchResultsRequest:
-      type: object
-      required:
-      - user_id
-      properties:
-        user_id:
-          type: string
-          description: 'A user ID is a unique identifier that represents a user. You can obtain the user_id from the user info page. For more information, refer to [User Identity Management](/user-guide/data/user-data/unified-identity-identity-resolution).
-
-            '
-        item_id:
-          type:
-          - string
-          - 'null'
-          description: 'An `item_id` is a unique identifier assigned to each item in the catalog.
-
-
-            If the `RECOMMENDATION-TYPE` is any of the `similar_item`, `frequently_viewed_together`, or `frequently_bought_together`, you must provide the `item_id`.
-
-
-            This `item_id` acts as the anchor to serve recommended items based on the `RECOMMENDATION-TYPE`.
-
-
-            We expect the user''s most recently interacted `item_id` to serve contextually recommended items.
-
-            '
-        include_fields:
-          type:
-          - array
-          - 'null'
-          items:
-            type: string
-          description: 'You can define the attributes of items you require from the catalog in the recommendation response. For example, `title`, `price`, `link`, `image_link`, and so on.
-
-
-            If the attributes above are not defined, all item attributes in the catalog will be included in the response. The response size may increase depending on the number of attributes in the catalog. Therefore, it is recommended that only the necessary attributes be specified.
-
-            '
-          example:
-          - title
-          - price
-          - image_link
-    Filter:
-      type: object
-      properties:
-        executed:
-          type: boolean
-        filter_type:
-          type: string
-          example: product_filter
-        operator_fe:
-          type: string
-          example: exists
-        name:
-          type: string
-          example: product_id
-        data_type:
-          type: string
-          example: string
-        operator:
-          type: string
-          example: exists
-        value:
-          type:
-          - string
-          - 'null'
-        negate:
-          type: boolean
-        case_sensitive:
-          type: boolean
-        hasError:
-          type: boolean
     ErrorResponse:
       type: object
       properties:
@@ -314,6 +210,60 @@ components:
           - '1'
           - '-1'
           description: 1 for ascending, -1 for descending
+    CustomSettings:
+      type: object
+      properties:
+        item_filters:
+          type: object
+          properties:
+            user_actions:
+              type: object
+      description: Defines custom filters applied to recommendations.
+    RecommendationResultItem:
+      type: object
+      description: The items JSON object contains the key-value pairs of all the requested attributes.
+      properties:
+        item_id:
+          type: string
+          description: This field shows the ID of the item.
+        title:
+          type: string
+          description: This field shows the title of the item.
+        link:
+          type: string
+          format: uri
+          description: This field shows a link to the item.
+        image_link:
+          type: string
+          format: uri
+          description: This field shows a link to the image.
+        catalog_id:
+          type: string
+        feed_id:
+          type: string
+        description:
+          type: string
+        price_currency:
+          type: string
+        creation_date:
+          type: string
+          format: date-time
+        last_updated:
+          type: string
+          format: date-time
+        price:
+          type: number
+          format: double
+        date:
+          type: string
+          format: date
+      additionalProperties: true
+      example:
+        item_id: prod_xyz
+        title: Stylish Red Scarf
+        link: https://example.com/products/prod_xyz
+        image_link: https://example.com/images/prod_xyz.jpg
+        price: 19.99
     RecommendationMetadata:
       type: object
       properties:
@@ -397,51 +347,85 @@ components:
           enum:
           - and
           - or
-    RecommendationResultItem:
+    FetchResultsRequest:
       type: object
-      description: The items JSON object contains the key-value pairs of all the requested attributes.
+      required:
+      - user_id
       properties:
+        user_id:
+          type: string
+          description: 'A user ID is a unique identifier that represents a user. You can obtain the user_id from the user info page. For more information, refer to [User Identity Management](/user-guide/data/user-data/unified-identity-identity-resolution).
+
+            '
         item_id:
-          type: string
-          description: This field shows the ID of the item.
-        title:
-          type: string
-          description: This field shows the title of the item.
-        link:
-          type: string
-          format: uri
-          description: This field shows a link to the item.
-        image_link:
-          type: string
-          format: uri
-          description: This field shows a link to the image.
-        catalog_id:
-          type: string
-        feed_id:
-          type: string
-        description:
-          type: string
-        price_currency:
-          type: string
-        creation_date:
-          type: string
-          format: date-time
-        last_updated:
-          type: string
-          format: date-time
-        price:
-          type: number
-          format: double
-        date:
-          type: string
-          format: date
-      additionalProperties: true
+          type:
+          - string
+          - 'null'
+          description: 'An `item_id` is a unique identifier assigned to each item in the catalog.
+
+
+            If the `RECOMMENDATION-TYPE` is any of the `similar_item`, `frequently_viewed_together`, or `frequently_bought_together`, you must provide the `item_id`.
+
+
+            This `item_id` acts as the anchor to serve recommended items based on the `RECOMMENDATION-TYPE`.
+
+
+            We expect the user''s most recently interacted `item_id` to serve contextually recommended items.
+
+            '
+        include_fields:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+          description: 'You can define the attributes of items you require from the catalog in the recommendation response. For example, `title`, `price`, `link`, `image_link`, and so on.
+
+
+            If the attributes above are not defined, all item attributes in the catalog will be included in the response. The response size may increase depending on the number of attributes in the catalog. Therefore, it is recommended that only the necessary attributes be specified.
+
+            '
+          example:
+          - title
+          - price
+          - image_link
+    TrendSettings:
+      type: object
+      description: Defines the trend type and duration (Specific fields depend on implementation).
+      properties: {}
       example:
-        item_id: prod_xyz
-        title: Stylish Red Scarf
-        link: https://example.com/products/prod_xyz
-        image_link: https://example.com/images/prod_xyz.jpg
-        price: 19.99
+        trend_type: most_viewed
+        duration_days: 7
+    Filter:
+      type: object
+      properties:
+        executed:
+          type: boolean
+        filter_type:
+          type: string
+          example: product_filter
+        operator_fe:
+          type: string
+          example: exists
+        name:
+          type: string
+          example: product_id
+        data_type:
+          type: string
+          example: string
+        operator:
+          type: string
+          example: exists
+        value:
+          type:
+          - string
+          - 'null'
+        negate:
+          type: boolean
+        case_sensitive:
+          type: boolean
+        hasError:
+          type: boolean
   parameters:
     AppKeyHeader:
       name: MOE-APPKEY
@@ -465,6 +449,22 @@ components:
       schema:
         type: string
       example: a1b2c3d4e5f6a7b8c9d0e1f2
+  responses:
+    TooManyRequests:
+      description: Too Many Requests. There won't be any response body for this request.
+      headers:
+        x-ratelimit-limit:
+          schema:
+            type: integer
+          description: The maximum number of requests that the consumer is permitted to make in a given time window.
+        x-ratelimit-remaining:
+          schema:
+            type: integer
+          description: The number of requests remaining in the current rate limit window.
+        x-ratelimit-reset:
+          schema:
+            type: integer
+          description: The time at which the current rate limit window resets in UTC epoch seconds.
   securitySchemes:
     basicAuth:
       type: http

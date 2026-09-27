@@ -143,6 +143,16 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
+    GenericSuccess:
+      type: object
+      properties:
+        status:
+          type: string
+          description: This field contains the status of the request and specifies whether the request was successful.
+          example: success
+        message:
+          type: string
+          example: Your request has been accepted and will be processed soon.
     GenericError:
       type: object
       properties:
@@ -165,16 +175,6 @@ components:
             attribute:
               type: string
               description: The attribute in the payload that caused the error.
-    GenericSuccess:
-      type: object
-      properties:
-        status:
-          type: string
-          description: This field contains the status of the request and specifies whether the request was successful.
-          example: success
-        message:
-          type: string
-          example: Your request has been accepted and will be processed soon.
   securitySchemes:
     Authentication:
       type: http

@@ -334,48 +334,6 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    CreateUserRequest:
-      title: User
-      type: object
-      required:
-      - type
-      - customer_id
-      properties:
-        type:
-          type: string
-          description: This is used to identify the type of request. This field is case-sensitive. Follow the case as in the example when passing the value in the request.
-          enum:
-          - customer
-        customer_id:
-          type: string
-          description: "The unique identifier is used to identify/create a user in MoEngage. Not mandatory in [Identity Resolution](/user-guide/data/user-data/unified-identity-identity-resolution) enabled workspaces. If the User Identity Resolution feature is enabled in your workspace, the attribute parameters in the payload must contain at least one of the identifiers you have activated in your workspace based on which users in MoEngage will be created, updated, or merged. In the following example, moe_mobile is one of the identifiers in the workspace and is passed in attributes:\n\n```json\n {\n        \"type\": \"customer\",\n        \"attributes\": {\"moe_mobile\": \"{{Mobile_Number}}\",\n        \"first_name\": \"John\" \n      }\n}\n```' \n"
-        update_existing_only:
-          type: boolean
-          default: false
-          description: 'This field should be passed in the request when only existing users in MoEngage should be updated.
-
-
-            **If this value is passed as true:**
-
-            1. Only those users for whom the customer_id from the request payload matches the customer identifier in MoEngage will be updated.
-
-            2. In case of new users (customer_id in the payload does not match any of the existing customer ids in your MoEngage account), they will not be created.
-
-
-            **If this value is passed as false:**
-
-            1. The user attributes will be updated with the values present in the payload for existing customers.
-
-            2. In case of new users (customer_id in the payload does not match any of the existing customer ids in your MoEngage account), a new customer will be created in the system with the details specified in the payload.
-
-            '
-        attributes:
-          $ref: '#/components/schemas/UserAttributes'
-        platforms:
-          type: array
-          description: List of dictionaries with the associated platforms out of ANDROID, iOS, and web and their status.
-          items:
-            $ref: '#/components/schemas/PlatformObject'
     GenericSuccess:
       type: object
       properties:
@@ -412,6 +370,20 @@ components:
             If your app is not integrated with MoEngage SDK, you can use unique alphanumeric values or other device attributes such as Push token, GAID/IDFV to assign unique device_id values to devices of your user.'
         attributes:
           $ref: '#/components/schemas/DeviceAttributes'
+    PlatformObject:
+      type: object
+      properties:
+        platform:
+          type: string
+          enum:
+          - ANDROID
+          - iOS
+          - web
+        active:
+          type: string
+          enum:
+          - 'true'
+          - 'false'
     EventAction:
       type: object
       required:
@@ -490,58 +462,6 @@ components:
         user_timezone_offset:
           type: number
           description: "The difference in time between UTC and the local system time in a particular time zone. All time zones are defined by their offset from UTC. The offset is expressed as either UTC- or UTC+.\n * user_timezone_offset should have a value in seconds which can be between -54000 to 54000. For example, for IST (UTC+0530), \"user_timezone_offset\" will be 19800.\n* This field is crucial for establishing the `user_time` or `current_time`.\n* If the field is absent, MoEngage gets this information from the internal system in the sequence as follows:\n      * The user profile’s timezone is taken into consideration.\n      * If the user profile’s timezone is not present, the App/account’s timezone is considered.\n      * In cases where neither is present, the UTC timezone is used.\n* Include `user_timezone_offset` in your request only if you have accurate timezone information for each user, as incorrect info could disrupt event timelines in the user profile.\n\n**Note:**\nMoEngage generates current_time and user_time if they are not provided in the request. Use the following information and provide current_time, user_time, and user_timezone_offset accordingly:\n* If you do not provide any of current_time, user_time, and user_timezone_offset, MoEngage automatically uses the UTC time when the request was received by MoEngage as the current_time. MoEngage uses internal data to calculate the user_timezone_offset to generate the user_time.\n* If you provide only the current_time, MoEngage uses internal data to calculate the user_timezone_offset to generate the user_time.\n- If you provide only the user_time, MoEngage uses internal data to calculate the user_timezone_offset to generate the current_time.\n* If you send the current_time and user_time, MoEngage uses them as is.\n* If you provide the current_time and user_timezone_offset, MoEngage generates the user_time.\n* If you provide user_time and user_timezone_offset, MoEngage generates the current_time.\n"
-    CreateEventRequest:
-      title: Event
-      type: object
-      required:
-      - type
-      - customer_id
-      - actions
-      properties:
-        type:
-          type: string
-          description: This is used to identify the type of request. Allowed value is event. This field is case-sensitive. Follow the case as in the example when passing the value in the request.
-          enum:
-          - event
-        customer_id:
-          type: string
-          description: Identifier to identify or create a user in MoEngage. Not mandatory in Identity resolution enabled workspaces.
-        device_id:
-          type: string
-          description: Device_id in event payload is optional. The default value is the customer_id value. The value is used to map events to specific devices.
-        user_identifiers:
-          type: object
-          description: 'Required if Identity Resolution is enabled and customer_id is not provided.
-
-
-            **User Identity Resolution:**
-
-
-            If the [User Identity Resolution](/user-guide/data/user-data/unified-identity-identity-resolution) feature is enabled in your workspace, identifiers set up in the workspace must be mentioned within the user_identifiers parameter.
-
-            '
-          additionalProperties: true
-          example:
-            moe_mobile: +9198765xxxxx
-        actions:
-          type: array
-          description: List of events to be tracked for the user.
-          items:
-            $ref: '#/components/schemas/EventAction'
-    PlatformObject:
-      type: object
-      properties:
-        platform:
-          type: string
-          enum:
-          - ANDROID
-          - iOS
-          - web
-        active:
-          type: string
-          enum:
-          - 'true'
-          - 'false'
     DeviceAttributes:
       type: object
       description: This field contains the device attributes to add or update in the device profile.
@@ -584,6 +504,67 @@ components:
         idfv:
           type: string
           description: This field denotes the unique advertising identifier for iOS devices.
+    CreateEventRequest:
+      title: Event
+      type: object
+      required:
+      - type
+      - customer_id
+      - actions
+      properties:
+        type:
+          type: string
+          description: This is used to identify the type of request. Allowed value is event. This field is case-sensitive. Follow the case as in the example when passing the value in the request.
+          enum:
+          - event
+        customer_id:
+          type: string
+          description: Identifier to identify or create a user in MoEngage. Not mandatory in Identity resolution enabled workspaces.
+        device_id:
+          type: string
+          description: Device_id in event payload is optional. The default value is the customer_id value. The value is used to map events to specific devices.
+        user_identifiers:
+          type: object
+          description: 'Required if Identity Resolution is enabled and customer_id is not provided.
+
+
+            **User Identity Resolution:**
+
+
+            If the [User Identity Resolution](/user-guide/data/user-data/unified-identity-identity-resolution) feature is enabled in your workspace, identifiers set up in the workspace must be mentioned within the user_identifiers parameter.
+
+            '
+          additionalProperties: true
+          example:
+            moe_mobile: +9198765xxxxx
+        actions:
+          type: array
+          description: List of events to be tracked for the user.
+          items:
+            $ref: '#/components/schemas/EventAction'
+    BulkImportRequest:
+      type: object
+      required:
+      - type
+      - elements
+      properties:
+        type:
+          type: string
+          enum:
+          - transition
+          description: This is used to identify the type of request. This field is case-sensitive. Follow the case as in the example when passing the value in the request.
+        elements:
+          type: array
+          enum:
+          - customer
+          - event
+          - device
+          description: List of data points (events and customers) to track. The type field in this list denotes whether the information is for a customer or an event. This field is case-sensitive. Follow the case as in the example when passing the value in the request.
+          items:
+            oneOf:
+            - $ref: '#/components/schemas/CreateUserRequest'
+            - $ref: '#/components/schemas/CreateEventRequest'
+            - $ref: '#/components/schemas/CreateDeviceRequest'
     UserAttributes:
       type: object
       description: "A dictionary containing user attributes to add / update in the user profile.\nFor example, to track custom attributes of different data types like string, numeric, boolean, and date, pass the following payload where points are a number, expiry_date is a date type attribute, and super_user is a boolean attribute.\n\n> **Note:**\n> * \"id\", \"_id\", and \"\" keywords are blocked and not to be used as user attribute names.\n> * You can not use \"moe_\" as a prefix while naming user attributes. It is a system prefix and using it might result in periodic blacklisting without prior communication.\n> For other attributes that are not listed below, use the key-value pairs that you intend to use.\n\n**Array Support**\n  If you want to pass an attribute in an array, the appropriate syntax for that is: \n   ```json\n   \"Array_attributeName\":[\"abc\",\"123\"]\n   ```\n"
@@ -675,29 +656,48 @@ components:
         expiry_date: '2020-05-31T03:47:35Z'
         super_user: true
         user_persona: browsers
-    BulkImportRequest:
+    CreateUserRequest:
+      title: User
       type: object
       required:
       - type
-      - elements
+      - customer_id
       properties:
         type:
           type: string
-          enum:
-          - transition
           description: This is used to identify the type of request. This field is case-sensitive. Follow the case as in the example when passing the value in the request.
-        elements:
-          type: array
           enum:
           - customer
-          - event
-          - device
-          description: List of data points (events and customers) to track. The type field in this list denotes whether the information is for a customer or an event. This field is case-sensitive. Follow the case as in the example when passing the value in the request.
+        customer_id:
+          type: string
+          description: "The unique identifier is used to identify/create a user in MoEngage. Not mandatory in [Identity Resolution](/user-guide/data/user-data/unified-identity-identity-resolution) enabled workspaces. If the User Identity Resolution feature is enabled in your workspace, the attribute parameters in the payload must contain at least one of the identifiers you have activated in your workspace based on which users in MoEngage will be created, updated, or merged. In the following example, moe_mobile is one of the identifiers in the workspace and is passed in attributes:\n\n```json\n {\n        \"type\": \"customer\",\n        \"attributes\": {\"moe_mobile\": \"{{Mobile_Number}}\",\n        \"first_name\": \"John\" \n      }\n}\n```' \n"
+        update_existing_only:
+          type: boolean
+          default: false
+          description: 'This field should be passed in the request when only existing users in MoEngage should be updated.
+
+
+            **If this value is passed as true:**
+
+            1. Only those users for whom the customer_id from the request payload matches the customer identifier in MoEngage will be updated.
+
+            2. In case of new users (customer_id in the payload does not match any of the existing customer ids in your MoEngage account), they will not be created.
+
+
+            **If this value is passed as false:**
+
+            1. The user attributes will be updated with the values present in the payload for existing customers.
+
+            2. In case of new users (customer_id in the payload does not match any of the existing customer ids in your MoEngage account), a new customer will be created in the system with the details specified in the payload.
+
+            '
+        attributes:
+          $ref: '#/components/schemas/UserAttributes'
+        platforms:
+          type: array
+          description: List of dictionaries with the associated platforms out of ANDROID, iOS, and web and their status.
           items:
-            oneOf:
-            - $ref: '#/components/schemas/CreateUserRequest'
-            - $ref: '#/components/schemas/CreateEventRequest'
-            - $ref: '#/components/schemas/CreateDeviceRequest'
+            $ref: '#/components/schemas/PlatformObject'
   securitySchemes:
     Authentication:
       type: http

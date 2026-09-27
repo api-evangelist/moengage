@@ -167,152 +167,6 @@ paths:
                 $ref: '#/components/schemas/GdprError500Response'
 components:
   schemas:
-    GdprError415Response:
-      type: object
-      description: This response is returned when the content type is not supported.
-      properties:
-        status:
-          type: string
-          example: fail
-        error:
-          type: object
-          description: Contains the error details.
-          properties:
-            message:
-              type: string
-              description: A human-readable message confirming the request was not accepted.
-              example: Content type is not supported
-            type:
-              type: string
-              example: Unsupported media type
-            request_id:
-              type: string
-              example: SgBQfKJh
-    UserIdentity:
-      type: object
-      description: An object representing a user's identity detail.
-      properties:
-        identity_type:
-          type: string
-          description: This field denotes the key based on which the user has to be deleted.
-          enum:
-          - ID
-          - user_secondary_id
-          - email
-          - mobile
-          - google_advertising_id
-          - advertising_identifier
-          example: email
-        identity_value:
-          type: string
-          description: This field denotes the value of the identity_type.
-          example: johndoe@example.com
-    GdprError401Response:
-      type: object
-      description: This response is returned when the request does not have valid authentication credentials.
-      properties:
-        status:
-          type: string
-          example: fail
-        error:
-          type: object
-          description: Contains the error details.
-          properties:
-            message:
-              type: string
-              description: A human-readable message confirming the request was not accepted.
-              example: No identity information found.
-            type:
-              type: string
-              example: Authentication required
-            request_id:
-              type: string
-              example: IzbhlLyG
-    GdprRequest:
-      type: object
-      required:
-      - request_type
-      - submitted_time
-      - identities
-      - api_version
-      description: The main object representing a GDPR or CCPA compliance request.
-      properties:
-        request_type:
-          type: string
-          description: This is used to request for GDPR details or request to erase the GDPR details
-          example: erasure
-        submitted_time:
-          type: string
-          format: date-time
-          description: This identifies the time when the request was sent.
-          example: '2018-10-05T15:00:00Z'
-        identities:
-          type: array
-          description: This provides the details of the user, such as email address, phone number, and so on.
-          items:
-            $ref: '#/components/schemas/UserIdentity'
-        api_version:
-          type: string
-          description: This identifies the API version used to send the GDPR request.
-          example: '1.0'
-    GdprSuccessResponse:
-      type: object
-      description: Standard successful response object for a submitted GDPR request.
-      properties:
-        status:
-          type: string
-          example: success
-        message:
-          type: string
-          description: A human-readable message confirming the request was accepted.
-          example: Your request has been accepted and will be processed soon.
-        request_id:
-          type: string
-          format: uuid
-          description: A unique ID generated for the submitted request.
-          example: a7551968-d5d6-44b2-9831-815ac9017798
-    GdprError413Response:
-      type: object
-      description: This response is returned when the payload size exceeds 128 KB.
-      properties:
-        status:
-          type: string
-          example: fail
-        error:
-          type: object
-          description: Contains the error details.
-          properties:
-            message:
-              type: string
-              description: A human-readable message confirming the request was not accepted.
-              example: Payload can not exceed 128KB.
-            type:
-              type: string
-              example: Payload too large
-            request_id:
-              type: string
-              example: VFzDwhwt
-    GdprError429Response:
-      type: object
-      description: This response is returned when the number of requests has exceeded the rate limit.
-      properties:
-        status:
-          type: string
-          example: fail
-        error:
-          type: object
-          description: Contains the error details.
-          properties:
-            message:
-              type: string
-              description: A human-readable message confirming the request was not accepted.
-              example: Rate limits for customers exceeded. Please Try After Some Time
-            type:
-              type: string
-              example: Rate Limits Exceeded
-            request_id:
-              type: string
-              example: onqucLYL
     GdprError403Response:
       type: object
       description: This response is returned when your MoEngage account is suspended or blocked.
@@ -358,6 +212,22 @@ components:
             request_id:
               type: string
               example: zuMJjxAS
+    GdprSuccessResponse:
+      type: object
+      description: Standard successful response object for a submitted GDPR request.
+      properties:
+        status:
+          type: string
+          example: success
+        message:
+          type: string
+          description: A human-readable message confirming the request was accepted.
+          example: Your request has been accepted and will be processed soon.
+        request_id:
+          type: string
+          format: uuid
+          description: A unique ID generated for the submitted request.
+          example: a7551968-d5d6-44b2-9831-815ac9017798
     GdprError500Response:
       type: object
       description: This response is returned when the system runs into an unexpected error.
@@ -379,6 +249,136 @@ components:
             request_id:
               type: string
               example: KovrwJiF
+    GdprError413Response:
+      type: object
+      description: This response is returned when the payload size exceeds 128 KB.
+      properties:
+        status:
+          type: string
+          example: fail
+        error:
+          type: object
+          description: Contains the error details.
+          properties:
+            message:
+              type: string
+              description: A human-readable message confirming the request was not accepted.
+              example: Payload can not exceed 128KB.
+            type:
+              type: string
+              example: Payload too large
+            request_id:
+              type: string
+              example: VFzDwhwt
+    GdprError429Response:
+      type: object
+      description: This response is returned when the number of requests has exceeded the rate limit.
+      properties:
+        status:
+          type: string
+          example: fail
+        error:
+          type: object
+          description: Contains the error details.
+          properties:
+            message:
+              type: string
+              description: A human-readable message confirming the request was not accepted.
+              example: Rate limits for customers exceeded. Please Try After Some Time
+            type:
+              type: string
+              example: Rate Limits Exceeded
+            request_id:
+              type: string
+              example: onqucLYL
+    GdprError401Response:
+      type: object
+      description: This response is returned when the request does not have valid authentication credentials.
+      properties:
+        status:
+          type: string
+          example: fail
+        error:
+          type: object
+          description: Contains the error details.
+          properties:
+            message:
+              type: string
+              description: A human-readable message confirming the request was not accepted.
+              example: No identity information found.
+            type:
+              type: string
+              example: Authentication required
+            request_id:
+              type: string
+              example: IzbhlLyG
+    UserIdentity:
+      type: object
+      description: An object representing a user's identity detail.
+      properties:
+        identity_type:
+          type: string
+          description: This field denotes the key based on which the user has to be deleted.
+          enum:
+          - ID
+          - user_secondary_id
+          - email
+          - mobile
+          - google_advertising_id
+          - advertising_identifier
+          example: email
+        identity_value:
+          type: string
+          description: This field denotes the value of the identity_type.
+          example: johndoe@example.com
+    GdprRequest:
+      type: object
+      required:
+      - request_type
+      - submitted_time
+      - identities
+      - api_version
+      description: The main object representing a GDPR or CCPA compliance request.
+      properties:
+        request_type:
+          type: string
+          description: This is used to request for GDPR details or request to erase the GDPR details
+          example: erasure
+        submitted_time:
+          type: string
+          format: date-time
+          description: This identifies the time when the request was sent.
+          example: '2018-10-05T15:00:00Z'
+        identities:
+          type: array
+          description: This provides the details of the user, such as email address, phone number, and so on.
+          items:
+            $ref: '#/components/schemas/UserIdentity'
+        api_version:
+          type: string
+          description: This identifies the API version used to send the GDPR request.
+          example: '1.0'
+    GdprError415Response:
+      type: object
+      description: This response is returned when the content type is not supported.
+      properties:
+        status:
+          type: string
+          example: fail
+        error:
+          type: object
+          description: Contains the error details.
+          properties:
+            message:
+              type: string
+              description: A human-readable message confirming the request was not accepted.
+              example: Content type is not supported
+            type:
+              type: string
+              example: Unsupported media type
+            request_id:
+              type: string
+              example: SgBQfKJh
   securitySchemes:
     basicAuth:
       type: http

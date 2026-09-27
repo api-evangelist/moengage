@@ -260,25 +260,6 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    CohortSyncRequest:
-      type: object
-      required:
-      - action
-      - partner
-      - parameters
-      properties:
-        action:
-          type: string
-          description: This field indicates whether users need to be added to the cohort or removed from it.
-          enum:
-          - add_members
-          - remove_members
-        partner:
-          type: string
-          description: This field indicates the name of the partner whose cohort is being synced to MoEngage.
-          example: 6HNBXFm7ZS
-        parameters:
-          $ref: '#/components/schemas/CohortParameters'
     ErrorResponse:
       type: object
       description: Generic error response schema.
@@ -289,6 +270,18 @@ components:
           example: fail
         error:
           $ref: '#/components/schemas/ErrorDetails'
+    CohortSyncSuccess:
+      type: object
+      description: Response body for a successful request.
+      properties:
+        status:
+          type: string
+          description: The status of the request.
+          example: success
+        message:
+          type: string
+          description: A message indicating the request was accepted.
+          example: Your request has been accepted and will be processed soon.
     CohortParameters:
       type: object
       description: Contains the information about the cohort to be synced.
@@ -314,6 +307,25 @@ components:
           description: Contains the unique identifiers of the customers being added to or removed from a Cohort in MoEngage.
           items:
             $ref: '#/components/schemas/CohortMember'
+    CohortSyncRequest:
+      type: object
+      required:
+      - action
+      - partner
+      - parameters
+      properties:
+        action:
+          type: string
+          description: This field indicates whether users need to be added to the cohort or removed from it.
+          enum:
+          - add_members
+          - remove_members
+        partner:
+          type: string
+          description: This field indicates the name of the partner whose cohort is being synced to MoEngage.
+          example: 6HNBXFm7ZS
+        parameters:
+          $ref: '#/components/schemas/CohortParameters'
     ErrorDetails:
       type: object
       description: Details of the error that occurred.
@@ -334,18 +346,6 @@ components:
           type: string
           description: A unique ID for tracing the request.
           example: UkBwaUmU
-    CohortSyncSuccess:
-      type: object
-      description: Response body for a successful request.
-      properties:
-        status:
-          type: string
-          description: The status of the request.
-          example: success
-        message:
-          type: string
-          description: A message indicating the request was accepted.
-          example: Your request has been accepted and will be processed soon.
     CohortMember:
       type: object
       required:
