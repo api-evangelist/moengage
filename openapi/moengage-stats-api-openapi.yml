@@ -176,6 +176,32 @@ paths:
                 code: jDTGSxjd
 components:
   schemas:
+    FailureBreakdown:
+      type: object
+      description: This object shows the failure breakdown of your campaign.
+      additionalProperties:
+        type: integer
+    ErrorResponseSimple:
+      type: object
+      properties:
+        title:
+          type: string
+        description:
+          type:
+          - string
+          - 'null'
+        code:
+          type: string
+    Variations:
+      type: object
+      description: This object contains details of the variations of your locale.
+      properties:
+        all_variations:
+          $ref: '#/components/schemas/VariationDetails'
+        campaign_control_group:
+          $ref: '#/components/schemas/VariationDetails'
+        global_control_group:
+          $ref: '#/components/schemas/VariationDetails'
     VariationDetails:
       type: object
       properties:
@@ -187,92 +213,11 @@ components:
           $ref: '#/components/schemas/DeliveryFunnel'
         failure_breakdown:
           $ref: '#/components/schemas/FailureBreakdown'
-    PlatformStats:
-      type: object
-      properties:
-        locales:
-          $ref: '#/components/schemas/Locales'
     ConversionGoalStats:
       type: object
       description: This object shows the conversion goal stats of your campaign.
       additionalProperties:
         $ref: '#/components/schemas/ConversionGoal'
-    Variations:
-      type: object
-      description: This object contains details of the variations of your locale.
-      properties:
-        all_variations:
-          $ref: '#/components/schemas/VariationDetails'
-        campaign_control_group:
-          $ref: '#/components/schemas/VariationDetails'
-        global_control_group:
-          $ref: '#/components/schemas/VariationDetails'
-    Platforms:
-      type: object
-      description: This field indicates the platforms where the user has engaged with your communication (e.g., ANDROID, IOS, WEB, MWEB, UNKNOWN).
-      additionalProperties:
-        $ref: '#/components/schemas/PlatformStats'
-    CampaignStatsDetails:
-      type: object
-      properties:
-        platforms:
-          $ref: '#/components/schemas/Platforms'
-    DeliveryFunnel:
-      type: object
-      description: This object shows the delivery stats of your campaign.
-      properties:
-        reachable_users_in_segment:
-          type: integer
-        segment_after_uninstall:
-          type: integer
-        after_fc:
-          type: integer
-        users_after_dup:
-          type: integer
-        sent:
-          type: integer
-        user_devices:
-          type: integer
-        impressions:
-          type: integer
-        active_device_token:
-          type: integer
-        after_invalid_removal:
-          type: integer
-        total_user_in_segment:
-          type: integer
-        user_with_email:
-          type: integer
-        user_with_email_after__h_b:
-          type: integer
-        user_after_duplicate_removal:
-          type: integer
-        after_personalization_removal:
-          type: integer
-        delivered:
-          type: integer
-    CampaignStatsResponse:
-      type: object
-      properties:
-        response_id:
-          type: string
-          description: The response ID, which is the same as the request ID passed in the payload.
-        total_campaigns:
-          type: integer
-          description: This field indicates the total number of campaigns that are requested in the payload.
-        current_page:
-          type: integer
-          description: This field indicates the current page number.
-        total_pages:
-          type: integer
-          description: This field indicates the total page. It is equal to the total campaigns, which is limited to 10 for each call and 10 to be displayed for each page.
-        data:
-          type: object
-          description: This object contains the campaign stats. Keys are Campaign IDs.
-          additionalProperties:
-            type: array
-            items:
-              $ref: '#/components/schemas/CampaignStatsDetails'
     CampaignStatsRequest:
       type: object
       required:
@@ -325,6 +270,105 @@ components:
           enum:
           - TOTAL
           - UNIQUE
+    Platforms:
+      type: object
+      description: This field indicates the platforms where the user has engaged with your communication (e.g., ANDROID, IOS, WEB, MWEB, UNKNOWN).
+      additionalProperties:
+        $ref: '#/components/schemas/PlatformStats'
+    DeliveryFunnel:
+      type: object
+      description: This object shows the delivery stats of your campaign.
+      properties:
+        reachable_users_in_segment:
+          type: integer
+        segment_after_uninstall:
+          type: integer
+        after_fc:
+          type: integer
+        users_after_dup:
+          type: integer
+        sent:
+          type: integer
+        user_devices:
+          type: integer
+        impressions:
+          type: integer
+        active_device_token:
+          type: integer
+        after_invalid_removal:
+          type: integer
+        total_user_in_segment:
+          type: integer
+        user_with_email:
+          type: integer
+        user_with_email_after__h_b:
+          type: integer
+        user_after_duplicate_removal:
+          type: integer
+        after_personalization_removal:
+          type: integer
+        delivered:
+          type: integer
+    ConversionGoal:
+      type: object
+      properties:
+        goal_name:
+          type: string
+        conversions:
+          type: integer
+          description: Number of conversions.
+        cvr:
+          type: number
+          format: double
+          description: Conversion rate.
+        uplift:
+          type: number
+          format: double
+          description: Percentage change in performance metrics.
+        total:
+          type: integer
+        unique:
+          type: integer
+        revenue:
+          type: number
+        average_order_value:
+          type: number
+        average_revenue_per_user:
+          type: number
+        gcg_uplift:
+          type: number
+    CampaignStatsResponse:
+      type: object
+      properties:
+        response_id:
+          type: string
+          description: The response ID, which is the same as the request ID passed in the payload.
+        total_campaigns:
+          type: integer
+          description: This field indicates the total number of campaigns that are requested in the payload.
+        current_page:
+          type: integer
+          description: This field indicates the current page number.
+        total_pages:
+          type: integer
+          description: This field indicates the total page. It is equal to the total campaigns, which is limited to 10 for each call and 10 to be displayed for each page.
+        data:
+          type: object
+          description: This object contains the campaign stats. Keys are Campaign IDs.
+          additionalProperties:
+            type: array
+            items:
+              $ref: '#/components/schemas/CampaignStatsDetails'
+    CampaignStatsDetails:
+      type: object
+      properties:
+        platforms:
+          $ref: '#/components/schemas/Platforms'
+    Locales:
+      type: object
+      description: This field indicates the details of the locales configured.
+      additionalProperties:
+        $ref: '#/components/schemas/LocaleStats'
     PerformanceStats:
       type: object
       description: This object shows your campaign's performance metrics.
@@ -410,60 +454,16 @@ components:
         complaints_rate:
           type: number
           format: double
-    ErrorResponseSimple:
-      type: object
-      properties:
-        title:
-          type: string
-        description:
-          type:
-          - string
-          - 'null'
-        code:
-          type: string
-    Locales:
-      type: object
-      description: This field indicates the details of the locales configured.
-      additionalProperties:
-        $ref: '#/components/schemas/LocaleStats'
-    ConversionGoal:
-      type: object
-      properties:
-        goal_name:
-          type: string
-        conversions:
-          type: integer
-          description: Number of conversions.
-        cvr:
-          type: number
-          format: double
-          description: Conversion rate.
-        uplift:
-          type: number
-          format: double
-          description: Percentage change in performance metrics.
-        total:
-          type: integer
-        unique:
-          type: integer
-        revenue:
-          type: number
-        average_order_value:
-          type: number
-        average_revenue_per_user:
-          type: number
-        gcg_uplift:
-          type: number
     LocaleStats:
       type: object
       properties:
         variations:
           $ref: '#/components/schemas/Variations'
-    FailureBreakdown:
+    PlatformStats:
       type: object
-      description: This object shows the failure breakdown of your campaign.
-      additionalProperties:
-        type: integer
+      properties:
+        locales:
+          $ref: '#/components/schemas/Locales'
   requestBodies:
     CampaignStatsRequest:
       description: Request body to fetch campaign stats.

@@ -538,46 +538,27 @@ paths:
                 message: An unexpected error was encountered while processing this request. Please contact MoEngage Team
 components:
   schemas:
-    ErrorResponse:
+    EventAttributeDefinition:
       type: object
+      description: Definition of an attribute for a business event.
+      required:
+      - attribute_name
+      - attribute_data_type
       properties:
-        error:
-          type: object
-          properties:
-            code:
-              type: string
-              description: This field contains the error code.
-              example: 400 Bad Request
-            message:
-              type: string
-              description: This field contains the error message.
-              example: Bad request
-            details:
-              type: array
-              description: This array contains the specifics and describes the error in detail.
-              items:
-                type: object
-                properties:
-                  code:
-                    type: string
-                    example: InvalidValue
-                  target:
-                    oneOf:
-                    - type: string
-                    - type: array
-                      items:
-                        type: string
-                    example: event_name
-                  message:
-                    oneOf:
-                    - type: string
-                    - type: object
-                    - type: array
-                    example: Business event does not exist
-            request_id:
-              type: string
-              description: This field contains the request ID of the failed request.
-              example: 64a54cf9633fda13b668132f
+        attribute_name:
+          type: string
+          description: The name of the attribute.
+          example: season
+        attribute_data_type:
+          type: string
+          description: The data type of the attribute.
+          enum:
+          - string
+          - int
+          - float
+          - array
+          - date
+          example: string
     BusinessEvent:
       type: object
       description: A full business event object.
@@ -633,27 +614,46 @@ components:
           type: string
           description: Internal database ID.
           example: 64a54500633fda13b6681163
-    EventAttributeDefinition:
+    ErrorResponse:
       type: object
-      description: Definition of an attribute for a business event.
-      required:
-      - attribute_name
-      - attribute_data_type
       properties:
-        attribute_name:
-          type: string
-          description: The name of the attribute.
-          example: season
-        attribute_data_type:
-          type: string
-          description: The data type of the attribute.
-          enum:
-          - string
-          - int
-          - float
-          - array
-          - date
-          example: string
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+              description: This field contains the error code.
+              example: 400 Bad Request
+            message:
+              type: string
+              description: This field contains the error message.
+              example: Bad request
+            details:
+              type: array
+              description: This array contains the specifics and describes the error in detail.
+              items:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: InvalidValue
+                  target:
+                    oneOf:
+                    - type: string
+                    - type: array
+                      items:
+                        type: string
+                    example: event_name
+                  message:
+                    oneOf:
+                    - type: string
+                    - type: object
+                    - type: array
+                    example: Business event does not exist
+            request_id:
+              type: string
+              description: This field contains the request ID of the failed request.
+              example: 64a54cf9633fda13b668132f
   securitySchemes:
     basicAuth:
       type: http

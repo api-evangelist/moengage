@@ -228,43 +228,6 @@ paths:
           $ref: '#/components/responses/InternalServerError'
 components:
   schemas:
-    SuccessResponse:
-      type: object
-      properties:
-        message:
-          type: string
-          description: A brief description of the request status in the case of success.
-    ErrorResponse:
-      type: object
-      properties:
-        title:
-          type: string
-          description: The error type.
-        description:
-          type: string
-          description: The error description.
-    UpdatePreferencesRequest:
-      type: object
-      required:
-      - categories
-      - unsubscribe_all
-      properties:
-        categories:
-          $ref: '#/components/schemas/SubscriptionCategories'
-          description: This field contains the details about the updated subscription preferences of the user.
-        unsubscribe_all:
-          type: boolean
-          description: "This field contains information about whether or not a customer has unsubscribed from all categories. \n\nWhen `unsubscribe_all` is **true**, the user is unsubscribed from all the categories, irrespective of the categories marked as true in the category JSON object.\n"
-      example:
-        unsubscribe_all: true
-        categories:
-          Promotional: true
-          Transactional: false
-          Special Offers: true
-          Product Updates: true
-          New arrivals: false
-          Recommendations: true
-          Newsletter: true
     UserPreferenceEntry:
       type: object
       required:
@@ -281,20 +244,6 @@ components:
         unsubscribe_all:
           type: boolean
           description: Set to **true** to unsubscribe the user from all categories.
-    SubscriptionCategories:
-      type: object
-      description: 'A JSON Object that contains the subscription preferences of the customer.
-
-        `category_name` is the unique category name in MoEngage.
-
-        '
-      additionalProperties:
-        type: boolean
-      example:
-        Promotions: true
-        Updates: false
-        Recommendations: true
-        Newsletter: false
     BulkUpdatePreferencesRequest:
       type: object
       required:
@@ -334,16 +283,57 @@ components:
             New arrivals: false
             Recommendations: true
           unsubscribe_all: false
-  parameters:
-    AppKeyHeader:
-      name: MOE-APPKEY
-      in: header
-      required: true
-      description: 'This is the Workspace ID of your MoEngage account that must be passed with the request. You can find it in the MoEngage dashboard at **Settings** > **Account** > **APIs** > **Workspace ID (earlier app id)**.
+    UpdatePreferencesRequest:
+      type: object
+      required:
+      - categories
+      - unsubscribe_all
+      properties:
+        categories:
+          $ref: '#/components/schemas/SubscriptionCategories'
+          description: This field contains the details about the updated subscription preferences of the user.
+        unsubscribe_all:
+          type: boolean
+          description: "This field contains information about whether or not a customer has unsubscribed from all categories. \n\nWhen `unsubscribe_all` is **true**, the user is unsubscribed from all the categories, irrespective of the categories marked as true in the category JSON object.\n"
+      example:
+        unsubscribe_all: true
+        categories:
+          Promotional: true
+          Transactional: false
+          Special Offers: true
+          Product Updates: true
+          New arrivals: false
+          Recommendations: true
+          Newsletter: true
+    SubscriptionCategories:
+      type: object
+      description: 'A JSON Object that contains the subscription preferences of the customer.
+
+        `category_name` is the unique category name in MoEngage.
 
         '
-      schema:
-        type: string
+      additionalProperties:
+        type: boolean
+      example:
+        Promotions: true
+        Updates: false
+        Recommendations: true
+        Newsletter: false
+    SuccessResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          description: A brief description of the request status in the case of success.
+    ErrorResponse:
+      type: object
+      properties:
+        title:
+          type: string
+          description: The error type.
+        description:
+          type: string
+          description: The error description.
   responses:
     Unauthorized:
       description: Authorization Failure. Returned when authorization fails due to incorrect APP KEY/HTTP Auth Header.
@@ -371,15 +361,6 @@ components:
           example:
             title: API SECRET not configured
             description: This response is returned when the authorization fails due to the APP SECRET key not being set on the Dashboard.
-    TooManyRequests:
-      description: Rate Limit Breach. The number of requests per minute has exceeded the limit.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-          example:
-            title: Rate-Limit Reached
-            description: Exceeded rate limit for this url
     InternalServerError:
       description: Internal Server Error. Returned when the system runs into an unexpected error.
       content:
@@ -389,6 +370,25 @@ components:
           example:
             title: Internal Error
             description: Please Contact Moengage Team
+    TooManyRequests:
+      description: Rate Limit Breach. The number of requests per minute has exceeded the limit.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            title: Rate-Limit Reached
+            description: Exceeded rate limit for this url
+  parameters:
+    AppKeyHeader:
+      name: MOE-APPKEY
+      in: header
+      required: true
+      description: 'This is the Workspace ID of your MoEngage account that must be passed with the request. You can find it in the MoEngage dashboard at **Settings** > **Account** > **APIs** > **Workspace ID (earlier app id)**.
+
+        '
+      schema:
+        type: string
   securitySchemes:
     basicAuth:
       type: http

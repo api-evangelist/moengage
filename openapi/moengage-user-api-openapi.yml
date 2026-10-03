@@ -1392,16 +1392,20 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    GenericSuccess:
+    PlatformObject:
       type: object
       properties:
-        status:
+        platform:
           type: string
-          description: This field contains the status of the request and specifies whether the request was successful.
-          example: success
-        message:
+          enum:
+          - ANDROID
+          - iOS
+          - web
+        active:
           type: string
-          example: Your request has been accepted and will be processed soon.
+          enum:
+          - 'true'
+          - 'false'
     GetUserRequest:
       type: object
       required:
@@ -1429,20 +1433,58 @@ components:
               - last_name
               - customer_id
               - name
-    PlatformObject:
+    CreateUserRequest:
+      title: User
+      type: object
+      required:
+      - type
+      - customer_id
+      properties:
+        type:
+          type: string
+          description: This is used to identify the type of request. This field is case-sensitive. Follow the case as in the example when passing the value in the request.
+          enum:
+          - customer
+        customer_id:
+          type: string
+          description: "The unique identifier is used to identify/create a user in MoEngage. Not mandatory in [Identity Resolution](/user-guide/data/user-data/unified-identity-identity-resolution) enabled workspaces. If the User Identity Resolution feature is enabled in your workspace, the attribute parameters in the payload must contain at least one of the identifiers you have activated in your workspace based on which users in MoEngage will be created, updated, or merged. In the following example, moe_mobile is one of the identifiers in the workspace and is passed in attributes:\n\n```json\n {\n        \"type\": \"customer\",\n        \"attributes\": {\"moe_mobile\": \"{{Mobile_Number}}\",\n        \"first_name\": \"John\" \n      }\n}\n```' \n"
+        update_existing_only:
+          type: boolean
+          default: false
+          description: 'This field should be passed in the request when only existing users in MoEngage should be updated.
+
+
+            **If this value is passed as true:**
+
+            1. Only those users for whom the customer_id from the request payload matches the customer identifier in MoEngage will be updated.
+
+            2. In case of new users (customer_id in the payload does not match any of the existing customer ids in your MoEngage account), they will not be created.
+
+
+            **If this value is passed as false:**
+
+            1. The user attributes will be updated with the values present in the payload for existing customers.
+
+            2. In case of new users (customer_id in the payload does not match any of the existing customer ids in your MoEngage account), a new customer will be created in the system with the details specified in the payload.
+
+            '
+        attributes:
+          $ref: '#/components/schemas/UserAttributes'
+        platforms:
+          type: array
+          description: List of dictionaries with the associated platforms out of ANDROID, iOS, and web and their status.
+          items:
+            $ref: '#/components/schemas/PlatformObject'
+    GenericSuccess:
       type: object
       properties:
-        platform:
+        status:
           type: string
-          enum:
-          - ANDROID
-          - iOS
-          - web
-        active:
+          description: This field contains the status of the request and specifies whether the request was successful.
+          example: success
+        message:
           type: string
-          enum:
-          - 'true'
-          - 'false'
+          example: Your request has been accepted and will be processed soon.
     MergeUserRequest:
       type: object
       properties:
@@ -1565,48 +1607,6 @@ components:
           type: string
           description: This field specifies the unique identifier that identifies the user.
           example: 6416d1a318r98264512c0f89
-    CreateUserRequest:
-      title: User
-      type: object
-      required:
-      - type
-      - customer_id
-      properties:
-        type:
-          type: string
-          description: This is used to identify the type of request. This field is case-sensitive. Follow the case as in the example when passing the value in the request.
-          enum:
-          - customer
-        customer_id:
-          type: string
-          description: "The unique identifier is used to identify/create a user in MoEngage. Not mandatory in [Identity Resolution](/user-guide/data/user-data/unified-identity-identity-resolution) enabled workspaces. If the User Identity Resolution feature is enabled in your workspace, the attribute parameters in the payload must contain at least one of the identifiers you have activated in your workspace based on which users in MoEngage will be created, updated, or merged. In the following example, moe_mobile is one of the identifiers in the workspace and is passed in attributes:\n\n```json\n {\n        \"type\": \"customer\",\n        \"attributes\": {\"moe_mobile\": \"{{Mobile_Number}}\",\n        \"first_name\": \"John\" \n      }\n}\n```' \n"
-        update_existing_only:
-          type: boolean
-          default: false
-          description: 'This field should be passed in the request when only existing users in MoEngage should be updated.
-
-
-            **If this value is passed as true:**
-
-            1. Only those users for whom the customer_id from the request payload matches the customer identifier in MoEngage will be updated.
-
-            2. In case of new users (customer_id in the payload does not match any of the existing customer ids in your MoEngage account), they will not be created.
-
-
-            **If this value is passed as false:**
-
-            1. The user attributes will be updated with the values present in the payload for existing customers.
-
-            2. In case of new users (customer_id in the payload does not match any of the existing customer ids in your MoEngage account), a new customer will be created in the system with the details specified in the payload.
-
-            '
-        attributes:
-          $ref: '#/components/schemas/UserAttributes'
-        platforms:
-          type: array
-          description: List of dictionaries with the associated platforms out of ANDROID, iOS, and web and their status.
-          items:
-            $ref: '#/components/schemas/PlatformObject'
   securitySchemes:
     Authentication:
       type: http

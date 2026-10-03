@@ -233,27 +233,33 @@ paths:
                   message: Something went wrong, Please contact MoEngage Team.
 components:
   schemas:
-    OptinError500Response:
+    OptinError403Response:
       type: object
-      description: Error response body for Internal Server Error (500).
+      description: This response is returned when the Email Opt-in Management feature is not enabled for the workspace.
       properties:
         error:
           type: object
           properties:
             code:
               type: string
-              example: 500 Internal Server Error
+              description: The HTTP status code and text (e.g., '403 Forbidden').
+              example: 403 Forbidden
             message:
               type: string
-              example: Something went wrong, Please contact MoEngage Team.
-    OptinSuccessResponse:
-      type: object
-      description: Success response body for the Opt-in Management API (200 OK).
-      properties:
-        message:
-          type: string
-          description: The success message denoting the request was processed successfully.
-          example: Your request has been processed successfully
+              description: A brief message denoting the type of error.
+              example: Feature not enabled for workspace.
+            details:
+              type: object
+              description: Contains granular error information including the target field and a detailed error message.
+              properties:
+                target:
+                  type: string
+                  description: The resource or feature that is forbidden.
+                  example: Email Opt-in Management
+                message:
+                  type: string
+                  description: The details of the error message.
+                  example: Access to the Email Opt-in Management API is forbidden. Please enable the feature in your workspace settings.
     OptinError400Response:
       type: object
       description: This response is returned when the required parameters are missing from the request, attributes are not found, or incorrect values are passed.
@@ -281,6 +287,29 @@ components:
                   type: string
                   description: The details of the error message.
                   example: Wrong data type was used for <customer_id>...
+    OptinError500Response:
+      type: object
+      description: Error response body for Internal Server Error (500).
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+              example: 500 Internal Server Error
+            message:
+              type: string
+              example: Something went wrong, Please contact MoEngage Team.
+    OptinSuccessResponse:
+      type: object
+      description: Success response body for the Opt-in Management API (200 OK).
+      properties:
+        message:
+          type: string
+          description: The success message denoting the request was processed successfully.
+          example: Your request has been processed successfully
+    OptinError429Response:
+      description: There is no response body for this error.
     OptinError401Response:
       type: object
       description: This response is returned when the request does not have valid authentication credentials.
@@ -308,8 +337,6 @@ components:
                   type: string
                   description: The details of the error message.
                   example: Authentication failed due to missing or invalid credentials.
-    OptinError429Response:
-      description: There is no response body for this error.
     OptinRequest:
       type: object
       description: The main wrapper object for the user preferences payload.
@@ -391,33 +418,6 @@ components:
           enum:
           - email
           example: email
-    OptinError403Response:
-      type: object
-      description: This response is returned when the Email Opt-in Management feature is not enabled for the workspace.
-      properties:
-        error:
-          type: object
-          properties:
-            code:
-              type: string
-              description: The HTTP status code and text (e.g., '403 Forbidden').
-              example: 403 Forbidden
-            message:
-              type: string
-              description: A brief message denoting the type of error.
-              example: Feature not enabled for workspace.
-            details:
-              type: object
-              description: Contains granular error information including the target field and a detailed error message.
-              properties:
-                target:
-                  type: string
-                  description: The resource or feature that is forbidden.
-                  example: Email Opt-in Management
-                message:
-                  type: string
-                  description: The details of the error message.
-                  example: Access to the Email Opt-in Management API is forbidden. Please enable the feature in your workspace settings.
   securitySchemes:
     basicAuth:
       type: http

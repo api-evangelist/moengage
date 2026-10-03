@@ -463,20 +463,6 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    SuccessResponse:
-      type: object
-      properties:
-        data:
-          type: object
-          properties:
-            instance_id:
-              type: string
-              example: 1749822841120-57c5c617
-              description: This field denotes the instance ID.
-            message:
-              type: string
-              example: success
-              description: This field denotes the success message.
     AlertObject:
       type: object
       required:
@@ -497,6 +483,49 @@ components:
         sound:
           type: string
           description: This field denotes the name of the sound file in your app's main bundle or in the Library/Sounds folder of your app's container directory. Specify the string as 'default' to play the system sound.
+    BasicErrorResponse:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+              example: AuthError
+              description: Each error code is unique and serves as a shorthand representation for the type of error, providing a quick reference that can be used to diagnose, troubleshoot, and address the problem based on a predefined set of error conditions.
+            message:
+              type: string
+              example: Invalid App Key
+              description: This field contains the message that denotes the type of error.
+    SuccessResponse:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            instance_id:
+              type: string
+              example: 1749822841120-57c5c617
+              description: This field denotes the instance ID.
+            message:
+              type: string
+              example: success
+              description: This field denotes the success message.
+    EndLiveActivityRequest:
+      type: object
+      required:
+      - broadcast_live_activity_id
+      - ios
+      properties:
+        broadcast_live_activity_id:
+          type: string
+          description: This field denotes the unique identifier for the broadcast Live Activity campaign. It links the broadcast request to a specific campaign previously created via the [Create Push Campaigns API](/api/create-campaigns/create-campaign) with the `BROADCAST_LIVE_ACTIVITY` delivery type.
+        instance_id:
+          type: string
+          description: This field denotes a unique, optional identifier for a specific instance of the Live Activity. It can be used to differentiate between multiple broadcasts of the same activity or to avoid duplicate requests. Sample value:1749822841120-57c5c617. Optional unique identifier for this specific broadcast instance.
+        ios:
+          $ref: '#/components/schemas/IOSUpdatePayload'
+          description: This field denotes a JSON object containing iOS-specific content, configuration details, and metadata necessary for managing the Live Activity on iOS devices.
     UpdateLiveActivityRequest:
       type: object
       required:
@@ -512,32 +541,25 @@ components:
         ios:
           $ref: '#/components/schemas/IOSUpdatePayload'
           description: This field denotes a JSON object containing iOS-specific content, configuration details, and metadata necessary for managing the Live Activity on iOS devices.
-    IOSUpdatePayload:
+    ErrorResponseWithDetails:
       type: object
-      required:
-      - content_state
-      - alert
       properties:
-        dismissal_date:
-          type: integer
-          format: int64
-          description: 'This field denotes the epoch timestamp (in seconds) at which the Live Activity should be automatically dismissed from the device. If omitted, the activity will persist until dismissed manually or replaced.
-
-
-            **Note:** If the specified time stamp is in the past, the live activity ends immediately.
-
-            '
-        stale_date:
-          type: integer
-          format: int64
-          description: This field denotes the time at which the Live Activity’s content is considered outdated. The value must be specified as an epoch timestamp (in seconds). After this time, the system may choose to deprioritize or visually de-emphasize the Live Activity on the user’s device, but it will not dismiss it.
-        content_state:
+        error:
           type: object
-          additionalProperties: true
-          description: This field denotes a JSON object representing the dynamic, real-time state of the Live Activity. It contains the content that will update in real time on the user’s device, such as live scores, countdowns, or player stats. The keys and structure must correspond to the content state struct in your app’s Live Activity configuration.
-        alert:
-          $ref: '#/components/schemas/AlertObject'
-          description: This field denotes a JSON object containing the textual content for the Live Activity’s push notification alert. This controls the user-facing message elements such as the title, subtitle, and body displayed when the activity is triggered.
+          properties:
+            code:
+              type: string
+              example: PayloadError
+              description: Each error code is unique and serves as a shorthand representation for the type of error, providing a quick reference that can be used to diagnose, troubleshoot, and address the problem based on a predefined set of error conditions.
+            message:
+              type: string
+              example: Mandatory fields are missing or invalid
+              description: This field contains the message that denotes the type of error.
+            details:
+              type: array
+              description: This object contains the error details. This field is applicable only for 400 error responses.
+              items:
+                $ref: '#/components/schemas/ErrorDetail'
     StartLiveActivityRequest:
       type: object
       required:
@@ -568,40 +590,32 @@ components:
           type: string
           example: Extra inputs are not permitted
           description: This field denotes a human-readable explanation of the error.
-    EndLiveActivityRequest:
+    IOSUpdatePayload:
       type: object
       required:
-      - broadcast_live_activity_id
-      - ios
+      - content_state
+      - alert
       properties:
-        broadcast_live_activity_id:
-          type: string
-          description: This field denotes the unique identifier for the broadcast Live Activity campaign. It links the broadcast request to a specific campaign previously created via the [Create Push Campaigns API](/api/create-campaigns/create-campaign) with the `BROADCAST_LIVE_ACTIVITY` delivery type.
-        instance_id:
-          type: string
-          description: This field denotes a unique, optional identifier for a specific instance of the Live Activity. It can be used to differentiate between multiple broadcasts of the same activity or to avoid duplicate requests. Sample value:1749822841120-57c5c617. Optional unique identifier for this specific broadcast instance.
-        ios:
-          $ref: '#/components/schemas/IOSUpdatePayload'
-          description: This field denotes a JSON object containing iOS-specific content, configuration details, and metadata necessary for managing the Live Activity on iOS devices.
-    ErrorResponseWithDetails:
-      type: object
-      properties:
-        error:
+        dismissal_date:
+          type: integer
+          format: int64
+          description: 'This field denotes the epoch timestamp (in seconds) at which the Live Activity should be automatically dismissed from the device. If omitted, the activity will persist until dismissed manually or replaced.
+
+
+            **Note:** If the specified time stamp is in the past, the live activity ends immediately.
+
+            '
+        stale_date:
+          type: integer
+          format: int64
+          description: This field denotes the time at which the Live Activity’s content is considered outdated. The value must be specified as an epoch timestamp (in seconds). After this time, the system may choose to deprioritize or visually de-emphasize the Live Activity on the user’s device, but it will not dismiss it.
+        content_state:
           type: object
-          properties:
-            code:
-              type: string
-              example: PayloadError
-              description: Each error code is unique and serves as a shorthand representation for the type of error, providing a quick reference that can be used to diagnose, troubleshoot, and address the problem based on a predefined set of error conditions.
-            message:
-              type: string
-              example: Mandatory fields are missing or invalid
-              description: This field contains the message that denotes the type of error.
-            details:
-              type: array
-              description: This object contains the error details. This field is applicable only for 400 error responses.
-              items:
-                $ref: '#/components/schemas/ErrorDetail'
+          additionalProperties: true
+          description: This field denotes a JSON object representing the dynamic, real-time state of the Live Activity. It contains the content that will update in real time on the user’s device, such as live scores, countdowns, or player stats. The keys and structure must correspond to the content state struct in your app’s Live Activity configuration.
+        alert:
+          $ref: '#/components/schemas/AlertObject'
+          description: This field denotes a JSON object containing the textual content for the Live Activity’s push notification alert. This controls the user-facing message elements such as the title, subtitle, and body displayed when the activity is triggered.
     IOSStartPayload:
       type: object
       required:
@@ -629,20 +643,6 @@ components:
         alert:
           $ref: '#/components/schemas/AlertObject'
           description: This field denotes a JSON object containing the textual content for the Live Activity’s push notification alert. This controls the user-facing message elements such as the title, subtitle, and body displayed when the activity is triggered.
-    BasicErrorResponse:
-      type: object
-      properties:
-        error:
-          type: object
-          properties:
-            code:
-              type: string
-              example: AuthError
-              description: Each error code is unique and serves as a shorthand representation for the type of error, providing a quick reference that can be used to diagnose, troubleshoot, and address the problem based on a predefined set of error conditions.
-            message:
-              type: string
-              example: Invalid App Key
-              description: This field contains the message that denotes the type of error.
   securitySchemes:
     basicAuth:
       type: http

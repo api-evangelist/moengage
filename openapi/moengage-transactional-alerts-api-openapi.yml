@@ -185,6 +185,15 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
+    ChannelStatus:
+      type: object
+      properties:
+        message:
+          type: string
+        err_code:
+          type: string
+        status_code:
+          type: integer
     InformRequest:
       type: object
       required:
@@ -218,7 +227,7 @@ components:
               $ref: '#/components/schemas/PayloadChannel'
             PUSH:
               $ref: '#/components/schemas/PayloadChannel'
-    ChannelStatus:
+    InformErrorResponse:
       type: object
       properties:
         message:
@@ -227,20 +236,6 @@ components:
           type: string
         status_code:
           type: integer
-    InformSuccessResponse:
-      type: object
-      properties:
-        message:
-          type: string
-          example: Successfully Received
-        request_id:
-          type: string
-        SMS:
-          $ref: '#/components/schemas/ChannelStatus'
-        EMAIL:
-          $ref: '#/components/schemas/ChannelStatus'
-        PUSH:
-          $ref: '#/components/schemas/ChannelStatus'
     PayloadChannel:
       type: object
       required:
@@ -298,15 +293,20 @@ components:
               type: object
               additionalProperties: true
               description: JSON object containing the dynamic data that updates in real-time (for example, Delivery Status or ETA). Values can be set as key-value pairs using personalization tags to fetch values from the event.
-    InformErrorResponse:
+    InformSuccessResponse:
       type: object
       properties:
         message:
           type: string
-        err_code:
+          example: Successfully Received
+        request_id:
           type: string
-        status_code:
-          type: integer
+        SMS:
+          $ref: '#/components/schemas/ChannelStatus'
+        EMAIL:
+          $ref: '#/components/schemas/ChannelStatus'
+        PUSH:
+          $ref: '#/components/schemas/ChannelStatus'
   securitySchemes:
     basicAuth:
       type: http

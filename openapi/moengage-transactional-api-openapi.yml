@@ -1421,53 +1421,23 @@ paths:
           description: The ‘dc’ in the API Endpoint URL refers to the MoEngage Data Center (DC). MoEngage hosts each customer in a different DC. You can find your DC number and replace the value of ‘dc’ in the URL by referring to the DC and API endpoint mapping [here](/api/introduction#data-centers). Your MoEngage Data Center (DC) can be 01, 02, 03, 04, 05, 06, or 101.
 components:
   schemas:
-    PushSuccessResponse:
+    DefaultAction:
       type: object
-      title: Success Response
       properties:
-        status:
+        type:
           type: string
           enum:
-          - Success
-          description: This field indicates the campaign status.
-        requestId:
+          - richlanding
+          - navigation
+          - deeplinking
+        value:
           type: string
-          description: This field indicates the request ID.
-        responseId:
-          type: string
-          description: This field indicates the response ID.
-        cid:
-          type: string
-          description: This field indicates the campaign ID.
-    WebPayload:
-      type: object
-      required:
-      - message
-      - title
-      - redirectURL
-      - iconURL
-      properties:
-        message:
-          type: string
-          description: This field denotes the main text content or notification body displayed to users.
-        title:
-          type: string
-          description: This field denotes the subject or heading of the notification.
-        redirectURL:
-          type: string
-          format: uri
-          description: This field denotes the URL to which the user will be redirected upon interacting with the notification.
-        iconURL:
-          type: string
-          format: uri
-          description: This field denotes the URL of an icon image representing the notification, usually displayed alongside the title and message.
-        imageURL:
-          type: string
-          format: uri
-          description: This field denotes the URL of an additional image to be shown in the notification, providing further context or visual appeal.
-        autoDismiss:
-          type: boolean
-          description: This field specifies whether to dismiss the notification automatically after 8 seconds.
+          description: The URL or deep link path.
+        kvPairs:
+          type: object
+          additionalProperties:
+            type: string
+          description: Additional key-value pairs to pass with the action.
     PushFailureResponse:
       type: object
       title: Failure Response
@@ -1487,23 +1457,6 @@ components:
         requestId:
           type: string
           description: This field indicates the request ID.
-    DefaultAction:
-      type: object
-      properties:
-        type:
-          type: string
-          enum:
-          - richlanding
-          - navigation
-          - deeplinking
-        value:
-          type: string
-          description: The URL or deep link path.
-        kvPairs:
-          type: object
-          additionalProperties:
-            type: string
-          description: Additional key-value pairs to pass with the action.
     AndroidPayload:
       type: object
       required:
@@ -1593,6 +1546,97 @@ components:
             A maximum of two additional action buttons can be used at a time.
 
             '
+        fallback:
+          type: object
+          description: This JSON object contains the fallback values for the values mentioned above.
+    IOSPayload:
+      type: object
+      required:
+      - message
+      - title
+      properties:
+        groupKey:
+          type: string
+          description: 'This field denotes the group key used to identify and categorize related push notifications.
+
+            Note:
+
+            * Ensure you use the same group key for all push notifications you want to group.
+
+            * MoEngage automatically modifies the group key to ensure it does not exceed the 45-character limit. MoEngage removes non-Latin scripts, special characters, and spaces to restrict the key composition to ASCII characters exclusively.
+
+            '
+        collapseReplaceKey:
+          type: string
+          description: This field denotes the update key used to identify and update related push notifications. Ensure you use the same update key for all push notifications intended to update each other.
+        message:
+          type: string
+          description: This field denotes the primary text or body of the notification/message.
+        title:
+          type: string
+          description: This field denotes the title or subject line of the notification/message.
+        subtitle:
+          type: string
+          description: This field denotes the subtitle of the notification/message.
+        enableIosBadge:
+          type: boolean
+          description: This field specifies whether a notification should automatically update the iOS app’s badge count with push notifications. Supported values are 'true' and 'false'.
+        richContent:
+          type: array
+          items:
+            type: object
+            properties:
+              type:
+                type: string
+                enum:
+                - gif
+                - coupon
+                - sound
+                - image
+                - audio
+                - video
+              value:
+                type: string
+          description: 'This field denotes a resource, such as an image or multimedia attachment, to provide additional visual or interactive elements. Supported contents are:
+
+            * GIF
+
+            * Coupon
+
+            * Sound
+
+            * Image
+
+            * Audio
+
+            * Video
+
+            Image, video, and audio are only supported after iOS-10.
+
+            To use emoticons (emojis), just copy-paste it where required (for example, ❤️ )
+
+            Note: Image, video, and audio can not be used together.
+
+            '
+        defaultAction:
+          $ref: '#/components/schemas/DefaultAction'
+          description: 'This object contains a set of default actions associated with the notifications. Supported values are:
+
+            * Navigation
+
+            * Richlanding
+
+            * Deeplinking
+
+            '
+        additionalActions:
+          type: array
+          items:
+            type: object
+            properties:
+              category:
+                type: string
+          description: This object contains a set of supplementary actions or buttons associated with the notification, enabling users to perform specific tasks. You can add only one category for additional actions.
         fallback:
           type: object
           description: This JSON object contains the fallback values for the values mentioned above.
@@ -1710,24 +1754,61 @@ components:
         advancedSettings:
           $ref: '#/components/schemas/AdvancedSettings'
           description: This object contains information about advanced settings. For more information, refer to [Advanced Settings](/hc/en-us/articles/32986034181268#h_01JGZRM6BSGJ9VS3YWKB21DYFW).
-    Payload:
+    WebPayload:
       type: object
-      description: 'This object contains the payload details. Supported values are:
-
-        * Android. For more information, refer to [Android](/hc/en-us/articles/32986034181268#h_01JGZQJ15BBPB56MCAPZTNKASC).
-
-        * iOS. For more information, refer to [IOS](/hc/en-us/articles/32986034181268#01JGZQRNMF624JYWRH4T882JPR).
-
-        * Web. For more information, refer to [Web](/hc/en-us/articles/32986034181268#01JGZQRQTMXFC01DWTJZJAT2TQ).
-
-        '
+      required:
+      - message
+      - title
+      - redirectURL
+      - iconURL
       properties:
-        ANDROID:
-          $ref: '#/components/schemas/AndroidPayload'
-        IOS:
-          $ref: '#/components/schemas/IOSPayload'
-        WEB:
-          $ref: '#/components/schemas/WebPayload'
+        message:
+          type: string
+          description: This field denotes the main text content or notification body displayed to users.
+        title:
+          type: string
+          description: This field denotes the subject or heading of the notification.
+        redirectURL:
+          type: string
+          format: uri
+          description: This field denotes the URL to which the user will be redirected upon interacting with the notification.
+        iconURL:
+          type: string
+          format: uri
+          description: This field denotes the URL of an icon image representing the notification, usually displayed alongside the title and message.
+        imageURL:
+          type: string
+          format: uri
+          description: This field denotes the URL of an additional image to be shown in the notification, providing further context or visual appeal.
+        autoDismiss:
+          type: boolean
+          description: This field specifies whether to dismiss the notification automatically after 8 seconds.
+    CampaignDelivery:
+      type: object
+      required:
+      - type
+      properties:
+        type:
+          type: string
+          enum:
+          - soon
+          - later
+          - periodic
+        date:
+          type: string
+          description: 'Required for ''later'' type. Format: MM/DD/YYYY'
+        time:
+          type: string
+          description: 'Required for ''later'' and ''periodic'' types. Format: HH:MM AM/PM'
+        endDate:
+          type: string
+          description: 'Required for ''periodic'' type. Format: MM/DD/YYYY'
+        repeatAfter:
+          type: string
+          description: Repeat interval in days for 'periodic' type.
+        timezone:
+          type: string
+          description: Timezone for scheduling, e.g., 'Asia/Kolkata'. Defaults to IST if not provided. For more information on allowed timezone values, refer [here](https://gist.github.com/mjrulesamrat/0c1f7de951d3c508fb3a20b4b0b33a98).
     ConversionGoal:
       type: object
       required:
@@ -1791,32 +1872,42 @@ components:
               enum:
               - string
               - numeric
-    CampaignDelivery:
+    PushSuccessResponse:
       type: object
-      required:
-      - type
+      title: Success Response
       properties:
-        type:
+        status:
           type: string
           enum:
-          - soon
-          - later
-          - periodic
-        date:
+          - Success
+          description: This field indicates the campaign status.
+        requestId:
           type: string
-          description: 'Required for ''later'' type. Format: MM/DD/YYYY'
-        time:
+          description: This field indicates the request ID.
+        responseId:
           type: string
-          description: 'Required for ''later'' and ''periodic'' types. Format: HH:MM AM/PM'
-        endDate:
+          description: This field indicates the response ID.
+        cid:
           type: string
-          description: 'Required for ''periodic'' type. Format: MM/DD/YYYY'
-        repeatAfter:
-          type: string
-          description: Repeat interval in days for 'periodic' type.
-        timezone:
-          type: string
-          description: Timezone for scheduling, e.g., 'Asia/Kolkata'. Defaults to IST if not provided. For more information on allowed timezone values, refer [here](https://gist.github.com/mjrulesamrat/0c1f7de951d3c508fb3a20b4b0b33a98).
+          description: This field indicates the campaign ID.
+    Payload:
+      type: object
+      description: 'This object contains the payload details. Supported values are:
+
+        * Android. For more information, refer to [Android](/hc/en-us/articles/32986034181268#h_01JGZQJ15BBPB56MCAPZTNKASC).
+
+        * iOS. For more information, refer to [IOS](/hc/en-us/articles/32986034181268#01JGZQRNMF624JYWRH4T882JPR).
+
+        * Web. For more information, refer to [Web](/hc/en-us/articles/32986034181268#01JGZQRQTMXFC01DWTJZJAT2TQ).
+
+        '
+      properties:
+        ANDROID:
+          $ref: '#/components/schemas/AndroidPayload'
+        IOS:
+          $ref: '#/components/schemas/IOSPayload'
+        WEB:
+          $ref: '#/components/schemas/WebPayload'
     NotFoundResponse:
       type: object
       title: Not Found Response
@@ -2064,97 +2155,6 @@ components:
             - 'false'
           - type: boolean
           description: Send at high priority (legacy flag).
-    IOSPayload:
-      type: object
-      required:
-      - message
-      - title
-      properties:
-        groupKey:
-          type: string
-          description: 'This field denotes the group key used to identify and categorize related push notifications.
-
-            Note:
-
-            * Ensure you use the same group key for all push notifications you want to group.
-
-            * MoEngage automatically modifies the group key to ensure it does not exceed the 45-character limit. MoEngage removes non-Latin scripts, special characters, and spaces to restrict the key composition to ASCII characters exclusively.
-
-            '
-        collapseReplaceKey:
-          type: string
-          description: This field denotes the update key used to identify and update related push notifications. Ensure you use the same update key for all push notifications intended to update each other.
-        message:
-          type: string
-          description: This field denotes the primary text or body of the notification/message.
-        title:
-          type: string
-          description: This field denotes the title or subject line of the notification/message.
-        subtitle:
-          type: string
-          description: This field denotes the subtitle of the notification/message.
-        enableIosBadge:
-          type: boolean
-          description: This field specifies whether a notification should automatically update the iOS app’s badge count with push notifications. Supported values are 'true' and 'false'.
-        richContent:
-          type: array
-          items:
-            type: object
-            properties:
-              type:
-                type: string
-                enum:
-                - gif
-                - coupon
-                - sound
-                - image
-                - audio
-                - video
-              value:
-                type: string
-          description: 'This field denotes a resource, such as an image or multimedia attachment, to provide additional visual or interactive elements. Supported contents are:
-
-            * GIF
-
-            * Coupon
-
-            * Sound
-
-            * Image
-
-            * Audio
-
-            * Video
-
-            Image, video, and audio are only supported after iOS-10.
-
-            To use emoticons (emojis), just copy-paste it where required (for example, ❤️ )
-
-            Note: Image, video, and audio can not be used together.
-
-            '
-        defaultAction:
-          $ref: '#/components/schemas/DefaultAction'
-          description: 'This object contains a set of default actions associated with the notifications. Supported values are:
-
-            * Navigation
-
-            * Richlanding
-
-            * Deeplinking
-
-            '
-        additionalActions:
-          type: array
-          items:
-            type: object
-            properties:
-              category:
-                type: string
-          description: This object contains a set of supplementary actions or buttons associated with the notification, enabling users to perform specific tasks. You can add only one category for additional actions.
-        fallback:
-          type: object
-          description: This JSON object contains the fallback values for the values mentioned above.
     PushRequest_2:
       type: object
       required:
@@ -2489,13 +2489,6 @@ components:
           - type: boolean
           description: Send at high priority (legacy flag).
   parameters:
-    XMoeAppKey:
-      name: X-MOE-APPKEY
-      in: header
-      required: true
-      description: This is the Workspace ID of your MoEngage account that must be passed with the request. You can find it in the MoEngage dashboard at **Settings** > **Account** > **APIs** > **Workspace ID (earlier app id)**. MoEngage recommends that you test API integration in the Test Environment. The App ID for TEST ACCOUNT is suffixed with _DEBUG.
-      schema:
-        type: string
     XMoePushSignature:
       name: X-MOE-PushAPI-Signature
       in: header
@@ -2580,6 +2573,13 @@ components:
         - all users
         - user
         - custom segment
+    XMoeAppKey:
+      name: X-MOE-APPKEY
+      in: header
+      required: true
+      description: This is the Workspace ID of your MoEngage account that must be passed with the request. You can find it in the MoEngage dashboard at **Settings** > **Account** > **APIs** > **Workspace ID (earlier app id)**. MoEngage recommends that you test API integration in the Test Environment. The App ID for TEST ACCOUNT is suffixed with _DEBUG.
+      schema:
+        type: string
   securitySchemes:
     basicAuth:
       type: http

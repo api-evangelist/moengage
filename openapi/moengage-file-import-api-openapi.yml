@@ -670,21 +670,19 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    FileRunHistoryRequest:
+    ImportDetailsRequest:
       type: object
-      required:
-      - import_id
-      - import_name
       properties:
-        import_id:
+        import_type:
           type: string
-          description: The unique identifier is used to identify the import. You can find this on the Data Imports page of the MoEngage dashboard. Data > Data Imports > Click the ellipsis icon for an import > View. The import_id or the import_name must be passed.
-        import_name:
-          type: string
-          description: This field denotes the name of the import.The import_id or import_name has to be passed. If both are passed, import_id takes precedence.
+          enum:
+          - USERS
+          - EVENTS
+          - AUX_DATA
+          description: This field denotes the type of data to be imported.
         date:
           type: object
-          description: "This field denotes the file processing date. Supported values are:\n\n* `start_date`\n* `end_date`\n* `format`\n  \nIf this field is not passed, the API will respond with details of all the files corresponding to the import_id / import_name passed and in accordance to the offset and limit values.\n\nSupported date time formats are:\n\n * `\"datetime_format\": \"YYYY-MM-DD\"` (2022-01-22)\n * `\"datetime_format\": \"YYYY/MM/DD\"` (2022/01/22)\n * `\"datetime_format\": \"DD/MM/YYYY\"` (22/01/2022)\n * `\"datetime_format\": \"DD-MM-YYYY\"` (22-01-2022)\n * `\"datetime_format\": \"DD-MM-YYYY hh:mm:ss\"` (31-12-2022 12:10:33)\n * `\"datetime_format\": \"DD/MM/YYYY hh:mm:ss\"` (31/12/2022 12:10:33)\n * `\"datetime_format\": \"YYYY-MM-DD hh:mm:ss\"` (2019-02-22 17:54:14)\n * `\"datetime_format\": \"YYYY/MM/DD hh:mm:ss\"` (2019/02/22 17:54:14)\n"
+          description: "This field denotes the file processing date. Supported values are:\n\n* `start_date`\n* `end_date`\n* `format`\n  \nIf this field is not passed, the API will respond with details of all the files corresponding to the import_id or import_name passed and in accordance to the offset and limit values.\n\nSupported date time formats are:\n\n * `\"datetime_format\": \"YYYY-MM-DD\"` (2022-01-22)\n * `\"datetime_format\": \"YYYY/MM/DD\"` (2022/01/22)\n * `\"datetime_format\": \"DD/MM/YYYY\"` (22/01/2022)\n * `\"datetime_format\": \"DD-MM-YYYY\"` (22-01-2022)\n * `\"datetime_format\": \"DD-MM-YYYY hh:mm:ss\"` (31-12-2022 12:10:33)\n * `\"datetime_format\": \"DD/MM/YYYY hh:mm:ss\"` (31/12/2022 12:10:33)\n * `\"datetime_format\": \"YYYY-MM-DD hh:mm:ss\"` (2019-02-22 17:54:14)\n * `\"datetime_format\": \"YYYY/MM/DD hh:mm:ss\"` (2019/02/22 17:54:14)\n"
           properties:
             start_date:
               type: string
@@ -697,107 +695,45 @@ components:
             format:
               type: string
               description: The format of the date.
-        file_status:
-          type: array
-          description: This field denotes the status of files contained in an import.
-          items:
-            type: string
-            enum:
-            - SUCCESSFUL
-            - FAILED
-            - PARTIAL_SUCCESS
-            - PROCESSING
-            - QUEUED
-            - WAITING
+        schedule_type:
+          type: string
+          enum:
+          - PERIODIC
+          - ONETIME
+          description: This field denotes the type of import schedule.
+        file_source:
+          type: string
+          enum:
+          - SFTP
+          - S3
+          - CSV
+          description: This field denotes the file source of the import.
+        schedule_status:
+          type: string
+          enum:
+          - SUCCESSFUL
+          - FAILED
+          - PARTIAL_SUCCESS
+          - SCHEDULED
+          - PROCESSING
+          - QUEUED
+          - ARCHIVED
+          description: 'This field denotes the import schedule status.
+
+            * PARTIAL_SUCCESS is displayed when all rows in the files are not processed successfully.
+
+            * QUEUED is displayed when the import is queued to be processed next.
+
+            * ARCHIVED is displayed when the import is archived.
+
+            '
+        import_name:
+          type: string
+          description: This field denotes the name of the import.
         offset:
           type: integer
           description: "'API responds with a maximum of 50 file details in a single response. For example, if there are a total of 150 files that are part of the API response, then:\n* Offset = 1 will fetch the details of the first 50 files\n* Offset = 2 will fetch the file details of the next 50 imports\n* Offset = 3 will fetch the import details of the last 50 imports\n* If offset is not passed in the request body, the API response will consider offset = 1.\n\nYou can refer to the total_count parameter in the response to understand how many total files are part of the response. \n\nOR\n\n If the API responds with more_files = true, it indicates that there are more files that are not part of the current response for which another API request must be made with offset +1.'\n"
           default: 1
-    FileRunHistoryResponse:
-      type: object
-      properties:
-        status:
-          type: string
-          description: This field denotes the status of the API response.
-          example: success
-        total_count:
-          type: integer
-          description: This field denotes the total count of the files fetched based on the API request.
-          example: 1
-        data:
-          type: array
-          description: This field contains the file data details.
-          items:
-            type: object
-            properties:
-              id:
-                type: string
-                description: This field denotes the unique ID of the file.
-              file_name:
-                type: string
-                description: This field denotes the name of the file.
-              scheduled_at:
-                type: string
-                description: This field denotes the time at which the file is scheduled.
-                format: date-time
-              completed_at:
-                type: string
-                description: This field denotes the time at which the file is completed.
-                format: date-time
-              type:
-                type: string
-                description: This field denotes the file type.
-                enum:
-                - USERS
-                - EVENTS
-                - AUX_DATA
-              file_size:
-                type: string
-                description: This field denotes the file size in terms of the number of rows in the file.
-              file_status:
-                type: string
-                description: This field denotes the file status.
-                enum:
-                - SUCCESSFUL
-                - FAILED
-                - PARTIAL_FAILURE
-                - QUEUED
-              status_msg:
-                type: string
-                description: This field denotes the error message in case of failure or partial failure.
-              total_rows:
-                type: integer
-                description: This field denotes the total number of rows in the file.
-              skipped_rows:
-                type: integer
-                description: This field denotes the skipped number of rows in the file.
-              updated_rows:
-                type: integer
-                description: This field denotes the updated number of rows in the file.
-              failed_rows:
-                type: integer
-                description: This field denotes the number of rows in the file that failed to process.
-              aux_data_added_count:
-                type: integer
-                description: This field denotes the number of rows added as auxiliary data. This is applicable to auxiliary data.
-              aux_data_failed_count:
-                type: integer
-                description: This field denotes the number of rows that failed to process. This is applicable to auxiliary data.
-              added_rows:
-                type: integer
-                description: This field denotes the total number of rows added from the file.
-        offset:
-          type: integer
-          description: 'This field denotes the pagination value of the imports. For example, if there are 100 imports to be fetched in the response:
-
-            * Offset = 1 will return the first 50 imports
-
-            * Offset = 2 will return the next 50 import details
-
-            '
-        more_files:
-          type: string
-          description: This field indicates if there are more files. For example, if there are 100 imports and offset = 1, 50 imports will be returned with more_file = true to indicate that offset = 2 must be passed to get the next 50 imports.
     ImportDetailsResponse:
       type: object
       properties:
@@ -926,19 +862,106 @@ components:
         more_files:
           type: string
           description: This field indicates if there are more files. For example, if there are 100 imports and offset = 1, 50 imports will be returned with more_file = true to indicate that offset = 2 must be passed to get the next 50 imports.
-    ImportDetailsRequest:
+    FileRunHistoryResponse:
       type: object
       properties:
-        import_type:
+        status:
           type: string
-          enum:
-          - USERS
-          - EVENTS
-          - AUX_DATA
-          description: This field denotes the type of data to be imported.
+          description: This field denotes the status of the API response.
+          example: success
+        total_count:
+          type: integer
+          description: This field denotes the total count of the files fetched based on the API request.
+          example: 1
+        data:
+          type: array
+          description: This field contains the file data details.
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+                description: This field denotes the unique ID of the file.
+              file_name:
+                type: string
+                description: This field denotes the name of the file.
+              scheduled_at:
+                type: string
+                description: This field denotes the time at which the file is scheduled.
+                format: date-time
+              completed_at:
+                type: string
+                description: This field denotes the time at which the file is completed.
+                format: date-time
+              type:
+                type: string
+                description: This field denotes the file type.
+                enum:
+                - USERS
+                - EVENTS
+                - AUX_DATA
+              file_size:
+                type: string
+                description: This field denotes the file size in terms of the number of rows in the file.
+              file_status:
+                type: string
+                description: This field denotes the file status.
+                enum:
+                - SUCCESSFUL
+                - FAILED
+                - PARTIAL_FAILURE
+                - QUEUED
+              status_msg:
+                type: string
+                description: This field denotes the error message in case of failure or partial failure.
+              total_rows:
+                type: integer
+                description: This field denotes the total number of rows in the file.
+              skipped_rows:
+                type: integer
+                description: This field denotes the skipped number of rows in the file.
+              updated_rows:
+                type: integer
+                description: This field denotes the updated number of rows in the file.
+              failed_rows:
+                type: integer
+                description: This field denotes the number of rows in the file that failed to process.
+              aux_data_added_count:
+                type: integer
+                description: This field denotes the number of rows added as auxiliary data. This is applicable to auxiliary data.
+              aux_data_failed_count:
+                type: integer
+                description: This field denotes the number of rows that failed to process. This is applicable to auxiliary data.
+              added_rows:
+                type: integer
+                description: This field denotes the total number of rows added from the file.
+        offset:
+          type: integer
+          description: 'This field denotes the pagination value of the imports. For example, if there are 100 imports to be fetched in the response:
+
+            * Offset = 1 will return the first 50 imports
+
+            * Offset = 2 will return the next 50 import details
+
+            '
+        more_files:
+          type: string
+          description: This field indicates if there are more files. For example, if there are 100 imports and offset = 1, 50 imports will be returned with more_file = true to indicate that offset = 2 must be passed to get the next 50 imports.
+    FileRunHistoryRequest:
+      type: object
+      required:
+      - import_id
+      - import_name
+      properties:
+        import_id:
+          type: string
+          description: The unique identifier is used to identify the import. You can find this on the Data Imports page of the MoEngage dashboard. Data > Data Imports > Click the ellipsis icon for an import > View. The import_id or the import_name must be passed.
+        import_name:
+          type: string
+          description: This field denotes the name of the import.The import_id or import_name has to be passed. If both are passed, import_id takes precedence.
         date:
           type: object
-          description: "This field denotes the file processing date. Supported values are:\n\n* `start_date`\n* `end_date`\n* `format`\n  \nIf this field is not passed, the API will respond with details of all the files corresponding to the import_id or import_name passed and in accordance to the offset and limit values.\n\nSupported date time formats are:\n\n * `\"datetime_format\": \"YYYY-MM-DD\"` (2022-01-22)\n * `\"datetime_format\": \"YYYY/MM/DD\"` (2022/01/22)\n * `\"datetime_format\": \"DD/MM/YYYY\"` (22/01/2022)\n * `\"datetime_format\": \"DD-MM-YYYY\"` (22-01-2022)\n * `\"datetime_format\": \"DD-MM-YYYY hh:mm:ss\"` (31-12-2022 12:10:33)\n * `\"datetime_format\": \"DD/MM/YYYY hh:mm:ss\"` (31/12/2022 12:10:33)\n * `\"datetime_format\": \"YYYY-MM-DD hh:mm:ss\"` (2019-02-22 17:54:14)\n * `\"datetime_format\": \"YYYY/MM/DD hh:mm:ss\"` (2019/02/22 17:54:14)\n"
+          description: "This field denotes the file processing date. Supported values are:\n\n* `start_date`\n* `end_date`\n* `format`\n  \nIf this field is not passed, the API will respond with details of all the files corresponding to the import_id / import_name passed and in accordance to the offset and limit values.\n\nSupported date time formats are:\n\n * `\"datetime_format\": \"YYYY-MM-DD\"` (2022-01-22)\n * `\"datetime_format\": \"YYYY/MM/DD\"` (2022/01/22)\n * `\"datetime_format\": \"DD/MM/YYYY\"` (22/01/2022)\n * `\"datetime_format\": \"DD-MM-YYYY\"` (22-01-2022)\n * `\"datetime_format\": \"DD-MM-YYYY hh:mm:ss\"` (31-12-2022 12:10:33)\n * `\"datetime_format\": \"DD/MM/YYYY hh:mm:ss\"` (31/12/2022 12:10:33)\n * `\"datetime_format\": \"YYYY-MM-DD hh:mm:ss\"` (2019-02-22 17:54:14)\n * `\"datetime_format\": \"YYYY/MM/DD hh:mm:ss\"` (2019/02/22 17:54:14)\n"
           properties:
             start_date:
               type: string
@@ -951,41 +974,18 @@ components:
             format:
               type: string
               description: The format of the date.
-        schedule_type:
-          type: string
-          enum:
-          - PERIODIC
-          - ONETIME
-          description: This field denotes the type of import schedule.
-        file_source:
-          type: string
-          enum:
-          - SFTP
-          - S3
-          - CSV
-          description: This field denotes the file source of the import.
-        schedule_status:
-          type: string
-          enum:
-          - SUCCESSFUL
-          - FAILED
-          - PARTIAL_SUCCESS
-          - SCHEDULED
-          - PROCESSING
-          - QUEUED
-          - ARCHIVED
-          description: 'This field denotes the import schedule status.
-
-            * PARTIAL_SUCCESS is displayed when all rows in the files are not processed successfully.
-
-            * QUEUED is displayed when the import is queued to be processed next.
-
-            * ARCHIVED is displayed when the import is archived.
-
-            '
-        import_name:
-          type: string
-          description: This field denotes the name of the import.
+        file_status:
+          type: array
+          description: This field denotes the status of files contained in an import.
+          items:
+            type: string
+            enum:
+            - SUCCESSFUL
+            - FAILED
+            - PARTIAL_SUCCESS
+            - PROCESSING
+            - QUEUED
+            - WAITING
         offset:
           type: integer
           description: "'API responds with a maximum of 50 file details in a single response. For example, if there are a total of 150 files that are part of the API response, then:\n* Offset = 1 will fetch the details of the first 50 files\n* Offset = 2 will fetch the file details of the next 50 imports\n* Offset = 3 will fetch the import details of the last 50 imports\n* If offset is not passed in the request body, the API response will consider offset = 1.\n\nYou can refer to the total_count parameter in the response to understand how many total files are part of the response. \n\nOR\n\n If the API responds with more_files = true, it indicates that there are more files that are not part of the current response for which another API request must be made with offset +1.'\n"

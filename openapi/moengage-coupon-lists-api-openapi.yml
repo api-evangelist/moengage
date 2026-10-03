@@ -816,11 +816,6 @@ paths:
                   message: Something went wrong with your request. Please contact the MoEngage team for further assistance.
 components:
   schemas:
-    ErrorResponse:
-      type: object
-      properties:
-        error:
-          $ref: '#/components/schemas/Error'
     AlertConditions:
       type: object
       description: Configuration for various alert triggers.
@@ -890,7 +885,19 @@ components:
         message:
           type: string
           description: Along with the error code, a detailed message is also provided in the response, describing the specifics of the request failure and the nature of the error.
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          $ref: '#/components/schemas/Error'
   parameters:
+    CouponListIdPath:
+      name: coupon_list_id
+      in: path
+      required: true
+      description: The unique identifier for the coupon list.
+      schema:
+        type: string
     AppKeyHeader:
       name: MOE-APPKEY
       in: header
@@ -898,13 +905,6 @@ components:
       description: 'This is the Workspace ID of your MoEngage account that must be passed with the request. You can find it in the MoEngage dashboard at **Settings** > **Account** > **APIs** > **Workspace ID (earlier app id)**.
 
         '
-      schema:
-        type: string
-    CouponListIdPath:
-      name: coupon_list_id
-      in: path
-      required: true
-      description: The unique identifier for the coupon list.
       schema:
         type: string
   responses:

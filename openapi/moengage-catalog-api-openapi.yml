@@ -462,6 +462,14 @@ components:
         message:
           type: string
           description: A human-readable description of the error.
+  parameters:
+    CatalogIdPath:
+      name: catalog_id
+      in: path
+      required: true
+      description: The unique identifier for the catalog, obtained during catalog creation.
+      schema:
+        type: string
   responses:
     NotFound:
       description: Not Found - The specified resource (catalog) could not be found.
@@ -481,6 +489,15 @@ components:
           example:
             error-code: request-unauthenticated
             message: Your request is unauthorized. Please verify your credentials and try again.
+    Forbidden:
+      description: Forbidden - The client does not have access rights to the Catalog APIs.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            error-code: request-denied
+            message: Your account does not have access to the Catalog APIs.
     TooManyRequests:
       description: 'Too Many Requests - The rate limit for the API has been exceeded.
 
@@ -492,23 +509,6 @@ components:
         * **x-ratelimit-remaining (integer)**: The number of requests remaining in the current rate limit window.
 
         * **x-ratelimit-reset (integer)**: The time at which the current rate limit window resets in UTC epoch seconds.'
-    Forbidden:
-      description: Forbidden - The client does not have access rights to the Catalog APIs.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-          example:
-            error-code: request-denied
-            message: Your account does not have access to the Catalog APIs.
-  parameters:
-    CatalogIdPath:
-      name: catalog_id
-      in: path
-      required: true
-      description: The unique identifier for the catalog, obtained during catalog creation.
-      schema:
-        type: string
   securitySchemes:
     basicAuth:
       type: http
