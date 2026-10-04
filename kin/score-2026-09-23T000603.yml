@@ -1,30 +1,28 @@
-# Kin Score artifact — moengage — 2026-08-30T203505
+# Kin Score artifact — moengage — 2026-09-23T000603
 # The API Evangelist rating (https://github.com/api-evangelist/kin-score). Generated; do not edit.
 ---
 kin_score:
   slug: moengage
-  schema_version: 0.17.2
-  scored_at: '2026-08-30'
-  run_ts: 2026-08-30T203505
-  composite: 72.0
+  schema_version: 0.22.0
+  scored_at: '2026-09-23'
+  run_ts: 2026-09-23T000603
+  composite: 73.6
   band: exemplar
   facets:
-    discoverability: 63.0
+    discoverability: 81.5
     contract_quality: 67.9
-    governance: 18.2
-    operational_transparency: 52.6
-    developer_ergonomics: 73.2
-    commercial_clarity: 92.1
     contract_governance: 18.2
+    operational_transparency: 52.6
+    developer_ergonomics: 75.6
     access_clarity: 92.1
   agent_readiness:
-    score: 62.6
+    score: 67.8
     band: agent-native
     dimensions:
       spec_presence: true
       agentic_access: false
       reversibility_documented: false
-      mcp_server: documented
+      mcp_server: verified
       auth_clarity: served
       idempotency: verified
       error_semantics: verified
@@ -51,7 +49,7 @@ kin_score:
     skills: derived
     conformance: first-party
     contracts:
-      total: 30
+      total: 75
       derived: 0
       coverage: 0.0
       callable: 100.0
