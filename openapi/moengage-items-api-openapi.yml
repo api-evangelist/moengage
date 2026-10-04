@@ -389,33 +389,16 @@ paths:
         '429':
           $ref: '#/components/responses/TooManyRequests'
 components:
-  parameters:
-    CatalogIdPath:
-      name: catalog_id
-      in: path
-      required: true
-      description: The unique identifier for the catalog, obtained during catalog creation.
-      schema:
-        type: string
   responses:
-    NotFound:
-      description: Not Found - The specified resource (catalog) could not be found.
+    Forbidden:
+      description: Forbidden - The client does not have access rights to the Catalog APIs.
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
           example:
-            error-code: catalog-not-found
-            message: We could not find any API based catalog for the provided catalog id.
-    Unauthorized:
-      description: Unauthorized - The request does not have valid authentication credentials.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-          example:
-            error-code: request-unauthenticated
-            message: Your request is unauthorized. Please verify your credentials and try again.
+            error-code: request-denied
+            message: Your account does not have access to the Catalog APIs.
     BadRequest:
       description: Bad Request - The request is improperly formatted, or contains missing/invalid parameters.
       content:
@@ -435,24 +418,6 @@ components:
               value:
                 error-code: invalid-request
                 message: items size should be greater than 0 and less than or equal to 50
-    Forbidden:
-      description: Forbidden - The client does not have access rights to the Catalog APIs.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-          example:
-            error-code: request-denied
-            message: Your account does not have access to the Catalog APIs.
-    PayloadTooLarge:
-      description: Payload Too Large - The request payload exceeds the 5MB limit.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-          example:
-            error-code: payload-size-exceeded
-            message: Your payload size exceeds the 5MB limit. Please reduce the payload size and try again.
     TooManyRequests:
       description: 'Too Many Requests - The rate limit for the API has been exceeded.
 
@@ -464,6 +429,33 @@ components:
         * **x-ratelimit-remaining (integer)**: The number of requests remaining in the current rate limit window.
 
         * **x-ratelimit-reset (integer)**: The time at which the current rate limit window resets in UTC epoch seconds.'
+    Unauthorized:
+      description: Unauthorized - The request does not have valid authentication credentials.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            error-code: request-unauthenticated
+            message: Your request is unauthorized. Please verify your credentials and try again.
+    PayloadTooLarge:
+      description: Payload Too Large - The request payload exceeds the 5MB limit.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            error-code: payload-size-exceeded
+            message: Your payload size exceeds the 5MB limit. Please reduce the payload size and try again.
+    NotFound:
+      description: Not Found - The specified resource (catalog) could not be found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            error-code: catalog-not-found
+            message: We could not find any API based catalog for the provided catalog id.
   schemas:
     CatalogItem:
       type: object
@@ -498,6 +490,28 @@ components:
         price: 19.99
         sale_start_date: '2025-08-27T19:26:38.00Z'
         store_location: 12.9716,77.5946
+    ItemUpdate:
+      type: object
+      required:
+      - id
+      - attributes
+      properties:
+        id:
+          type: string
+          description: The unique ID of the item to update.
+        attributes:
+          type: object
+          description: 'A key-value map of attributes to update for the item. The keys
+
+            must match existing attributes in the catalog schema, and values
+
+            must match the defined data types.
+
+            '
+          additionalProperties: true
+          example:
+            price: 24.99
+            in_stock: false
     IngestUpdateResponse:
       type: object
       properties:
@@ -540,15 +554,6 @@ components:
                         description: The IDs of the items that failed.
                         example:
                         - item_id_xyz
-    Error:
-      type: object
-      properties:
-        error-code:
-          type: string
-          description: A machine-readable error code.
-        message:
-          type: string
-          description: A human-readable description of the error.
     GetItemDetailsResponse:
       type: object
       properties:
@@ -601,28 +606,23 @@ components:
                 format: date-time
                 description: A date attribute associated with the item.
             additionalProperties: true
-    ItemUpdate:
+    Error:
       type: object
-      required:
-      - id
-      - attributes
       properties:
-        id:
+        error-code:
           type: string
-          description: The unique ID of the item to update.
-        attributes:
-          type: object
-          description: 'A key-value map of attributes to update for the item. The keys
-
-            must match existing attributes in the catalog schema, and values
-
-            must match the defined data types.
-
-            '
-          additionalProperties: true
-          example:
-            price: 24.99
-            in_stock: false
+          description: A machine-readable error code.
+        message:
+          type: string
+          description: A human-readable description of the error.
+  parameters:
+    CatalogIdPath:
+      name: catalog_id
+      in: path
+      required: true
+      description: The unique identifier for the catalog, obtained during catalog creation.
+      schema:
+        type: string
   securitySchemes:
     basicAuth:
       type: http

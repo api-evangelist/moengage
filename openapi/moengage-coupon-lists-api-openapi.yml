@@ -816,36 +816,6 @@ paths:
                   message: Something went wrong with your request. Please contact the MoEngage team for further assistance.
 components:
   schemas:
-    AlertConditions:
-      type: object
-      description: Configuration for various alert triggers.
-      properties:
-        success_alert:
-          type: boolean
-          description: Indicates whether to send an alert on success.
-        failure_alert:
-          type: boolean
-          description: Indicates whether to send an alert on failure.
-        coupon_shortage_alert:
-          type: object
-          description: Configuration for the coupon shortage alert.
-          properties:
-            alert:
-              type: boolean
-              description: Indicates whether to enable the coupon shortage alert.
-            threshold_count:
-              type: integer
-              description: The minimum count of coupons remaining to trigger the alert.
-        expiry_alert:
-          type: object
-          description: Configuration for the expiry alert.
-          properties:
-            alert:
-              type: boolean
-              description: Indicates whether to enable the expiry alert.
-            days_before:
-              type: integer
-              description: Number of days before expiry to trigger the alert.
     CreateCouponListRequest:
       type: object
       required:
@@ -876,6 +846,41 @@ components:
         alert_conditions:
           $ref: '#/components/schemas/AlertConditions'
           description: This object contains the details and types of alert conditions.
+    AlertConditions:
+      type: object
+      description: Configuration for various alert triggers.
+      properties:
+        success_alert:
+          type: boolean
+          description: Indicates whether to send an alert on success.
+        failure_alert:
+          type: boolean
+          description: Indicates whether to send an alert on failure.
+        coupon_shortage_alert:
+          type: object
+          description: Configuration for the coupon shortage alert.
+          properties:
+            alert:
+              type: boolean
+              description: Indicates whether to enable the coupon shortage alert.
+            threshold_count:
+              type: integer
+              description: The minimum count of coupons remaining to trigger the alert.
+        expiry_alert:
+          type: object
+          description: Configuration for the expiry alert.
+          properties:
+            alert:
+              type: boolean
+              description: Indicates whether to enable the expiry alert.
+            days_before:
+              type: integer
+              description: Number of days before expiry to trigger the alert.
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          $ref: '#/components/schemas/Error'
     Error:
       type: object
       properties:
@@ -885,19 +890,7 @@ components:
         message:
           type: string
           description: Along with the error code, a detailed message is also provided in the response, describing the specifics of the request failure and the nature of the error.
-    ErrorResponse:
-      type: object
-      properties:
-        error:
-          $ref: '#/components/schemas/Error'
   parameters:
-    CouponListIdPath:
-      name: coupon_list_id
-      in: path
-      required: true
-      description: The unique identifier for the coupon list.
-      schema:
-        type: string
     AppKeyHeader:
       name: MOE-APPKEY
       in: header
@@ -905,6 +898,13 @@ components:
       description: 'This is the Workspace ID of your MoEngage account that must be passed with the request. You can find it in the MoEngage dashboard at **Settings** > **Account** > **APIs** > **Workspace ID (earlier app id)**.
 
         '
+      schema:
+        type: string
+    CouponListIdPath:
+      name: coupon_list_id
+      in: path
+      required: true
+      description: The unique identifier for the coupon list.
       schema:
         type: string
   responses:

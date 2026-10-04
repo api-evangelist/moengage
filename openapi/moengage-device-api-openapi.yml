@@ -668,16 +668,48 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    GenericSuccess:
+    DeviceAttributes:
       type: object
+      description: This field contains the device attributes to add or update in the device profile.
+      required:
+      - platform
+      - push_id
       properties:
-        status:
+        model:
           type: string
-          description: This field contains the status of the request and specifies whether the request was successful.
-          example: success
-        message:
+          description: This field denotes the model of the device.
+        platform:
           type: string
-          example: Your request has been accepted and will be processed soon.
+          enum:
+          - ANDROID
+          - iOS
+          - web
+          - TV
+          description: This field denotes the platforms where the device is supported. Using unsupported values may result in an API response of 400.
+        push_id:
+          type: string
+          description: This field denotes the Push token of the device. When you pass a push token using this API, reachability is only updated if the device is currently marked as _Installed_. If a device is marked as _Uninstalled_, updating the `push_id` or `moe_push_opted` using Track Device API will not affect its reachability (it will remain Unreachable). To change a device's status back to _Installed_, the MoEngage SDK must actively track the device.
+        moe_push_opted:
+          type: string
+          enum:
+          - 'True'
+          - 'False'
+          description: This field denotes the opt-in status of the device of the user.
+        moe_push_provisional_opted:
+          type: string
+          description: This field denotes the provisional push opt-in status of the user. Know more about provisional push [here](/user-guide/campaigns-and-channels/mobile-push/notification-features-and-behavior/ios-push-permission-and-reachability).
+        app_version:
+          type: string
+          description: This field denotes the version of the app on the device.
+        os_version:
+          type: string
+          description: This field denotes the device's operating system version.
+        moe_gaid:
+          type: string
+          description: This field denotes the unique advertising identifier for Android devices to measure user behavior and campaign performance.
+        idfv:
+          type: string
+          description: This field denotes the unique advertising identifier for iOS devices.
     DeviceOptOutRequest:
       type: object
       required:
@@ -743,6 +775,16 @@ components:
               push_id:
                 type: string
                 description: This field denotes the Push token of the device.
+    GenericSuccess:
+      type: object
+      properties:
+        status:
+          type: string
+          description: This field contains the status of the request and specifies whether the request was successful.
+          example: success
+        message:
+          type: string
+          example: Your request has been accepted and will be processed soon.
     CreateDeviceRequest:
       title: Device
       type: object
@@ -769,48 +811,6 @@ components:
             If your app is not integrated with MoEngage SDK, you can use unique alphanumeric values or other device attributes such as Push token, GAID/IDFV to assign unique device_id values to devices of your user.'
         attributes:
           $ref: '#/components/schemas/DeviceAttributes'
-    DeviceAttributes:
-      type: object
-      description: This field contains the device attributes to add or update in the device profile.
-      required:
-      - platform
-      - push_id
-      properties:
-        model:
-          type: string
-          description: This field denotes the model of the device.
-        platform:
-          type: string
-          enum:
-          - ANDROID
-          - iOS
-          - web
-          - TV
-          description: This field denotes the platforms where the device is supported. Using unsupported values may result in an API response of 400.
-        push_id:
-          type: string
-          description: This field denotes the Push token of the device. When you pass a push token using this API, reachability is only updated if the device is currently marked as _Installed_. If a device is marked as _Uninstalled_, updating the `push_id` or `moe_push_opted` using Track Device API will not affect its reachability (it will remain Unreachable). To change a device's status back to _Installed_, the MoEngage SDK must actively track the device.
-        moe_push_opted:
-          type: string
-          enum:
-          - 'True'
-          - 'False'
-          description: This field denotes the opt-in status of the device of the user.
-        moe_push_provisional_opted:
-          type: string
-          description: This field denotes the provisional push opt-in status of the user. Know more about provisional push [here](/user-guide/campaigns-and-channels/mobile-push/notification-features-and-behavior/ios-push-permission-and-reachability).
-        app_version:
-          type: string
-          description: This field denotes the version of the app on the device.
-        os_version:
-          type: string
-          description: This field denotes the device's operating system version.
-        moe_gaid:
-          type: string
-          description: This field denotes the unique advertising identifier for Android devices to measure user behavior and campaign performance.
-        idfv:
-          type: string
-          description: This field denotes the unique advertising identifier for iOS devices.
   securitySchemes:
     Authentication:
       type: http

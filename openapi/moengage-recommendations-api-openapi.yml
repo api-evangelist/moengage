@@ -237,123 +237,6 @@ components:
           - title
           - price
           - image_link
-    RecommendationMetadata:
-      type: object
-      properties:
-        id:
-          type: string
-          description: It is the unique recommendation ID.
-        db_name:
-          type: string
-          description: This is your workspace name.
-        recommendation_type:
-          type: string
-          description: 'It represents the type of recommendations from which the results will be fetched.
-
-            The supported values are: `user_action`, `item_attribute`, `similar_item`, `frequently_viewed_together`, `frequently_bought_together`, `trending_item`, `user_personalization`.
-
-            '
-        name:
-          type: string
-          description: This field represents the name of the recommendation for which you want to fetch the details.
-        description:
-          type:
-          - string
-          - 'null'
-          description: This field describes the recommendation given at the time of its creation.
-        catalog:
-          type: string
-          description: This is the unique identifier of the catalog assigned to the requested recommendation.
-        status:
-          type: string
-          description: The recommendation's status indicates whether it is active or archived.
-        created_time:
-          type: string
-          format: date-time
-          description: This field shows the timestamp when a recommendation was created.
-        updated_time:
-          type: string
-          format: date-time
-          description: This field shows the timestamp when a recommendation setting was last modified.
-        all_user_actions:
-          type:
-          - boolean
-          - 'null'
-          description: 'This key represents whether all user actions are being considered to find the most recently interacted item. If this is true, the most recently interacted ID from any of the user action set-ups will be considered to find the related items as per the recommendation type.
-
-
-            **Note**: This key is available with the `similar_item`, `frequently_viewed_together`, and `frequently_bought_together` recommendation types.
-
-            '
-        include_filters:
-          $ref: '#/components/schemas/IncludeExcludeFilters'
-        exclude_filters:
-          $ref: '#/components/schemas/IncludeExcludeFilters'
-        custom_settings:
-          $ref: '#/components/schemas/CustomSettings'
-          description: This key defines the customization applied to the recommendation results as per the recommendation setup. Currently, you can apply the user action and item attribute filters over recommendations.
-        sort:
-          $ref: '#/components/schemas/SortCriteria'
-          description: 'This key defines the sorting logic based on which recommendation results will be ordered. This object''s value provides the attributes'' details and sorting order.
-
-
-            **Note**: This key is available with the `user_action` and `item_attribute` recommendation types.
-
-            '
-        trends:
-          $ref: '#/components/schemas/TrendSettings'
-          description: 'This key defines the trend type for `trending_item` recommendations and the duration of trend computation.
-
-
-            **Note**: This key is available with the `trending_item` recommendation type.
-
-            '
-    TrendSettings:
-      type: object
-      description: Defines the trend type and duration (Specific fields depend on implementation).
-      properties: {}
-      example:
-        trend_type: most_viewed
-        duration_days: 7
-    CustomSettings:
-      type: object
-      properties:
-        item_filters:
-          type: object
-          properties:
-            user_actions:
-              type: object
-      description: Defines custom filters applied to recommendations.
-    Filter:
-      type: object
-      properties:
-        executed:
-          type: boolean
-        filter_type:
-          type: string
-          example: product_filter
-        operator_fe:
-          type: string
-          example: exists
-        name:
-          type: string
-          example: product_id
-        data_type:
-          type: string
-          example: string
-        operator:
-          type: string
-          example: exists
-        value:
-          type:
-          - string
-          - 'null'
-        negate:
-          type: boolean
-        case_sensitive:
-          type: boolean
-        hasError:
-          type: boolean
     RecommendationResultItem:
       type: object
       description: The items JSON object contains the key-value pairs of all the requested attributes.
@@ -426,6 +309,123 @@ components:
           - '1'
           - '-1'
           description: 1 for ascending, -1 for descending
+    TrendSettings:
+      type: object
+      description: Defines the trend type and duration (Specific fields depend on implementation).
+      properties: {}
+      example:
+        trend_type: most_viewed
+        duration_days: 7
+    CustomSettings:
+      type: object
+      properties:
+        item_filters:
+          type: object
+          properties:
+            user_actions:
+              type: object
+      description: Defines custom filters applied to recommendations.
+    RecommendationMetadata:
+      type: object
+      properties:
+        id:
+          type: string
+          description: It is the unique recommendation ID.
+        db_name:
+          type: string
+          description: This is your workspace name.
+        recommendation_type:
+          type: string
+          description: 'It represents the type of recommendations from which the results will be fetched.
+
+            The supported values are: `user_action`, `item_attribute`, `similar_item`, `frequently_viewed_together`, `frequently_bought_together`, `trending_item`, `user_personalization`.
+
+            '
+        name:
+          type: string
+          description: This field represents the name of the recommendation for which you want to fetch the details.
+        description:
+          type:
+          - string
+          - 'null'
+          description: This field describes the recommendation given at the time of its creation.
+        catalog:
+          type: string
+          description: This is the unique identifier of the catalog assigned to the requested recommendation.
+        status:
+          type: string
+          description: The recommendation's status indicates whether it is active or archived.
+        created_time:
+          type: string
+          format: date-time
+          description: This field shows the timestamp when a recommendation was created.
+        updated_time:
+          type: string
+          format: date-time
+          description: This field shows the timestamp when a recommendation setting was last modified.
+        all_user_actions:
+          type:
+          - boolean
+          - 'null'
+          description: 'This key represents whether all user actions are being considered to find the most recently interacted item. If this is true, the most recently interacted ID from any of the user action set-ups will be considered to find the related items as per the recommendation type.
+
+
+            **Note**: This key is available with the `similar_item`, `frequently_viewed_together`, and `frequently_bought_together` recommendation types.
+
+            '
+        include_filters:
+          $ref: '#/components/schemas/IncludeExcludeFilters'
+        exclude_filters:
+          $ref: '#/components/schemas/IncludeExcludeFilters'
+        custom_settings:
+          $ref: '#/components/schemas/CustomSettings'
+          description: This key defines the customization applied to the recommendation results as per the recommendation setup. Currently, you can apply the user action and item attribute filters over recommendations.
+        sort:
+          $ref: '#/components/schemas/SortCriteria'
+          description: 'This key defines the sorting logic based on which recommendation results will be ordered. This object''s value provides the attributes'' details and sorting order.
+
+
+            **Note**: This key is available with the `user_action` and `item_attribute` recommendation types.
+
+            '
+        trends:
+          $ref: '#/components/schemas/TrendSettings'
+          description: 'This key defines the trend type for `trending_item` recommendations and the duration of trend computation.
+
+
+            **Note**: This key is available with the `trending_item` recommendation type.
+
+            '
+    Filter:
+      type: object
+      properties:
+        executed:
+          type: boolean
+        filter_type:
+          type: string
+          example: product_filter
+        operator_fe:
+          type: string
+          example: exists
+        name:
+          type: string
+          example: product_id
+        data_type:
+          type: string
+          example: string
+        operator:
+          type: string
+          example: exists
+        value:
+          type:
+          - string
+          - 'null'
+        negate:
+          type: boolean
+        case_sensitive:
+          type: boolean
+        hasError:
+          type: boolean
   parameters:
     AppKeyHeader:
       name: MOE-APPKEY

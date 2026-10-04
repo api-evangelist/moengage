@@ -334,58 +334,6 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    PlatformObject:
-      type: object
-      properties:
-        platform:
-          type: string
-          enum:
-          - ANDROID
-          - iOS
-          - web
-        active:
-          type: string
-          enum:
-          - 'true'
-          - 'false'
-    CreateEventRequest:
-      title: Event
-      type: object
-      required:
-      - type
-      - customer_id
-      - actions
-      properties:
-        type:
-          type: string
-          description: This is used to identify the type of request. Allowed value is event. This field is case-sensitive. Follow the case as in the example when passing the value in the request.
-          enum:
-          - event
-        customer_id:
-          type: string
-          description: Identifier to identify or create a user in MoEngage. Not mandatory in Identity resolution enabled workspaces.
-        device_id:
-          type: string
-          description: Device_id in event payload is optional. The default value is the customer_id value. The value is used to map events to specific devices.
-        user_identifiers:
-          type: object
-          description: 'Required if Identity Resolution is enabled and customer_id is not provided.
-
-
-            **User Identity Resolution:**
-
-
-            If the [User Identity Resolution](/user-guide/data/user-data/unified-identity-identity-resolution) feature is enabled in your workspace, identifiers set up in the workspace must be mentioned within the user_identifiers parameter.
-
-            '
-          additionalProperties: true
-          example:
-            moe_mobile: +9198765xxxxx
-        actions:
-          type: array
-          description: List of events to be tracked for the user.
-          items:
-            $ref: '#/components/schemas/EventAction'
     CreateUserRequest:
       title: User
       type: object
@@ -428,48 +376,6 @@ components:
           description: List of dictionaries with the associated platforms out of ANDROID, iOS, and web and their status.
           items:
             $ref: '#/components/schemas/PlatformObject'
-    DeviceAttributes:
-      type: object
-      description: This field contains the device attributes to add or update in the device profile.
-      required:
-      - platform
-      - push_id
-      properties:
-        model:
-          type: string
-          description: This field denotes the model of the device.
-        platform:
-          type: string
-          enum:
-          - ANDROID
-          - iOS
-          - web
-          - TV
-          description: This field denotes the platforms where the device is supported. Using unsupported values may result in an API response of 400.
-        push_id:
-          type: string
-          description: This field denotes the Push token of the device. When you pass a push token using this API, reachability is only updated if the device is currently marked as _Installed_. If a device is marked as _Uninstalled_, updating the `push_id` or `moe_push_opted` using Track Device API will not affect its reachability (it will remain Unreachable). To change a device's status back to _Installed_, the MoEngage SDK must actively track the device.
-        moe_push_opted:
-          type: string
-          enum:
-          - 'True'
-          - 'False'
-          description: This field denotes the opt-in status of the device of the user.
-        moe_push_provisional_opted:
-          type: string
-          description: This field denotes the provisional push opt-in status of the user. Know more about provisional push [here](/user-guide/campaigns-and-channels/mobile-push/notification-features-and-behavior/ios-push-permission-and-reachability).
-        app_version:
-          type: string
-          description: This field denotes the version of the app on the device.
-        os_version:
-          type: string
-          description: This field denotes the device's operating system version.
-        moe_gaid:
-          type: string
-          description: This field denotes the unique advertising identifier for Android devices to measure user behavior and campaign performance.
-        idfv:
-          type: string
-          description: This field denotes the unique advertising identifier for iOS devices.
     GenericSuccess:
       type: object
       properties:
@@ -480,55 +386,84 @@ components:
         message:
           type: string
           example: Your request has been accepted and will be processed soon.
-    CreateDeviceRequest:
-      title: Device
+    EventAction:
       type: object
       required:
-      - type
-      - customer_id
-      - device_id
-      - attributes
+      - action
       properties:
-        type:
+        action:
           type: string
-          enum:
-          - device
-          description: 'This field denotes the type of request. Supported value is: device. This field is case-sensitive. When passing the value in the request, follow the case as in the example.'
-        customer_id:
-          type: string
-          description: This field denotes the unique identifier used to identify a user in MoEngage. Note that devices can be created for existing users only.
-        device_id:
-          type: string
-          description: 'This field denotes the unique identifier used to identify the device associated with a user in MoEngage.
-
-            If your app is integrated with MoEngage SDK, the SDK assigns a unique device_id to the devices of your end-users.
-
-            If your app is not integrated with MoEngage SDK, you can use unique alphanumeric values or other device attributes such as Push token, GAID/IDFV to assign unique device_id values to devices of your user.'
+          description: The name of the event to be tracked.
         attributes:
-          $ref: '#/components/schemas/DeviceAttributes'
-    BulkImportRequest:
-      type: object
-      required:
-      - type
-      - elements
-      properties:
-        type:
+          type: object
+          additionalProperties: true
+          description: "A dictionary containing event attributes to track with the event.\n**Array Support**\nIf you want to pass an attribute in an array, the appropriate syntax for that is: \n ```json\n \"Array_attributeName\":[\"abc\",\"123\"]\n ```"
+          example:
+            price: 3999
+            departure_date: '2019-05-21T03:47:35Z'
+            premium_seat: true
+        platform:
           type: string
           enum:
-          - transition
-          description: This is used to identify the type of request. This field is case-sensitive. Follow the case as in the example when passing the value in the request.
-        elements:
-          type: array
+          - ANDROID
+          - iOS
+          - web
+          - TV
+          - unknown
+          description: 'Used to identify the platform on which the event happened. Allowed values are ANDROID, iOS, web, or unknown.
+
+            **Note**: Ensure that the platform value sent is Android, iOS, or web. Platform value depends on which platform the event was generated. If you are unsure about the platform on which the event occurred, send the value as unknown or do not send any value. Incorrect platform value leads to inconsistencies in platform level campaigns like Push and In-App.
+
+            '
+        moe_os_type:
+          type: string
           enum:
-          - customer
-          - event
-          - device
-          description: List of data points (events and customers) to track. The type field in this list denotes whether the information is for a customer or an event. This field is case-sensitive. Follow the case as in the example when passing the value in the request.
-          items:
-            oneOf:
-            - $ref: '#/components/schemas/CreateUserRequest'
-            - $ref: '#/components/schemas/CreateEventRequest'
-            - $ref: '#/components/schemas/CreateDeviceRequest'
+          - ROKU
+          - WebOS
+          - AndroidTV
+          - tvOS
+          - Tizen
+          - FireOS
+          - VizioTV
+          - Xbox
+          description: 'Used to identify the operating system of the TV.
+
+
+            **Note**: Ensure that you pass this parameter only when the platform is TV. Following are the valid moe_os_type accepted in MoEngage:
+
+            * ROKU for RokuTV
+
+            * WebOS for LGTV
+
+            * AndroidTV for AndroidTV
+
+            * tvOS for AppleTV
+
+            * Tizen for SamsungTV
+
+            * FireOS for FireTV
+
+            * VizioTV for VizioTV
+
+            * Xbox for Xbox
+
+            '
+        app_version:
+          type: string
+          description: App Version of the app on which the event originated.
+        user_time:
+          oneOf:
+          - type: number
+          - type: string
+          description: "Local time at which the event happened. This field lets the system identify the local system time for when the event happened. Acceptable formats for user_time:\n          * ISO 8601 (for example - 2020-05-31T16:33:35Z)\n          * Epoch time in seconds (for example - 1590404615)\n"
+        current_time:
+          oneOf:
+          - type: number
+          - type: string
+          description: "UTC time at which the event happened. This field is necessary to specify the UTC time of the event. Acceptable formats for current_time include:\n       * ISO 8601 (for example - 2020-05-31T16:33:35Z)\n       * Epoch time in seconds (for example - 1590404615)\n"
+        user_timezone_offset:
+          type: number
+          description: "The difference in time between UTC and the local system time in a particular time zone. All time zones are defined by their offset from UTC. The offset is expressed as either UTC- or UTC+.\n * user_timezone_offset should have a value in seconds which can be between -54000 to 54000. For example, for IST (UTC+0530), \"user_timezone_offset\" will be 19800.\n* This field is crucial for establishing the `user_time` or `current_time`.\n* If the field is absent, MoEngage gets this information from the internal system in the sequence as follows:\n      * The user profile’s timezone is taken into consideration.\n      * If the user profile’s timezone is not present, the App/account’s timezone is considered.\n      * In cases where neither is present, the UTC timezone is used.\n* Include `user_timezone_offset` in your request only if you have accurate timezone information for each user, as incorrect info could disrupt event timelines in the user profile.\n\n**Note:**\nMoEngage generates current_time and user_time if they are not provided in the request. Use the following information and provide current_time, user_time, and user_timezone_offset accordingly:\n* If you do not provide any of current_time, user_time, and user_timezone_offset, MoEngage automatically uses the UTC time when the request was received by MoEngage as the current_time. MoEngage uses internal data to calculate the user_timezone_offset to generate the user_time.\n* If you provide only the current_time, MoEngage uses internal data to calculate the user_timezone_offset to generate the user_time.\n- If you provide only the user_time, MoEngage uses internal data to calculate the user_timezone_offset to generate the current_time.\n* If you send the current_time and user_time, MoEngage uses them as is.\n* If you provide the current_time and user_timezone_offset, MoEngage generates the user_time.\n* If you provide user_time and user_timezone_offset, MoEngage generates the current_time.\n"
     UserAttributes:
       type: object
       description: "A dictionary containing user attributes to add / update in the user profile.\nFor example, to track custom attributes of different data types like string, numeric, boolean, and date, pass the following payload where points are a number, expiry_date is a date type attribute, and super_user is a boolean attribute.\n\n> **Note:**\n> * \"id\", \"_id\", and \"\" keywords are blocked and not to be used as user attribute names.\n> * You can not use \"moe_\" as a prefix while naming user attributes. It is a system prefix and using it might result in periodic blacklisting without prior communication.\n> For other attributes that are not listed below, use the key-value pairs that you intend to use.\n\n**Array Support**\n  If you want to pass an attribute in an array, the appropriate syntax for that is: \n   ```json\n   \"Array_attributeName\":[\"abc\",\"123\"]\n   ```\n"
@@ -620,22 +555,91 @@ components:
         expiry_date: '2020-05-31T03:47:35Z'
         super_user: true
         user_persona: browsers
-    EventAction:
+    BulkImportRequest:
       type: object
       required:
-      - action
+      - type
+      - elements
       properties:
-        action:
+        type:
           type: string
-          description: The name of the event to be tracked.
-        attributes:
+          enum:
+          - transition
+          description: This is used to identify the type of request. This field is case-sensitive. Follow the case as in the example when passing the value in the request.
+        elements:
+          type: array
+          enum:
+          - customer
+          - event
+          - device
+          description: List of data points (events and customers) to track. The type field in this list denotes whether the information is for a customer or an event. This field is case-sensitive. Follow the case as in the example when passing the value in the request.
+          items:
+            oneOf:
+            - $ref: '#/components/schemas/CreateUserRequest'
+            - $ref: '#/components/schemas/CreateEventRequest'
+            - $ref: '#/components/schemas/CreateDeviceRequest'
+    PlatformObject:
+      type: object
+      properties:
+        platform:
+          type: string
+          enum:
+          - ANDROID
+          - iOS
+          - web
+        active:
+          type: string
+          enum:
+          - 'true'
+          - 'false'
+    CreateEventRequest:
+      title: Event
+      type: object
+      required:
+      - type
+      - customer_id
+      - actions
+      properties:
+        type:
+          type: string
+          description: This is used to identify the type of request. Allowed value is event. This field is case-sensitive. Follow the case as in the example when passing the value in the request.
+          enum:
+          - event
+        customer_id:
+          type: string
+          description: Identifier to identify or create a user in MoEngage. Not mandatory in Identity resolution enabled workspaces.
+        device_id:
+          type: string
+          description: Device_id in event payload is optional. The default value is the customer_id value. The value is used to map events to specific devices.
+        user_identifiers:
           type: object
+          description: 'Required if Identity Resolution is enabled and customer_id is not provided.
+
+
+            **User Identity Resolution:**
+
+
+            If the [User Identity Resolution](/user-guide/data/user-data/unified-identity-identity-resolution) feature is enabled in your workspace, identifiers set up in the workspace must be mentioned within the user_identifiers parameter.
+
+            '
           additionalProperties: true
-          description: "A dictionary containing event attributes to track with the event.\n**Array Support**\nIf you want to pass an attribute in an array, the appropriate syntax for that is: \n ```json\n \"Array_attributeName\":[\"abc\",\"123\"]\n ```"
           example:
-            price: 3999
-            departure_date: '2019-05-21T03:47:35Z'
-            premium_seat: true
+            moe_mobile: +9198765xxxxx
+        actions:
+          type: array
+          description: List of events to be tracked for the user.
+          items:
+            $ref: '#/components/schemas/EventAction'
+    DeviceAttributes:
+      type: object
+      description: This field contains the device attributes to add or update in the device profile.
+      required:
+      - platform
+      - push_id
+      properties:
+        model:
+          type: string
+          description: This field denotes the model of the device.
         platform:
           type: string
           enum:
@@ -643,61 +647,57 @@ components:
           - iOS
           - web
           - TV
-          - unknown
-          description: 'Used to identify the platform on which the event happened. Allowed values are ANDROID, iOS, web, or unknown.
-
-            **Note**: Ensure that the platform value sent is Android, iOS, or web. Platform value depends on which platform the event was generated. If you are unsure about the platform on which the event occurred, send the value as unknown or do not send any value. Incorrect platform value leads to inconsistencies in platform level campaigns like Push and In-App.
-
-            '
-        moe_os_type:
+          description: This field denotes the platforms where the device is supported. Using unsupported values may result in an API response of 400.
+        push_id:
+          type: string
+          description: This field denotes the Push token of the device. When you pass a push token using this API, reachability is only updated if the device is currently marked as _Installed_. If a device is marked as _Uninstalled_, updating the `push_id` or `moe_push_opted` using Track Device API will not affect its reachability (it will remain Unreachable). To change a device's status back to _Installed_, the MoEngage SDK must actively track the device.
+        moe_push_opted:
           type: string
           enum:
-          - ROKU
-          - WebOS
-          - AndroidTV
-          - tvOS
-          - Tizen
-          - FireOS
-          - VizioTV
-          - Xbox
-          description: 'Used to identify the operating system of the TV.
-
-
-            **Note**: Ensure that you pass this parameter only when the platform is TV. Following are the valid moe_os_type accepted in MoEngage:
-
-            * ROKU for RokuTV
-
-            * WebOS for LGTV
-
-            * AndroidTV for AndroidTV
-
-            * tvOS for AppleTV
-
-            * Tizen for SamsungTV
-
-            * FireOS for FireTV
-
-            * VizioTV for VizioTV
-
-            * Xbox for Xbox
-
-            '
+          - 'True'
+          - 'False'
+          description: This field denotes the opt-in status of the device of the user.
+        moe_push_provisional_opted:
+          type: string
+          description: This field denotes the provisional push opt-in status of the user. Know more about provisional push [here](/user-guide/campaigns-and-channels/mobile-push/notification-features-and-behavior/ios-push-permission-and-reachability).
         app_version:
           type: string
-          description: App Version of the app on which the event originated.
-        user_time:
-          oneOf:
-          - type: number
-          - type: string
-          description: "Local time at which the event happened. This field lets the system identify the local system time for when the event happened. Acceptable formats for user_time:\n          * ISO 8601 (for example - 2020-05-31T16:33:35Z)\n          * Epoch time in seconds (for example - 1590404615)\n"
-        current_time:
-          oneOf:
-          - type: number
-          - type: string
-          description: "UTC time at which the event happened. This field is necessary to specify the UTC time of the event. Acceptable formats for current_time include:\n       * ISO 8601 (for example - 2020-05-31T16:33:35Z)\n       * Epoch time in seconds (for example - 1590404615)\n"
-        user_timezone_offset:
-          type: number
-          description: "The difference in time between UTC and the local system time in a particular time zone. All time zones are defined by their offset from UTC. The offset is expressed as either UTC- or UTC+.\n * user_timezone_offset should have a value in seconds which can be between -54000 to 54000. For example, for IST (UTC+0530), \"user_timezone_offset\" will be 19800.\n* This field is crucial for establishing the `user_time` or `current_time`.\n* If the field is absent, MoEngage gets this information from the internal system in the sequence as follows:\n      * The user profile’s timezone is taken into consideration.\n      * If the user profile’s timezone is not present, the App/account’s timezone is considered.\n      * In cases where neither is present, the UTC timezone is used.\n* Include `user_timezone_offset` in your request only if you have accurate timezone information for each user, as incorrect info could disrupt event timelines in the user profile.\n\n**Note:**\nMoEngage generates current_time and user_time if they are not provided in the request. Use the following information and provide current_time, user_time, and user_timezone_offset accordingly:\n* If you do not provide any of current_time, user_time, and user_timezone_offset, MoEngage automatically uses the UTC time when the request was received by MoEngage as the current_time. MoEngage uses internal data to calculate the user_timezone_offset to generate the user_time.\n* If you provide only the current_time, MoEngage uses internal data to calculate the user_timezone_offset to generate the user_time.\n- If you provide only the user_time, MoEngage uses internal data to calculate the user_timezone_offset to generate the current_time.\n* If you send the current_time and user_time, MoEngage uses them as is.\n* If you provide the current_time and user_timezone_offset, MoEngage generates the user_time.\n* If you provide user_time and user_timezone_offset, MoEngage generates the current_time.\n"
+          description: This field denotes the version of the app on the device.
+        os_version:
+          type: string
+          description: This field denotes the device's operating system version.
+        moe_gaid:
+          type: string
+          description: This field denotes the unique advertising identifier for Android devices to measure user behavior and campaign performance.
+        idfv:
+          type: string
+          description: This field denotes the unique advertising identifier for iOS devices.
+    CreateDeviceRequest:
+      title: Device
+      type: object
+      required:
+      - type
+      - customer_id
+      - device_id
+      - attributes
+      properties:
+        type:
+          type: string
+          enum:
+          - device
+          description: 'This field denotes the type of request. Supported value is: device. This field is case-sensitive. When passing the value in the request, follow the case as in the example.'
+        customer_id:
+          type: string
+          description: This field denotes the unique identifier used to identify a user in MoEngage. Note that devices can be created for existing users only.
+        device_id:
+          type: string
+          description: 'This field denotes the unique identifier used to identify the device associated with a user in MoEngage.
+
+            If your app is integrated with MoEngage SDK, the SDK assigns a unique device_id to the devices of your end-users.
+
+            If your app is not integrated with MoEngage SDK, you can use unique alphanumeric values or other device attributes such as Push token, GAID/IDFV to assign unique device_id values to devices of your user.'
+        attributes:
+          $ref: '#/components/schemas/DeviceAttributes'
   securitySchemes:
     Authentication:
       type: http

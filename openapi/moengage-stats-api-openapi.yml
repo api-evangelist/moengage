@@ -176,48 +176,6 @@ paths:
                 code: jDTGSxjd
 components:
   schemas:
-    FailureBreakdown:
-      type: object
-      description: This object shows the failure breakdown of your campaign.
-      additionalProperties:
-        type: integer
-    ErrorResponseSimple:
-      type: object
-      properties:
-        title:
-          type: string
-        description:
-          type:
-          - string
-          - 'null'
-        code:
-          type: string
-    Variations:
-      type: object
-      description: This object contains details of the variations of your locale.
-      properties:
-        all_variations:
-          $ref: '#/components/schemas/VariationDetails'
-        campaign_control_group:
-          $ref: '#/components/schemas/VariationDetails'
-        global_control_group:
-          $ref: '#/components/schemas/VariationDetails'
-    VariationDetails:
-      type: object
-      properties:
-        performance_stats:
-          $ref: '#/components/schemas/PerformanceStats'
-        conversion_goal_stats:
-          $ref: '#/components/schemas/ConversionGoalStats'
-        delivery_funnel:
-          $ref: '#/components/schemas/DeliveryFunnel'
-        failure_breakdown:
-          $ref: '#/components/schemas/FailureBreakdown'
-    ConversionGoalStats:
-      type: object
-      description: This object shows the conversion goal stats of your campaign.
-      additionalProperties:
-        $ref: '#/components/schemas/ConversionGoal'
     CampaignStatsRequest:
       type: object
       required:
@@ -270,11 +228,63 @@ components:
           enum:
           - TOTAL
           - UNIQUE
+    ConversionGoalStats:
+      type: object
+      description: This object shows the conversion goal stats of your campaign.
+      additionalProperties:
+        $ref: '#/components/schemas/ConversionGoal'
+    ErrorResponseSimple:
+      type: object
+      properties:
+        title:
+          type: string
+        description:
+          type:
+          - string
+          - 'null'
+        code:
+          type: string
+    CampaignStatsDetails:
+      type: object
+      properties:
+        platforms:
+          $ref: '#/components/schemas/Platforms'
+    Locales:
+      type: object
+      description: This field indicates the details of the locales configured.
+      additionalProperties:
+        $ref: '#/components/schemas/LocaleStats'
     Platforms:
       type: object
       description: This field indicates the platforms where the user has engaged with your communication (e.g., ANDROID, IOS, WEB, MWEB, UNKNOWN).
       additionalProperties:
         $ref: '#/components/schemas/PlatformStats'
+    LocaleStats:
+      type: object
+      properties:
+        variations:
+          $ref: '#/components/schemas/Variations'
+    FailureBreakdown:
+      type: object
+      description: This object shows the failure breakdown of your campaign.
+      additionalProperties:
+        type: integer
+    VariationDetails:
+      type: object
+      properties:
+        performance_stats:
+          $ref: '#/components/schemas/PerformanceStats'
+        conversion_goal_stats:
+          $ref: '#/components/schemas/ConversionGoalStats'
+        delivery_funnel:
+          $ref: '#/components/schemas/DeliveryFunnel'
+        failure_breakdown:
+          $ref: '#/components/schemas/FailureBreakdown'
+    PlatformStats:
+      type: object
+      properties:
+        locales:
+          $ref: '#/components/schemas/Locales'
     DeliveryFunnel:
       type: object
       description: This object shows the delivery stats of your campaign.
@@ -337,38 +347,6 @@ components:
           type: number
         gcg_uplift:
           type: number
-    CampaignStatsResponse:
-      type: object
-      properties:
-        response_id:
-          type: string
-          description: The response ID, which is the same as the request ID passed in the payload.
-        total_campaigns:
-          type: integer
-          description: This field indicates the total number of campaigns that are requested in the payload.
-        current_page:
-          type: integer
-          description: This field indicates the current page number.
-        total_pages:
-          type: integer
-          description: This field indicates the total page. It is equal to the total campaigns, which is limited to 10 for each call and 10 to be displayed for each page.
-        data:
-          type: object
-          description: This object contains the campaign stats. Keys are Campaign IDs.
-          additionalProperties:
-            type: array
-            items:
-              $ref: '#/components/schemas/CampaignStatsDetails'
-    CampaignStatsDetails:
-      type: object
-      properties:
-        platforms:
-          $ref: '#/components/schemas/Platforms'
-    Locales:
-      type: object
-      description: This field indicates the details of the locales configured.
-      additionalProperties:
-        $ref: '#/components/schemas/LocaleStats'
     PerformanceStats:
       type: object
       description: This object shows your campaign's performance metrics.
@@ -454,16 +432,38 @@ components:
         complaints_rate:
           type: number
           format: double
-    LocaleStats:
+    Variations:
+      type: object
+      description: This object contains details of the variations of your locale.
+      properties:
+        all_variations:
+          $ref: '#/components/schemas/VariationDetails'
+        campaign_control_group:
+          $ref: '#/components/schemas/VariationDetails'
+        global_control_group:
+          $ref: '#/components/schemas/VariationDetails'
+    CampaignStatsResponse:
       type: object
       properties:
-        variations:
-          $ref: '#/components/schemas/Variations'
-    PlatformStats:
-      type: object
-      properties:
-        locales:
-          $ref: '#/components/schemas/Locales'
+        response_id:
+          type: string
+          description: The response ID, which is the same as the request ID passed in the payload.
+        total_campaigns:
+          type: integer
+          description: This field indicates the total number of campaigns that are requested in the payload.
+        current_page:
+          type: integer
+          description: This field indicates the current page number.
+        total_pages:
+          type: integer
+          description: This field indicates the total page. It is equal to the total campaigns, which is limited to 10 for each call and 10 to be displayed for each page.
+        data:
+          type: object
+          description: This object contains the campaign stats. Keys are Campaign IDs.
+          additionalProperties:
+            type: array
+            items:
+              $ref: '#/components/schemas/CampaignStatsDetails'
   requestBodies:
     CampaignStatsRequest:
       description: Request body to fetch campaign stats.

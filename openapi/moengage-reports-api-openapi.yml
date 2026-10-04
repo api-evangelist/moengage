@@ -185,6 +185,11 @@ components:
       schema:
         type: string
   schemas:
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          $ref: '#/components/schemas/Error'
     Error:
       type: object
       properties:
@@ -194,11 +199,6 @@ components:
         message:
           type: string
           description: Along with the error code, a detailed message is also provided in the response, describing the specifics of the request failure and the nature of the error.
-    ErrorResponse:
-      type: object
-      properties:
-        error:
-          $ref: '#/components/schemas/Error'
   securitySchemes:
     basicAuth:
       type: http

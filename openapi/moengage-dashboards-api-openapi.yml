@@ -246,52 +246,6 @@ paths:
           $ref: '#/components/responses/InternalError'
 components:
   responses:
-    NotFound:
-      description: This response is returned when the requested dashboard or chart does not exist.
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              error:
-                type: object
-                properties:
-                  code:
-                    type: string
-                    description: A machine-readable error code.
-                    example: NOT_FOUND
-                  message:
-                    type: string
-                    description: A human-readable description of the error.
-                    example: Dashboard not found.
-                  doc_url:
-                    type: string
-                    description: A link to documentation about this error, when available.
-              response_id:
-                $ref: '#/components/schemas/ResponseId'
-    Unauthorized:
-      description: This response is returned when the authentication credentials are missing or invalid.
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              error:
-                type: object
-                properties:
-                  code:
-                    type: string
-                    description: A machine-readable error code.
-                    example: UNAUTHORIZED
-                  message:
-                    type: string
-                    description: A human-readable description of the error.
-                    example: Missing or invalid credentials.
-                  doc_url:
-                    type: string
-                    description: A link to documentation about this error, when available.
-              response_id:
-                $ref: '#/components/schemas/ResponseId'
     BadRequest:
       description: This response is returned when the dashboard ID or chart ID is invalid, or the request is malformed.
       content:
@@ -315,8 +269,8 @@ components:
                     description: A link to documentation about this error, when available.
               response_id:
                 $ref: '#/components/schemas/ResponseId'
-    Forbidden:
-      description: This response is returned when the caller does not have access to the requested dashboard or chart.
+    InternalError:
+      description: This response is returned when the system runs into an unexpected error.
       content:
         application/json:
           schema:
@@ -328,11 +282,11 @@ components:
                   code:
                     type: string
                     description: A machine-readable error code.
-                    example: FORBIDDEN
+                    example: INTERNAL_ERROR
                   message:
                     type: string
                     description: A human-readable description of the error.
-                    example: You do not have access to this dashboard.
+                    example: An unexpected error occurred while processing the request.
                   doc_url:
                     type: string
                     description: A link to documentation about this error, when available.
@@ -362,8 +316,8 @@ components:
                     example: https://www.moengage.com/docs/api/dashboards/get-chart-data
               response_id:
                 $ref: '#/components/schemas/ResponseId'
-    InternalError:
-      description: This response is returned when the system runs into an unexpected error.
+    Unauthorized:
+      description: This response is returned when the authentication credentials are missing or invalid.
       content:
         application/json:
           schema:
@@ -375,17 +329,135 @@ components:
                   code:
                     type: string
                     description: A machine-readable error code.
-                    example: INTERNAL_ERROR
+                    example: UNAUTHORIZED
                   message:
                     type: string
                     description: A human-readable description of the error.
-                    example: An unexpected error occurred while processing the request.
+                    example: Missing or invalid credentials.
                   doc_url:
                     type: string
                     description: A link to documentation about this error, when available.
               response_id:
                 $ref: '#/components/schemas/ResponseId'
+    NotFound:
+      description: This response is returned when the requested dashboard or chart does not exist.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    description: A machine-readable error code.
+                    example: NOT_FOUND
+                  message:
+                    type: string
+                    description: A human-readable description of the error.
+                    example: Dashboard not found.
+                  doc_url:
+                    type: string
+                    description: A link to documentation about this error, when available.
+              response_id:
+                $ref: '#/components/schemas/ResponseId'
+    Forbidden:
+      description: This response is returned when the caller does not have access to the requested dashboard or chart.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    description: A machine-readable error code.
+                    example: FORBIDDEN
+                  message:
+                    type: string
+                    description: A human-readable description of the error.
+                    example: You do not have access to this dashboard.
+                  doc_url:
+                    type: string
+                    description: A link to documentation about this error, when available.
+              response_id:
+                $ref: '#/components/schemas/ResponseId'
+  parameters:
+    Cache:
+      name: cache
+      in: query
+      required: false
+      description: Controls whether the chart data is served from the server-side cache. Set to `false` to bypass the cache and recompute the chart. Defaults to `true`.
+      schema:
+        type: boolean
+        default: true
+    DashboardId:
+      name: dashboard_id
+      in: path
+      required: true
+      description: The unique identifier of the dashboard. You can retrieve dashboard IDs from the [List Dashboards](/api/dashboards/list-dashboards) response.
+      schema:
+        type: string
+        example: 6a10ae88f3a1896d59d5bf8f
+    ChartId:
+      name: chart_id
+      in: path
+      required: true
+      description: The unique identifier of the chart on the dashboard. You can retrieve chart IDs from the [Get Dashboard Charts](/api/dashboards/get-dashboard-charts) response.
+      schema:
+        type: string
+        example: 6a10af49f3a1896d59d5bfbd
   schemas:
+    DashboardSummary:
+      type: object
+      description: A dashboard accessible to the workspace.
+      properties:
+        _id:
+          type: string
+          description: The unique identifier of the dashboard.
+          example: 63ede292b4c6a68b18c2c93f
+        name:
+          type: string
+          description: The name of the dashboard.
+          example: Acquisition Overview
+    ChartSummary:
+      type: object
+      description: A chart laid out on the dashboard.
+      properties:
+        _id:
+          type: string
+          description: The unique identifier of the chart.
+          example: 67f9d9df279348ecdc84415f
+        name:
+          type: string
+          description: The name of the chart.
+          example: New Users by Day
+    DashboardData:
+      type: object
+      description: A dashboard's details and the charts laid out on it.
+      properties:
+        name:
+          type: string
+          description: The name of the dashboard.
+          example: Acquisition Overview
+        created_by:
+          type: string
+          format: email
+          description: The email address of the user who created the dashboard.
+          example: john.doe@example.com
+        owned_by:
+          type: string
+          format: email
+          description: The email address of the dashboard's current owner.
+          example: john.doe@example.com
+        chart_ids:
+          type: array
+          description: The charts laid out on the dashboard, in layout order. Each entry includes the chart's ID and name.
+          items:
+            $ref: '#/components/schemas/ChartSummary'
     ChartSeriesPoint:
       type: object
       description: 'One row of a chart''s resolved data series. The keys below are common across analysis types, but each analysis type returns additional, type-specific keys. For example:
@@ -431,78 +503,6 @@ components:
       type: string
       description: A unique identifier for this response. Include it when reporting issues to MoEngage Support to help trace the request.
       example: b3f1c0d2-2a4e-4f9b-9c1a-6d2e8f0a1b23
-    DashboardData:
-      type: object
-      description: A dashboard's details and the charts laid out on it.
-      properties:
-        name:
-          type: string
-          description: The name of the dashboard.
-          example: Acquisition Overview
-        created_by:
-          type: string
-          format: email
-          description: The email address of the user who created the dashboard.
-          example: john.doe@example.com
-        owned_by:
-          type: string
-          format: email
-          description: The email address of the dashboard's current owner.
-          example: john.doe@example.com
-        chart_ids:
-          type: array
-          description: The charts laid out on the dashboard, in layout order. Each entry includes the chart's ID and name.
-          items:
-            $ref: '#/components/schemas/ChartSummary'
-    DashboardSummary:
-      type: object
-      description: A dashboard accessible to the workspace.
-      properties:
-        _id:
-          type: string
-          description: The unique identifier of the dashboard.
-          example: 63ede292b4c6a68b18c2c93f
-        name:
-          type: string
-          description: The name of the dashboard.
-          example: Acquisition Overview
-    ChartSummary:
-      type: object
-      description: A chart laid out on the dashboard.
-      properties:
-        _id:
-          type: string
-          description: The unique identifier of the chart.
-          example: 67f9d9df279348ecdc84415f
-        name:
-          type: string
-          description: The name of the chart.
-          example: New Users by Day
-  parameters:
-    ChartId:
-      name: chart_id
-      in: path
-      required: true
-      description: The unique identifier of the chart on the dashboard. You can retrieve chart IDs from the [Get Dashboard Charts](/api/dashboards/get-dashboard-charts) response.
-      schema:
-        type: string
-        example: 6a10af49f3a1896d59d5bfbd
-    Cache:
-      name: cache
-      in: query
-      required: false
-      description: Controls whether the chart data is served from the server-side cache. Set to `false` to bypass the cache and recompute the chart. Defaults to `true`.
-      schema:
-        type: boolean
-        default: true
-    DashboardId:
-      name: dashboard_id
-      in: path
-      required: true
-      description: The unique identifier of the dashboard. You can retrieve dashboard IDs from the [List Dashboards](/api/dashboards/list-dashboards) response.
-      schema:
-        type: string
-        example: 6a10ae88f3a1896d59d5bf8f
   securitySchemes:
     basicAuth:
       type: http

@@ -167,9 +167,9 @@ paths:
                 $ref: '#/components/schemas/GdprError500Response'
 components:
   schemas:
-    GdprError429Response:
+    GdprError401Response:
       type: object
-      description: This response is returned when the number of requests has exceeded the rate limit.
+      description: This response is returned when the request does not have valid authentication credentials.
       properties:
         status:
           type: string
@@ -181,13 +181,32 @@ components:
             message:
               type: string
               description: A human-readable message confirming the request was not accepted.
-              example: Rate limits for customers exceeded. Please Try After Some Time
+              example: No identity information found.
             type:
               type: string
-              example: Rate Limits Exceeded
+              example: Authentication required
             request_id:
               type: string
-              example: onqucLYL
+              example: IzbhlLyG
+    UserIdentity:
+      type: object
+      description: An object representing a user's identity detail.
+      properties:
+        identity_type:
+          type: string
+          description: This field denotes the key based on which the user has to be deleted.
+          enum:
+          - ID
+          - user_secondary_id
+          - email
+          - mobile
+          - google_advertising_id
+          - advertising_identifier
+          example: email
+        identity_value:
+          type: string
+          description: This field denotes the value of the identity_type.
+          example: johndoe@example.com
     GdprRequest:
       type: object
       required:
@@ -215,9 +234,9 @@ components:
           type: string
           description: This identifies the API version used to send the GDPR request.
           example: '1.0'
-    GdprError403Response:
+    GdprError429Response:
       type: object
-      description: This response is returned when your MoEngage account is suspended or blocked.
+      description: This response is returned when the number of requests has exceeded the rate limit.
       properties:
         status:
           type: string
@@ -229,74 +248,13 @@ components:
             message:
               type: string
               description: A human-readable message confirming the request was not accepted.
-              example: Your account is suspended. Please contact MoEngage team.
+              example: Rate limits for customers exceeded. Please Try After Some Time
             type:
               type: string
-              example: BlockedClient
+              example: Rate Limits Exceeded
             request_id:
               type: string
-              example: ofHUEaEQ
-    UserIdentity:
-      type: object
-      description: An object representing a user's identity detail.
-      properties:
-        identity_type:
-          type: string
-          description: This field denotes the key based on which the user has to be deleted.
-          enum:
-          - ID
-          - user_secondary_id
-          - email
-          - mobile
-          - google_advertising_id
-          - advertising_identifier
-          example: email
-        identity_value:
-          type: string
-          description: This field denotes the value of the identity_type.
-          example: johndoe@example.com
-    GdprError413Response:
-      type: object
-      description: This response is returned when the payload size exceeds 128 KB.
-      properties:
-        status:
-          type: string
-          example: fail
-        error:
-          type: object
-          description: Contains the error details.
-          properties:
-            message:
-              type: string
-              description: A human-readable message confirming the request was not accepted.
-              example: Payload can not exceed 128KB.
-            type:
-              type: string
-              example: Payload too large
-            request_id:
-              type: string
-              example: VFzDwhwt
-    GdprError500Response:
-      type: object
-      description: This response is returned when the system runs into an unexpected error.
-      properties:
-        status:
-          type: string
-          example: fail
-        error:
-          type: object
-          description: Contains the error details.
-          properties:
-            message:
-              type: string
-              description: A human-readable message confirming the request was not accepted.
-              example: An unexpected error was encountered while processing this request. Please contact MoEngage Team
-            type:
-              type: string
-              example: Server Error
-            request_id:
-              type: string
-              example: KovrwJiF
+              example: onqucLYL
     GdprError400Response:
       type: object
       description: This response is returned when the required parameters are missing from the request, attributes are not found, or incorrect values are passed.
@@ -321,6 +279,22 @@ components:
             request_id:
               type: string
               example: zuMJjxAS
+    GdprSuccessResponse:
+      type: object
+      description: Standard successful response object for a submitted GDPR request.
+      properties:
+        status:
+          type: string
+          example: success
+        message:
+          type: string
+          description: A human-readable message confirming the request was accepted.
+          example: Your request has been accepted and will be processed soon.
+        request_id:
+          type: string
+          format: uuid
+          description: A unique ID generated for the submitted request.
+          example: a7551968-d5d6-44b2-9831-815ac9017798
     GdprError415Response:
       type: object
       description: This response is returned when the content type is not supported.
@@ -342,9 +316,9 @@ components:
             request_id:
               type: string
               example: SgBQfKJh
-    GdprError401Response:
+    GdprError500Response:
       type: object
-      description: This response is returned when the request does not have valid authentication credentials.
+      description: This response is returned when the system runs into an unexpected error.
       properties:
         status:
           type: string
@@ -356,29 +330,55 @@ components:
             message:
               type: string
               description: A human-readable message confirming the request was not accepted.
-              example: No identity information found.
+              example: An unexpected error was encountered while processing this request. Please contact MoEngage Team
             type:
               type: string
-              example: Authentication required
+              example: Server Error
             request_id:
               type: string
-              example: IzbhlLyG
-    GdprSuccessResponse:
+              example: KovrwJiF
+    GdprError403Response:
       type: object
-      description: Standard successful response object for a submitted GDPR request.
+      description: This response is returned when your MoEngage account is suspended or blocked.
       properties:
         status:
           type: string
-          example: success
-        message:
+          example: fail
+        error:
+          type: object
+          description: Contains the error details.
+          properties:
+            message:
+              type: string
+              description: A human-readable message confirming the request was not accepted.
+              example: Your account is suspended. Please contact MoEngage team.
+            type:
+              type: string
+              example: BlockedClient
+            request_id:
+              type: string
+              example: ofHUEaEQ
+    GdprError413Response:
+      type: object
+      description: This response is returned when the payload size exceeds 128 KB.
+      properties:
+        status:
           type: string
-          description: A human-readable message confirming the request was accepted.
-          example: Your request has been accepted and will be processed soon.
-        request_id:
-          type: string
-          format: uuid
-          description: A unique ID generated for the submitted request.
-          example: a7551968-d5d6-44b2-9831-815ac9017798
+          example: fail
+        error:
+          type: object
+          description: Contains the error details.
+          properties:
+            message:
+              type: string
+              description: A human-readable message confirming the request was not accepted.
+              example: Payload can not exceed 128KB.
+            type:
+              type: string
+              example: Payload too large
+            request_id:
+              type: string
+              example: VFzDwhwt
   securitySchemes:
     basicAuth:
       type: http

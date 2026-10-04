@@ -228,61 +228,6 @@ paths:
           $ref: '#/components/responses/InternalServerError'
 components:
   schemas:
-    UserPreferenceEntry:
-      type: object
-      required:
-      - customer_id
-      - categories
-      - unsubscribe_all
-      properties:
-        customer_id:
-          type: string
-          description: The unique identifier denoting the customer (ID on the user profile page) for whom you are updating the subscription preferences.
-          example: john@example.com
-        categories:
-          $ref: '#/components/schemas/SubscriptionCategories'
-        unsubscribe_all:
-          type: boolean
-          description: Set to **true** to unsubscribe the user from all categories.
-    BulkUpdatePreferencesRequest:
-      type: object
-      required:
-      - channel
-      - user_preferences
-      properties:
-        channel:
-          type: string
-          enum:
-          - email
-          description: 'This field contains the name of the channel. Allowed values - "channel": "email"'
-          example: email
-        user_preferences:
-          type: array
-          description: A list of user preference objects to update. Maximum 50 per request.
-          maxItems: 50
-          items:
-            $ref: '#/components/schemas/UserPreferenceEntry'
-      example:
-        channel: email
-        user_preferences:
-        - customer_id: john@example.com
-          categories:
-            Promotional: false
-            Transactional: false
-            Special Offers: true
-          unsubscribe_all: false
-        - customer_id: mike@example.com
-          categories:
-            Transactional: true
-            Promotional: false
-            Special Offers: true
-          unsubscribe_all: false
-        - customer_id: doe@example.com
-          categories:
-            Product Updates: true
-            New arrivals: false
-            Recommendations: true
-          unsubscribe_all: false
     UpdatePreferencesRequest:
       type: object
       required:
@@ -325,6 +270,61 @@ components:
         message:
           type: string
           description: A brief description of the request status in the case of success.
+    BulkUpdatePreferencesRequest:
+      type: object
+      required:
+      - channel
+      - user_preferences
+      properties:
+        channel:
+          type: string
+          enum:
+          - email
+          description: 'This field contains the name of the channel. Allowed values - "channel": "email"'
+          example: email
+        user_preferences:
+          type: array
+          description: A list of user preference objects to update. Maximum 50 per request.
+          maxItems: 50
+          items:
+            $ref: '#/components/schemas/UserPreferenceEntry'
+      example:
+        channel: email
+        user_preferences:
+        - customer_id: john@example.com
+          categories:
+            Promotional: false
+            Transactional: false
+            Special Offers: true
+          unsubscribe_all: false
+        - customer_id: mike@example.com
+          categories:
+            Transactional: true
+            Promotional: false
+            Special Offers: true
+          unsubscribe_all: false
+        - customer_id: doe@example.com
+          categories:
+            Product Updates: true
+            New arrivals: false
+            Recommendations: true
+          unsubscribe_all: false
+    UserPreferenceEntry:
+      type: object
+      required:
+      - customer_id
+      - categories
+      - unsubscribe_all
+      properties:
+        customer_id:
+          type: string
+          description: The unique identifier denoting the customer (ID on the user profile page) for whom you are updating the subscription preferences.
+          example: john@example.com
+        categories:
+          $ref: '#/components/schemas/SubscriptionCategories'
+        unsubscribe_all:
+          type: boolean
+          description: Set to **true** to unsubscribe the user from all categories.
     ErrorResponse:
       type: object
       properties:
@@ -335,6 +335,33 @@ components:
           type: string
           description: The error description.
   responses:
+    InternalServerError:
+      description: Internal Server Error. Returned when the system runs into an unexpected error.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            title: Internal Error
+            description: Please Contact Moengage Team
+    Conflict:
+      description: API SECRET not configured. Returned when the authorization fails due to the APP SECRET key not being set on the Dashboard.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            title: API SECRET not configured
+            description: This response is returned when the authorization fails due to the APP SECRET key not being set on the Dashboard.
+    TooManyRequests:
+      description: Rate Limit Breach. The number of requests per minute has exceeded the limit.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            title: Rate-Limit Reached
+            description: Exceeded rate limit for this url
     Unauthorized:
       description: Authorization Failure. Returned when authorization fails due to incorrect APP KEY/HTTP Auth Header.
       content:
@@ -352,33 +379,6 @@ components:
               value:
                 title: Header required
                 description: MOE-APPKEY missing in Header
-    Conflict:
-      description: API SECRET not configured. Returned when the authorization fails due to the APP SECRET key not being set on the Dashboard.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-          example:
-            title: API SECRET not configured
-            description: This response is returned when the authorization fails due to the APP SECRET key not being set on the Dashboard.
-    InternalServerError:
-      description: Internal Server Error. Returned when the system runs into an unexpected error.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-          example:
-            title: Internal Error
-            description: Please Contact Moengage Team
-    TooManyRequests:
-      description: Rate Limit Breach. The number of requests per minute has exceeded the limit.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-          example:
-            title: Rate-Limit Reached
-            description: Exceeded rate limit for this url
   parameters:
     AppKeyHeader:
       name: MOE-APPKEY

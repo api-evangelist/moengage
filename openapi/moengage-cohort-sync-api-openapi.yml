@@ -260,6 +260,15 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
+    CohortMember:
+      type: object
+      required:
+      - uid
+      properties:
+        uid:
+          type: string
+          description: The unique identifier (Unique User ID) for a customer who is to be added or removed.
+          example: mm1UR87z4T
     CohortSyncSuccess:
       type: object
       description: Response body for a successful request.
@@ -272,36 +281,6 @@ components:
           type: string
           description: A message indicating the request was accepted.
           example: Your request has been accepted and will be processed soon.
-    ErrorDetails:
-      type: object
-      description: Details of the error that occurred.
-      properties:
-        attribute:
-          type: string
-          description: The request attribute causing the error.
-          example: action
-        message:
-          type: string
-          description: A human-readable error message.
-          example: action is not found in the payload
-        type:
-          type: string
-          description: The type of error.
-          example: MissingAttributeError
-        request_id:
-          type: string
-          description: A unique ID for tracing the request.
-          example: UkBwaUmU
-    ErrorResponse:
-      type: object
-      description: Generic error response schema.
-      properties:
-        status:
-          type: string
-          description: The status of the request.
-          example: fail
-        error:
-          $ref: '#/components/schemas/ErrorDetails'
     CohortParameters:
       type: object
       description: Contains the information about the cohort to be synced.
@@ -327,6 +306,26 @@ components:
           description: Contains the unique identifiers of the customers being added to or removed from a Cohort in MoEngage.
           items:
             $ref: '#/components/schemas/CohortMember'
+    ErrorDetails:
+      type: object
+      description: Details of the error that occurred.
+      properties:
+        attribute:
+          type: string
+          description: The request attribute causing the error.
+          example: action
+        message:
+          type: string
+          description: A human-readable error message.
+          example: action is not found in the payload
+        type:
+          type: string
+          description: The type of error.
+          example: MissingAttributeError
+        request_id:
+          type: string
+          description: A unique ID for tracing the request.
+          example: UkBwaUmU
     CohortSyncRequest:
       type: object
       required:
@@ -346,15 +345,16 @@ components:
           example: 6HNBXFm7ZS
         parameters:
           $ref: '#/components/schemas/CohortParameters'
-    CohortMember:
+    ErrorResponse:
       type: object
-      required:
-      - uid
+      description: Generic error response schema.
       properties:
-        uid:
+        status:
           type: string
-          description: The unique identifier (Unique User ID) for a customer who is to be added or removed.
-          example: mm1UR87z4T
+          description: The status of the request.
+          example: fail
+        error:
+          $ref: '#/components/schemas/ErrorDetails'
   securitySchemes:
     basicAuth:
       type: http

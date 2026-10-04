@@ -111,7 +111,66 @@ paths:
         '500':
           $ref: '#/components/responses/5XX_FileSegmentError'
 components:
+  responses:
+    401_FileSegmentError:
+      description: Unauthorized. Authentication or Authorization Failure.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ApiErrorV2'
+          example:
+            title: Authentication required
+            description: <message>
+    5XX_FileSegmentError:
+      description: Server Errors. Something went wrong on MoEngage.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ApiErrorV2'
+          example:
+            title: Internal Server Error
+    400_FileSegmentError:
+      description: Bad Request. Invalid payload format.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ApiErrorV2'
+          example:
+            title: Invalid Request
+            description: <message>
+    404_FileSegmentNotFound:
+      description: Entity Not Found. The segment name does not exist.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ApiErrorV2'
+          example:
+            title: Entity Not Found
+            description: 'Segment not found with the given name: <custom_segment_unique_name>'
   schemas:
+    SegmentNameRequestV2:
+      description: Schema for requests that only require the segment name.
+      type: object
+      properties:
+        name:
+          type: string
+          description: The name of the segment.
+        cs_id:
+          type: string
+          description: 'Unique identifier corresponding to the target segment. When both `cs_id` and `name` are populated, the system prioritizes `cs_id`.
+
+            '
+      required:
+      - name
+    ApiErrorV2:
+      type: object
+      properties:
+        title:
+          type: string
+          description: A short title for the error.
+        description:
+          type: string
+          description: A detailed, human-readable explanation of the error.
     ApiResponseSuccessV2:
       type: object
       properties:
@@ -128,65 +187,6 @@ components:
         cs_id:
           type: string
           description: The unique identifier of the segment.
-    ApiErrorV2:
-      type: object
-      properties:
-        title:
-          type: string
-          description: A short title for the error.
-        description:
-          type: string
-          description: A detailed, human-readable explanation of the error.
-    SegmentNameRequestV2:
-      description: Schema for requests that only require the segment name.
-      type: object
-      properties:
-        name:
-          type: string
-          description: The name of the segment.
-        cs_id:
-          type: string
-          description: 'Unique identifier corresponding to the target segment. When both `cs_id` and `name` are populated, the system prioritizes `cs_id`.
-
-            '
-      required:
-      - name
-  responses:
-    404_FileSegmentNotFound:
-      description: Entity Not Found. The segment name does not exist.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ApiErrorV2'
-          example:
-            title: Entity Not Found
-            description: 'Segment not found with the given name: <custom_segment_unique_name>'
-    400_FileSegmentError:
-      description: Bad Request. Invalid payload format.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ApiErrorV2'
-          example:
-            title: Invalid Request
-            description: <message>
-    5XX_FileSegmentError:
-      description: Server Errors. Something went wrong on MoEngage.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ApiErrorV2'
-          example:
-            title: Internal Server Error
-    401_FileSegmentError:
-      description: Unauthorized. Authentication or Authorization Failure.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ApiErrorV2'
-          example:
-            title: Authentication required
-            description: <message>
   securitySchemes:
     basicAuth:
       type: http

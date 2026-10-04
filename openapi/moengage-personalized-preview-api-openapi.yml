@@ -193,21 +193,6 @@ components:
               code: INTERNAL_ERROR
               message: Internal server error.
               details: []
-    V5ValidationError:
-      description: Request failed schema or component validation.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/V5ErrorEnvelope'
-          example:
-            response_id: abc-101
-            error:
-              code: VALIDATION_FAILED
-              message: One or more fields failed validation.
-              request_id: req-push-001
-              details:
-              - target: campaign_delivery_type
-                message: campaign_delivery_type value is required.
     V5RateLimited:
       description: Per-app rate limit exceeded. Retry after the window indicated in `Retry-After` (seconds).
       content:
@@ -232,26 +217,21 @@ components:
               code: UNAUTHORIZED
               message: Invalid or missing credentials.
               details: []
-  parameters:
-    X-MOE-Request-Id:
-      name: X-MOE-Request-Id
-      in: header
-      required: true
-      description: 'Correlates with `response_id`. Supply this header or `request_id` in the body; if both are set, they must match.
-
-        '
-      schema:
-        type: string
-    MOE-APPKEY:
-      name: MOE-APPKEY
-      in: header
-      required: true
-      description: 'Your MoEngage Workspace ID (App ID). Find it in the dashboard at **Settings** > **Account** > **APIs** > **Workspace ID**.
-
-        '
-      schema:
-        type: string
-      example: '{{workspace_id}}'
+    V5ValidationError:
+      description: Request failed schema or component validation.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/V5ErrorEnvelope'
+          example:
+            response_id: abc-101
+            error:
+              code: VALIDATION_FAILED
+              message: One or more fields failed validation.
+              request_id: req-push-001
+              details:
+              - target: campaign_delivery_type
+                message: campaign_delivery_type value is required.
   schemas:
     V5ErrorEnvelope:
       type: object
@@ -292,6 +272,26 @@ components:
                 In V1, `request_id` appeared inside the `error` object. V5 preserves this field in the same location.
 
                 '
+  parameters:
+    X-MOE-Request-Id:
+      name: X-MOE-Request-Id
+      in: header
+      required: true
+      description: 'Correlates with `response_id`. Supply this header or `request_id` in the body; if both are set, they must match.
+
+        '
+      schema:
+        type: string
+    MOE-APPKEY:
+      name: MOE-APPKEY
+      in: header
+      required: true
+      description: 'Your MoEngage Workspace ID (App ID). Find it in the dashboard at **Settings** > **Account** > **APIs** > **Workspace ID**.
+
+        '
+      schema:
+        type: string
+      example: '{{workspace_id}}'
   securitySchemes:
     BasicAuth:
       type: http
