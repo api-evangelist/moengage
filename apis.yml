@@ -48,7 +48,7 @@ x-type: company
 x-source: harvest:secondary-market
 specificationVersion: '0.23'
 created: '2026-08-01'
-modified: '2026-08-14'
+modified: '2026-10-06'
 tags:
 - Customer Engagement
 - Marketing Automation
@@ -1777,6 +1777,8 @@ apis:
   - type: Documentation
     url: https://www.moengage.com/docs/api/cards/cards-overview
 common:
+- url: https://www.moengage.com/feed/
+  type: BlogRSS
 - type: CapabilityMap
   url: capabilities/moengage-capability-edges.yml
   name: MoEngage Business Capability Map
