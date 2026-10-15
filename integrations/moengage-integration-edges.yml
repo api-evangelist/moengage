@@ -12,6 +12,7 @@ checked:
 - https://monid.ai/tools/moengage
 - https://n8n.io/integrations/moengage/
 - https://www.twilio.com/docs/segment/connections/destinations/catalog/actions-moengage
+- https://zapier.com/api/v4/apps/
 - https://zapier.com/apps/moengage/integrations
 summary: null
 marketplace_apps:
@@ -428,6 +429,31 @@ edges:
       - update or create
   detected_by: sweep-cdp.py
   first_seen: '2026-10-14'
+- partner_name: Zapier
+  partner: zapier
+  partner_match: aggregator
+  type: marketplace
+  marketplace: zapier-directory
+  channel: ipaas-listing
+  relationship: ipaas-bridge
+  direction: third-party
+  evidence: https://zapier.com/apps/moengage/integrations
+  category: null
+  contract_reference:
+    register: Zapier app directory (zapier.com/api/v4/apps)
+    spec_file: null
+    role: ipaas-connector:zapier
+    registered_name: MoEngage
+    matched_domain: moengage.com
+    matched_by: domain
+    detected_by: sweep-workflow-automation.py
+    detected: '2026-10-15'
+    signal_note: one edge per (provider, platform); actions, triggers and usage counts are context, never read
+    app_slug: moengage
+    beta: false
+    builder: unknown (not in the directory record)
+  detected_by: sweep-workflow-automation.py
+  first_seen: '2026-10-15'
 templates:
 - title: Add MoEngage users from new Salesforce records
   url: https://zapier.com/apps/moengage/integrations/salesforce/1109662/add-moengage-users-from-new-salesforce-records
