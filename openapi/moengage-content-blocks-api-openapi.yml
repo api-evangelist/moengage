@@ -319,82 +319,54 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    GetByIdsListResponse:
+    SearchContentBlockRequest:
       type: object
       properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/GetByIdsResponseContentBlock'
-    SearchContentBlockListResponse:
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/SearchResponseContentBlock'
-    UpdateContentBlockRequest:
-      title: Update Content Block Attribute Mapping
-      type: object
-      required:
-      - id
-      - name
-      - status
-      - raw_content
-      - updated_by
-      - content_block_used
-      properties:
-        id:
-          type: string
-          description: ID of the content block that you want to update
-        name:
-          type: string
-          description: Name of the content block
-        status:
-          type: string
-          enum:
-          - ACTIVE
-          - DRAFT
-          description: Status of the content block - DRAFT/ACTIVE
-        raw_content:
-          type: string
-          description: Content of the content block
-        description:
-          type: string
-          description: Description of the content block
-        updated_by:
-          type: string
-          format: email
-          description: Email id of the user who is updating the content block
-        tag_ids:
-          type: array
-          items:
-            type: string
-          description: Tags associated to the content block
-        team_ids:
-          type: array
-          items:
-            type: string
-          description: 'Teams for which the content block should be available. Passing team id is mandatory if you are using multiple Teams.
+        filters:
+          type: object
+          description: 'A set of filters to apply to the search.
 
-            <Note>For more information, refer to [Teams](/user-guide/settings/account/team-management/teams-in-moengage).</Note>
+            <Note>You can send empty filters if you want all the content blocks: `{ "filters" : {} }`</Note>
 
             '
-        content_block_used:
-          type: array
-          items:
-            type: string
-          description: 'In case, you are using nested content blocks, provide the names of the other content blocks used in this content block.
+          properties:
+            content_type:
+              type: array
+              items:
+                type: string
+                enum:
+                - HTML
+                - TEXT
+              description: Type of the content block - HTML/Text
+            team_ids:
+              type: array
+              items:
+                type: string
+              description: 'Name of the teams for which the content block is enabled. This is only applicable to the accounts where Teams is enabled. For more information, refer to [Teams](/user-guide/settings/account/team-management/teams-in-moengage).
 
-            <Note>If you are not using nested content blocks, you can pass this as an empty array: `content_block_used : []`</Note>
-
-            '
-        images_used:
-          type: array
-          items:
-            type: string
-            format: uri
-          description: Images used in content block
+                '
+            tag_ids:
+              type: array
+              items:
+                type: string
+              description: Ids of the tags
+            status:
+              type: array
+              items:
+                type: string
+                enum:
+                - ACTIVE
+                - ARCHIVED
+              description: Status of the content block
+            updated_by:
+              type: array
+              items:
+                type: string
+                format: email
+              description: Email id of the user who updated the content block
+            search_text:
+              type: string
+              description: You can use this to search content block by content block name
     GetByIdsRequest:
       type: object
       required:
@@ -495,6 +467,13 @@ components:
             <Note>You cannot change the communication type after the content block is created.</Note>
 
             '
+    GetByIdsListResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/GetByIdsResponseContentBlock'
     GetByIdsResponseContentBlock:
       type: object
       description: Attribute Mapping for Get Specific Content Blocks Response
@@ -552,6 +531,80 @@ components:
           items:
             type: string
           description: Images used in content block
+    UpdateContentBlockRequest:
+      title: Update Content Block Attribute Mapping
+      type: object
+      required:
+      - id
+      - name
+      - status
+      - raw_content
+      - updated_by
+      - content_block_used
+      properties:
+        id:
+          type: string
+          description: ID of the content block that you want to update
+        name:
+          type: string
+          description: Name of the content block
+        status:
+          type: string
+          enum:
+          - ACTIVE
+          - DRAFT
+          description: Status of the content block - DRAFT/ACTIVE
+        raw_content:
+          type: string
+          description: Content of the content block
+        description:
+          type: string
+          description: Description of the content block
+        updated_by:
+          type: string
+          format: email
+          description: Email id of the user who is updating the content block
+        tag_ids:
+          type: array
+          items:
+            type: string
+          description: Tags associated to the content block
+        team_ids:
+          type: array
+          items:
+            type: string
+          description: 'Teams for which the content block should be available. Passing team id is mandatory if you are using multiple Teams.
+
+            <Note>For more information, refer to [Teams](/user-guide/settings/account/team-management/teams-in-moengage).</Note>
+
+            '
+        content_block_used:
+          type: array
+          items:
+            type: string
+          description: 'In case, you are using nested content blocks, provide the names of the other content blocks used in this content block.
+
+            <Note>If you are not using nested content blocks, you can pass this as an empty array: `content_block_used : []`</Note>
+
+            '
+        images_used:
+          type: array
+          items:
+            type: string
+            format: uri
+          description: Images used in content block
+    ErrorResponse:
+      type: object
+      properties:
+        title:
+          type: string
+          example: Invalid Field Value
+        description:
+          type: string
+          example: 'app_key - Some of the field values are invalid: app_key : None'
+        code:
+          type: string
+          example: nGpUNpDQ
     SearchResponseContentBlock:
       type: object
       description: Attribute Mapping for Search Response
@@ -595,66 +648,13 @@ components:
           description: 'Name of the teams for which the content block is enabled. This is only applicable to the accounts where Teams is enabled. For more information, refer to [Teams](/user-guide/settings/account/team-management/teams-in-moengage).
 
             '
-    SearchContentBlockRequest:
+    SearchContentBlockListResponse:
       type: object
       properties:
-        filters:
-          type: object
-          description: 'A set of filters to apply to the search.
-
-            <Note>You can send empty filters if you want all the content blocks: `{ "filters" : {} }`</Note>
-
-            '
-          properties:
-            content_type:
-              type: array
-              items:
-                type: string
-                enum:
-                - HTML
-                - TEXT
-              description: Type of the content block - HTML/Text
-            team_ids:
-              type: array
-              items:
-                type: string
-              description: 'Name of the teams for which the content block is enabled. This is only applicable to the accounts where Teams is enabled. For more information, refer to [Teams](/user-guide/settings/account/team-management/teams-in-moengage).
-
-                '
-            tag_ids:
-              type: array
-              items:
-                type: string
-              description: Ids of the tags
-            status:
-              type: array
-              items:
-                type: string
-                enum:
-                - ACTIVE
-                - ARCHIVED
-              description: Status of the content block
-            updated_by:
-              type: array
-              items:
-                type: string
-                format: email
-              description: Email id of the user who updated the content block
-            search_text:
-              type: string
-              description: You can use this to search content block by content block name
-    ErrorResponse:
-      type: object
-      properties:
-        title:
-          type: string
-          example: Invalid Field Value
-        description:
-          type: string
-          example: 'app_key - Some of the field values are invalid: app_key : None'
-        code:
-          type: string
-          example: nGpUNpDQ
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/SearchResponseContentBlock'
   securitySchemes:
     BasicAuth:
       type: http

@@ -798,6 +798,91 @@ components:
         more_files:
           type: string
           description: This field indicates if there are more files. For example, if there are 100 imports and offset = 1, 50 imports will be returned with more_file = true to indicate that offset = 2 must be passed to get the next 50 imports.
+    FileRunHistoryResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          description: This field denotes the status of the API response.
+          example: success
+        total_count:
+          type: integer
+          description: This field denotes the total count of the files fetched based on the API request.
+          example: 1
+        data:
+          type: array
+          description: This field contains the file data details.
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+                description: This field denotes the unique ID of the file.
+              file_name:
+                type: string
+                description: This field denotes the name of the file.
+              scheduled_at:
+                type: string
+                description: This field denotes the time at which the file is scheduled.
+                format: date-time
+              completed_at:
+                type: string
+                description: This field denotes the time at which the file is completed.
+                format: date-time
+              type:
+                type: string
+                description: This field denotes the file type.
+                enum:
+                - USERS
+                - EVENTS
+                - AUX_DATA
+              file_size:
+                type: string
+                description: This field denotes the file size in terms of the number of rows in the file.
+              file_status:
+                type: string
+                description: This field denotes the file status.
+                enum:
+                - SUCCESSFUL
+                - FAILED
+                - PARTIAL_FAILURE
+                - QUEUED
+              status_msg:
+                type: string
+                description: This field denotes the error message in case of failure or partial failure.
+              total_rows:
+                type: integer
+                description: This field denotes the total number of rows in the file.
+              skipped_rows:
+                type: integer
+                description: This field denotes the skipped number of rows in the file.
+              updated_rows:
+                type: integer
+                description: This field denotes the updated number of rows in the file.
+              failed_rows:
+                type: integer
+                description: This field denotes the number of rows in the file that failed to process.
+              aux_data_added_count:
+                type: integer
+                description: This field denotes the number of rows added as auxiliary data. This is applicable to auxiliary data.
+              aux_data_failed_count:
+                type: integer
+                description: This field denotes the number of rows that failed to process. This is applicable to auxiliary data.
+              added_rows:
+                type: integer
+                description: This field denotes the total number of rows added from the file.
+        offset:
+          type: integer
+          description: 'This field denotes the pagination value of the imports. For example, if there are 100 imports to be fetched in the response:
+
+            * Offset = 1 will return the first 50 imports
+
+            * Offset = 2 will return the next 50 import details
+
+            '
+        more_files:
+          type: string
+          description: This field indicates if there are more files. For example, if there are 100 imports and offset = 1, 50 imports will be returned with more_file = true to indicate that offset = 2 must be passed to get the next 50 imports.
     FileRunHistoryRequest:
       type: object
       required:
@@ -905,91 +990,6 @@ components:
           type: integer
           description: "'API responds with a maximum of 50 file details in a single response. For example, if there are a total of 150 files that are part of the API response, then:\n* Offset = 1 will fetch the details of the first 50 files\n* Offset = 2 will fetch the file details of the next 50 imports\n* Offset = 3 will fetch the import details of the last 50 imports\n* If offset is not passed in the request body, the API response will consider offset = 1.\n\nYou can refer to the total_count parameter in the response to understand how many total files are part of the response. \n\nOR\n\n If the API responds with more_files = true, it indicates that there are more files that are not part of the current response for which another API request must be made with offset +1.'\n"
           default: 1
-    FileRunHistoryResponse:
-      type: object
-      properties:
-        status:
-          type: string
-          description: This field denotes the status of the API response.
-          example: success
-        total_count:
-          type: integer
-          description: This field denotes the total count of the files fetched based on the API request.
-          example: 1
-        data:
-          type: array
-          description: This field contains the file data details.
-          items:
-            type: object
-            properties:
-              id:
-                type: string
-                description: This field denotes the unique ID of the file.
-              file_name:
-                type: string
-                description: This field denotes the name of the file.
-              scheduled_at:
-                type: string
-                description: This field denotes the time at which the file is scheduled.
-                format: date-time
-              completed_at:
-                type: string
-                description: This field denotes the time at which the file is completed.
-                format: date-time
-              type:
-                type: string
-                description: This field denotes the file type.
-                enum:
-                - USERS
-                - EVENTS
-                - AUX_DATA
-              file_size:
-                type: string
-                description: This field denotes the file size in terms of the number of rows in the file.
-              file_status:
-                type: string
-                description: This field denotes the file status.
-                enum:
-                - SUCCESSFUL
-                - FAILED
-                - PARTIAL_FAILURE
-                - QUEUED
-              status_msg:
-                type: string
-                description: This field denotes the error message in case of failure or partial failure.
-              total_rows:
-                type: integer
-                description: This field denotes the total number of rows in the file.
-              skipped_rows:
-                type: integer
-                description: This field denotes the skipped number of rows in the file.
-              updated_rows:
-                type: integer
-                description: This field denotes the updated number of rows in the file.
-              failed_rows:
-                type: integer
-                description: This field denotes the number of rows in the file that failed to process.
-              aux_data_added_count:
-                type: integer
-                description: This field denotes the number of rows added as auxiliary data. This is applicable to auxiliary data.
-              aux_data_failed_count:
-                type: integer
-                description: This field denotes the number of rows that failed to process. This is applicable to auxiliary data.
-              added_rows:
-                type: integer
-                description: This field denotes the total number of rows added from the file.
-        offset:
-          type: integer
-          description: 'This field denotes the pagination value of the imports. For example, if there are 100 imports to be fetched in the response:
-
-            * Offset = 1 will return the first 50 imports
-
-            * Offset = 2 will return the next 50 import details
-
-            '
-        more_files:
-          type: string
-          description: This field indicates if there are more files. For example, if there are 100 imports and offset = 1, 50 imports will be returned with more_file = true to indicate that offset = 2 must be passed to get the next 50 imports.
   securitySchemes:
     Authentication:
       type: http

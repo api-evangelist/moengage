@@ -389,107 +389,7 @@ paths:
         '429':
           $ref: '#/components/responses/TooManyRequests'
 components:
-  responses:
-    Forbidden:
-      description: Forbidden - The client does not have access rights to the Catalog APIs.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-          example:
-            error-code: request-denied
-            message: Your account does not have access to the Catalog APIs.
-    BadRequest:
-      description: Bad Request - The request is improperly formatted, or contains missing/invalid parameters.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-          examples:
-            invalid-datatype:
-              value:
-                error-code: invalid-request
-                message: The data type provided for some of the attributes is invalid.
-            invalid-json:
-              value:
-                error-code: invalid-request
-                message: The request body is not a valid JSON. Please provide a valid JSON request body.
-            limit-exceeded:
-              value:
-                error-code: invalid-request
-                message: items size should be greater than 0 and less than or equal to 50
-    TooManyRequests:
-      description: 'Too Many Requests - The rate limit for the API has been exceeded.
-
-
-        The following headers are returned in case of rate-limit breach:
-
-        * **x-ratelimit-limit (integer)**: The maximum number of requests that the consumer is permitted to make in a given time window.
-
-        * **x-ratelimit-remaining (integer)**: The number of requests remaining in the current rate limit window.
-
-        * **x-ratelimit-reset (integer)**: The time at which the current rate limit window resets in UTC epoch seconds.'
-    Unauthorized:
-      description: Unauthorized - The request does not have valid authentication credentials.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-          example:
-            error-code: request-unauthenticated
-            message: Your request is unauthorized. Please verify your credentials and try again.
-    PayloadTooLarge:
-      description: Payload Too Large - The request payload exceeds the 5MB limit.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-          example:
-            error-code: payload-size-exceeded
-            message: Your payload size exceeds the 5MB limit. Please reduce the payload size and try again.
-    NotFound:
-      description: Not Found - The specified resource (catalog) could not be found.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-          example:
-            error-code: catalog-not-found
-            message: We could not find any API based catalog for the provided catalog id.
   schemas:
-    CatalogItem:
-      type: object
-      required:
-      - id
-      - title
-      - link
-      - image_link
-      properties:
-        id:
-          type: string
-          description: The unique identifier for the catalog item.
-        title:
-          type: string
-          description: The title or name of the catalog item.
-        link:
-          type: string
-          format: uri
-          description: The deep link or URL to the item's page.
-        image_link:
-          type: string
-          format: uri
-          description: The URL of the primary image for the item.
-      additionalProperties: true
-      example:
-        id: item-sku-123
-        title: Classic T-Shirt
-        link: https://example.com/products/item-123
-        image_link: https://example.com/images/item-123.jpg
-        brand_attribute: Super Tech
-        in_stock: true
-        price: 19.99
-        sale_start_date: '2025-08-27T19:26:38.00Z'
-        store_location: 12.9716,77.5946
     ItemUpdate:
       type: object
       required:
@@ -554,6 +454,15 @@ components:
                         description: The IDs of the items that failed.
                         example:
                         - item_id_xyz
+    Error:
+      type: object
+      properties:
+        error-code:
+          type: string
+          description: A machine-readable error code.
+        message:
+          type: string
+          description: A human-readable description of the error.
     GetItemDetailsResponse:
       type: object
       properties:
@@ -606,15 +515,39 @@ components:
                 format: date-time
                 description: A date attribute associated with the item.
             additionalProperties: true
-    Error:
+    CatalogItem:
       type: object
+      required:
+      - id
+      - title
+      - link
+      - image_link
       properties:
-        error-code:
+        id:
           type: string
-          description: A machine-readable error code.
-        message:
+          description: The unique identifier for the catalog item.
+        title:
           type: string
-          description: A human-readable description of the error.
+          description: The title or name of the catalog item.
+        link:
+          type: string
+          format: uri
+          description: The deep link or URL to the item's page.
+        image_link:
+          type: string
+          format: uri
+          description: The URL of the primary image for the item.
+      additionalProperties: true
+      example:
+        id: item-sku-123
+        title: Classic T-Shirt
+        link: https://example.com/products/item-123
+        image_link: https://example.com/images/item-123.jpg
+        brand_attribute: Super Tech
+        in_stock: true
+        price: 19.99
+        sale_start_date: '2025-08-27T19:26:38.00Z'
+        store_location: 12.9716,77.5946
   parameters:
     CatalogIdPath:
       name: catalog_id
@@ -623,6 +556,73 @@ components:
       description: The unique identifier for the catalog, obtained during catalog creation.
       schema:
         type: string
+  responses:
+    BadRequest:
+      description: Bad Request - The request is improperly formatted, or contains missing/invalid parameters.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          examples:
+            invalid-datatype:
+              value:
+                error-code: invalid-request
+                message: The data type provided for some of the attributes is invalid.
+            invalid-json:
+              value:
+                error-code: invalid-request
+                message: The request body is not a valid JSON. Please provide a valid JSON request body.
+            limit-exceeded:
+              value:
+                error-code: invalid-request
+                message: items size should be greater than 0 and less than or equal to 50
+    TooManyRequests:
+      description: 'Too Many Requests - The rate limit for the API has been exceeded.
+
+
+        The following headers are returned in case of rate-limit breach:
+
+        * **x-ratelimit-limit (integer)**: The maximum number of requests that the consumer is permitted to make in a given time window.
+
+        * **x-ratelimit-remaining (integer)**: The number of requests remaining in the current rate limit window.
+
+        * **x-ratelimit-reset (integer)**: The time at which the current rate limit window resets in UTC epoch seconds.'
+    Forbidden:
+      description: Forbidden - The client does not have access rights to the Catalog APIs.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            error-code: request-denied
+            message: Your account does not have access to the Catalog APIs.
+    NotFound:
+      description: Not Found - The specified resource (catalog) could not be found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            error-code: catalog-not-found
+            message: We could not find any API based catalog for the provided catalog id.
+    PayloadTooLarge:
+      description: Payload Too Large - The request payload exceeds the 5MB limit.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            error-code: payload-size-exceeded
+            message: Your payload size exceeds the 5MB limit. Please reduce the payload size and try again.
+    Unauthorized:
+      description: Unauthorized - The request does not have valid authentication credentials.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            error-code: request-unauthenticated
+            message: Your request is unauthorized. Please verify your credentials and try again.
   securitySchemes:
     basicAuth:
       type: http

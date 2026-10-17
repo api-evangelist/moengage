@@ -1434,16 +1434,6 @@ components:
           description: List of dictionaries with the associated platforms out of ANDROID, iOS, and web and their status.
           items:
             $ref: '#/components/schemas/PlatformObject'
-    GenericSuccess:
-      type: object
-      properties:
-        status:
-          type: string
-          description: This field contains the status of the request and specifies whether the request was successful.
-          example: success
-        message:
-          type: string
-          example: Your request has been accepted and will be processed soon.
     UserAttributes:
       type: object
       description: "A dictionary containing user attributes to add / update in the user profile.\nFor example, to track custom attributes of different data types like string, numeric, boolean, and date, pass the following payload where points are a number, expiry_date is a date type attribute, and super_user is a boolean attribute.\n\n> **Note:**\n> * \"id\", \"_id\", and \"\" keywords are blocked and not to be used as user attribute names.\n> * You can not use \"moe_\" as a prefix while naming user attributes. It is a system prefix and using it might result in periodic blacklisting without prior communication.\n> For other attributes that are not listed below, use the key-value pairs that you intend to use.\n\n**Array Support**\n  If you want to pass an attribute in an array, the appropriate syntax for that is: \n   ```json\n   \"Array_attributeName\":[\"abc\",\"123\"]\n   ```\n"
@@ -1535,6 +1525,16 @@ components:
         expiry_date: '2020-05-31T03:47:35Z'
         super_user: true
         user_persona: browsers
+    GenericSuccess:
+      type: object
+      properties:
+        status:
+          type: string
+          description: This field contains the status of the request and specifies whether the request was successful.
+          example: success
+        message:
+          type: string
+          example: Your request has been accepted and will be processed soon.
     IdentifierObject:
       type: object
       properties:
@@ -1549,20 +1549,6 @@ components:
           type: string
           description: This field specifies the unique identifier that identifies the user.
           example: 6416d1a318r98264512c0f89
-    PlatformObject:
-      type: object
-      properties:
-        platform:
-          type: string
-          enum:
-          - ANDROID
-          - iOS
-          - web
-        active:
-          type: string
-          enum:
-          - 'true'
-          - 'false'
     MergeUserRequest:
       type: object
       properties:
@@ -1580,6 +1566,20 @@ components:
                 description: 'The user ID that will remain and absorb the merged user''s data. The merged user’s attributes and associated devices are mapped to the retained user post-merge. Reachability calculation is done for the retained user based on the devices. All of the user attributes of the merged user are moved to the retained user. If an attribute is present for the retained user and the same attribute is not for the merged user, the attribute is retained for the retained user.
 
                   '
+    PlatformObject:
+      type: object
+      properties:
+        platform:
+          type: string
+          enum:
+          - ANDROID
+          - iOS
+          - web
+        active:
+          type: string
+          enum:
+          - 'true'
+          - 'false'
     GetUserRequest:
       type: object
       required:

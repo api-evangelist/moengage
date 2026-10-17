@@ -183,60 +183,24 @@ paths:
                 message: Something went wrong with your request. Please contact the MoEngage team for further assistance.
 components:
   schemas:
-    IncludeExcludeFilters:
+    SortCriteria:
       type: object
       properties:
-        filters:
-          type: array
-          items:
-            $ref: '#/components/schemas/Filter'
-        filter_operator:
+        data_type:
+          type: string
+          example: double
+        param_type:
+          type: string
+          example: product_attribute
+        param:
+          type: string
+          example: price
+        direction:
           type: string
           enum:
-          - and
-          - or
-    FetchResultsRequest:
-      type: object
-      required:
-      - user_id
-      properties:
-        user_id:
-          type: string
-          description: 'A user ID is a unique identifier that represents a user. You can obtain the user_id from the user info page. For more information, refer to [User Identity Management](/user-guide/data/user-data/unified-identity-identity-resolution).
-
-            '
-        item_id:
-          type:
-          - string
-          - 'null'
-          description: 'An `item_id` is a unique identifier assigned to each item in the catalog.
-
-
-            If the `RECOMMENDATION-TYPE` is any of the `similar_item`, `frequently_viewed_together`, or `frequently_bought_together`, you must provide the `item_id`.
-
-
-            This `item_id` acts as the anchor to serve recommended items based on the `RECOMMENDATION-TYPE`.
-
-
-            We expect the user''s most recently interacted `item_id` to serve contextually recommended items.
-
-            '
-        include_fields:
-          type:
-          - array
-          - 'null'
-          items:
-            type: string
-          description: 'You can define the attributes of items you require from the catalog in the recommendation response. For example, `title`, `price`, `link`, `image_link`, and so on.
-
-
-            If the attributes above are not defined, all item attributes in the catalog will be included in the response. The response size may increase depending on the number of attributes in the catalog. Therefore, it is recommended that only the necessary attributes be specified.
-
-            '
-          example:
-          - title
-          - price
-          - image_link
+          - '1'
+          - '-1'
+          description: 1 for ascending, -1 for descending
     RecommendationResultItem:
       type: object
       description: The items JSON object contains the key-value pairs of all the requested attributes.
@@ -282,33 +246,78 @@ components:
         link: https://example.com/products/prod_xyz
         image_link: https://example.com/images/prod_xyz.jpg
         price: 19.99
-    ErrorResponse:
+    FetchResultsRequest:
+      type: object
+      required:
+      - user_id
+      properties:
+        user_id:
+          type: string
+          description: 'A user ID is a unique identifier that represents a user. You can obtain the user_id from the user info page. For more information, refer to [User Identity Management](/user-guide/data/user-data/unified-identity-identity-resolution).
+
+            '
+        item_id:
+          type:
+          - string
+          - 'null'
+          description: 'An `item_id` is a unique identifier assigned to each item in the catalog.
+
+
+            If the `RECOMMENDATION-TYPE` is any of the `similar_item`, `frequently_viewed_together`, or `frequently_bought_together`, you must provide the `item_id`.
+
+
+            This `item_id` acts as the anchor to serve recommended items based on the `RECOMMENDATION-TYPE`.
+
+
+            We expect the user''s most recently interacted `item_id` to serve contextually recommended items.
+
+            '
+        include_fields:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+          description: 'You can define the attributes of items you require from the catalog in the recommendation response. For example, `title`, `price`, `link`, `image_link`, and so on.
+
+
+            If the attributes above are not defined, all item attributes in the catalog will be included in the response. The response size may increase depending on the number of attributes in the catalog. Therefore, it is recommended that only the necessary attributes be specified.
+
+            '
+          example:
+          - title
+          - price
+          - image_link
+    Filter:
       type: object
       properties:
-        error-code:
+        executed:
+          type: boolean
+        filter_type:
           type: string
-          description: Each error code is unique and serves as a shorthand representation for the type of error.
-        message:
+          example: product_filter
+        operator_fe:
           type: string
-          description: With the error code, a detailed message is also provided in the response describing the specifics of the request failure and the nature of the error.
-    SortCriteria:
-      type: object
-      properties:
+          example: exists
+        name:
+          type: string
+          example: product_id
         data_type:
           type: string
-          example: double
-        param_type:
+          example: string
+        operator:
           type: string
-          example: product_attribute
-        param:
-          type: string
-          example: price
-        direction:
-          type: string
-          enum:
-          - '1'
-          - '-1'
-          description: 1 for ascending, -1 for descending
+          example: exists
+        value:
+          type:
+          - string
+          - 'null'
+        negate:
+          type: boolean
+        case_sensitive:
+          type: boolean
+        hasError:
+          type: boolean
     TrendSettings:
       type: object
       description: Defines the trend type and duration (Specific fields depend on implementation).
@@ -316,15 +325,18 @@ components:
       example:
         trend_type: most_viewed
         duration_days: 7
-    CustomSettings:
+    IncludeExcludeFilters:
       type: object
       properties:
-        item_filters:
-          type: object
-          properties:
-            user_actions:
-              type: object
-      description: Defines custom filters applied to recommendations.
+        filters:
+          type: array
+          items:
+            $ref: '#/components/schemas/Filter'
+        filter_operator:
+          type: string
+          enum:
+          - and
+          - or
     RecommendationMetadata:
       type: object
       properties:
@@ -396,46 +408,25 @@ components:
             **Note**: This key is available with the `trending_item` recommendation type.
 
             '
-    Filter:
+    CustomSettings:
       type: object
       properties:
-        executed:
-          type: boolean
-        filter_type:
+        item_filters:
+          type: object
+          properties:
+            user_actions:
+              type: object
+      description: Defines custom filters applied to recommendations.
+    ErrorResponse:
+      type: object
+      properties:
+        error-code:
           type: string
-          example: product_filter
-        operator_fe:
+          description: Each error code is unique and serves as a shorthand representation for the type of error.
+        message:
           type: string
-          example: exists
-        name:
-          type: string
-          example: product_id
-        data_type:
-          type: string
-          example: string
-        operator:
-          type: string
-          example: exists
-        value:
-          type:
-          - string
-          - 'null'
-        negate:
-          type: boolean
-        case_sensitive:
-          type: boolean
-        hasError:
-          type: boolean
+          description: With the error code, a detailed message is also provided in the response describing the specifics of the request failure and the nature of the error.
   parameters:
-    AppKeyHeader:
-      name: MOE-APPKEY
-      in: header
-      required: true
-      description: 'This is the Workspace ID of your MoEngage account that must be passed with the request. You can find it in the MoEngage dashboard at **Settings** > **Account** > **APIs** > **Workspace ID (earlier app id)**.
-
-        '
-      schema:
-        type: string
     RecommendationIdPath:
       name: recommendations_id
       in: path
@@ -449,6 +440,15 @@ components:
       schema:
         type: string
       example: a1b2c3d4e5f6a7b8c9d0e1f2
+    AppKeyHeader:
+      name: MOE-APPKEY
+      in: header
+      required: true
+      description: 'This is the Workspace ID of your MoEngage account that must be passed with the request. You can find it in the MoEngage dashboard at **Settings** > **Account** > **APIs** > **Workspace ID (earlier app id)**.
+
+        '
+      schema:
+        type: string
   responses:
     TooManyRequests:
       description: Too Many Requests. There won't be any response body for this request.

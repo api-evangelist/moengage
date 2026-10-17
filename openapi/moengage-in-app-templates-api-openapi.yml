@@ -225,58 +225,6 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    UpdateInAppTemplateRequest:
-      type: object
-      required:
-      - external_template_id
-      - basic_details
-      - meta_info
-      properties:
-        external_template_id:
-          type: string
-          format: uuid
-          description: The external template ID needs to be updated. This field contains the unique identifier that is generated during the creation of the template.
-        update_campaigns:
-          type: boolean
-          default: false
-          description: This field contains a flag used to update all campaigns currently using the template to the newer version. When true, all running campaigns with this template will be updated. When false, no change will be made to the template used in existing campaigns.
-        basic_details:
-          type: object
-          description: Details about the template, including its payload and template type.
-          required:
-          - payload
-          - inapp_template_type
-          properties:
-            payload:
-              type: string
-              description: The updated stringified JSON or HTML content.
-            inapp_template_type:
-              type: string
-              enum:
-              - SELF_HANDLED
-              - INAPP_HTML
-        meta_info:
-          type: object
-          description: This field will update template information, such as the name of the template and the update's details.
-          required:
-          - template_name
-          - updated_by
-          properties:
-            template_name:
-              type: string
-              description: The name of the template being updated.
-            updated_by:
-              type: string
-              format: email
-              description: The email ID of the person updating the template.
-    SearchInAppTemplateResponse:
-      type: object
-      properties:
-        data:
-          type: array
-          description: This field contains all the details of the template searched, such as the meta info, template ID, template version, payload, date and time the template was created or updated, and the user attribute of the user who created or updated the template.
-          items:
-            $ref: '#/components/schemas/InAppTemplate'
     InAppTemplate:
       type: object
       properties:
@@ -348,6 +296,89 @@ components:
           type: string
           format: date-time
           description: The date and time when the template was last updated.
+    ErrorResponse:
+      type: object
+      description: This field contains the reason for the request's failure.
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+              description: This field contains the error code that provides a brief explanation of the error and is a string. For example, 400 - Bad Request, 401- Authentication required, and so on. This field is present in the response only in the case of errors.
+            message:
+              type: string
+              description: 'This field describes why the request has failed and is a String. For example, in the case of a duplicate request (400- Bad Request), the following message will be present: ''Duplicate - template_id and template_version''.'
+            details:
+              type: array
+              description: This is a List of the error details objects.
+              items:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    description: Descriptive Error Code
+                  target:
+                    type: string
+                    description: Denotes the field causing the issue or a brief description of the error message in some cases
+                  message:
+                    type: string
+                    description: Descriptive Error Message
+            request_id:
+              type: string
+              description: This field contains the unique ID pertaining to the request.
+    SearchInAppTemplateResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          description: This field contains all the details of the template searched, such as the meta info, template ID, template version, payload, date and time the template was created or updated, and the user attribute of the user who created or updated the template.
+          items:
+            $ref: '#/components/schemas/InAppTemplate'
+    UpdateInAppTemplateRequest:
+      type: object
+      required:
+      - external_template_id
+      - basic_details
+      - meta_info
+      properties:
+        external_template_id:
+          type: string
+          format: uuid
+          description: The external template ID needs to be updated. This field contains the unique identifier that is generated during the creation of the template.
+        update_campaigns:
+          type: boolean
+          default: false
+          description: This field contains a flag used to update all campaigns currently using the template to the newer version. When true, all running campaigns with this template will be updated. When false, no change will be made to the template used in existing campaigns.
+        basic_details:
+          type: object
+          description: Details about the template, including its payload and template type.
+          required:
+          - payload
+          - inapp_template_type
+          properties:
+            payload:
+              type: string
+              description: The updated stringified JSON or HTML content.
+            inapp_template_type:
+              type: string
+              enum:
+              - SELF_HANDLED
+              - INAPP_HTML
+        meta_info:
+          type: object
+          description: This field will update template information, such as the name of the template and the update's details.
+          required:
+          - template_name
+          - updated_by
+          properties:
+            template_name:
+              type: string
+              description: The name of the template being updated.
+            updated_by:
+              type: string
+              format: email
+              description: The email ID of the person updating the template.
     SearchInAppTemplateRequest:
       type: object
       description: '**Notes:**
@@ -473,37 +504,6 @@ components:
             template_version:
               type: string
               description: The version of the template.
-    ErrorResponse:
-      type: object
-      description: This field contains the reason for the request's failure.
-      properties:
-        error:
-          type: object
-          properties:
-            code:
-              type: string
-              description: This field contains the error code that provides a brief explanation of the error and is a string. For example, 400 - Bad Request, 401- Authentication required, and so on. This field is present in the response only in the case of errors.
-            message:
-              type: string
-              description: 'This field describes why the request has failed and is a String. For example, in the case of a duplicate request (400- Bad Request), the following message will be present: ''Duplicate - template_id and template_version''.'
-            details:
-              type: array
-              description: This is a List of the error details objects.
-              items:
-                type: object
-                properties:
-                  code:
-                    type: string
-                    description: Descriptive Error Code
-                  target:
-                    type: string
-                    description: Denotes the field causing the issue or a brief description of the error message in some cases
-                  message:
-                    type: string
-                    description: Descriptive Error Message
-            request_id:
-              type: string
-              description: This field contains the unique ID pertaining to the request.
   securitySchemes:
     basicAuth:
       type: http

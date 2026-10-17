@@ -121,17 +121,6 @@ paths:
           $ref: '#/components/responses/Error502'
 components:
   schemas:
-    ArchivalData:
-      type: object
-      properties:
-        message_details:
-          $ref: '#/components/schemas/MessageDetails'
-        message_content:
-          $ref: '#/components/schemas/MessageContent'
-        backup_content:
-          $ref: '#/components/schemas/MessageContent'
-        file_info:
-          $ref: '#/components/schemas/FileInfo'
     MessageContent:
       type: object
       properties:
@@ -148,72 +137,26 @@ components:
           items:
             type: string
             format: uri
-    MessageDetails:
+    ArchivalData:
       type: object
       properties:
-        message_type:
-          type: string
-          example: campaign
-        message_id:
-          type: string
-          example: 66560c2d2880326031c474a6
-        channel:
-          type: string
-          example: push
-        platform:
-          type: string
-          example: android
-        delivery_type:
-          type: string
-          example: ONE_TIME
-        sent_time:
-          type: string
-          example: Tue, 28 May 2024 22:24:22 IST
-        message_to:
-          type: string
-          example: cZug38RqRd2-cF30bd2vda:APA91bGEG-OHMiWV3eHd_ohLs8V-yTgDJuQXNV32jO13or-R118OAC65MXdSx5ozYsIiL-RFan_iflQ62XVX7T2BiNqqQQfKd3FitlpbLR7nVBdkFF1yv_s8pqZux-HfThn-ojhpBIWd
-        moe_event_id:
-          type:
-          - string
-          - 'null'
-          example: null
-        service:
-          type: object
-          properties:
-            type:
-              type: string
-              example: FCM
-        template_info:
-          type: object
-          properties:
-            type:
-              type: string
-              example: Native
-            version:
-              type:
-              - string
-              - 'null'
-              example: null
-            id:
-              type: string
-              example: stylizedbasic
-    ArchivalResponseSuccess:
+        message_details:
+          $ref: '#/components/schemas/MessageDetails'
+        message_content:
+          $ref: '#/components/schemas/MessageContent'
+        backup_content:
+          $ref: '#/components/schemas/MessageContent'
+        file_info:
+          $ref: '#/components/schemas/FileInfo'
+    FileInfo:
       type: object
       properties:
-        status:
-          type: boolean
-          example: true
-        data:
-          $ref: '#/components/schemas/ArchivalData'
-    ErrorResponse400:
-      type: object
-      properties:
-        status:
-          type: boolean
-          example: false
-        error_message:
+        version:
           type: string
-          example: This event is unsupported to view message copy. The supported events are [...]
+          example: v2
+        file_name:
+          type: string
+          example: 66560c2d2880326031c474a6_pramodseg_1716915262_push_android.json
     ErrorResponse500:
       type: object
       properties:
@@ -330,15 +273,64 @@ components:
             * You must pass `moe_transaction_id` for alerts.
 
             '
-    FileInfo:
+    ErrorResponse400:
       type: object
       properties:
-        version:
+        status:
+          type: boolean
+          example: false
+        error_message:
           type: string
-          example: v2
-        file_name:
+          example: This event is unsupported to view message copy. The supported events are [...]
+    MessageDetails:
+      type: object
+      properties:
+        message_type:
           type: string
-          example: 66560c2d2880326031c474a6_pramodseg_1716915262_push_android.json
+          example: campaign
+        message_id:
+          type: string
+          example: 66560c2d2880326031c474a6
+        channel:
+          type: string
+          example: push
+        platform:
+          type: string
+          example: android
+        delivery_type:
+          type: string
+          example: ONE_TIME
+        sent_time:
+          type: string
+          example: Tue, 28 May 2024 22:24:22 IST
+        message_to:
+          type: string
+          example: cZug38RqRd2-cF30bd2vda:APA91bGEG-OHMiWV3eHd_ohLs8V-yTgDJuQXNV32jO13or-R118OAC65MXdSx5ozYsIiL-RFan_iflQ62XVX7T2BiNqqQQfKd3FitlpbLR7nVBdkFF1yv_s8pqZux-HfThn-ojhpBIWd
+        moe_event_id:
+          type:
+          - string
+          - 'null'
+          example: null
+        service:
+          type: object
+          properties:
+            type:
+              type: string
+              example: FCM
+        template_info:
+          type: object
+          properties:
+            type:
+              type: string
+              example: Native
+            version:
+              type:
+              - string
+              - 'null'
+              example: null
+            id:
+              type: string
+              example: stylizedbasic
     ErrorResponse401:
       type: object
       properties:
@@ -348,9 +340,26 @@ components:
         error:
           type: string
           example: Invalid data key
+    ArchivalResponseSuccess:
+      type: object
+      properties:
+        status:
+          type: boolean
+          example: true
+        data:
+          $ref: '#/components/schemas/ArchivalData'
   responses:
-    Error429:
-      description: Too Many Requests. A number of headers are returned in case of a rate-limit breach.
+    Error401:
+      description: Authentication Failure. This response is returned when the authorization parameters are missing in the HTTP Auth Header.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse401'
+          example:
+            status: false
+            error: Invalid data key
+    Error502:
+      description: Server Error. Something went wrong on MoEngage.
     Error500:
       description: Internal Server Error. This response is returned when the system runs into an unexpected error.
       content:
@@ -370,8 +379,8 @@ components:
           example:
             status: false
             error_message: This event is unsupported to view message copy. The supported events are ['Email Sent', 'SMS Sent', 'Notification Sent iOS', 'Notification Received Android', 'Notification Received Web']
-    Error502:
-      description: Server Error. Something went wrong on MoEngage.
+    Error429:
+      description: Too Many Requests. A number of headers are returned in case of a rate-limit breach.
     Success200:
       description: Success. The server successfully processed the request, but is not returning any content.
       content:
@@ -410,15 +419,6 @@ components:
               file_info:
                 version: v2
                 file_name: 66560c2d2880326031c474a6_pramodseg_1716915262_push_android.json
-    Error401:
-      description: Authentication Failure. This response is returned when the authorization parameters are missing in the HTTP Auth Header.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse401'
-          example:
-            status: false
-            error: Invalid data key
   securitySchemes:
     basicAuth:
       type: http

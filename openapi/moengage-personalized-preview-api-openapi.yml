@@ -181,6 +181,21 @@ paths:
           $ref: '#/components/responses/V5InternalError'
 components:
   responses:
+    V5ValidationError:
+      description: Request failed schema or component validation.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/V5ErrorEnvelope'
+          example:
+            response_id: abc-101
+            error:
+              code: VALIDATION_FAILED
+              message: One or more fields failed validation.
+              request_id: req-push-001
+              details:
+              - target: campaign_delivery_type
+                message: campaign_delivery_type value is required.
     V5InternalError:
       description: Unhandled server-side failure.
       content:
@@ -217,21 +232,6 @@ components:
               code: UNAUTHORIZED
               message: Invalid or missing credentials.
               details: []
-    V5ValidationError:
-      description: Request failed schema or component validation.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/V5ErrorEnvelope'
-          example:
-            response_id: abc-101
-            error:
-              code: VALIDATION_FAILED
-              message: One or more fields failed validation.
-              request_id: req-push-001
-              details:
-              - target: campaign_delivery_type
-                message: campaign_delivery_type value is required.
   schemas:
     V5ErrorEnvelope:
       type: object

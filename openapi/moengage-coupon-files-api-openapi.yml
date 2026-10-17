@@ -501,30 +501,6 @@ paths:
                   code: unexpected-error
                   message: Something went wrong with your request. Please contact the MoEngage team for further assistance.
 components:
-  parameters:
-    AppKeyHeader:
-      name: MOE-APPKEY
-      in: header
-      required: true
-      description: 'This is the Workspace ID of your MoEngage account that must be passed with the request. You can find it in the MoEngage dashboard at **Settings** > **Account** > **APIs** > **Workspace ID (earlier app id)**.
-
-        '
-      schema:
-        type: string
-    CouponListIdPath:
-      name: coupon_list_id
-      in: path
-      required: true
-      description: The unique identifier for the coupon list.
-      schema:
-        type: string
-    CouponFileIdPath:
-      name: coupon_file_id
-      in: path
-      required: true
-      description: The unique identifier for the coupon file.
-      schema:
-        type: string
   schemas:
     UploadCouponFileRequest:
       type: object
@@ -545,11 +521,6 @@ components:
         callback_url:
           type: string
           format: url
-    ErrorResponse:
-      type: object
-      properties:
-        error:
-          $ref: '#/components/schemas/Error'
     Error:
       type: object
       properties:
@@ -559,6 +530,35 @@ components:
         message:
           type: string
           description: Along with the error code, a detailed message is also provided in the response, describing the specifics of the request failure and the nature of the error.
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          $ref: '#/components/schemas/Error'
+  parameters:
+    AppKeyHeader:
+      name: MOE-APPKEY
+      in: header
+      required: true
+      description: 'This is the Workspace ID of your MoEngage account that must be passed with the request. You can find it in the MoEngage dashboard at **Settings** > **Account** > **APIs** > **Workspace ID (earlier app id)**.
+
+        '
+      schema:
+        type: string
+    CouponFileIdPath:
+      name: coupon_file_id
+      in: path
+      required: true
+      description: The unique identifier for the coupon file.
+      schema:
+        type: string
+    CouponListIdPath:
+      name: coupon_list_id
+      in: path
+      required: true
+      description: The unique identifier for the coupon list.
+      schema:
+        type: string
   securitySchemes:
     basicAuth:
       type: http

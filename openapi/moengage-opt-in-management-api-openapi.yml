@@ -233,54 +233,6 @@ paths:
                   message: Something went wrong, Please contact MoEngage Team.
 components:
   schemas:
-    OptinError500Response:
-      type: object
-      description: Error response body for Internal Server Error (500).
-      properties:
-        error:
-          type: object
-          properties:
-            code:
-              type: string
-              example: 500 Internal Server Error
-            message:
-              type: string
-              example: Something went wrong, Please contact MoEngage Team.
-    OptinRequest:
-      type: object
-      description: The main wrapper object for the user preferences payload.
-      required:
-      - user_preferences
-      properties:
-        user_preferences:
-          $ref: '#/components/schemas/UserPreferences'
-    OptinError400Response:
-      type: object
-      description: This response is returned when the required parameters are missing from the request, attributes are not found, or incorrect values are passed.
-      properties:
-        error:
-          type: object
-          properties:
-            code:
-              type: string
-              description: The HTTP status code and text (e.g., '400 Bad Request').
-              example: 400 Bad Request
-            message:
-              type: string
-              description: A brief message denoting the type of error.
-              example: Request Data is invalid.
-            details:
-              type: object
-              description: Contains granular error information including the target field and a detailed error message.
-              properties:
-                target:
-                  type: string
-                  description: The field where the error occurred (e.g., `customer_id`).
-                  example: customer_id
-                message:
-                  type: string
-                  description: The details of the error message.
-                  example: Wrong data type was used for <customer_id>...
     OptinError401Response:
       type: object
       description: This response is returned when the request does not have valid authentication credentials.
@@ -308,6 +260,33 @@ components:
                   type: string
                   description: The details of the error message.
                   example: Authentication failed due to missing or invalid credentials.
+    OptinError400Response:
+      type: object
+      description: This response is returned when the required parameters are missing from the request, attributes are not found, or incorrect values are passed.
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+              description: The HTTP status code and text (e.g., '400 Bad Request').
+              example: 400 Bad Request
+            message:
+              type: string
+              description: A brief message denoting the type of error.
+              example: Request Data is invalid.
+            details:
+              type: object
+              description: Contains granular error information including the target field and a detailed error message.
+              properties:
+                target:
+                  type: string
+                  description: The field where the error occurred (e.g., `customer_id`).
+                  example: customer_id
+                message:
+                  type: string
+                  description: The details of the error message.
+                  example: Wrong data type was used for <customer_id>...
     OptinError403Response:
       type: object
       description: This response is returned when the Email Opt-in Management feature is not enabled for the workspace.
@@ -335,6 +314,29 @@ components:
                   type: string
                   description: The details of the error message.
                   example: Access to the Email Opt-in Management API is forbidden. Please enable the feature in your workspace settings.
+    OptinSuccessResponse:
+      type: object
+      description: Success response body for the Opt-in Management API (200 OK).
+      properties:
+        message:
+          type: string
+          description: The success message denoting the request was processed successfully.
+          example: Your request has been processed successfully
+    OptinError429Response:
+      description: There is no response body for this error.
+    OptinError500Response:
+      type: object
+      description: Error response body for Internal Server Error (500).
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+              example: 500 Internal Server Error
+            message:
+              type: string
+              example: Something went wrong, Please contact MoEngage Team.
     UserPreferences:
       type: object
       description: 'Contains the user''s opt-in preferences. Must contain either `customer_id` or `email_id`.
@@ -408,16 +410,14 @@ components:
           enum:
           - email
           example: email
-    OptinSuccessResponse:
+    OptinRequest:
       type: object
-      description: Success response body for the Opt-in Management API (200 OK).
+      description: The main wrapper object for the user preferences payload.
+      required:
+      - user_preferences
       properties:
-        message:
-          type: string
-          description: The success message denoting the request was processed successfully.
-          example: Your request has been processed successfully
-    OptinError429Response:
-      description: There is no response body for this error.
+        user_preferences:
+          $ref: '#/components/schemas/UserPreferences'
   securitySchemes:
     basicAuth:
       type: http
