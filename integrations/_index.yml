@@ -351,3 +351,209 @@
     builder: unknown (not in the directory record)
   status: not-a-workflow
   arazzo: null
+- slug: moengage-maven-central
+  label: Maven Central
+  partner: maven-central
+  partner_name: Maven Central
+  category: official SDK (Java/JVM)
+  type: register
+  channel: package-registry
+  evidence: https://central.sonatype.com/artifact/com.moengage/cards-core
+  source: edge
+  relationship: distribution-channel
+  contract_reference:
+    register: Maven Central (public registry JSON)
+    spec_file: null
+    language: Java/JVM
+    packages:
+    - name: com.moengage:cards-core
+      version: 4.0.2
+      released: '2026-09-23'
+      released_field: lastUpdated
+      lapsed: false
+      page: https://central.sonatype.com/artifact/com.moengage/cards-core
+      repo_leg: github-org:moengage
+      publisher_leg: groupId:moengage.com
+      matched_by: domain
+    - name: com.moengage:core
+      version: 10.4.0
+      released: '2026-10-07'
+      released_field: lastUpdated
+      lapsed: false
+      page: https://central.sonatype.com/artifact/com.moengage/core
+      repo_leg: github-org:moengage
+      publisher_leg: groupId:moengage.com
+      matched_by: domain
+    - name: com.moengage:hms-pushkit
+      version: 7.1.0
+      released: '2026-08-03'
+      released_field: lastUpdated
+      lapsed: false
+      page: https://central.sonatype.com/artifact/com.moengage/hms-pushkit
+      repo_leg: github-org:moengage
+      publisher_leg: groupId:moengage.com
+      matched_by: domain
+    - name: com.moengage:inapp
+      version: 11.2.3
+      released: '2026-10-07'
+      released_field: lastUpdated
+      lapsed: false
+      page: https://central.sonatype.com/artifact/com.moengage/inapp
+      repo_leg: github-org:moengage
+      publisher_leg: groupId:moengage.com
+      matched_by: domain
+    - name: com.moengage:inbox-core
+      version: 5.0.1
+      released: '2026-09-23'
+      released_field: lastUpdated
+      lapsed: false
+      page: https://central.sonatype.com/artifact/com.moengage/inbox-core
+      repo_leg: github-org:moengage
+      publisher_leg: groupId:moengage.com
+      matched_by: domain
+    - name: com.moengage:integration-verifier
+      version: 5.4.0
+      released: '2025-03-11'
+      released_field: lastUpdated
+      lapsed: false
+      page: https://central.sonatype.com/artifact/com.moengage/integration-verifier
+      repo_leg: github-org:moengage
+      publisher_leg: groupId:moengage.com
+      matched_by: domain
+    - name: com.moengage:moe-android-sdk
+      version: 15.04.00
+      released: '2026-10-07'
+      released_field: lastUpdated
+      lapsed: false
+      page: https://central.sonatype.com/artifact/com.moengage/moe-android-sdk
+      repo_leg: github-org:moengage
+      publisher_leg: groupId:moengage.com
+      matched_by: domain
+    - name: com.moengage:pushbase
+      version: 10.3.0
+      released: '2026-10-07'
+      released_field: lastUpdated
+      lapsed: false
+      page: https://central.sonatype.com/artifact/com.moengage/pushbase
+      repo_leg: github-org:moengage
+      publisher_leg: groupId:moengage.com
+      matched_by: domain
+    - name: com.moengage:rich-notification
+      version: 7.2.0
+      released: '2026-10-07'
+      released_field: lastUpdated
+      lapsed: false
+      page: https://central.sonatype.com/artifact/com.moengage/rich-notification
+      repo_leg: github-org:moengage
+      publisher_leg: groupId:moengage.com
+      matched_by: domain
+    current: true
+    signal_note: 'an official package on the registry: distribution, not an integration; lapsed = no release in
+      24 months'
+    detected_by: sweep-official-sdks.py
+    detected: '2026-10-18'
+  status: not-a-workflow
+  arazzo: null
+- slug: moengage-npm-registry
+  label: npm registry
+  partner: npm
+  partner_name: npm registry
+  category: official SDK (JavaScript/TypeScript)
+  type: register
+  channel: package-registry
+  evidence: https://www.npmjs.com/package/@moengage/web-sdk
+  source: edge
+  relationship: distribution-channel
+  contract_reference:
+    register: npm registry (public registry JSON)
+    spec_file: null
+    language: JavaScript/TypeScript
+    packages:
+    - name: '@moengage/web-sdk'
+      version: 2.81.1
+      released: '2026-10-08'
+      released_field: modified
+      lapsed: false
+      page: https://www.npmjs.com/package/@moengage/web-sdk
+      repo_leg: domain:moengage.com
+      publisher_leg: email:moengage.com
+      matched_by: domain
+    - name: capacitor-moengage-core
+      version: 7.1.0
+      released: '2026-05-25'
+      released_field: modified
+      lapsed: false
+      page: https://www.npmjs.com/package/capacitor-moengage-core
+      repo_leg: github-org:moengage
+      publisher_leg: email:moengage.com
+      matched_by: domain
+    - name: capacitor-moengage-geofence
+      version: 6.0.1
+      released: '2026-05-25'
+      released_field: modified
+      lapsed: false
+      page: https://www.npmjs.com/package/capacitor-moengage-geofence
+      repo_leg: github-org:moengage
+      publisher_leg: email:moengage.com
+      matched_by: domain
+    - name: react-native-expo-moengage
+      version: 2.0.0
+      released: '2026-10-01'
+      released_field: modified
+      lapsed: false
+      page: https://www.npmjs.com/package/react-native-expo-moengage
+      repo_leg: github-org:moengage
+      publisher_leg: email:moengage.com
+      matched_by: domain
+    - name: react-native-moengage
+      version: 13.0.0
+      released: '2026-10-01'
+      released_field: modified
+      lapsed: false
+      page: https://www.npmjs.com/package/react-native-moengage
+      repo_leg: github-org:moengage
+      publisher_leg: email:moengage.com
+      matched_by: domain
+    - name: react-native-moengage-cards
+      version: 7.0.0
+      released: '2026-10-01'
+      released_field: modified
+      lapsed: false
+      page: https://www.npmjs.com/package/react-native-moengage-cards
+      repo_leg: github-org:moengage
+      publisher_leg: email:moengage.com
+      matched_by: domain
+    - name: react-native-moengage-geofence
+      version: 8.0.0
+      released: '2026-10-01'
+      released_field: modified
+      lapsed: false
+      page: https://www.npmjs.com/package/react-native-moengage-geofence
+      repo_leg: github-org:moengage
+      publisher_leg: email:moengage.com
+      matched_by: domain
+    - name: react-native-moengage-inbox
+      version: 7.0.0
+      released: '2026-10-01'
+      released_field: modified
+      lapsed: false
+      page: https://www.npmjs.com/package/react-native-moengage-inbox
+      repo_leg: github-org:moengage
+      publisher_leg: email:moengage.com
+      matched_by: domain
+    - name: react-native-moengage-personalize
+      version: 2.0.0
+      released: '2026-10-01'
+      released_field: modified
+      lapsed: false
+      page: https://www.npmjs.com/package/react-native-moengage-personalize
+      repo_leg: github-org:moengage
+      publisher_leg: email:moengage.com
+      matched_by: domain
+    current: true
+    signal_note: 'an official package on the registry: distribution, not an integration; lapsed = no release in
+      24 months'
+    detected_by: sweep-official-sdks.py
+    detected: '2026-10-18'
+  status: not-a-workflow
+  arazzo: null
