@@ -24,6 +24,7 @@ checked:
 - https://www.twilio.com/docs/segment/connections/destinations/catalog/actions-moengage
 - https://zapier.com/api/v4/apps/
 - https://zapier.com/apps/moengage/integrations
+- https://marketplace.databricks.com/
 summary: null
 marketplace_apps:
 - marketplace: zapier
@@ -736,6 +737,31 @@ edges:
   direction: third-party
   category: IT Operations
   partner_url: https://www.redacto.io/
+- partner_name: Databricks Marketplace
+  partner: databricks
+  partner_match: aggregator
+  type: marketplace
+  marketplace: databricks-marketplace
+  channel: distribution
+  relationship: distribution-channel
+  direction: third-party
+  evidence: https://marketplace.databricks.com/provider/e2590b53-8f6c-42a5-a704-0e3ed5d34648
+  category: data product listing
+  contract_reference:
+    register: Databricks Marketplace (marketplace.databricks.com/api/2.0/public-marketplace-providers + public-marketplace-listings)
+    spec_file: null
+    role: data-marketplace-seller
+    registered_name: MoEngage
+    matched_domain: moengage.com
+    matched_by: domain
+    listings: 1
+    sample_listings:
+    - MoEngage Events (via OpenSharing)
+    signal_note: 'participation: the provider lists data products on this marketplace; counts are context'
+    detected_by: sweep-data-marketplaces.py
+    detected: '2026-10-20'
+  detected_by: sweep-data-marketplaces.py
+  detected: '2026-10-20'
 templates:
 - title: Add MoEngage users from new Salesforce records
   url: https://zapier.com/apps/moengage/integrations/salesforce/1109662/add-moengage-users-from-new-salesforce-records

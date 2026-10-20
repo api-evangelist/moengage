@@ -630,3 +630,29 @@
   relationship: ipaas-bridge
   status: pending-partner-spec
   arazzo: null
+- slug: moengage-databricks-marketplace
+  label: Databricks Marketplace
+  partner: databricks
+  partner_name: Databricks Marketplace
+  category: data product listing
+  type: marketplace
+  marketplace: databricks-marketplace
+  channel: distribution
+  evidence: https://marketplace.databricks.com/provider/e2590b53-8f6c-42a5-a704-0e3ed5d34648
+  source: edge
+  relationship: distribution-channel
+  contract_reference:
+    register: Databricks Marketplace (marketplace.databricks.com/api/2.0/public-marketplace-providers + public-marketplace-listings)
+    spec_file: null
+    role: data-marketplace-seller
+    registered_name: MoEngage
+    matched_domain: moengage.com
+    matched_by: domain
+    listings: 1
+    sample_listings:
+    - MoEngage Events (via OpenSharing)
+    signal_note: 'participation: the provider lists data products on this marketplace; counts are context'
+    detected_by: sweep-data-marketplaces.py
+    detected: '2026-10-20'
+  status: not-a-workflow
+  arazzo: null
