@@ -32,6 +32,11 @@ checked:
 - https://developer.salesforce.com/docs/atlas.en-us.packagingGuide.meta/packagingGuide/security_review_overview.htm
 - https://slack.com/marketplace
 - salesforce/integrations/salesforce-integration-edges.yml
+- https://cdn.cocoapods.org/all_pods.txt
+- https://cert.appdefensealliance.org/certifications
+- https://play.google.com/sdks
+- https://search.maven.org/solrsearch/select
+- google-play/integrations/google-play-integration-edges.yml
 summary: null
 marketplace_apps:
 - marketplace: zapier
@@ -806,6 +811,76 @@ edges:
     detected: '2026-10-21'
   detected_by: sweep-salesforce-appexchange.py
   first_seen: '2026-10-21'
+- partner_name: CocoaPods trunk
+  partner: null
+  partner_match: register
+  type: register
+  channel: package-registry
+  relationship: distribution-channel
+  direction: provider-built
+  evidence: https://cocoapods.org/pods/MoEngage-iOS-SDK
+  category: iOS SDK (CocoaPods)
+  contract_reference:
+    register: CocoaPods trunk (cdn.cocoapods.org Specs; github.com/CocoaPods/Specs)
+    spec_file: null
+    role: cocoapods-publisher
+    registered_name: MobileDev
+    matched_domain: moengage.com
+    matched_by: domain
+    pods:
+    - pod: MoEngage-iOS-SDK
+      version: 11.04.0
+      homepage: https://www.moengage.com
+      deprecated: false
+    - pod: MoEngage-iOS-SDK-Beta
+      version: 9.10.0
+      homepage: https://www.moengage.com
+      deprecated: false
+    - pod: MoEngageAnalytics
+      version: 4.23.0
+      homepage: https://www.moengage.com
+      deprecated: false
+    - pod: MoEngageCampaignsCore
+      version: 1.02.0
+      homepage: https://www.moengage.com
+      deprecated: false
+    - pod: MoEngageCards
+      version: 6.03.00
+      homepage: https://www.moengage.com
+      deprecated: false
+    - pod: MoEngageCore
+      version: 11.04.1
+      homepage: https://www.moengage.com
+      deprecated: false
+    - pod: MoEngageExtensionsIntegration
+      version: 1.0.3
+      homepage: https://www.moengage.com
+      deprecated: false
+    - pod: MoEngageGeofence
+      version: 6.02.2
+      homepage: https://www.moengage.com
+      deprecated: false
+    - pod: MoEngageInApp
+      version: 6.00.3
+      homepage: https://www.moengage.com
+      deprecated: false
+    - pod: MoEngageInApps
+      version: 8.03.1
+      homepage: https://www.moengage.com
+      deprecated: false
+    - pod: MoEngageInbox
+      version: 3.04.1
+      homepage: https://www.moengage.com
+      deprecated: false
+    - pod: MoEngageKMMConditionEvaluator
+      version: 2.0.1
+      homepage: https://www.moengage.com
+      deprecated: false
+    signal_note: latest podspec homepage (domain) + authors (name); pods, versions and counts are context
+    detected_by: sweep-mobile-sdk-index.py
+    detected: '2026-10-21'
+  detected_by: sweep-mobile-sdk-index.py
+  first_seen: '2026-10-21'
 - partner_name: Salesforce (own)
   partner: salesforce
   partner_match: mirror
@@ -823,6 +898,25 @@ edges:
   detected: '2026-10-21'
   detected_by: mirror-platform-listings.py
   category: analytics
+- partner_name: Google Play Developer (Google Play SDK Index)
+  partner: google-play
+  partner_match: mirror
+  mirror_match: domain
+  type: marketplace
+  relationship: platform-app
+  direction: third-party
+  channel: partner-built
+  marketplace: Google Play SDK Index
+  evidence: https://play.google.com/sdks/details/com-moengage-moe-android-sdk
+  mirror_of: google-play/integrations/google-play-integration-edges.yml
+  apps:
+  - MoEngage Android SDK
+  listing_count: 1
+  detected: '2026-10-21'
+  detected_by: mirror-platform-listings.py
+  category: mobile SDK (analytics, marketing-and-engagement)
+  publisher_verified:
+  - Registered in Google Play SDK Console
 templates:
 - title: Add MoEngage users from new Salesforce records
   url: https://zapier.com/apps/moengage/integrations/salesforce/1109662/add-moengage-users-from-new-salesforce-records

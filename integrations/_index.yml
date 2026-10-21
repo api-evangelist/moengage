@@ -694,6 +694,76 @@
     detected: '2026-10-21'
   status: not-a-workflow
   arazzo: null
+- slug: moengage-cocoapods-trunk
+  label: CocoaPods trunk
+  partner_name: CocoaPods trunk
+  category: iOS SDK (CocoaPods)
+  type: register
+  channel: package-registry
+  evidence: https://cocoapods.org/pods/MoEngage-iOS-SDK
+  source: edge
+  relationship: distribution-channel
+  contract_reference:
+    register: CocoaPods trunk (cdn.cocoapods.org Specs; github.com/CocoaPods/Specs)
+    spec_file: null
+    role: cocoapods-publisher
+    registered_name: MobileDev
+    matched_domain: moengage.com
+    matched_by: domain
+    pods:
+    - pod: MoEngage-iOS-SDK
+      version: 11.04.0
+      homepage: https://www.moengage.com
+      deprecated: false
+    - pod: MoEngage-iOS-SDK-Beta
+      version: 9.10.0
+      homepage: https://www.moengage.com
+      deprecated: false
+    - pod: MoEngageAnalytics
+      version: 4.23.0
+      homepage: https://www.moengage.com
+      deprecated: false
+    - pod: MoEngageCampaignsCore
+      version: 1.02.0
+      homepage: https://www.moengage.com
+      deprecated: false
+    - pod: MoEngageCards
+      version: 6.03.00
+      homepage: https://www.moengage.com
+      deprecated: false
+    - pod: MoEngageCore
+      version: 11.04.1
+      homepage: https://www.moengage.com
+      deprecated: false
+    - pod: MoEngageExtensionsIntegration
+      version: 1.0.3
+      homepage: https://www.moengage.com
+      deprecated: false
+    - pod: MoEngageGeofence
+      version: 6.02.2
+      homepage: https://www.moengage.com
+      deprecated: false
+    - pod: MoEngageInApp
+      version: 6.00.3
+      homepage: https://www.moengage.com
+      deprecated: false
+    - pod: MoEngageInApps
+      version: 8.03.1
+      homepage: https://www.moengage.com
+      deprecated: false
+    - pod: MoEngageInbox
+      version: 3.04.1
+      homepage: https://www.moengage.com
+      deprecated: false
+    - pod: MoEngageKMMConditionEvaluator
+      version: 2.0.1
+      homepage: https://www.moengage.com
+      deprecated: false
+    signal_note: latest podspec homepage (domain) + authors (name); pods, versions and counts are context
+    detected_by: sweep-mobile-sdk-index.py
+    detected: '2026-10-21'
+  status: not-a-workflow
+  arazzo: null
 - slug: moengage-salesforce-own
   label: Salesforce (own)
   partner: salesforce
@@ -703,6 +773,19 @@
   marketplace: own
   channel: partner-built
   evidence: https://appexchange.salesforce.com/appxListingDetail?listingId=9b1497ab-091b-4a40-8ce6-25964cb37f0f
+  source: edge
+  relationship: platform-app
+  status: not-a-workflow
+  arazzo: null
+- slug: moengage-google-play-developer-google-play-sdk-index
+  label: Google Play Developer (Google Play SDK Index)
+  partner: google-play
+  partner_name: Google Play Developer (Google Play SDK Index)
+  category: mobile SDK (analytics, marketing-and-engagement)
+  type: marketplace
+  marketplace: Google Play SDK Index
+  channel: partner-built
+  evidence: https://play.google.com/sdks/details/com-moengage-moe-android-sdk
   source: edge
   relationship: platform-app
   status: not-a-workflow
