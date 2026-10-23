@@ -37,6 +37,7 @@ checked:
 - https://play.google.com/sdks
 - https://search.maven.org/solrsearch/select
 - google-play/integrations/google-play-integration-edges.yml
+- adobe-experience-cloud/integrations/adobe-experience-cloud-integration-edges.yml
 summary: null
 marketplace_apps:
 - marketplace: zapier
@@ -917,6 +918,23 @@ edges:
   category: mobile SDK (analytics, marketing-and-engagement)
   publisher_verified:
   - Registered in Google Play SDK Console
+- partner_name: Adobe Experience Cloud (own)
+  partner: adobe-experience-cloud
+  partner_match: mirror
+  mirror_match: domain
+  type: marketplace
+  relationship: platform-app
+  direction: third-party
+  channel: partner-built
+  marketplace: own
+  evidence: https://exchange.adobe.com/apps/ec/109405
+  mirror_of: adobe-experience-cloud/integrations/adobe-experience-cloud-integration-edges.yml
+  apps:
+  - MoEngage Event Forwarding
+  listing_count: 1
+  detected: '2026-10-23'
+  detected_by: mirror-platform-listings.py
+  category: Adobe Exchange Experience Cloud listing (Experience Platform)
 templates:
 - title: Add MoEngage users from new Salesforce records
   url: https://zapier.com/apps/moengage/integrations/salesforce/1109662/add-moengage-users-from-new-salesforce-records
