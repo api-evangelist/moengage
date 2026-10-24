@@ -207,127 +207,13 @@ artifacts:
   front-door-ai/2026-09-17.yml:
     method: unknown
     evidence: no authorship recorded
-  kin/checks-2026-09-24T161608.yml:
+  integrations/_index.yml:
     method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-25T125852.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-25T133943.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-25T143147.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-25T154045.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-26T215308.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-27T094438.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-27T103455.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-27T123021.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-27T132314.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-27T140727.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-28T221322.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-29T213958.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-29T230545.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-30T203505.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-30T220315.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-31T223420.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-01T063623.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-01T210448.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-01T222808.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-02T211804.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-02T224043.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-03T161828.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-03T174231.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-04T062714.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-04T212454.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-04T224856.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-05T055819.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-05T072335.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-05T144739.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-05T195450.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-05T211839.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-06T011047.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-06T211804.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-06T224210.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-07T200636.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-07T213054.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-08T214843.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-08T232836.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-10T204815.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-10T222408.yml:
+    evidence: carries an API Evangelist house phrase
+  integrations/moengage-integration-edges.yml:
+    method: searched
+    evidence: declared in the artifact
+  kin/checks-2026-10-11T110117.yml:
     method: generated
     evidence: Kin Score snapshot written by score.rb
   kin/score-2026-09-12T062655.yml:
@@ -409,6 +295,21 @@ artifacts:
     method: generated
     evidence: Kin Score snapshot written by score.rb
   kin/score-2026-09-24T161608.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-25T210408.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-25T232841.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-10-03T000835.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-10-03T024842.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-10-11T110117.yml:
     method: generated
     evidence: Kin Score snapshot written by score.rb
   lifecycle/moengage-lifecycle.yml:
@@ -682,93 +583,228 @@ artifacts:
     method: derived
     evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
   overlays/moengage-analytics-overlay.yaml:
+    method: derived
+    evidence: an API Evangelist overlay (title) over the provider's contract
+  overlays/moengage-bulk-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/moengage-business-events-api-phrasing-overlay.yaml:
     method: generated
     evidence: declared in the artifact
   overlays/moengage-business-events-overlay.yaml:
-    method: generated
-    evidence: declared in the artifact
+    method: derived
+    evidence: an API Evangelist overlay (title) over the provider's contract
   overlays/moengage-campaign-draft-overlay.yaml:
+    method: derived
+    evidence: an API Evangelist overlay (title) over the provider's contract
+  overlays/moengage-campaign-reports-api-phrasing-overlay.yaml:
     method: generated
     evidence: declared in the artifact
   overlays/moengage-campaigns-overlay.yaml:
+    method: derived
+    evidence: an API Evangelist overlay (title) over the provider's contract
+  overlays/moengage-cards-api-phrasing-overlay.yaml:
     method: generated
     evidence: declared in the artifact
   overlays/moengage-cards-overlay.yaml:
+    method: derived
+    evidence: an API Evangelist overlay (title) over the provider's contract
+  overlays/moengage-catalog-api-phrasing-overlay.yaml:
     method: generated
     evidence: declared in the artifact
   overlays/moengage-catalog-overlay.yaml:
+    method: derived
+    evidence: an API Evangelist overlay (title) over the provider's contract
+  overlays/moengage-cohort-audience-overlay.yaml:
+    method: derived
+    evidence: an API Evangelist overlay (title) over the provider's contract
+  overlays/moengage-cohort-sync-api-phrasing-overlay.yaml:
     method: generated
     evidence: declared in the artifact
-  overlays/moengage-cohort-audience-overlay.yaml:
+  overlays/moengage-content-blocks-api-phrasing-overlay.yaml:
     method: generated
     evidence: declared in the artifact
   overlays/moengage-content-blocks-overlay.yaml:
+    method: derived
+    evidence: an API Evangelist overlay (title) over the provider's contract
+  overlays/moengage-coupon-files-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/moengage-coupon-lists-api-phrasing-overlay.yaml:
     method: generated
     evidence: declared in the artifact
   overlays/moengage-coupons-overlay.yaml:
+    method: derived
+    evidence: an API Evangelist overlay (title) over the provider's contract
+  overlays/moengage-create-campaigns-api-phrasing-overlay.yaml:
     method: generated
     evidence: declared in the artifact
   overlays/moengage-custom-segments-overlay.yaml:
+    method: derived
+    evidence: an API Evangelist overlay (title) over the provider's contract
+  overlays/moengage-dashboards-api-phrasing-overlay.yaml:
     method: generated
     evidence: declared in the artifact
   overlays/moengage-data-overlay.yaml:
+    method: derived
+    evidence: an API Evangelist overlay (title) over the provider's contract
+  overlays/moengage-device-api-phrasing-overlay.yaml:
     method: generated
     evidence: declared in the artifact
   overlays/moengage-email-subscription-overlay.yaml:
-    method: generated
-    evidence: declared in the artifact
+    method: derived
+    evidence: an API Evangelist overlay (title) over the provider's contract
   overlays/moengage-email-templates-1-overlay.yaml:
+    method: derived
+    evidence: an API Evangelist overlay (title) over the provider's contract
+  overlays/moengage-email-templates-2-overlay.yaml:
+    method: derived
+    evidence: an API Evangelist overlay (title) over the provider's contract
+  overlays/moengage-email-templates-api-phrasing-overlay.yaml:
     method: generated
     evidence: declared in the artifact
-  overlays/moengage-email-templates-2-overlay.yaml:
+  overlays/moengage-event-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/moengage-events-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/moengage-experiences-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/moengage-file-import-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/moengage-file-segments-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/moengage-filter-segments-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/moengage-flows-api-phrasing-overlay.yaml:
     method: generated
     evidence: declared in the artifact
   overlays/moengage-flows-overlay.yaml:
+    method: derived
+    evidence: an API Evangelist overlay (title) over the provider's contract
+  overlays/moengage-gdpr-api-phrasing-overlay.yaml:
     method: generated
     evidence: declared in the artifact
   overlays/moengage-gdpr-ccpa-overlay.yaml:
+    method: derived
+    evidence: an API Evangelist overlay (title) over the provider's contract
+  overlays/moengage-get-campaign-details-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/moengage-in-app-templates-api-phrasing-overlay.yaml:
     method: generated
     evidence: declared in the artifact
   overlays/moengage-in-app-templates-overlay.yaml:
+    method: derived
+    evidence: an API Evangelist overlay (title) over the provider's contract
+  overlays/moengage-inform-overlay.yaml:
+    method: derived
+    evidence: an API Evangelist overlay (title) over the provider's contract
+  overlays/moengage-items-api-phrasing-overlay.yaml:
     method: generated
     evidence: declared in the artifact
-  overlays/moengage-inform-overlay.yaml:
+  overlays/moengage-live-activities-api-phrasing-overlay.yaml:
     method: generated
     evidence: declared in the artifact
   overlays/moengage-live-activities-overlay.yaml:
+    method: derived
+    evidence: an API Evangelist overlay (title) over the provider's contract
+  overlays/moengage-manage-segments-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/moengage-message-archival-api-phrasing-overlay.yaml:
     method: generated
     evidence: declared in the artifact
   overlays/moengage-message-archival-overlay.yaml:
+    method: derived
+    evidence: an API Evangelist overlay (title) over the provider's contract
+  overlays/moengage-offerings-overlay.yaml:
+    method: derived
+    evidence: an API Evangelist overlay (title) over the provider's contract
+  overlays/moengage-opt-in-management-api-phrasing-overlay.yaml:
     method: generated
     evidence: declared in the artifact
-  overlays/moengage-offerings-overlay.yaml:
+  overlays/moengage-osm-templates-api-phrasing-overlay.yaml:
     method: generated
     evidence: declared in the artifact
   overlays/moengage-osm-templates-overlay.yaml:
+    method: derived
+    evidence: an API Evangelist overlay (title) over the provider's contract
+  overlays/moengage-personalize-experience-overlay.yaml:
+    method: derived
+    evidence: an API Evangelist overlay (title) over the provider's contract
+  overlays/moengage-personalized-preview-api-phrasing-overlay.yaml:
     method: generated
     evidence: declared in the artifact
-  overlays/moengage-personalize-experience-overlay.yaml:
+  overlays/moengage-public-offerings-api-phrasing-overlay.yaml:
     method: generated
     evidence: declared in the artifact
   overlays/moengage-push-overlay.yaml:
-    method: generated
-    evidence: declared in the artifact
+    method: derived
+    evidence: an API Evangelist overlay (title) over the provider's contract
   overlays/moengage-push-templates-overlay.yaml:
-    method: generated
-    evidence: declared in the artifact
+    method: derived
+    evidence: an API Evangelist overlay (title) over the provider's contract
   overlays/moengage-push-v2-1-overlay.yaml:
+    method: derived
+    evidence: an API Evangelist overlay (title) over the provider's contract
+  overlays/moengage-recommendations-api-phrasing-overlay.yaml:
     method: generated
     evidence: declared in the artifact
   overlays/moengage-recommendations-overlay.yaml:
+    method: derived
+    evidence: an API Evangelist overlay (title) over the provider's contract
+  overlays/moengage-reports-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/moengage-resubscribe-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/moengage-sms-templates-api-phrasing-overlay.yaml:
     method: generated
     evidence: declared in the artifact
   overlays/moengage-sms-templates-overlay.yaml:
+    method: derived
+    evidence: an API Evangelist overlay (title) over the provider's contract
+  overlays/moengage-stats-api-phrasing-overlay.yaml:
     method: generated
     evidence: declared in the artifact
   overlays/moengage-stats-report-overlay.yaml:
+    method: derived
+    evidence: an API Evangelist overlay (title) over the provider's contract
+  overlays/moengage-subscription-categories-overlay.yaml:
+    method: derived
+    evidence: an API Evangelist overlay (title) over the provider's contract
+  overlays/moengage-subscription-preferences-api-phrasing-overlay.yaml:
     method: generated
     evidence: declared in the artifact
-  overlays/moengage-subscription-categories-overlay.yaml:
+  overlays/moengage-templates-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/moengage-test-campaigns-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/moengage-tracking-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/moengage-transactional-alerts-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/moengage-transactional-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/moengage-update-campaigns-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/moengage-user-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/moengage-utilities-api-phrasing-overlay.yaml:
     method: generated
     evidence: declared in the artifact
   packages/moengage-packages.yml:
